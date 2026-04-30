@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+
+footer {
+  font-family: 'Inter', sans-serif;
+
+  // النص العملاق في الخلفية
+  .background-text {
+    font-size: 20vw; // حجم ضخم جداً
+    font-weight: 900;
+    color: white;
+    opacity: 10; // شفافية هادية زي الفيجما
+    letter-spacing: -0.05em;
+    line-height: 0.6;
+  }
+
+  // لينكات الفوتر
+  .footer-links {
+    @apply space-y-4 text-gray-300 font-medium text-sm;
+    li a:hover {
+      @apply text-white transition-colors;
+    }
+  }
+
+  // العناوين الصغيرة (Licensed by... الخ)
+  .info-label {
+    @apply font-bold text-lg;
+  }
+  .info-value {
+    @apply text-sm text-gray-300 mt-1;
+  }
+
+  .social-icon {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: #FF6B00;
+    color: white;
+    font-size: 1.3rem;
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: translateY(-5px);
+      filter: brightness(1.1);
+    }
+  }
+}

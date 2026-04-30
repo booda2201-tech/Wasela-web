@@ -1,0 +1,44 @@
+.download-btn {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 4px 4px 4px 24px; // مساحة أكبر للشمال عشان النص
+  border: 1.5px solid #1D1DDB;
+  border-radius: 9999px;
+  background: transparent;
+  transition: all 0.3s ease;
+
+  .btn-text {
+    color: #FF6B00; // النص برتقالي زي الصورة بالظبط
+    font-weight: 700;
+    font-size: 0.95rem;
+  }
+
+  .icon-circle {
+    background-color: #1D1DDB; // الدايرة زرقاء
+    color: white;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+
+    i {
+      font-size: 1.1rem;
+      stroke-width: 2; // تخانة السهم
+    }
+  }
+
+  &:hover {
+    background-color: #1D1DDB;
+    .btn-text {
+      color: white;
+    }
+    .icon-circle {
+      background-color: white;
+      color: #1D1DDB;
+    }
+  }
+}
