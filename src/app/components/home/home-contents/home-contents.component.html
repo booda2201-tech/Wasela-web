@@ -1,0 +1,242 @@
+<section class="py-20 bg-white text-center">
+  <div class="container mx-auto px-6">
+
+    <!-- Header -->
+    <h2 class="text-5xl md:text-5xl font-[900] text-[#1D1DDB] mb-4">Categories We Finance</h2>
+    <p class="text-gray-500 max-w-2xl mx-auto mb-10 font-medium">
+      Waseela finances a wide range of everyday essentials to help individuals and families feel secure and move forward confidently.
+    </p>
+
+    <!-- Button -->
+<button class="mb-16 flex items-center justify-between gap-8 pl-10 pr-1 py-1 border-[1px] border-[#1D1DDB] rounded-full group hover:shadow-md transition-all mx-auto bg-white">
+  <span class="text-[#FF7A00] font-extrabold text-lg tracking-tight">
+    View Financing Categories
+  </span>
+
+  <div class="bg-[#1D1DDB] w-12 h-12 rounded-full flex items-center justify-center transition-transform duration-300 group-hover:scale-105">
+    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 17L17 7M17 7H7M17 7v10"></path>
+    </svg>
+  </div>
+</button>
+
+    <!-- Grid Categories -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-16 gap-y-28 p-4">
+  <div *ngFor="let cat of categories; let i = index" class="category-card group">
+
+    <div class="relative shape-wrapper">
+
+      <!-- 1. الطبقة الكحلية (الشكل اللي ورا - Offset) -->
+      <div class="absolute inset-0 bg-[#1D1DDB] blob-shape shadow-layer transition-all duration-500 group-hover:translate-x-0 group-hover:translate-y-0 translate-x-3 translate-y-3"></div>
+
+      <!-- 2. الحاوية الأساسية (الصورة + الـ Overlay) -->
+      <div class="relative overflow-hidden blob-shape main-layer shadow-lg transition-transform duration-500 group-hover:-translate-y-2">
+
+        <!-- الصورة -->
+        <img [src]="cat.img" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+
+        <!-- الـ Overlay (بيظهر في النص عند الهوفر) -->
+        <div class="absolute inset-0 bg-[#1D1DDB] opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center p-6">
+          <span class="text-white text-2xl font-black text-center leading-tight uppercase tracking-tighter">
+            {{cat.title}}
+          </span>
+        </div>
+
+        <!-- النص السفلي (بيختفي عند الهوفر) -->
+        <div class="absolute bottom-6 left-0 right-0 z-10 text-center transition-opacity duration-300 group-hover:opacity-0">
+          <h4 class="text-white text-lg font-black drop-shadow-lg px-2 uppercase italic">
+            {{cat.title}}
+          </h4>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+  </div>
+</section>
+
+<section class="py-20 bg-white">
+  <div class="container mx-auto px-4 text-center">
+
+    <!-- الرأس: العنوان والوصف -->
+    <h2 class="text-5xl md:text-5xl font-black text-[#1D1DDB] mb-6">Our Partners</h2>
+    <p class="text-gray-500 max-w-3xl mx-auto mb-10 leading-relaxed font-medium">
+      Waseela Works with Trusted Merchants and Partners to Ensure Quality and Reliability. Our Merchant Ecosystem Makes Payments Easy, Transparent, and Supports Strong Partnerships.
+    </p>
+
+    <!-- الزرار (نفس الاستايل السابق مع تعديل النص) -->
+    <button class="mb-20 flex items-center justify-between gap-8 pl-10 pr-1 py-1 border-[1px] border-[#1D1DDB] rounded-full group hover:shadow-lg transition-all mx-auto bg-white">
+      <span class="text-[#FF7A00] font-extrabold text-lg tracking-tight">View All Merchants</span>
+      <div class="bg-[#1D1DDB] w-12 h-12 rounded-full flex items-center justify-center transition-transform duration-300 group-hover:scale-105">
+        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 17L17 7M17 7H7M17 7v10"></path>
+        </svg>
+      </div>
+    </button>
+
+    <!-- شبكة الشركاء الرئيسية: 3 أعمدة -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
+
+      <!-- قسم Banking -->
+      <div>
+        <h3 class="text-5xl font-black text-[#1D1DDB] mb-12">Banking</h3>
+        <div class="grid grid-cols-2 gap-8 items-center">
+          <img *ngFor="let partner of bankingPartners"
+                [src]="partner.logo" [alt]="partner.name"
+              class="max-h-25 mx-auto object-contain transition-all duration-300">
+        </div>
+      </div>
+
+      <!-- قسم Technology -->
+      <div>
+        <h3 class="text-5xl font-black text-[#1D1DDB] mb-12">Technology</h3>
+        <div class="grid grid-cols-2 gap-8 items-center">
+          <img *ngFor="let partner of techPartners"
+                [src]="partner.logo" [alt]="partner.name"
+              class="max-h-25 mx-auto object-contain transition-all duration-300">
+        </div>
+      </div>
+
+      <!-- قسم Key Partners -->
+      <div>
+        <h3 class="text-5xl font-black text-[#1D1DDB] mb-12">Key Partners</h3>
+        <div class="grid grid-cols-2 gap-8 items-center">
+          <img *ngFor="let partner of keyPartners"
+                [src]="partner.logo" [alt]="partner.name"
+                class="max-h-25 mx-auto object-contain transition-all duration-300">
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="py-20 bg-white">
+  <div class="container mx-auto px-4">
+
+    <!-- Header Section -->
+    <div class="text-center mb-16">
+      <h1 class="text-5xl md:text-5xl font-black text-[#1D1DDB] mb-4">Merchants</h1>
+      <p class="text-gray-500 font-medium mb-10">
+        Helping Merchants Accept Payments Easily and Grow Confidently
+      </p>
+
+      <button class="flex items-center justify-between gap-8 pl-10 pr-1 py-1 border-[1px] border-[#1D1DDB] rounded-full group hover:shadow-lg transition-all mx-auto bg-white">
+        <span class="text-[#FF7A00] font-extrabold text-lg tracking-tight">View All Merchants</span>
+        <div class="bg-[#1D1DDB] w-12 h-12 rounded-full flex items-center justify-center transition-transform duration-300 group-hover:scale-105">
+          <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 17L17 7M17 7H7M17 7v10"></path>
+          </svg>
+        </div>
+      </button>
+    </div>
+
+    <!-- Grid Container -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+      <!-- Columns -->
+      <div *ngFor="let col of columns" class="flex flex-col gap-6 h-[950px]">
+        <!-- Cards -->
+        <!-- استخدمنا smooth-accordion و duration-1000 للحصول على أفضل سلاسة -->
+        <div *ngFor="let merchant of col"
+              class="relative overflow-hidden rounded-[2rem] group cursor-pointer w-full shadow-md transition-all duration-999 smooth-accordion flex-shrink min-h-[150px]"
+              [ngClass]="merchant.classes">
+
+          <!-- Background Image -->
+          <img [src]="merchant.bg" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 will-change-transform">
+
+          <!-- Overlay -->
+          <div class="absolute inset-0 bg-black/20 opacity-0 transition-opacity duration-700 group-hover:opacity-100 pointer-events-none"></div>
+
+          <!-- Logo & Circle -->
+          <div class="absolute inset-0 flex items-center justify-center">
+            <img [src]="merchant.logo" class="max-w-full max-h-full object-contain">
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<section class="py-24 bg-[#F8F9FF]">
+  <div class="container mx-auto px-6">
+    <h2 class="text-4xl md:text-5xl font-[900] text-[#1D1DDB] text-center mb-20">
+      Customers & Merchants Testimonials
+    </h2>
+
+<!-- تغيير الـ gap لـ 20 في الشاشات الكبيرة -->
+<div class="flex flex-col lg:flex-row items-center justify-center gap-20 lg:gap-32">
+      <div *ngFor="let item of testimonials"
+            [class.lg:scale-110]="item.featured"
+            class="testimonial-wrapper relative group">
+
+        <!-- الكارت الأساسي -->
+        <div class="testimonial-card relative z-10 bg-white p-8 text-center flex flex-col items-center">
+
+          <!-- الصورة الشخصية -->
+          <div class="w-20 h-20 bg-[#FFC091] rounded-full flex items-center justify-center mb-4 -mt-16 border-4 border-white shadow-sm">
+              <img [src]="item.avatar" class="w-10 h-10 object-contain">
+          </div>
+
+          <h3 class="text-[#4A4A4A] font-black text-xl mb-1">{{item.type}}</h3>
+          <span class="text-gray-400 text-sm mb-4">{{item.name}}</span>
+
+          <!-- علامة الاقتباس -->
+          <div class="text-[#1D1DDB] text-4xl font-serif mb-2">“</div>
+
+          <p class="text-[#4A4A4A] leading-relaxed text-sm md:text-base px-4">
+            {{item.content}}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="relative py-20 overflow-hidden">
+  <div class="container mx-auto px-4">
+    <!-- الوعاء الرئيسي للسيكشن مع الخلفية المتدرجة -->
+    <div class="relative bg-gradient-to-r from-[#F8F9FF] to-[#E0F2FE] rounded-[2rem] px-8 md:px-20 py-16 md:py-24 overflow-hidden shadow-sm">
+
+      <!-- حرف الـ W العملاق في الخلفية -->
+      <div class="absolute left-[0%] top-1/2 -translate-y-1/2 select-none pointer-events-none opacity-[0.05]">
+        <h1 class="text-[49rem] font-black text-[#1D1DDB] leading-none">W</h1>
+      </div>
+
+      <!-- الأشكال الهندسية اللي على اليمين تحت -->
+      <div class="absolute left-[45%] bottom-10 flex items-end">
+        <!-- الشكل البيضاوي البنفسجي -->
+        <div class="w-40 h-24 bg-[#e4eaff] rounded-full translate-x-24"></div>
+        <!-- الدائرة الكريمي -->
+        <div class="w-32 h-32 bg-[#f7e7cf] rounded-full shadow-inner relative z-10 top-3"></div>
+      </div>
+
+      <!-- المحتوى النصي -->
+      <div class="relative z-20 max-w-2xl">
+        <h2 class="text-4xl md:text-6xl font-black text-[#1D1DDB] leading-tight mb-6">
+          Stay in Control of <br> What Matters Most
+        </h2>
+        <p class="text-gray-500 text-lg md:text-xl font-medium mb-10">
+          Download the Waseela App Now
+        </p>
+
+        <!-- أزرار المتاجر -->
+        <div class="flex flex-wrap gap-4">
+          <!-- App Store -->
+            <img src="../../../../assets/images/app-store.png" alt="App Store" class="w-25 h-15">
+
+          <!-- Google Play -->
+            <img src="../../../../assets/images/google-play.png" alt="Google Play" class="w-25 h-15">
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>

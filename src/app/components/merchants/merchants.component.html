@@ -1,0 +1,55 @@
+<section class="py-20 bg-white">
+  <div class="container mx-auto px-4 py-16">
+
+    <!-- Header Section -->
+    <div class="text-center mb-20 px-4">
+        <!-- العنوان الرئيسي - Merchants -->
+        <h2 class="text-4xl md:text-6xl font-black text-[#1D1DDB] mb-6">Merchants</h2>
+        <!-- الوصف الجديد المطابق للصورة -->
+        <p class="text-gray-500 font-medium max-w-2xl mx-auto mb-10 leading-relaxed text-sm md:text-base">
+          Our merchant solutions are designed to simplify payments,<br class="hidden md:block">
+          streamline operations, and support sustainable business growth at every stage.
+        </p>
+        <div class="flex items-center justify-center gap-3">
+          <!-- النص البنفسجي الكبير -->
+          <h1 class="text-5xl md:text-7xl font-black text-[#94A3FF] tracking-tight leading-none">
+            1000+ Merchants
+          </h1>
+
+          <div class="bg-[#E4EAFF] px-3 py-1 md:px-4 md:py-2 rounded-full flex items-center justify-center self-end mb-2 md:mb-4 transition-transform duration-300 hover:scale-105 cursor-default shadow-sm border border-[#D0D9FF]">
+            <!-- النقطة البرتقالي جوه الزرار -->
+            <div class="w-2.5 h-2.5 md:w-3.5 md:h-3.5 bg-[#FF7A00] rounded-full shadow-inner translate-x-3"></div>
+          </div>
+        </div>
+    </div>
+
+    <!-- Grid Container -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+      <!-- Columns -->
+      <div *ngFor="let col of columns" class="flex flex-col gap-6 h-[1150px]">
+        <!-- Cards -->
+        <!-- استخدمنا smooth-accordion و duration-1000 للحصول على أفضل سلاسة -->
+        <div *ngFor="let merchant of col"
+              class="relative overflow-hidden rounded-[2rem] group cursor-pointer w-full shadow-md transition-all duration-999 smooth-accordion flex-shrink min-h-[150px]"
+              [ngClass]="merchant.classes">
+
+          <!-- Background Image -->
+          <img [src]="merchant.bg" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 will-change-transform">
+
+          <!-- Overlay -->
+          <div class="absolute inset-0 bg-black/20 opacity-0 transition-opacity duration-700 group-hover:opacity-100 pointer-events-none"></div>
+
+          <!-- Logo & Circle -->
+          <div class="absolute inset-0 flex items-center justify-center">
+            <img [src]="merchant.logo" class="max-w-full max-h-full object-contain">
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</section>

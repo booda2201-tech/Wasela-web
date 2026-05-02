@@ -1,0 +1,110 @@
+
+
+
+.main {
+  width: 100%;
+  height: 400px; // الارتفاع الثابت اللي طلبته
+  position: relative;
+  box-shadow: 0 10px 50px rgba(0, 0, 0, 0.02); // ظل خفيف جداً للحواف
+
+  h2 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900; // أقصى درجة ثقل للخط
+    letter-spacing: -0.02em;
+  }
+
+  p {
+    font-family: 'Inter', sans-serif;
+    word-spacing: 1px;
+  }
+
+  // جعل الخط المنقط يظهر بشكل احترافي
+  .border-dashed {
+    border-style: dashed;
+    border-spacing: 10px;
+  }
+
+  img {
+    // حركة انسيابية لو حبيت تفتح الصفحة
+    transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    &:hover {
+        transform: translateY(20px) scale(1.02);
+    }
+  }
+}
+
+// تعديل للموبايل عشان السكشن ميبقاش مقصوص
+@media (max-width: 768px) {
+  .main {
+    height: auto;
+    min-height: 600px;
+    padding: 40px 0;
+
+    h2 {
+      font-size: 3rem;
+      margin-bottom: 1.5rem;
+    }
+  }
+}
+
+
+
+
+.feature-item {
+  @apply py-2;
+
+  h4 {
+    @apply text-xl font-bold text-gray-900 mb-1;
+  }
+
+  p {
+    @apply text-gray-500 font-medium text-sm md:text-base;
+  }
+}
+
+// تأكد من استخدام خط Inter أو نفس الخط اللي في الفيجما
+:host {
+  font-family: 'Inter', sans-serif;
+}
+
+
+.blue-indicator {
+  @apply absolute left-0 w-full h-[25%] bg-[#1D1DDB] rounded-full shadow-[0_0_15px_rgba(29,29,219,0.4)] transition-all duration-500 ease-in-out;
+}
+
+.feature-card {
+  @apply bg-white border border-gray-100 p-6 rounded-[24px] cursor-pointer transition-all duration-300;
+
+  h4 {
+    @apply text-xl font-[900] text-gray-900 mb-1 transition-colors duration-300;
+  }
+
+  p {
+    @apply text-gray-500 font-medium text-base;
+  }
+
+  &.active-card {
+    @apply bg-[#F3F4FF] border-transparent shadow-sm;
+  }
+}
+.blue-indicator {
+  @apply absolute left-0 w-full h-[25%] bg-[#1D1DDB] rounded-full shadow-[0_0_15px_rgba(29,29,219,0.3)] transition-all duration-500 ease-in-out;
+}
+
+.feature-card {
+  @apply bg-white border border-gray-100 p-6 rounded-[24px] cursor-pointer transition-all duration-300;
+
+  &.active-card {
+    @apply bg-[#F3F4FF] border-transparent shadow-sm translate-x-1;
+  }
+}
+
+// لضمان تطابق صور المحتوى مع فريم الموبايل
+img.z-20 {
+  pointer-events: none; // عشان الماوس ميهنجش لما يلمس الصورة اللي فوق
+}
+
+// تأكد من نعومة الظل للموبايل
+.drop-shadow-3xl {
+  filter: drop-shadow(0 25px 25px rgba(0, 0, 0, 0.15));
+}

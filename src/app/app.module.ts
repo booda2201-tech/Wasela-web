@@ -8,7 +8,11 @@ import { FooterComponent } from './components/footer/footer.component';
 import { HomeComponent } from './components/home/home.component';
 import { HeroComponent } from './components/home/hero/hero.component';
 import { FeaturesComponent } from './components/home/features/features.component';
-import { MerchantsComponent } from './components/home/merchants/merchants.component';
+import { HomeContentsComponent } from './components/home/home-contents/home-contents.component';
+import { MerchantsComponent } from './components/merchants/merchants.component';
+import { CategoriesComponent } from './components/categories/categories.component';
+
+
 
 @NgModule({
   declarations: [
@@ -18,7 +22,11 @@ import { MerchantsComponent } from './components/home/merchants/merchants.compon
     FooterComponent,
     HeroComponent,
     FeaturesComponent,
-    MerchantsComponent
+    HomeContentsComponent,
+    MerchantsComponent,
+    CategoriesComponent,
+
+
   ],
   imports: [
     BrowserModule,
