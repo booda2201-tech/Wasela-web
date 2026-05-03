@@ -1,0 +1,85 @@
+:host {
+  display: block;
+}
+
+/* Hero header: device asset behind title + soft lavender / white glow (matches Figma reference) */
+.faq-header {
+  isolation: isolate;
+}
+
+.faq-header__visual {
+  z-index: 0;
+}
+
+.faq-header__img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  inset: 55%;
+  background-image: url('../../../assets/images/Slide 16_9 - 5 3.png');
+  background-size: cover;
+  background-position: center 50%;
+  background-repeat: no-repeat;
+  opacity: 0.42;
+  filter: saturate(1.05) blur(0.5px);
+}
+
+.faq-header__wash {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      ellipse 85% 75% at 50% 42%,
+      rgba(224, 231, 255, 0.45) 0%,
+      rgba(255, 255, 255, 0.72) 45%,
+      #ffffff 78%
+    ),
+    linear-gradient(180deg, rgba(248, 250, 255, 0.5) 0%, #ffffff 100%);
+}
+
+/* Decorative shapes behind accordion cards only */
+.faq-body {
+  position: relative;
+}
+
+.faq-decor {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.faq-decor__orange {
+  position: absolute;
+  bottom: -3rem;
+  right: -2rem;
+  width: min(52vw, 18rem);
+  height: min(52vw, 18rem);
+  border-radius: 50%;
+  background: rgba(255, 122, 0, 0.14);
+  z-index: 0;
+}
+
+.faq-decor__blue {
+  position: absolute;
+  bottom: 2rem;
+  right: 10%;
+  width: min(68vw, 21rem);
+  height: 10rem;
+  border-radius: 3rem;
+  background: rgba(29, 29, 219, 0.07);
+  transform: rotate(-10deg);
+  z-index: 0;
+}
+
+.faq-inner {
+  position: relative;
+  z-index: 10;
+}
+
+.faq-answer-panel {
+  will-change: height;
+}

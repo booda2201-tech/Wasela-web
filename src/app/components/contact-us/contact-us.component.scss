@@ -1,0 +1,244 @@
+:host {
+  display: block;
+}
+
+.contact-hero {
+  isolation: isolate;
+}
+
+.contact-hero__visual {
+  z-index: 0;
+}
+
+.contact-hero__img {
+  position: absolute;
+  inset: 0;
+  background-image: url('../../../assets/images/Slide 16_9 - 5 3.png');
+  background-size: cover;
+  background-position: center 100%;
+  background-repeat: no-repeat;
+}
+
+.contact-hero__img--back {
+  opacity: 0.9;
+  transform: scale(1.02);
+  filter: saturate(1.05);
+}
+
+.contact-hero__img--front {
+  inset: 80% -80% -80% -80%;
+  opacity: 0.85;
+  transform: rotate(-0.15deg) scale(1.08);
+  filter: blur(0.5px) saturate(1.05);
+}
+
+.contact-hero__wash {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      ellipse 85% 75% at 50% 38%,
+      rgba(224, 231, 255, 0.45) 0%,
+      rgba(255, 255, 255, 0.78) 48%,
+      #ffffff 82%
+    ),
+    linear-gradient(180deg, rgba(248, 250, 255, 0.55) 0%, #ffffff 100%);
+}
+
+.contact-body-inner {
+  position: relative;
+}
+
+.contact-decor {
+  position: absolute;
+  pointer-events: none;
+  z-index: 1;
+
+  top: -5rem;
+  right: -3rem;
+  width: min(55vw, 14rem);
+  height: min(55vw, 14rem);
+  transition: all 0.5s ease; // تنعيم الحركة بين أحجام الشاشات
+
+  &__img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    opacity: 0.9; // تخفيف الحدة شوية للشياكة
+  }
+
+  // --- تظبيط الشاشات الصغيرة (Mobile) ---
+  @media (max-width: 768px) {
+    top: -3.5rem;   // تقليل البروز العلوي
+    right: -1rem;  // تقليل البروز الجانبي عشان ميعملش سكرول بالعرض
+    width: 8rem;   // حجم أصغر ومناسب للموبايل
+    height: 8rem;
+    opacity: 0.6;  // تقليل الشفافية أكتر عشان النص يكون واضح
+  }
+
+  // لشاشات الموبايل الصغيرة جداً
+  @media (max-width: 480px) {
+    top: -2rem;
+    right: -0.5rem;
+    width: 6rem;
+    opacity: 0.5;
+  }
+}
+
+
+.contact-field {
+  display: block;
+  text-align: left;
+}
+
+.contact-field__label {
+  display: block;
+  font-size: 18px;
+  line-height: 1.25;
+  font-weight: 400;
+  color:  #f56300;
+  margin-bottom: 0.35rem;
+}
+
+.contact-field__input,
+.contact-field__textarea {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid rgba(13, 17, 179, 0.35);
+  background: transparent;
+  padding: 0.35rem 0 0.65rem;
+  font-size: 14px;
+  font-weight: 500;
+  color: #0d11b3;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.contact-field__input::placeholder,
+.contact-field__textarea::placeholder {
+  color: rgba(13, 17, 179, 0.45);
+  font-weight: 500;
+}
+
+.contact-field__input:focus,
+.contact-field__textarea:focus {
+  border-bottom-color: #0d11b3;
+}
+
+.contact-field__textarea {
+  resize: vertical;
+  min-height: 4.5rem;
+  line-height: 1.5;
+  font-family: inherit;
+}
+
+.contact-submit {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 4px 4px 4px 28px;
+  border: 0.8px solid #0d11b3;
+  border-radius: 9999px;
+  background: transparent;
+  cursor: pointer;
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.contact-submit__text {
+  color: #f56300;
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.contact-submit__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #0d11b3;
+  color: #fff;
+  transition:
+    background 0.3s ease,
+    color 0.3s ease;
+
+  i {
+    font-size: 1.35rem;
+  }
+}
+
+.contact-submit:hover {
+  background: #0d11b3;
+
+  .contact-submit__text {
+    color: #fff;
+  }
+
+  .contact-submit__icon {
+    background: #fff;
+    color: #0d11b3;
+  }
+}
+
+.contact-pill {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 52px;
+  padding: 0 1rem 0 0;
+  border: 0.8px solid #0d11b3;
+  border-radius: 9999px;
+  background: #fff;
+  text-decoration: none;
+  color: inherit;
+  transition:
+    box-shadow 0.25s ease,
+    transform 0.2s ease;
+  flex: 1 1 auto;
+  min-width: 0;
+
+  @media (min-width: 1024px) {
+    flex: 0 1 auto;
+    max-width: 100%;
+  }
+}
+
+.contact-pill:hover:not(.contact-pill--static) {
+  box-shadow: 0 8px 24px rgba(13, 17, 179, 0.12);
+  transform: translateY(-1px);
+}
+
+.contact-pill--static {
+  cursor: default;
+}
+
+.contact-pill__icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  margin: -0.8px 0 -0.8px -0.8px;
+  border-radius: 50%;
+  background: #0d11b3;
+  color: #fff;
+
+  i {
+    font-size: 1.15rem;
+  }
+}
+
+.contact-pill__text {
+  padding: 0.5rem 0.75rem 0.5rem 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #f56300;
+  line-height: 1.35;
+  text-align: left;
+  overflow-wrap: anywhere;
+}

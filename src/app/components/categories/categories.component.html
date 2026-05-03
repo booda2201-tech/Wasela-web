@@ -1,33 +1,41 @@
 <section class="py-20 bg-white">
   <div class="container mx-auto px-6 py-16 text-center">
 
-    <h2 class="text-[#1D1DDB] text-6xl font-[900] mb-4">Categories We Finance</h2>
+    <h2 class="text-[#1D1DDB] text-4xl font-[900] mb-4">Categories We Finance</h2>
     <p class="text-gray-400 max-w-2xl mx-auto mb-16">Waseela provides a wide range of Everyday Essentials to help individuals and families feel secure and move forward confidently.</p>
 
 <!-- Categories Loop -->
     <div *ngFor="let cat of categories" class="mb-32 last:mb-0">
 
       <!-- Masked Image -->
-      <div class="relative flex justify-center mb-10">
-        <div class="category-blob-wrapper">
-          <div class="main-mask-container"
-                [style.mask-image]="'url(' + cat.mask + ')'"
-                [style.-webkit-mask-image]="'url(' + cat.mask + ')'">
-            <img [src]="cat.img" class="w-full h-full object-cover">
-          </div>
-        </div>
-      </div>
+<div class="relative flex justify-center mb-20 min-h-[400px]">
+  <div class="category-blob-wrapper relative">
+
+    <!-- الطبقة الأولى: صورة الماسك الزرقاء (دي اللي مقصوصة أو هي أصلاً شكل جاهز) -->
+    <div class="blob-bg absolute inset-0 z-10">
+      <img [src]="cat.mask" class="w-full h-full object-contain transform scale-[0.99] translate-x-[5%]">
+    </div>
+
+    <!-- الطبقة الثانية: صورة المحتوى (الطالب/العربية) - شيلنا الـ mask عشان متبقاش مقصوصة -->
+    <div class="image-content-container relative z-20">
+      <img [src]="cat.img" class="w-full h-full object-contain">
+    </div>
+
+  </div>
+</div>
 
       <!-- Category Text Info -->
-      <h3 class="text-[#1D1DDB] text-4xl font-black mb-3">{{cat.title}}</h3>
+      <h3 class="text-[#1D1DDB] text-3xl font-black mb-3">{{cat.title}}</h3>
       <p class="text-gray-400 text-base font-medium mb-12 max-w-md mx-auto">{{cat.description}}</p>
 
       <!-- Sub-items Cards -->
-      <div class="flex flex-wrap justify-center gap-8 max-w-6xl mx-auto">
+      <div class="flex flex-wrap justify-center gap-8 max-w-3xl mx-auto">
         <div *ngFor="let sub of cat.subItems"
               [ngClass]="sub.color"
-              class="flex flex-col items-center justify-center w-52 h-44 rounded-[40px] transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 cursor-pointer border border-transparent hover:border-blue-100">
-          <img [src]="sub.icon" class="w-14 h-14 mb-4 object-contain">
+              class="flex flex-col items-center justify-center w-44 h-32 rounded-[20px] 
+              transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 
+              cursor-pointer border border-transparent hover:border-blue-100">
+          <img [src]="sub.icon" class="w-10 h-10 mb-4 object-contain">
           <span class="text-[#1D1DDB] font-bold text-sm text-center px-4">{{sub.name}}</span>
         </div>
       </div>

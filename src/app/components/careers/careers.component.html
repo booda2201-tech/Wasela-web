@@ -1,0 +1,102 @@
+<div class="container mx-auto px-6 py-20">
+  <header class="faq-header relative overflow-hidden">
+    <div class="faq-header__visual absolute inset-0 pointer-events-none" aria-hidden="true">
+      <div class="faq-header__img"></div>
+      <div class="faq-header__wash"></div>
+    </div>
+
+    <div class="relative z-10 container mx-auto px-6 py-20 text-center">
+      <div class="max-w-3xl mx-auto space-y-4">
+        <h1 class="text-4xl md:text-[45px] font-[900] text-[#1D1DDB] leading-[1.1]">
+            Careers
+          </h1>
+          <p class="text-gray-500 text-lg md:text-l font-medium leading-relaxed">
+            Join a team of innovators, designers, and engineers working together to shape the future of digital financial experiences.
+          </p>
+      </div>
+    </div>
+  </header>
+
+  <div class="space-y-6">
+    <article
+      #jobCard
+      *ngFor="let job of jobs"
+      class="job-card bg-white border border-gray-100 rounded-[32px] shadow-sm p-8 flex flex-col"
+    >
+      <div class="flex flex-col gap-4 md:flex-row md:justify-between md:items-center md:gap-4">
+        <div class="min-w-0 space-y-2 text-left flex-1">
+          <span
+            class="inline-block bg-[#E0E7FF] text-[#1D1DDB] rounded-full px-3 py-1 text-xs font-semibold tracking-tight"
+          >
+            Open Roles
+          </span>
+          <h2 class="text-[#1D1DDB] font-bold text-xl md:text-2xl leading-snug">
+            {{ job.title }}
+          </h2>
+          <p class="text-gray-500 text-sm font-medium">
+            {{ job.metaLine }}
+          </p>
+        </div>
+
+        <div class="flex items-center justify-end gap-3 flex-shrink-0">
+          <button
+            type="button"
+            (click)="toggle(job.id)"
+            class="flex-shrink-0 w-12 h-12 rounded-full bg-white border-[1px] border-[#1D1DDB] flex items-center justify-center hover:bg-gray-50 transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1D1DDB] focus-visible:ring-offset-2"
+            [attr.aria-expanded]="isExpanded(job.id)"
+            [attr.aria-controls]="'job-desc-' + job.id"
+            [attr.id]="'job-toggle-' + job.id"
+          >
+            <svg
+              class="w-5 h-5 text-orange-500 transition-transform duration-300"
+              [class.rotate-180]="isExpanded(job.id)"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+
+          <button
+            type="button"
+            class="flex items-center justify-between gap-8 pl-10 pr-1 py-1 border-[1px] border-[#1D1DDB] rounded-full group hover:shadow-md transition-all duration-300 bg-white shrink-0"
+          >
+            <span class="text-[#FF7A00] font-extrabold text-lg tracking-tight">
+              Submit Application
+            </span>
+            <span
+              class="bg-[#1D1DDB] w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 transition-transform duration-300 ease-out group-hover:scale-105"
+            >
+              <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2.5"
+                  d="M7 17L17 7M17 7H7M17 7v10"
+                ></path>
+              </svg>
+            </span>
+          </button>
+        </div>
+      </div>
+
+      <div
+        #jobDescPanel
+        class="job-desc-panel overflow-hidden h-0"
+        [attr.id]="'job-desc-' + job.id"
+        role="region"
+        [attr.aria-labelledby]="'job-toggle-' + job.id"
+        [attr.aria-hidden]="!isExpanded(job.id)"
+      >
+        <div class="pt-6 mt-6 border-t border-gray-100 text-left space-y-4">
+          <h3 class="text-[#1D1DDB] font-bold text-lg">Job Description</h3>
+          <div class="text-gray-600 text-sm md:text-base font-normal leading-relaxed space-y-4">
+            <p *ngFor="let paragraph of job.descriptionParagraphs">{{ paragraph }}</p>
+          </div>
+        </div>
+      </div>
+    </article>
+  </div>
+</div>

@@ -11,14 +11,14 @@
   .btn-text {
     color: #FF6B00; // النص برتقالي زي الصورة بالظبط
     font-weight: 700;
-    font-size: 0.95rem;
+    font-size: 1rem;
   }
 
   .icon-circle {
     background-color: #1D1DDB; // الدايرة زرقاء
     color: white;
-    width: 60px;
-    height: 60px;
+    width: 40px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -26,7 +26,7 @@
     transition: all 0.3s ease;
 
     i {
-      font-size: 1.8rem;
+      font-size: 1.5rem;
       stroke-width: 2; // تخانة السهم
     }
   }

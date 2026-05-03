@@ -10,8 +10,8 @@ export class CategoriesComponent {
     {
       title: 'Mobility',
       description: 'Financing solutions that support everyday mobility needs.',
-      img: '../../../assets/images/Vector 1.png',
-      mask: 'assets/masks/shape4.svg',
+      img: '../../../assets/images/Vector 5 (4).png',
+      mask: '../../../assets/images/Vector 6.png',
       subItems: [
         { name: 'Spare Parts', icon: '../../../assets/images/Frame 1984077816.png', color: 'bg-[#F3F4FF]' },
         { name: 'Maintenance', icon: '../../../assets/images/Frame 1984077817.png/', color: 'bg-[#FFF8F3]' },
@@ -22,7 +22,7 @@ export class CategoriesComponent {
       title: 'Everyday Essentials',
       description: 'Finance your dreams and your everyday lifestyle needs.',
       img: '../../../assets/images/Vector 10.png',
-      mask: 'assets/masks/shape7.svg',
+      mask: '../../../assets/images/Vector 6.png',
       subItems: [
         { name: 'Fashion', icon: '../../../assets/images/Frame 1984077819.png', color: 'bg-[#F3F4FF]' },
         { name: 'Appliances', icon: '../../../assets/images/Frame 1984077820.png', color: 'bg-[#FFF8F3]' },
@@ -36,7 +36,7 @@ export class CategoriesComponent {
       title: 'Health Care',
       description: 'Comprehensive medical financing for you and your family.',
       img: '../../../assets/images/Vector 9.png',
-      mask: 'assets/masks/shape1.svg',
+      mask: '../../../assets/images/Vector 6.png',
       subItems: [
         { name: 'Modern Parts', icon: '../../../assets/images/Group (4).png', color: 'bg-[#FFF8F3]' },
         { name: 'Surgeries', icon: '../../../assets/images/Group (5).png', color: 'bg-[#F3F4FF]' }
@@ -46,7 +46,7 @@ export class CategoriesComponent {
       title: 'Education',
       description: 'Invest in your future with our flexible education plans.',
       img: '../../../assets/images/Vector 11.png',
-      mask: 'assets/masks/shape3.svg',
+      mask: '../../../assets/images/Vector 6.png',
       subItems: [
         { name: 'Fees Paid', icon: '../../../assets/images/Group 1597883124.png', color: 'bg-[#FFF8F3]' },
         { name: 'Schools & Universities', icon: '../../../assets/images/Group 1597883125.png', color: 'bg-[#F3F4FF]' }

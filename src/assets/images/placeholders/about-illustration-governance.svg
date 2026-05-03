@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="480" viewBox="0 0 720 480" role="img" aria-label="Placeholder  export Leadership & Governance illustration from Figma (image_179bc1)">
+  <rect width="720" height="480" rx="32" fill="url(#bg)"/>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f0f4ff"/>
+      <stop offset="100%" stop-color="#ffffff"/>
+    </linearGradient>
+  </defs>
+  <circle cx="480" cy="360" r="140" fill="#FF7A00" opacity="0.18"/>
+  <rect x="120" y="140" width="200" height="140" rx="20" fill="#1D1DDB" opacity="0.1" transform="rotate(-6 220 210)"/>
+  <text x="360" y="260" text-anchor="middle" fill="#1D1DDB" opacity="0.25" font-family="system-ui,sans-serif" font-size="15">Governance art  Figma</text>
+</svg>

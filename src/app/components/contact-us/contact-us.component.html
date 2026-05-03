@@ -1,0 +1,133 @@
+<section class="contact-page relative bg-white overflow-hidden pt-24 pb-16 md:pb-24">
+  <!-- Hero: عنوان + خلفية Slide (بدون navbar/footer) -->
+  <header class="contact-hero relative overflow-hidden">
+    <div class="contact-hero__visual absolute inset-0 pointer-events-none" aria-hidden="true">
+      <div class="contact-hero__img contact-hero__img--back"></div>
+      <div class="contact-hero__img contact-hero__img--front"></div>
+      <div class="contact-hero__wash"></div>
+    </div>
+
+    <div class="relative z-10 container mx-auto px-6 text-center max-w-3xl py-12 md:py-16">
+      <h1 class="text-4xl md:text-[50px] font-black text-[#0d11b3] leading-tight tracking-wide">
+        {{ headline }}
+      </h1>
+      <p
+        class="mt-4 text-sm md:text-base text-[#737373] font-medium leading-relaxed max-w-xl mx-auto tracking-wide"
+      >
+        {{ subtitle }}
+      </p>
+    </div>
+  </header>
+
+  <!-- النموذج + الديكور -->
+  <div class="relative px-6">
+    <div class="contact-body-inner container mx-auto max-w-6xl relative">
+      <div class="contact-decor" aria-hidden="true">
+        <img src="assets/images/Group (7).png" alt="" class="contact-decor__img">
+      </div>
+
+      <form
+        data-contact-form-card
+        class="contact-form-card relative z-10 bg-white rounded-[22px] shadow-[0_0_60px_20px_rgba(0,0,0,0.03)] px-6 py-10 md:px-14 md:py-12"
+        (ngSubmit)="onSubmit($event)"
+      >
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-8 md:gap-y-10">
+          <label class="contact-field">
+            <span class="contact-field__label">First name</span>
+            <input
+              class="contact-field__input"
+              type="text"
+              name="firstName"
+              [(ngModel)]="form.firstName"
+              autocomplete="given-name"
+            />
+          </label>
+
+          <label class="contact-field">
+            <span class="contact-field__label">Last Name</span>
+            <input
+              class="contact-field__input"
+              type="text"
+              name="lastName"
+              [(ngModel)]="form.lastName"
+              autocomplete="family-name"
+            />
+          </label>
+
+          <label class="contact-field">
+            <span class="contact-field__label">Phone Number</span>
+            <input
+              class="contact-field__input"
+              type="tel"
+              name="phone"
+              [(ngModel)]="form.phone"
+              placeholder="+1 012 3456 789"
+              autocomplete="tel"
+            />
+          </label>
+
+          <label class="contact-field">
+            <span class="contact-field__label">Email address</span>
+            <input
+              class="contact-field__input"
+              type="email"
+              name="email"
+              [(ngModel)]="form.email"
+              autocomplete="email"
+            />
+          </label>
+        </div>
+
+        <label class="contact-field contact-field--full mt-8 md:mt-10 block">
+          <span class="contact-field__label">Message</span>
+          <textarea
+            class="contact-field__textarea"
+            name="message"
+            rows="3"
+            [(ngModel)]="form.message"
+            placeholder="Write your message.."
+          ></textarea>
+        </label>
+
+        <div class="flex justify-end mt-10 md:mt-12">
+          <button type="submit" class="contact-submit group">
+            <span class="contact-submit__text">Submit</span>
+            <span class="contact-submit__icon">
+              <i class="bi bi-arrow-up-right" aria-hidden="true"></i>
+            </span>
+          </button>
+        </div>
+      </form>
+
+      <!-- صف معلومات التواصل -->
+      <div
+        class="mt-10 md:mt-14 flex flex-col lg:flex-row flex-wrap justify-center gap-4 lg:gap-6 items-stretch lg:items-center"
+      >
+        <a
+          data-contact-pill
+          class="contact-pill"
+          [href]="emailHref"
+        >
+          <span class="contact-pill__icon" aria-hidden="true">
+            <i class="bi bi-envelope"></i>
+          </span>
+          <span class="contact-pill__text">{{ emailLabel }}</span>
+        </a>
+
+        <div data-contact-pill class="contact-pill contact-pill--static">
+          <span class="contact-pill__icon" aria-hidden="true">
+            <i class="bi bi-geo-alt"></i>
+          </span>
+          <span class="contact-pill__text">{{ addressLine }}</span>
+        </div>
+
+        <a data-contact-pill class="contact-pill" [href]="phoneHref">
+          <span class="contact-pill__icon" aria-hidden="true">
+            <i class="bi bi-telephone"></i>
+          </span>
+          <span class="contact-pill__text">{{ phoneLabel }}</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

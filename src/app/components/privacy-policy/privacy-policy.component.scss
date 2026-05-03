@@ -1,0 +1,285 @@
+:host {
+    display: block;
+  }
+  
+  $terms-blue: #0d11b3;
+  $terms-page-bg: #ffffff;
+  $terms-body: #374151;
+  
+  .terms-page {
+    position: relative;
+  }
+  
+  .terms-page--surface {
+    background: $terms-page-bg;
+  }
+  
+  .terms-page__bg {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 4.5rem;
+    height: min(48vh, 30rem);
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+  
+  .terms-page__bg-slide {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(180deg);
+    width: min(110vw, 58rem);
+    height: min(70vw, 33rem);
+    background-image: url('../../../assets/images/Slide 16_9 - 5 3.png');
+    background-size: cover;
+    background-position: center 45%;
+    opacity: 0.18;
+  }
+  
+  .terms-page__bg-wash {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      rgba($terms-page-bg, 0.35) 0%,
+      $terms-page-bg 88%
+    );
+  }
+  
+  .terms-page__inner {
+    padding-bottom: 2rem;
+  }
+  
+  /* حاوية الكارت + الديكور */
+  .terms-card-shell {
+    position: relative;
+    padding-top: 0.25rem;
+    /* مساحة للجزء الظاهر من Group (7) أسفل الكارت */
+    padding-bottom: clamp(3rem, 10vw, 8rem);
+  }
+  
+  /* كارت + صورة Group (7) تحته */
+  .terms-card-float {
+    position: relative;
+    isolation: isolate;
+  }
+  
+  /* محاذاة مع أسفل الكارت: top 100% ثم سحب للأعلى فيختفي الجزء تحت الكارت */
+  .terms-card-shell__under-art {
+    position: absolute;
+    right: -5%; 
+    top: -2%;
+    z-index: 0;
+    width: min(50vw, 15rem);
+    pointer-events: none;
+    line-height: 0;
+    transition: all 0.5s cubic-bezier(0.2, 1, 0.3, 1);
+  
+    // --- تظبيط الشاشات الصغيرة (Mobile) ---
+    @media (max-width: 768px) {
+      right: -10%; // تقريب الصورة للداخل عشان متعملش سكرول بالعرض
+      top: 5%;
+      width: 50vw; // تصغير الحجم ليتناسب مع عرض الموبايل
+      opacity: 0.6; // تقليل الشفافية عشان النص يظهر بوضوح
+    }
+  
+    @media (max-width: 480px) {
+      right: -15%; 
+      top: 2%;
+      width: 60vw;
+    }
+  }
+  
+  .terms-card-shell__under-img {
+    display: block;
+    width: 100%; // خليها 100% من حجم الـ container اللي فوقها
+    height: auto;
+    opacity: 0.75;
+    // filter: blur(2px); // تاتش بسيط عشان تكون "ناعمة" ورا الكلام
+  
+    @media (max-width: 640px) {
+      opacity: 0.7; // تقليل الحدة في الموبايل
+    }
+  }
+  
+  /* دائرتان متداخلتان خلف الزاوية اليمنى العلوية للكارت */
+  .terms-card-shell__decor {
+    position: absolute;
+    z-index: 1;
+    top: -0.25rem;
+    right: -0.25rem;
+    width: min(42vw, 13rem);
+    height: min(36vw, 11rem);
+    pointer-events: none;
+  
+    @media (max-width: 640px) {
+      width: 10rem;
+      height: 9rem;
+      right: 0;
+      top: 0;
+    }
+  }
+  
+  .terms-card-shell__blob {
+    position: absolute;
+    border-radius: 50%;
+  }
+  
+  /* أزرق: خلف البرتقالي، أقيم لليسار قليلاً */
+  .terms-card-shell__blob--blue {
+    width: clamp(6.5rem, 16vw, 9.25rem);
+    height: clamp(6.5rem, 16vw, 9.25rem);
+    right: 2.75rem;
+    top: 0.25rem;
+    background: rgba(13, 17, 179, 0.2);
+  
+    @media (max-width: 640px) {
+      right: 2rem;
+      width: 5.5rem;
+      height: 5.5rem;
+    }
+  }
+  
+  /* برتقالي: أكبر قليلاً وأكثر يميناً وأسفل */
+  .terms-card-shell__blob--orange {
+    width: clamp(7.5rem, 18vw, 10.75rem);
+    height: clamp(7.5rem, 18vw, 10.75rem);
+    right: -0.75rem;
+    top: -1.25rem;
+    background: rgba(255, 122, 0, 0.38);
+  
+    @media (max-width: 640px) {
+      width: 6.25rem;
+      height: 6.25rem;
+      right: -0.25rem;
+      top: -0.5rem;
+    }
+  }
+  
+  .terms-card {
+    max-width: 100%;
+  }
+  
+  .terms-prose {
+    font-weight: 400;
+    font-size: clamp(0.9375rem, 1.6vw, 1rem);
+    line-height: 1.65;
+    letter-spacing: 0.02em;
+    color: $terms-body;
+  }
+  
+  .terms-p {
+    margin: 0 0 1.125rem;
+  
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+  
+  .terms-h2 {
+    margin: 2rem 0 0.875rem;
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.5;
+    letter-spacing: 0.02em;
+    color: $terms-blue;
+  
+    &:first-of-type {
+      margin-top: 1.75rem;
+    }
+  
+    @media (min-width: 768px) {
+      font-size: 1.0625rem;
+    }
+  }
+  
+  .terms-accent {
+    color: $terms-blue;
+  
+    &--semibold {
+      font-weight: 600;
+    }
+  }
+  
+  .terms-link {
+    color: #000096;
+    font-weight: 500;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  
+    &:hover {
+      opacity: 0.88;
+    }
+  }
+  
+  .terms-nb {
+    margin-top: 2.25rem;
+    padding-top: 0.25rem;
+    font-size: clamp(0.9375rem, 1.6vw, 1rem);
+    font-weight: 700;
+    line-height: 1.65;
+    letter-spacing: 0.02em;
+    color: $terms-blue;
+  }
+  
+  .terms-strong--inline {
+    font-weight: 500;
+  }
+
+  .terms-lead-name {
+    font-weight: 500;
+  }
+
+  .terms-accent-alt {
+    color: #000096;
+  }
+
+  /* عناوين الأقسام المرقّمة كما في فيجما */
+  .terms-section-heading {
+    margin: 2rem 0 1rem;
+    font-size: 1.0625rem;
+    font-weight: 600;
+    line-height: 1.5;
+    letter-spacing: 0.02em;
+    color: #000096;
+
+    &:first-of-type {
+      margin-top: 1.25rem;
+    }
+  }
+
+  .terms-subheading {
+    margin: 1.5rem 0 0.75rem;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.5;
+    letter-spacing: 0.02em;
+    color: #000096;
+  }
+
+  .terms-list {
+    margin: 0 0 1.25rem;
+    padding-left: 1.35rem;
+    list-style-type: disc;
+
+    li {
+      margin-bottom: 0.65rem;
+      padding-left: 0.25rem;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  .terms-note {
+    color: #000096;
+    font-weight: 400;
+  }
+
+  .terms-link--inline {
+    margin-left: 0.15em;
+  }
+  

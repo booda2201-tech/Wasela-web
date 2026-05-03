@@ -1,0 +1,214 @@
+<div class="about-page">
+  <!-- Who We Are — Vector 1 -->
+  <section class="about-section about-section--surface">
+    <div class="about-shell about-shell--narrow about-heading-stack">
+      <div class="about-heading-blobs" data-about-blob-group aria-hidden="true">
+        <span class="about-blob about-blob--blue about-blob--hero-main" data-about-blob></span>
+        <span class="about-blob about-blob--orange about-blob--hero-accent" data-about-blob></span>
+      </div>
+      <div class="about-heading-content" data-about-reveal>
+        <h2 class="about-title">Who We Are</h2>
+        <p class="about-lede">{{ whoWeAreLead }}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Our Foundation — Vector 2 -->
+  <section class="about-section about-section--surface">
+    <div class="about-shell about-shell--narrow about-heading-stack">
+      <div class="about-heading-stack about-partners-heading-gap">
+        <div class="about-heading-blobs" data-about-blob-group aria-hidden="true">
+          <span class="about-blob about-blob--blue about-blob--partner-a" data-about-blob></span>
+          <span class="about-blob about-blob--orange about-blob--partner-b" data-about-blob></span>
+        </div>
+      </div>
+      <div class="about-heading-content" data-about-reveal>
+        <h2 class="about-title">Our Foundation</h2>
+        <p class="about-lede">{{ foundationCopy }}</p>
+        <div class="about-foundation-lockup">
+          <img
+            [src]="aurCapitalLogoSrc"
+            alt="AUR Capital"
+            class="about-foundation-lockup__logo"
+            loading="lazy"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Our Purpose — Vector 3 -->
+  <section class="about-section about-section--surface">
+    <div class="about-shell about-shell--narrow about-heading-stack">
+      <div class="about-shell about-shell--narrow about-heading-stack py-2 mt-5">
+        <div class="about-heading-blobs" data-about-blob-group aria-hidden="true">
+          <span class="about-blob about-blob--blue about-blob--hero-main" data-about-blob></span>
+          <span class="about-blob about-blob--orange about-blob--hero-accent" data-about-blob></span>
+        </div>
+      </div>
+      <div class="about-heading-content" data-about-reveal>
+        <h2 class="about-title">Our Purpose</h2>
+        <p class="about-lede">{{ purposeCopy }}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Our Partners — Vector 4 -->
+  <section class="about-section about-section--surface">
+    <div class="about-shell">
+      <div class="about-heading-stack about-partners-heading-gap">
+        <div class="about-heading-blobs" data-about-blob-group aria-hidden="true">
+          <span class="about-blob about-blob--blue about-blob--partner-a" data-about-blob></span>
+          <span class="about-blob about-blob--orange about-blob--partner-b" data-about-blob></span>
+        </div>
+      </div>
+
+      <div class="about-heading-content" data-about-reveal>
+        <h2 class="about-title">Our Partners</h2>
+        <div class="about-partners-grid">
+          <div *ngFor="let p of partners" class="about-partner">
+            <img [src]="p.logoSrc" [alt]="p.alt" class="about-partner__logo" loading="lazy" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Compliance — Vector 5 -->
+  <section class="about-section about-section--surface">
+    <div class="about-shell">
+      <div class="about-heading-content" data-about-reveal>
+        <h2 class="about-title">Compliance &amp; Licensing</h2>
+        <p class="about-subtitle">
+          Operating within established regulatory frameworks and internal controls you can rely on.
+        </p>
+      </div>
+
+      <div class="about-compliance-zone">
+        <!-- Wash الخلفية الكبيرة للقسم بالكامل -->
+        <span class="about-compliance-zone__wash about-compliance-zone__wash--blue" aria-hidden="true"></span>
+        <span class="about-compliance-zone__wash about-compliance-zone__wash--orange" aria-hidden="true"></span>
+      
+        <div data-compliance-grid class="about-compliance-grid">
+          <article *ngFor="let c of complianceCards" data-compliance-card class="about-compliance-card">
+            <!-- الدوائر الشفافة الصغيرة داخل الكارت -->
+            <div class="about-compliance-card__decor">
+              <span class="blob blob--blue"></span>
+              <span class="blob blob--orange"></span>
+            </div>
+            
+            <h3>{{ c.title }}</h3>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <!-- Our Story | Leadership & Governance -->
+  <section class="about-section about-section--surface">
+    <div data-about-reveal class="about-split-grid">
+      <div class="about-split-col">
+        <div class="about-split-title-wrap">
+          <div class="about-split-title-blobs" data-about-blob-group aria-hidden="true">
+            <span class="about-blob about-blob--blue about-blob--split-left" data-about-blob></span>
+          </div>
+          <h2 class="about-split-title">Our Story</h2>
+        </div>
+        <p class="about-split-body">{{ storyCopy }}</p>  
+        <div class="about-media-panel">
+          <div class="about-media-wrapper">
+            <img
+              src="assets/images/Group (7).png"
+              alt="Leadership Illustration Background"
+              class="about-media-panel__img about-media-panel__img--back"
+              loading="lazy"
+            />
+            <img
+              src="assets/images/leadership 1.png"
+              alt="Leadership Illustration Foreground"
+              class="about-media-panel__img about-media-panel__img--front"
+              loading="lazy"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="about-split-col about-split-col--offset">
+        <div class="about-split-title-wrap">
+          <div class="about-split-title-blobs about-split-title-blobs--right" data-about-blob-group aria-hidden="true">
+            <span class="about-blob about-blob--orange about-blob--split-right" data-about-blob></span>
+          </div>
+          <h2 class="about-split-title">Leadership &amp; Governance</h2>
+        </div>
+        <p class="about-split-body">{{ governanceCopy }}</p>
+
+        <div class="about-media-panel">
+          <div class="about-media-wrapper">
+            <img
+              src="assets/images/Group (7).png"
+              alt="Leadership Illustration Background"
+              class="about-media-panel__img about-media-panel__img--back"
+              loading="lazy"
+            />
+            <img
+              src="assets/images/leadership 2.png"
+              alt="Leadership Illustration Foreground"
+              class="about-media-panel__img about-media-panel__img--front"
+              loading="lazy"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mission & Vision -->
+  <section class="about-section about-section--surface">
+    <div class="about-shell about-shell--narrow about-heading-stack">
+      
+      <!-- الـ Blobs الشفافة اللي ورا الكلام -->
+      <div class="about-heading-blobs" aria-hidden="true">
+        <img src="assets/images/Group (7).png" alt="" class="about-blob-image">
+      </div>
+  
+      <div class="about-heading-content" data-about-reveal>
+        <h2 class="about-title">Mission &amp; Vision</h2>
+  
+        <div class="about-mv-block">
+          <h3 class="about-mv-label">Our Mission</h3>
+          <p class="about-mv-text">{{ missionText }}</p>
+        </div>
+        
+        <div class="about-mv-block">
+          <h3 class="about-mv-label">Our Vision</h3>
+          <p class="about-mv-text">{{ visionText }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Leadership -->
+  <section class="about-section about-section--surface">
+    <div class="about-shell">
+      <div class="about-heading-content" data-about-reveal>
+        <h2 class="about-title">Leadership</h2>
+        <p class="about-subtitle">
+          The people guiding strategy, risk, and experience at Waseela.
+        </p>
+      </div>
+
+      <div data-team-grid class="about-team-grid">
+        <article *ngFor="let member of leadershipTeam" data-team-card class="about-team-card">
+          <div class="about-team-portrait">
+            <img [src]="member.photoSrc" [alt]="member.name" class="about-team-portrait__img" loading="lazy" />
+          </div>
+          <h3 class="about-team-name">{{ member.name }}</h3>
+          <p class="about-team-role">{{ member.role }}</p>
+          <p class="about-team-bio">{{ member.bio }}</p>
+        </article>
+      </div>
+    </div>
+  </section>
+</div>

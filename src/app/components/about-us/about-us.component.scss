@@ -1,0 +1,681 @@
+/* ==========================================================================
+   Waseela About Us — premium layout (pixel-refined; pairs with image_179bc1)
+   Tokens: #1D1DDB / #FF7A00 / breathable whitespace
+   ========================================================================== */
+
+$waseela-blue: #1d1ddb;
+$waseela-orange: #ff7a00;
+$about-text: #5b6472;
+$about-max: 80rem;
+
+:root .about-page {
+  --about-blue: #{$waseela-blue};
+  --about-orange: #{$waseela-orange};
+  --about-text-muted: #{$about-text};
+  --about-blur-blob: 64px; /* Tailwind blur-3xl */
+}
+
+.about-page {
+  position: relative;
+  overflow-x: clip;
+  background: #ffffff;
+  color: var(--about-text-muted);
+  font-feature-settings: 'kern' 1, 'liga' 1;
+}
+
+/* --------------------------------------------------------------------------
+   FAQ-aligned hero wash — same Slide + radial gradient as faq.component.scss
+   -------------------------------------------------------------------------- */
+.about-faq-bg {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-radius: 2rem;
+  margin-bottom: 0;
+}
+
+.about-faq-bg__visual {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.about-faq-bg__img {
+  position: absolute;
+  inset: 0;
+  background-image: url('../../../assets/images/Slide 16_9 - 5 3.png');
+  background-size: cover;
+  background-position: center 35%;
+  background-repeat: no-repeat;
+  opacity: 0.42;
+  filter: saturate(1.05) blur(0.5px);
+}
+
+.about-faq-bg__wash {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      ellipse 85% 75% at 50% 42%,
+      rgba(224, 231, 255, 0.45) 0%,
+      rgba(255, 255, 255, 0.72) 45%,
+      #ffffff 78%
+    ),
+    linear-gradient(180deg, rgba(248, 250, 255, 0.5) 0%, #ffffff 100%);
+}
+
+.about-faq-bg__inner {
+  position: relative;
+  z-index: 2;
+}
+
+.about-faq-bg--padded {
+  padding: clamp(2.5rem, 6vw, 4rem) clamp(1.25rem, 4vw, 2rem);
+}
+
+.about-faq-bg--split-title {
+  padding: clamp(1.5rem, 4vw, 2.25rem) clamp(1rem, 3vw, 1.75rem);
+  border-radius: 1.5rem;
+  margin-bottom: clamp(1.25rem, 3vw, 2rem);
+  text-align: left;
+
+  .about-split-title {
+    text-align: left;
+  }
+}
+
+.about-faq-bg--leadership {
+  padding: clamp(2.25rem, 6vw, 4rem) clamp(1rem, 3vw, 2rem);
+  border-radius: 2rem;
+
+  .about-team-grid {
+    margin-top: clamp(2rem, 5vw, 3rem);
+  }
+}
+
+.about-faq-bg--spacing-after {
+  margin-bottom: clamp(2rem, 5vw, 3.5rem);
+}
+
+/* Per-section decorative vectors — sit in margins / behind shell (z-index), never steal focus */
+.about-section-deco {
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+  width: min(46vw, 17rem);
+  height: auto;
+  opacity: 0.1;
+  object-fit: contain;
+  filter: saturate(1.08);
+}
+
+.about-section-deco--v1 {
+  top: 12%;
+  right: -6%;
+  transform: rotate(-10deg);
+}
+
+.about-section-deco--v2 {
+  bottom: 18%;
+  left: -5%;
+  width: min(42vw, 15rem);
+  transform: rotate(8deg);
+  opacity: 0.09;
+}
+
+.about-section-deco--v3 {
+  top: 8%;
+  right: -4%;
+  width: min(40vw, 14rem);
+  opacity: 0.08;
+}
+
+.about-section-deco--v4 {
+  bottom: 10%;
+  left: -8%;
+  width: min(48vw, 18rem);
+  transform: rotate(-6deg);
+}
+
+.about-section-deco--v5 {
+  top: 20%;
+  right: -10%;
+  width: min(44vw, 16rem);
+  opacity: 0.09;
+}
+
+.about-section--surface .about-shell {
+  position: relative;
+  z-index: 1;
+}
+
+/* --- Section rhythm: “breathtaking” vertical whitespace --- */
+.about-section {
+  position: relative;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  padding-top: clamp(2rem, 5vw, 8rem);
+  padding-bottom: clamp(2rem, 10vw, 8rem);
+  overflow: hidden;
+
+  @media (max-width: 768px) {
+    padding-top: clamp(10rem, 10vw, 10rem);
+    padding-bottom: clamp(2rem, 10vw, 10rem);
+  }
+
+  @media (min-width: 1024px) {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+.about-shell {
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  max-width: $about-max;
+}
+
+.about-shell--narrow {
+  max-width: 56rem;
+}
+
+/* --- Heading stacks: blobs sit at z-index -1 behind title copy --- */
+.about-heading-stack {
+  position: relative;
+  isolation: isolate;
+  text-align: center;
+}
+
+.about-heading-blobs {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%);
+  width: min(50%, 20rem);
+  height: clamp(12rem, 28vw, 10rem);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.about-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(var(--about-blur-blob));
+  opacity: 0.1;
+  will-change: transform, opacity;
+}
+
+.about-blob--blue {
+  background: $waseela-blue;
+}
+
+.about-blob--orange {
+  background: $waseela-orange;
+}
+
+/* Variants per section (sizes tuned for optical balance under headlines) */
+.about-blob--hero-main {
+  width: clamp(14rem, 38vw, 22rem);
+  height: clamp(14rem, 38vw, 22rem);
+  left: 50%;
+  top: -3rem;
+  transform: translateX(-50%);
+}
+
+.about-blob--hero-accent {
+  width: clamp(11rem, 28vw, 16rem);
+  height: clamp(11rem, 28vw, 16rem);
+  left: 8%;
+  top: -1rem;
+}
+
+.about-blob--single {
+  width: clamp(13rem, 34vw, 20rem);
+  height: clamp(13rem, 34vw, 20rem);
+  left: 50%;
+  top: -2.5rem;
+  transform: translateX(-50%);
+}
+
+.about-blob--partner-a {
+  width: clamp(12rem, 30vw, 18rem);
+  height: clamp(12rem, 30vw, 18rem);
+  left: 50%;
+  top: -2rem;
+  transform: translateX(-50%);
+}
+
+.about-blob--partner-b {
+  width: clamp(9rem, 22vw, 13rem);
+  height: clamp(9rem, 22vw, 13rem);
+  right: 6%;
+  top: 0;
+}
+
+.about-blob--compliance-a {
+  width: clamp(11rem, 26vw, 15rem);
+  height: clamp(11rem, 26vw, 15rem);
+  left: 12%;
+  top: -1rem;
+}
+
+.about-blob--compliance-b {
+  width: clamp(10rem, 24vw, 14rem);
+  height: clamp(10rem, 24vw, 14rem);
+  right: 10%;
+  top: 0;
+}
+
+.about-heading-content {
+  position: relative;
+  z-index: 1;
+}
+
+.about-title {
+  margin-bottom: 3rem;
+  text-align: center;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  line-height: 1.08;
+  color: $waseela-blue;
+  font-size: clamp(2.25rem, 4.5vw, 3.25rem);
+}
+
+.about-lede {
+  margin: clamp(1.75rem, 4vw, 2.25rem) auto 0;
+  max-width: 46rem;
+  font-size: clamp(1.0625rem, 2vw, 1.25rem);
+  font-weight: 500;
+  line-height: 1.75;
+  color: #6b7280;
+}
+
+.about-subtitle {
+  margin: 0rem auto 2rem;
+  text-align: center;
+  max-width: 45rem;
+  font-size: 1.0625rem;
+  font-weight: 500;
+  line-height: 1.65;
+  color: #6b7280;
+}
+
+/* --- Foundation: AUR Capital logo (assets/images/aur-capital-logo.png) --- */
+.about-foundation-lockup {
+  margin-top: clamp(2.75rem, 7vw, 4rem);
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+
+}
+
+.about-foundation-lockup__logo {
+  display: block;
+  // height: 350px;
+  // width: 350px;
+  object-fit: contain;
+}
+
+/* --- Partners --- */
+.about-partners-heading-gap {
+  margin-bottom: clamp(3rem, 8vw, 4.5rem);
+}
+
+.about-partners-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(2rem, 5vw, 3rem) clamp(1.5rem, 4vw, 2rem);
+  align-items: center;
+  justify-items: center;
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 2.5rem 1.75rem;
+  }
+}
+
+.about-partner {
+  display: flex;
+  width: 100%;
+  max-width: 11.25rem;
+  justify-content: center;
+  align-items: center;
+  min-height: 3.5rem;
+}
+
+.about-partner__logo {
+  max-height: 200px !important;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  opacity: 0.88;
+  // filter: grayscale(1);
+  transition:
+    filter 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.45s ease,
+    transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+
+  &:hover {
+    // filter: grayscale(0);
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+
+  @media (min-width: 768px) {
+    max-height: 3.75rem;
+  }
+}
+
+/* --- Compliance cluster --- */
+.about-compliance-zone {
+  position: relative;
+  margin-top: clamp(2.5rem, 6vw, 4rem);
+}
+
+.about-compliance-zone__wash {
+  position: absolute;
+  pointer-events: none;
+  border-radius: 50%;
+  filter: blur(80px); // زودنا الـ blur عشان تكون أنعم بكتير
+  opacity: 0.15;      // قيمة منطقية للشفافية عشان تدي لون هادي
+  z-index: -1;        // أهم خطوة: ترجع ورا الكروت
+}
+
+.about-compliance-zone__wash--blue {
+  width: 25rem;       // كبرنا الحجم شوية عشان التوزيع يكون أحسن
+  height: 25rem;
+  background: #1D1DDB;
+  top: -10rem;
+  left: -5rem;
+}
+
+.about-compliance-zone__wash--orange {
+  width: 20rem;
+  height: 20rem;
+  background: #FF7A00;
+  bottom: -5rem;      // جرب تخلي واحدة تحت وواحدة فوق لتوازن بصري أفضل
+  right: -2rem;
+}
+
+.about-compliance-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: 1fr;
+
+  @media (min-width: 640px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.75rem;
+  }
+}
+
+.about-compliance-card {
+  display: flex;
+  min-height: 9.5rem;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5rem 2rem;
+  text-align: center;
+  border-radius: 2rem;
+  border: 1px solid rgba(229, 231, 235, 0.95);
+  background: #ffffff;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 1) inset,
+    0 20px 40px rgba(15, 23, 42, 0.04);
+  transition: box-shadow 0.35s ease, transform 0.35s ease;
+
+  &:hover {
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 1) inset,
+      0 28px 56px rgba(29, 29, 219, 0.07);
+    transform: translateY(-3px);
+  }
+
+  h3 {
+    margin: 0;
+    font-size: clamp(1.0625rem, 2vw, 1.25rem);
+    font-weight: 700;
+    line-height: 1.35;
+    color: $waseela-blue;
+  }
+}
+
+/* --- Split story / governance --- */
+.about-split-grid {
+  display: grid;
+  gap: clamp(5rem, 10vw, 5rem);
+  max-width: $about-max;
+  margin-inline: auto;
+
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+    gap: 5.5rem;
+  }
+}
+
+.about-split-col--offset {
+  @media (min-width: 1024px) {
+    margin-top: 10rem;
+  }
+}
+
+.about-split-title-wrap {
+  position: relative;
+  margin-bottom: clamp(1.75rem, 4vw, 2.25rem);
+  isolation: isolate;
+}
+
+.about-split-title-blobs {
+  position: absolute;
+  top: -2.5rem;
+  left: 0;
+  width: 10rem;
+  height: 10rem;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.about-split-title-blobs--right {
+  left: auto;
+  right: 0;
+}
+
+.about-blob--split-left {
+  width: 11rem;
+  height: 11rem;
+  left: -1.5rem;
+  top: 0;
+}
+
+.about-blob--split-right {
+  width: 11rem;
+  height: 11rem;
+  right: -1.5rem;
+  left: auto;
+  top: 0;
+}
+
+.about-split-title {
+  margin: 0;
+  position: relative;
+  z-index: 1;
+  font-weight: 900;
+  font-size: clamp(1.875rem, 3.5vw, 2.5rem);
+  line-height: 1.15;
+  color: $waseela-blue;
+}
+
+.about-split-body {
+  margin: 0;
+  font-size: 1.0625rem;
+  font-weight: 500;
+  line-height: 1.75;
+}
+
+// .about-media-panel {
+//   position: relative;
+//   margin-top: clamp(2.5rem, 6vw, 3.5rem);
+//   overflow: hidden;
+//   border-radius: 2rem;
+//   background: linear-gradient(165deg, #eef5ff 0%, #f8faff 55%, #ffffff 100%);
+//   padding: clamp(2rem, 5vw, 3.5rem);
+//   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85);
+// }
+
+.about-media-panel--governance {
+  background: linear-gradient(165deg, #f0f4ff 0%, #ffffff 100%);
+  min-height: 17rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(2rem, 5vw, 3rem);
+}
+
+
+.about-media-wrapper {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 480px; // حجم مناسب للـ Illustration كما في الفيجما
+  margin: 0 auto;
+
+  .about-media-panel__img {
+    display: block;
+    height: auto;
+    object-fit: contain;
+    transition: transform 0.5s cubic-bezier(0.2, 1, 0.3, 1);
+
+    &--back {
+      position: relative;
+      z-index: 1;
+      width: 100%; // صورة الـ Group (7) هي القاعدة
+    }
+
+    &--front {
+      position: absolute;
+      z-index: 2; // فوق الخلفية
+      width: 100%; // أصغر شوية عشان تظبط في نص الـ Illustration
+      top: 75%;
+      left: 50%;
+      transform: translate(-50%, -50%); // تتسنتر بالظبط فوق التانية
+      pointer-events: none; // عشان متغطيش على أي Hover تحتها
+    }
+  }
+}
+
+.about-heading-blobs {
+  position: absolute;
+  top: 55%; // ترحيل بسيط لتحت عشان تتوسط الكلام
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  max-width: 600px; // حجم الصورة المناسب
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.6; // تحكم في درجة ظهور الصورة من هنا عشان الـ Luxury feel
+
+  .about-blob-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    opacity: 0.1;
+  }
+}
+
+
+
+
+
+/* --- Mission / Vision --- */
+.about-mv-block {
+  margin-top: clamp(3.5rem, 9vw, 5rem);
+}
+
+.about-mv-block + .about-mv-block {
+  margin-top: clamp(3rem, 8vw, 4rem);
+}
+
+.about-mv-label {
+  margin: 0;
+  font-size: clamp(1.375rem, 2.8vw, 1.75rem);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  color: $waseela-orange;
+}
+
+.about-mv-text {
+  margin: 1.125rem auto 0;
+  max-width: 46rem;
+  font-size: 1.0625rem;
+  font-weight: 500;
+  line-height: 1.75;
+  color: #4b5563;
+}
+
+/* --- Leadership: full composite PNGs (circle + geometry baked in) --- */
+.about-team-grid {
+  display: grid;
+  gap: clamp(3.5rem, 10vw, 5rem);
+  grid-template-columns: 1fr;
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(2.5rem, 6vw, 3.5rem);
+  }
+}
+
+.about-team-card {
+  text-align: center;
+}
+
+.about-team-portrait {
+  // زودنا المسافة تحت الصورة والـ max-width
+  margin: 0 auto clamp(2rem, 5vw, 3rem); 
+  max-width: 30rem; // القيمة القديمة كانت 17.5rem، كدة كبرناها بنسبة كويسة
+  width: 100%;     // تأكد إنها واخدة العرض المتاح
+  position: relative;
+}
+
+.about-team-portrait__img {
+  display: block;
+  width: 100%; 
+  height: auto;
+  object-fit: cover; // استخدام cover أفضل لو الصور أحجامها مختلفة عشان توحد الشكل
+  // الـ shadow بتاعك بريميوم جداً سيبه زي ما هو
+  filter: drop-shadow(0 20px 40px rgba(29, 29, 219, 0.1));
+  transition: transform 0.4s ease; // تاتش صغير للـ hover
+  &:hover {
+    transform: scale(1.02); // تكبير بسيط جداً عند الـ hover بيدي إحساس فخامة
+  }
+}
+
+
+.about-team-name {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: $waseela-blue;
+}
+
+.about-team-role {
+  margin: 0.375rem 0 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: $waseela-orange;
+}
+
+.about-team-bio {
+  margin: 0.875rem auto 0;
+  max-width: 18rem;
+  font-size: 0.975rem;
+  font-weight: 500;
+  line-height: 1.65;
+  color: #6b7280;
+}
