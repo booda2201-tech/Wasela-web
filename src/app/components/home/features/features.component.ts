@@ -15,50 +15,33 @@ features = [
     id: 1,
     title: 'Fast & Fully Digital',
     desc: 'From Onboarding to Repayment, Everything Happens Through the App.',
-    img: 'assets/images/digital-screen.png'
+    img: '../../../../assets/gif/why waseela-clear and transparent.gif'
   },
   {
     id: 2,
     title: 'Flexible by Design',
     desc: 'Installment Plans That Adapt to Your Income and Priorities.',
-    img: 'assets/images/flexible-screen.png'
+    img: 'assets/gif/why waseela-flexible by design.gif'
   },
   {
     id: 3,
     title: 'Clear & Transparent',
     desc: 'No Hidden Fees, No Confusing Terms.',
-    img: 'assets/images/clear-screen.png'
+    img: '../../../../assets/gif/why waseela-fully digital.gif'
   },
   {
     id: 4,
     title: 'Trusted & Regulated',
     desc: "Operating Under Egypt's Consumer Finance Regulations.",
-    img: 'assets/images/trusted-screen.png'
+    img: '../../../../assets/gif/why waseela-trusted.gif'
   },
   {
     id: 5,
     title: 'Instant Approvals',
     desc: 'Get your credit limit in minutes with our AI-driven engine.',
-    img: 'assets/images/instant-screen.png'
+    img: '../../../../assets/gif/why waseela-instant approvals.gif'
   },
-  {
-    id: 6,
-    title: 'Wide Merchant Network',
-    desc: 'Shop from thousands of stores across Egypt with zero down payment.',
-    img: 'assets/images/merchants-screen.png'
-  },
-  {
-    id: 7,
-    title: 'Smart Spending Insights',
-    desc: 'Track your installments and manage your budget effectively.',
-    img: 'assets/images/insights-screen.png'
-  },
-  {
-    id: 8,
-    title: '24/7 Premium Support',
-    desc: 'Our dedicated team is always here to assist you anytime, anywhere.',
-    img: 'assets/images/support-screen.png'
-  }
+
 ];
 
 ngAfterViewInit() {
