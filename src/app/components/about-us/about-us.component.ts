@@ -1,132 +1,174 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import {
-  AfterViewInit,
   Component,
   ElementRef,
-  OnDestroy
+  OnDestroy,
+  OnInit
 } from '@angular/core';
+import { Meta, Title } from '@angular/platform-browser';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
+import { environment } from '../../../environments/environment';
+import {
+  CmsPage,
+  CmsPageSection,
+  CmsPageSectionItem,
+  PagesService,
+  resolveCmsAssetUrl
+} from '../../services/pages.service';
+
 gsap.registerPlugin(ScrollTrigger);
 
-/** Enter line: section begins animating as soon as it enters the viewport from below */
 const SCROLL_ENTER = 'top bottom';
-
-export interface AboutPartner {
-  name: string;
-  logoSrc: string;
-  alt: string;
-}
-
-export interface AboutComplianceCard {
-  title: string;
-}
-
-export interface AboutTeamMember {
-  id: number;
-  name: string;
-  role: string;
-  bio: string;
-  photoSrc: string;
-}
 
 @Component({
   selector: 'app-about-us',
   templateUrl: './about-us.component.html',
   styleUrls: ['./about-us.component.scss']
 })
-export class AboutUsComponent implements AfterViewInit, OnDestroy {
-  constructor(private readonly host: ElementRef<HTMLElement>) {}
+export class AboutUsComponent implements OnInit, OnDestroy {
+  constructor(
+    private readonly host: ElementRef<HTMLElement>,
+    private readonly pagesService: PagesService,
+    private readonly title: Title,
+    private readonly meta: Meta
+  ) {}
 
-  /** Our Story — ملف من مجلد الصور المعروض (leadership_1.png) */
-  readonly storyIllustrationSrc = 'assets/images/leadership_1.png';
-
-  /** Leadership & Governance — leadership_1 (1).png */
-  readonly governanceIllustrationSrc = 'assets/images/leadership_1 (1).png';
-
-  readonly decorVectors: readonly string[] = [
-    'assets/images/Group (7).png',
-    'assets/images/Group (7).png',
-    'assets/images/Group (7).png',
-    'assets/images/Group (7).png',
-    'assets/images/Group (7).png'
-  ];
-
-  /** Foundation — Aur Capital Logo-Black 1.png */
   readonly aurCapitalLogoSrc = 'assets/images/Aur Capital Logo-Black 1.png';
 
-  readonly whoWeAreLead =
-    'Waseela brings together technology, risk discipline, and customer empathy to make financing clear, fast, and accessible—so people can move forward with confidence.';
+  loading = true;
+  loadError = false;
+  /** Technical detail (HTTP status / message) for debugging failed loads. */
+  loadErrorDetail: string | null = null;
 
-  readonly foundationCopy =
-    'Built on strong governance and a commitment to transparency, we partner with merchants and institutions that share our standards for trust and compliance.';
+  page: CmsPage | null = null;
 
-  readonly purposeCopy =
-    'We exist to simplify how people access responsible credit—digitally, securely, and with respect for every customer journey.';
-
-  readonly storyCopy =
-    'From first ideas to live journeys in market, our story is one of iteration: listening to customers, tightening controls, and shipping experiences that feel effortless in the moment yet rigorous underneath.';
-
-  readonly governanceCopy =
-    'Leadership and governance at Waseela align strategy with regulated consumer finance standards—ensuring decisions are explainable, documented, and aligned with customer outcomes.';
-
-  readonly missionText =
-    'Empower individuals and families with transparent installment experiences that are easy to understand, fair to use, and built to scale safely.';
-
-  readonly visionText =
-    'Become the region’s most trusted digital financing companion—where approval is intelligent, servicing is human, and growth never compromises integrity.';
-
-  /** شعارات الشركاء — أسماء الملفات كما في صورة مجلد الأصول */
-  partners: AboutPartner[] = [
-    { name: 'e& money', logoSrc: 'assets/images/10 (1).png', alt: 'e& money' },
-    { name: 'paymob', logoSrc: 'assets/images/45.png', alt: 'paymob' },
-    { name: 'Synapse Analytics',logoSrc: 'assets/images/Asset 36@4x 1.png',alt: 'Synapse Analytics'},
-    { name: 'AUR Capital', logoSrc: 'assets/images/44 (1).png', alt: 'AUR Capital' },
-    { name: 'Dubai Phone', logoSrc: 'assets/images/Asset 30@4x 1.png', alt: 'Dubai Phone' },
-    { name: 'ESLSCA University', logoSrc: 'assets/images/Asset 32@4x 1.png', alt: 'ESLSCA University' },
-    { name: 'Dubai Phone', logoSrc: 'assets/images/Asset 29@4x 1.png', alt: 'Dubai Phone' },
-    { name: 'ESLSCA University', logoSrc: 'assets/images/Asset 35@4x 1.png', alt: 'ESLSCA University' },
-
-  ];
-
-  complianceCards: AboutComplianceCard[] = [
-    { title: 'Licensed Consumer Finance Entity' },
-    { title: 'Regulatory Reporting & Audit Ready' },
-    { title: 'Data Protection & Security Controls' },
-    { title: 'Fair Practices & Transparent Pricing' }
-  ];
-
-  /**
-   * Portraits are full composites (circle clip + brand geometry already in PNG).
-   * Order: MD & Board Member, Risk Manager, Growth & Marketing.
-   */
-  leadershipTeam: AboutTeamMember[] = [
-    {
-        id: 2,
-        name: 'Nimat El Zorkany',
-        role: 'Risk Manager',
-        bio: 'Leads credit policy and portfolio oversight with a focus on responsible growth and model governance.',
-        photoSrc: 'assets/images/nima 1.png'
-    },  
-    {
-       id: 1,
-       name: 'Ahmed El-Ghandakly',
-       role: 'MD & Board Member',
-       bio: 'Steers strategy and governance across Waseela—aligning growth with regulated finance excellence.',
-       photoSrc: 'assets/images/MR.ahmed 1.png'
-     },
-    {
-      id: 3,
-      name: 'Yara Afify',
-      role: 'Growth & Marketing',
-      bio: 'Drives brand growth and customer journeys—from acquisition through lasting engagement.',
-      photoSrc: 'assets/images/yara 1.png'
-    }
-  ];
+  partnerItems: CmsPageSectionItem[] = [];
+  complianceItems: CmsPageSectionItem[] = [];
+  missionVisionItems: CmsPageSectionItem[] = [];
+  leadershipItems: CmsPageSectionItem[] = [];
 
   private gsapCtx?: gsap.Context;
 
-  ngAfterViewInit(): void {
+  ngOnInit(): void {
+    this.pagesService.getPageBySlug('about-us').subscribe({
+      next: (page) => {
+        this.page = page;
+        this.applySeo(page);
+        this.refreshDerivedLists();
+        this.loading = false;
+        queueMicrotask(() => this.setupScrollAnimations());
+      },
+      error: (err: unknown) => {
+        this.loading = false;
+        this.loadError = true;
+        this.loadErrorDetail = this.describeLoadError(err);
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.gsapCtx?.revert();
+  }
+
+  private describeLoadError(err: unknown): string {
+    if (err instanceof HttpErrorResponse) {
+      if (err.status === 0) {
+        return 'No response from server (is the API running? CORS / HTTPS certificate trusted in browser?)';
+      }
+      const body = err.error;
+      const msg =
+        typeof body === 'object' && body !== null && 'message' in body
+          ? String((body as { message?: unknown }).message)
+          : '';
+      return [err.status ? `${err.status} ${err.statusText}` : err.message, msg]
+        .filter(Boolean)
+        .join(' — ');
+    }
+    if (err instanceof Error) {
+      return err.message;
+    }
+    return String(err);
+  }
+
+  pickSection(key: string): CmsPageSection | null {
+    const s = this.page?.sections?.find((x) => x.sectionKey === key);
+    return s?.isActive ? s : null;
+  }
+
+  mediaUrl(path: string | null | undefined): string | null {
+    return resolveCmsAssetUrl(environment.apiOrigin, path);
+  }
+
+  partnerLogoSrc(item: CmsPageSectionItem): string | null {
+    return this.mediaUrl(item.imageMediaFileUrl || item.imageUrl);
+  }
+
+  teamPhotoSrc(item: CmsPageSectionItem): string | null {
+    return this.mediaUrl(item.imageMediaFileUrl || item.imageUrl);
+  }
+
+  storyForegroundSrc(): string {
+    const s = this.pickSection('our_story');
+    return (
+      this.mediaUrl(s?.imageMediaFileUrl || s?.imageUrl) ??
+      'assets/images/leadership 1.png'
+    );
+  }
+
+  storyBackgroundSrc(): string {
+    const s = this.pickSection('our_story');
+    return (
+      this.mediaUrl(s?.backgroundImageMediaFileUrl || s?.backgroundImageUrl) ??
+      'assets/images/Group (7).png'
+    );
+  }
+
+  governanceForegroundSrc(): string {
+    const s = this.pickSection('leadership_governance');
+    return (
+      this.mediaUrl(s?.imageMediaFileUrl || s?.imageUrl) ??
+      'assets/images/leadership 2.png'
+    );
+  }
+
+  governanceBackgroundSrc(): string {
+    const s = this.pickSection('leadership_governance');
+    return (
+      this.mediaUrl(s?.backgroundImageMediaFileUrl || s?.backgroundImageUrl) ??
+      'assets/images/Group (7).png'
+    );
+  }
+
+  private applySeo(page: CmsPage): void {
+    if (page.metaTitle) {
+      this.title.setTitle(page.metaTitle);
+    }
+    if (page.metaDescription) {
+      this.meta.updateTag({ name: 'description', content: page.metaDescription });
+    }
+  }
+
+  private refreshDerivedLists(): void {
+    this.partnerItems = this.itemsFor('our_partners');
+    this.complianceItems = this.itemsFor('compliance_licensing');
+    this.missionVisionItems = this.itemsFor('mission_vision');
+    this.leadershipItems = this.itemsFor('leadership_team');
+  }
+
+  private itemsFor(sectionKey: string): CmsPageSectionItem[] {
+    const s = this.pickSection(sectionKey);
+    if (!s?.items?.length) {
+      return [];
+    }
+    return [...s.items]
+      .filter((i) => i.isActive)
+      .sort((a, b) => a.sortOrder - b.sortOrder);
+  }
+
+  private setupScrollAnimations(): void {
+    this.gsapCtx?.revert();
     const root = this.host.nativeElement;
 
     this.gsapCtx = gsap.context(() => {
@@ -203,29 +245,5 @@ export class AboutUsComponent implements AfterViewInit, OnDestroy {
 
       ScrollTrigger.refresh();
     }, root);
-
-    // في الـ ngAfterViewInit
-
-    //  gsap.to('.about-media-panel__img--front', {
-    //    y: -20,
-    //    duration: 4,
-    //    repeat: -1,
-    //    yoyo: true,
-    //    ease: "sine.inOut"
-    //  });
-     
-    //  // الصورة الخلفية تتحرك لتحت خفيف
-    //  gsap.to('.about-media-panel__img--back', {
-    //    y: 15,
-    //    duration: 5,
-    //    repeat: -1,
-    //    yoyo: true,
-    //    ease: "sine.inOut",
-    //    delay: 0.2
-    //  });
-  }
-
-  ngOnDestroy(): void {
-    this.gsapCtx?.revert();
   }
 }

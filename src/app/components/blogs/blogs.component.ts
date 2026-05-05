@@ -2,11 +2,22 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  OnInit,
   OnDestroy
 } from '@angular/core';
+import { Meta, Title } from '@angular/platform-browser';
 import gsap from 'gsap';
+import { environment } from '../../../environments/environment';
+import {
+  CmsPage,
+  CmsPageSection,
+  CmsPageSectionItem,
+  PagesService,
+  resolveCmsAssetUrl
+} from '../../services/pages.service';
 
 export interface BlogPost {
+  id: number;
   title: string;
   excerpt: string;
   tag: string;
@@ -19,58 +30,17 @@ export interface BlogPost {
   templateUrl: './blogs.component.html',
   styleUrls: ['./blogs.component.scss']
 })
-export class BlogsComponent implements AfterViewInit, OnDestroy {
-  constructor(private readonly host: ElementRef<HTMLElement>) {}
+export class BlogsComponent implements OnInit, AfterViewInit, OnDestroy {
+  constructor(
+    private readonly host: ElementRef<HTMLElement>,
+    private readonly pagesService: PagesService,
+    private readonly title: Title,
+    private readonly meta: Meta
+  ) {}
 
-  readonly pageTitle = 'Blogs';
-
-  readonly pageSubtitle =
-    'Explore in-depth insights, company updates, and industry perspectives that highlight where financial technology is headed next.';
-
-  /**
-   * مسارات من مجلد assets/images كما هي على القرص:
-   * image.png، Link.png، business-UN3RHBL.jpg.png، business-UN3RHBL.jpg (1).png
-   */
-  readonly featured = {
-    tag: 'Marketing',
-    date: 'September 28, 2024',
-    kicker: 'Waseela Updates',
-    headline: 'FINTECH VS. TECHFIN',
-    /** إخفاء العنوان فوق الصورة لأن image.png يحتوي النص بالفعل */
-    showHeadline: false,
-    excerpt:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate ',
-    imageSrc: 'assets/images/image.png',
-    decorSrc: 'assets/images/Group (7).png',
-    href: '#'
-  };
-
-  readonly posts: BlogPost[] = [
-    {
-      title: 'How to Increase Sales…',
-      excerpt:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-      tag: 'Marketing',
-      date: 'September 28, 2024',
-      imageSrc: 'assets/images/business-UN3RHBL.jpg.png'
-    },
-    {
-      title: 'How to Increase Sales…',
-      excerpt:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-      tag: 'Marketing',
-      date: 'September 28, 2024',
-      imageSrc: 'assets/images/business-UN3RHBL.jpg (1).png'
-    },
-    {
-      title: 'How to Increase Sales…',
-      excerpt:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-      tag: 'Marketing',
-      date: 'September 28, 2024',
-      imageSrc: 'assets/images/Link.png'
-    }
-  ];
+  loading = true;
+  loadError = false;
+  page: CmsPage | null = null;
 
   readonly paginationPages: (number | 'ellipsis')[] = [
     1,
@@ -85,9 +55,83 @@ export class BlogsComponent implements AfterViewInit, OnDestroy {
   readonly currentPage = 1;
 
   private ctx?: gsap.Context;
+  private viewReady = false;
+
+  ngOnInit(): void {
+    this.pagesService.getPageBySlug('blogs').subscribe({
+      next: (page) => {
+        this.page = page;
+        this.applySeo(page);
+        this.loading = false;
+        this.trySetupAnimations();
+      },
+      error: () => {
+        this.loading = false;
+        this.loadError = true;
+      }
+    });
+  }
 
   ngAfterViewInit(): void {
+    this.viewReady = true;
+    this.trySetupAnimations();
+  }
+
+  pageTitle(): string {
+    return this.pickSection('blogs_header')?.title || this.page?.name || 'Blogs';
+  }
+
+  pageSubtitle(): string {
+    return this.pickSection('blogs_header')?.description || '';
+  }
+
+  featuredImageSrc(): string | null {
+    const section = this.pickSection('featured_blog');
+    return this.mediaUrl(section?.imageMediaFileUrl || section?.imageUrl);
+  }
+
+  featuredHeadline(): string {
+    return this.pickSection('featured_blog')?.title || '';
+  }
+
+  featuredItem(): CmsPageSectionItem | null {
+    const section = this.pickSection('featured_blog');
+    if (!section?.items?.length) {
+      return null;
+    }
+    return [...section.items]
+      .filter((i) => i.isActive)
+      .sort((a, b) => a.sortOrder - b.sortOrder)[0] ?? null;
+  }
+
+  posts(): BlogPost[] {
+    const section = this.pickSection('blogs_header');
+    if (!section?.items?.length) {
+      return [];
+    }
+    return [...section.items]
+      .filter((item) => item.isActive)
+      .sort((a, b) => a.sortOrder - b.sortOrder)
+      .map((item) => ({
+        id: item.id,
+        title: item.title || '',
+        excerpt: item.description || '',
+        tag: item.subTitle || '',
+        date: item.extraDataJson || '',
+        imageSrc: this.mediaUrl(item.imageMediaFileUrl || item.imageUrl) || ''
+      }));
+  }
+
+  gridTitle(): string {
+    return this.pickSection('blogs_grid')?.title || '';
+  }
+
+  private trySetupAnimations(): void {
+    if (!this.viewReady || !this.page || this.loadError) {
+      return;
+    }
     const root = this.host.nativeElement;
+    this.ctx?.revert();
     this.ctx = gsap.context(() => {
       const featured = root.querySelector<HTMLElement>('[data-blogs-featured]');
       if (featured) {
@@ -110,6 +154,24 @@ export class BlogsComponent implements AfterViewInit, OnDestroy {
         });
       }
     }, root);
+  }
+
+  private mediaUrl(path: string | null | undefined): string | null {
+    return resolveCmsAssetUrl(environment.apiOrigin, path);
+  }
+
+  private pickSection(key: string): CmsPageSection | null {
+    const section = this.page?.sections?.find((s) => s.sectionKey === key);
+    return section?.isActive ? section : null;
+  }
+
+  private applySeo(page: CmsPage): void {
+    if (page.metaTitle) {
+      this.title.setTitle(page.metaTitle);
+    }
+    if (page.metaDescription) {
+      this.meta.updateTag({ name: 'description', content: page.metaDescription });
+    }
   }
 
   ngOnDestroy(): void {

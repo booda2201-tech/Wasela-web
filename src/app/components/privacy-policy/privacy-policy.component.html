@@ -1,4 +1,4 @@
-<article class="terms-page terms-page--surface relative overflow-x-clip pt-24 pb-20 md:pb-28">
+<article class="terms-page terms-page--surface relative overflow-x-clip pt-24 pb-20 md:pb-28" *ngIf="!loading && !loadError && page">
   <div class="terms-page__bg" aria-hidden="true">
     <div class="terms-page__bg-slide"></div>
     <div class="terms-page__bg-wash"></div>
@@ -12,12 +12,12 @@
       <h1
         class="terms-page__title font-black tracking-[0.2px] text-[#0d11b3] text-[32px] leading-tight sm:text-[38px] md:text-[42px] md:leading-[57px]"
       >
-        {{ pageTitle }}
+        {{ introSection()?.title || page.name }}
       </h1>
       <p
-        class="terms-page__subtitle mx-auto mt-4 max-w-[615px] text-center text-[14px] font-medium leading-5 tracking-[0.2px] text-[#737373]"
+        class="terms-page__subtitle mx-auto mt-4 max-w-[615px] text-center text-[14px] font-medium leading-5 tracking-[0.2px] text-[#737373] terms-preline"
       >
-        {{ pageSubtitle }}
+        {{ introSection()?.description }}
       </p>
     </header>
 
@@ -39,139 +39,22 @@
           class="terms-card relative z-[2] rounded-[28px] border border-solid border-[#e8e8ed] bg-white px-5 py-10 shadow-[0_4px_32px_rgba(15,23,42,0.06)] sm:px-9 md:px-12 md:py-12 lg:px-16 lg:py-14"
         >
           <div class="terms-prose">
-            <p class="terms-p">
-              <span class="terms-lead-name font-medium text-[#0d11b3]">AUR Consumer Finance – Waseela J.S.C</span>. (hereinafter &quot;<span class="terms-accent-alt">Waseela</span>&quot;), a joint stock company established under Egyptian laws in specific accordance with Law No. 18 of 2020 concerning consumer finance companies, is a licensed consumer finance company regulated by the Egyptian Financial Regulatory Authority under License No. 40 of 2022. Waseela is authorized to provide financial solutions and granting revolving lines of credit for the purchase of a variety of goods and services legally recognized under Egyptian law, including but not limited to healthcare, education, retail, electronics, and auto loans (“Consumer Finance Facility”).
-            </p>
-            <p class="terms-p">
-              For clarity and precision, references in this Policy to &quot;we,&quot; &quot;our,&quot; or &quot;us&quot; (or similar) are solely intended to designate Waseela. References to &quot;user&quot; or &quot;you&quot; (or similar) signify you as an individual user or a legal entity, depending on the applicable context.
-            </p>
-            <p class="terms-p">
-              This Privacy Policy (&quot;Policy&quot;) establishes the principles governing the collection, use, disclosure, and protection of your personal data (&quot;Information&quot;) in connection with your access to and interact with our services, such as applying for financing, contacting us, or using our website or mobile app (hereinafter shall be referred to collectively or/and severally as the &quot;<span class="terms-accent-alt">Platform</span>&quot;).
-            </p>
-            <p class="terms-p">
-              It is worth mentioning that we collect and process your personal data responsibly in accordance with applicable Egyptian Data Protection laws and regulations. Based on the foregoing, we encourage you to diligently review this Policy to fully comprehend our practices concerning your Information. Your continued use of the Services constitutes your consent to the handling of your Information as outlined within this Policy.
+            <p class="terms-p terms-preline" *ngIf="headerSection()?.description as headerDesc">
+              {{ headerDesc }}
             </p>
 
-            <h2 class="terms-section-heading">1.&nbsp;&nbsp;&nbsp;Information We May Collect</h2>
-            <p class="terms-p">
-              Depending on the nature of the services you utilize, we may collect various data about you either directly or through our parent or third-party companies (e.g., credit query agencies or public databases). This may encompass:
-            </p>
-            <ul class="terms-list">
-              <li>Contact and identification information, including but not limited to your name, date of birth, front and back of national ID card details, profession, address, email address, mobile phone number, personal photo files, contact list, club membership ID, if any;</li>
-              <li>All information you voluntarily share with us through our Platform, upon registration, subscription, interacting with our content, or when requesting additional features;</li>
-              <li>Data obtained from third parties about your financial matters, including income, financing obligations, historical financing data, payment dates, bank account details, etc.</li>
-              <li>Information you furnish during competitions, promotions, reviews, testimonials, or feedback;</li>
-              <li>Details provided or which may be collected by us when you are reporting Platform issues;</li>
-              <li>Correspondence records, upon contacting us;</li>
-              <li>Transaction history and transaction fulfillment data; including but not limited to current and past commitments, payment dates, technical data (e.g., page loading time, loading errors), personal preferences, and customer service interactions.</li>
-              <li>General, aggregated, and non-personal information;</li>
-              <li>Device information, including unique identifiers, for mobile application users;</li>
-              <li>Device-related data such as IP address, operating system, browser type, and general internet usage patterns, collected through technologies like cookies, tracking pixels, and web beacons (collectively, &quot;Cookies&quot;);</li>
-              <li>Your Email address and/or mobile number from third-party sources if you have given your explicit consent therefore to share this information with us.; and</li>
-              <li>Any other data deemed necessary to enhance your Platform usage experience.</li>
-            </ul>
-            <p class="terms-p terms-note">
-              Please note that the collection of certain Information may be subject to specific legal requirements or your explicit consent.
-            </p>
-
-            <h2 class="terms-section-heading">2.&nbsp;&nbsp;&nbsp;For What Purpose do we process your data</h2>
-            <p class="terms-p">
-              Depending on the nature of the services you utilize,<br />
-              Waseela Company may process your personal data for the outlined purposes below:
-            </p>
-            <p class="terms-p">
-              Processing personal data encompasses, but is not limited to, contact and identification information, product/service details, financial information, information about your interaction with Waseela, interaction details with traders, device-related information, and others as aforementioned in order to:
-            </p>
-
-            <h3 class="terms-subheading">2.1.&nbsp;&nbsp;Processing for Our Services:</h3>
-            <ul class="terms-list">
-              <li>Manage our relationship with service users.</li>
-              <li>Formation and transmission of information in electronic form (excluding publicity).</li>
-              <li>Determine the optimal method of contacting you regarding information on outstanding claims.</li>
-              <li>Conduct credit checks before granting consumer finance, involving profiling.</li>
-              <li>Prevent IT attacks as part of our efforts to safeguard and maintain our services.</li>
-              <li>Transfer your data to merchants, service providers, respective governmental authorities and other recipients.</li>
-              <li>Continuously conduct credit or risk analysis, fraud prevention, and risk management, involving profiling.</li>
-              <li>Recover outstanding debts, including the collection and transfer of receivables, involving profiling.</li>
-            </ul>
-
-            <p class="terms-p">
-              Processing of personal data includes, but is not limited to, contact and identification information, product/service details, financial information, information about your interaction with Waseela, interaction details with traders, and device-related information in order to:
-            </p>
-
-            <h3 class="terms-subheading">2.2.&nbsp;&nbsp;Product Development &amp; Research:</h3>
-            <ul class="terms-list">
-              <li>Conduct data analysis for product development and testing.</li>
-              <li>Facilitate internal research and create statistical models.</li>
-            </ul>
-
-            <p class="terms-p">
-              Processing personal data includes, but is not limited to, contact and identification information, product/service details, financial information, information about your interaction with Waseela, interaction details with traders, and device-related information in order to:
-            </p>
-
-            <h3 class="terms-subheading">2.3.&nbsp;&nbsp;Adherence to Laws and Legal Claims:</h3>
-            <ul class="terms-list">
-              <li>Adhere to applicable laws;</li>
-              <li>Execution of our contracts; and</li>
-              <li>Protect Waseela from legal claims and initiate legal claims by Waseela.</li>
-            </ul>
-
-            <p class="terms-p">
-              Personal information includes, but is not limited to, product/service details, information about your interaction with Waseela, information about your interaction with merchants, and device-related information in order to:
-            </p>
-
-            <h3 class="terms-subheading">2.4.&nbsp;&nbsp;Promotional Purposes:</h3>
-            <ul class="terms-list">
-              <li>Provide you with publicity and offers about our services and/or the services of our parent, sister, and affiliate companies.</li>
-              <li>Tailor publicity addressed to you.</li>
-              <li>Provide links to sponsors and market merchants&apos; products and services and/or our parent, sister, and affiliate companies.</li>
-            </ul>
-
-            <h2 class="terms-section-heading">3.&nbsp;&nbsp;&nbsp;Profiling and Automated Decision-Making by Waseela</h2>
-            <p class="terms-p">
-              <span class="terms-accent-alt font-medium">Profiling</span> refers to the automated processing of personal data to evaluate certain personal aspects, for example, to analyze or predict characteristics related to your financial situation or preferences, such as your shopping preferences. We use profiling based on your personal data recorded with us in order to make personal or automated decisions about you for the following purposes:
-            </p>
-
-            <h3 class="terms-subheading">3.1.&nbsp;&nbsp;&nbsp;&nbsp;Decisions that do not produce legal or similarly significant effects</h3>
-            <p class="terms-p">
-              Waseela may utilize automated processes to make the following non-binding decisions concerning you:
-            </p>
-            <ul class="terms-list">
-              <li>Predicting and present promotional content that aligns with your interests;</li>
-              <li>Determining, identify, and present offers that are likely to be relevant and beneficial to you; and</li>
-              <li>Personalizing the content displayed on the Waseela application based on your preferences and usage patterns.</li>
-            </ul>
-
-            <h3 class="terms-subheading">3.2.&nbsp;&nbsp;&nbsp;&nbsp;Decisions producing legal or similarly significant effects:</h3>
-            <p class="terms-p">
-              Automated decisions producing legal or similarly significant effects mean that some decisions related to our services may be taken solely by automated means and without any human intervention, and these decisions will have a significant impact on you as a customer. Through automated decisions, Waseela and our parent company improve the objectivity and transparency of how decisions are made regarding these services.
-            </p>
-            <p class="terms-p">
-              We may resort to this type of automated decision when we decide to accept or reject your application for consumer financing, and if approved, to determine the level of financing you receive.
-            </p>
-            <p class="terms-p">
-              You have the right to express your point of view or object to an automated decision that may have legal or similarly significant effects (in addition to the related profiling) at any time by contacting us via the email address indicated in Section 5. Our customer service team will handle your case promptly.
-            </p>
-
-            <h2 class="terms-section-heading">4.&nbsp;&nbsp;&nbsp;Policy Update Notification</h2>
-            <p class="terms-p">
-              As part of our ongoing commitment to enhancing our service offerings and providing an improved user experience, we continuously evolve our service portfolio. This evolution encompasses not only existing services but also the introduction of new services over time. We reserve the right to modify this Privacy Policy at any time. Such modifications shall be effective upon posting on the Platform or on the date specified therein. We may provide notice of such changes, but Users are solely responsible for regularly reviewing this Privacy Policy. Continued use of the Platform following any modifications constitutes acceptance of the revised Privacy Policy.
-            </p>
-
-            <h2 class="terms-section-heading">5.&nbsp;&nbsp;&nbsp;Contacting us:</h2>
-            <p class="terms-p">
-              Waseela&apos;s customer service team specializes in data protection topics and handles all matters of data protection, so feel free to reach us by calling our customer service representatives on 15643 or through the following email address<span class="terms-accent-alt">:</span>
-              <a
-                class="terms-link terms-link--inline"
-                [href]="contactMailHref"
-                target="_blank"
-                rel="noopener noreferrer"
-                >{{ contactEmail }}</a
-              >
-            </p>
+            <ng-container *ngFor="let item of contentItems()">
+              <h2 class="terms-section-heading">{{ item.title }}</h2>
+              <p class="terms-p terms-preline">{{ item.description }}</p>
+            </ng-container>
           </div>
         </div>
       </div>
     </div>
   </div>
 </article>
+
+<div class="terms-page terms-page--surface py-20 text-center" *ngIf="loading">Loading...</div>
+<div class="terms-page terms-page--surface py-20 text-center text-red-500" *ngIf="loadError">
+  تعذر تحميل صفحة سياسة الخصوصية.
+</div>

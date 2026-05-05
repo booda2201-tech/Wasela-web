@@ -1,4 +1,4 @@
-<article class="terms-page terms-page--surface relative overflow-x-clip pt-24 pb-20 md:pb-28">
+<article class="terms-page terms-page--surface relative overflow-x-clip pt-24 pb-20 md:pb-28" *ngIf="!loading && !loadError && page">
   <div class="terms-page__bg" aria-hidden="true">
     <div class="terms-page__bg-slide"></div>
     <div class="terms-page__bg-wash"></div>
@@ -12,12 +12,12 @@
       <h1
         class="terms-page__title font-black tracking-[0.2px] text-[#0d11b3] text-[40px] leading-tight sm:text-[38px] md:text-[42px] md:leading-[57px]"
       >
-        {{ pageTitle }}
+        {{ introSection()?.title || page.name }}
       </h1>
       <p
-        class="terms-page__subtitle mx-auto mt-4 max-w-[472px] text-center text-[14px] font-medium leading-5 tracking-[0.2px] text-[#737373]"
+        class="terms-page__subtitle mx-auto mt-4 max-w-[472px] text-center text-[14px] font-medium leading-5 tracking-[0.2px] text-[#737373] terms-preline"
       >
-        {{ pageSubtitle }}
+        {{ introSection()?.description }}
       </p>
     </header>
 
@@ -37,79 +37,22 @@
           class="terms-card relative z-[2] rounded-[28px] border border-solid border-[#e8e8ed] bg-white px-5 py-10 shadow-[0_4px_32px_rgba(15,23,42,0.06)] sm:px-9 md:px-12 md:py-12 lg:px-16 lg:py-14"
         >
         <div class="terms-prose">
-          <p class="terms-p">
-            Prior to utilizing our services, the Customer is obliged to carefully review these Terms and Conditions and the Privacy Policy to ensure his complete comprehension thereof. By using Waseela’s App, the Customer acknowledges his full knowledge, acceptance and adherence to these Terms and Conditions and the Privacy Policy. It is worth mentioning that Waseela reserves the discretionary authority to modify or alter any provisions of these Terms and Conditions and the Privacy Policy at any juncture without prior notification. Such modifications shall become effective immediately upon their dissemination or disclosure through the Waseela’s App or the Portal. The Customer shall be committed to regularly revise these Terms and Conditions for any updates. Continued utilization of Waseela’s App and/or the Portal subsequent to any amendments to these Terms and Conditions shall be construed as irrevocable acceptance of such amendments. For clarity and precision, references in this Terms and Conditions to &quot;we,&quot; &quot;our,&quot; or &quot;us&quot; (or similar) are solely intended to designate Waseela. References to &quot;user&quot; or &quot;you&quot; (or similar) signify you as an individual user or a legal entity, depending on the applicable context.
+          <p class="terms-p terms-preline" *ngIf="headerSection()?.description as headerDesc">
+            {{ headerDesc }}
           </p>
 
-          <h2 class="terms-h2">About Aur Consumer Finance Waseela</h2>
-          <p class="terms-p">
-            <span class="terms-accent terms-accent--semibold">AUR Consumer Finance – Waseela J.S.C</span>. (hereinafter &quot;<span class="terms-accent">Waseela</span>&quot;), a joint stock company established under Egyptian laws in specific accordance with Law No. 18 of 2020 concerning consumer finance companies, and is a licensed Consumer Finance company regulated by the Egyptian Financial Regulatory Authority under License No. 40 of 2022. Waseela is authorized to provide financial solutions and granting revolving lines of credit consumer finance facilities for the purchase of a variety of goods and services legally recognized under Egyptian law, including but not limited to Healthcare, Education, Retail, Electronics, and Autos.
-          </p>
-
-          <h2 class="terms-h2">How to Contact Us</h2>
-          <p class="terms-p mb-0">You can contact us directly by :</p>
-          <p class="terms-p mt-0">
-            calling our customer service representatives at 15643 or via the following email address<span class="terms-accent">:</span>
-            <a
-              class="terms-link"
-              [href]="contactMailHref"
-              target="_blank"
-              rel="noopener noreferrer"
-              >{{ contactEmail }}</a
-            >
-          </p>
-
-          <h2 class="terms-h2">How we contact you</h2>
-          <p class="terms-p">
-            If we need to contact you, we will do so by calling you, emailing you, or sending mail to the mailing address you provided in our Waseela app, website database, or Waseela Consumer Finance contract that has been concluded with you.
-          </p>
-
-          <h2 class="terms-h2">Electronic Communications</h2>
-          <p class="terms-p">
-            By using the Waseela app or online portal or sending us emails, you are engaging in electronic communications with us. You consent to receiving electronic communications from Waseela, where you will be contacted via email or through the application or electronic portal alert notices. You also agree that all agreements, notices, disclosures and other communications issued by Waseela electronically are equivalent to their written counterparts, in producing the same legal effect.
-          </p>
-          <p class="terms-p">
-            You acknowledge that you can access and read the information published on the application or electronic portal. You also agree to provide an active email address through which you can receive emails from Waseela. Waseela shall have the full right to send communications and promotional materials to its customers via the electronic application, text messages and email, and through other electronic media as determined by the Waseela.
-          </p>
-          <p class="terms-p">
-            You, as a customer of Waseela, expressly agree unconditionally to deal through electronic means and media and emails which shall be deemed accurate and effective.
-          </p>
-
-          <h2 class="terms-h2">Electronic communication method</h2>
-          <p class="terms-p">
-            While using the application, Waseela’s team will deliver all communications in electronic form, either via email or accessible online, allowing you to retrieve them via your own account.
-          </p>
-
-          <h2 class="terms-h2">Waseela App/Website Registration</h2>
-          <p class="terms-p">
-            Registration for the Waseela App/Website is initiated by completing a designated registration process. As part of this process, you will be required to furnish Waseela with specific information. Upon successful completion and provision of the requested information, you will be granted access to our services.
-          </p>
-
-          <h2 class="terms-h2">Account Activation</h2>
-          <p class="terms-p">
-            To activate your account and utilize our services as authorized, please follow the below instructions and terms:
-          </p>
-          <p class="terms-p">
-            Please read the following terms and conditions carefully and accept thereof by clicking the
-            <span class="terms-accent">'Agree'</span> button.
-          </p>
-          <p class="terms-p">
-            If you are a customer, please register through Waseela app or the online portal. Upon successful registration, you will receive a verification code via SMS to verify your identity. Your use of this verification code signifies your acceptance of these terms and conditions.
-          </p>
-          <p class="terms-p">All users of Waseela app shall be bound by these terms and conditions.</p>
-          <p class="terms-p">
-            By using the Waseela app or online portal, you acknowledge that you have understood these terms and conditions. If you do not agree to these terms and conditions, you must not use the Waseela app or online portal.
-          </p>
-          <p class="terms-p">
-            By clicking 'Agree', you confirm and convey your acceptance of these terms and conditions, as well as the legal notices, privacy policy, disclaimer, and additional terms and conditions that appear on Waseela app and/or online portal. Please read these terms and conditions carefully.
-          </p>
-
-          <p class="terms-nb">
-            NB: Waseela Company shall not be held liable for any products or services provided through the app or online portal. By clicking the 'Agree' button at the bottom of this page, you acknowledge your acceptance of these terms and conditions.
-          </p>
+          <ng-container *ngFor="let item of contentItems()">
+            <h2 class="terms-h2">{{ item.title }}</h2>
+            <p class="terms-p terms-preline">{{ item.description }}</p>
+          </ng-container>
         </div>
         </div>
       </div>
     </div>
   </div>
 </article>
+
+<div class="terms-page terms-page--surface py-20 text-center" *ngIf="loading">Loading...</div>
+<div class="terms-page terms-page--surface py-20 text-center text-red-500" *ngIf="loadError">
+  تعذر تحميل صفحة الشروط والأحكام.
+</div>

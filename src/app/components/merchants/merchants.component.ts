@@ -1,35 +1,118 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Meta, Title } from '@angular/platform-browser';
+
+import { environment } from '../../../environments/environment';
+import {
+  CmsPage,
+  CmsPageSection,
+  CmsPageSectionItem,
+  PagesService,
+  resolveCmsAssetUrl
+} from '../../services/pages.service';
 
 @Component({
   selector: 'app-merchants',
   templateUrl: './merchants.component.html',
   styleUrls: ['./merchants.component.scss']
 })
-export class MerchantsComponent {
+export class MerchantsComponent implements OnInit {
+  loading = true;
+  loadError = false;
+  page: CmsPage | null = null;
 
-col1 = [
-  { bg: '../../../../assets/images/Rectangle 41508.png', logo: '../../../../assets/images/Ellipse 6795 (1).png', classes: 'h-[450px] hover:h-[580px]' },
-  { bg: '../../../../assets/images/Rectangle 41509.png', logo: '../../../../assets/images/Ellipse 6795 (2).png', classes: 'h-[360px] hover:h-[480px]' },
-  { bg: '../../../../assets/images/Rectangle 41511.png', logo: '../../../../assets/images/Ellipse 6795 (3).png', classes: 'h-[290px] hover:h-[400px]' }
-];
+  readonly cardHeightClasses = [
+    'h-[450px] hover:h-[580px]',
+    'h-[360px] hover:h-[480px]',
+    'h-[290px] hover:h-[400px]',
+    'h-[480px] hover:h-[620px]',
+    'h-[340px] hover:h-[460px]',
+    'h-[280px] hover:h-[400px]',
+    'h-[320px] hover:h-[420px]',
+    'h-[380px] hover:h-[520px]',
+    'h-[400px] hover:h-[540px]',
+    'h-[360px] hover:h-[500px]',
+    'h-[420px] hover:h-[560px]',
+    'h-[320px] hover:h-[430px]'
+  ];
 
-col2 = [
-  { bg: '../../../../assets/images/Rectangle 41512.png', logo: '../../../../assets/images/Ellipse 6795 (4).png', classes: 'h-[480px] hover:h-[620px]' },
-  { bg: '../../../../assets/images/Rectangle 41510.png', logo: '../../../../assets/images/Ellipse 6795 (7).png', classes: 'h-[340px] hover:h-[460px]' },
-  { bg: '../../../../assets/images/Rectangle 41513.png', logo: '../../../../assets/images/Ellipse 6795 (5).png', classes: 'h-[280px] hover:h-[400px]' }
-];
+  constructor(
+    private readonly pagesService: PagesService,
+    private readonly title: Title,
+    private readonly meta: Meta
+  ) {}
 
-col3 = [
-  { bg: '../../../../assets/images/Rectangle 41514.png', logo: '../../../../assets/images/Ellipse 6795 (8).png', classes: 'h-[320px] hover:h-[420px]' },
-  { bg: '../../../../assets/images/Rectangle 41515.png', logo: '../../../../assets/images/Ellipse 6795 (6).png', classes: 'h-[380px] hover:h-[520px]' },
-  { bg: '../../../../assets/images/Rectangle 41516.png', logo: '../../../../assets/images/Ellipse 6795 (10).png', classes: 'h-[400px] hover:h-[540px]' }
-];
+  ngOnInit(): void {
+    this.pagesService.getPageBySlug('merchants').subscribe({
+      next: (page) => {
+        this.page = page;
+        this.applySeo(page);
+        this.loading = false;
+      },
+      error: () => {
+        this.loading = false;
+        this.loadError = true;
+      }
+    });
+  }
 
-col4 = [
-  { bg: '../../../../assets/images/Rectangle 41517.png', logo: '../../../../assets/images/Ellipse 6795 (12).png', classes: 'h-[360px] hover:h-[500px]' },
-  { bg: '../../../../assets/images/Rectangle 41518.png', logo: '../../../../assets/images/Ellipse 6795 (11).png', classes: 'h-[420px] hover:h-[560px]' },
-  { bg: '../../../../assets/images/Rectangle 41519.png', logo: '../../../../assets/images/Ellipse 6795 (9).png', classes: 'h-[320px] hover:h-[430px]' }
-];
-columns = [this.col1, this.col2, this.col3, this.col4];
+  heroSection(): CmsPageSection | null {
+    return this.pickSection('Merchants');
+  }
+
+  merchantsCountSection(): CmsPageSection | null {
+    return this.pickSection('1000_Merchants');
+  }
+
+  merchantItems(): CmsPageSectionItem[] {
+    const section = this.merchantsCountSection();
+    if (!section?.items?.length) {
+      return [];
+    }
+    return [...section.items]
+      .filter((item) => item.isActive)
+      .sort((a, b) => a.sortOrder - b.sortOrder || a.id - b.id);
+  }
+
+  columns(): CmsPageSectionItem[][] {
+    const source = this.merchantItems();
+    const cols: CmsPageSectionItem[][] = [[], [], [], []];
+    source.forEach((item, index) => {
+      cols[index % 4].push(item);
+    });
+    return cols;
+  }
+
+  cardClass(indexInColumn: number, columnIndex: number): string {
+    const idx = (columnIndex * 3 + indexInColumn) % this.cardHeightClasses.length;
+    return this.cardHeightClasses[idx];
+  }
+
+  logoSrc(item: CmsPageSectionItem): string | null {
+    return resolveCmsAssetUrl(
+      environment.apiOrigin,
+      item.imageMediaFileUrl || item.imageUrl
+    );
+  }
+
+  backgroundSrc(item: CmsPageSectionItem): string | null {
+    return resolveCmsAssetUrl(
+      environment.apiOrigin,
+      item.backgroundImageMediaFileUrl || item.backgroundImageUrl
+    );
+  }
+
+  private applySeo(page: CmsPage): void {
+    if (page.metaTitle) {
+      this.title.setTitle(page.metaTitle);
+    }
+    if (page.metaDescription) {
+      this.meta.updateTag({ name: 'description', content: page.metaDescription });
+    }
+  }
+
+  private pickSection(key: string): CmsPageSection | null {
+    const section = this.page?.sections?.find((s) => s.sectionKey === key);
+    return section?.isActive ? section : null;
+  }
 
 }

@@ -1,4 +1,4 @@
-<div class="container mx-auto px-6 py-20">
+<div class="container mx-auto px-6 py-20" *ngIf="!loading && !loadError">
   <header class="faq-header relative overflow-hidden">
     <div class="faq-header__visual absolute inset-0 pointer-events-none" aria-hidden="true">
       <div class="faq-header__img"></div>
@@ -8,10 +8,10 @@
     <div class="relative z-10 container mx-auto px-6 py-20 text-center">
       <div class="max-w-3xl mx-auto space-y-4">
         <h1 class="text-4xl md:text-[45px] font-[900] text-[#1D1DDB] leading-[1.1]">
-            Careers
+            {{ pageTitle() }}
           </h1>
           <p class="text-gray-500 text-lg md:text-l font-medium leading-relaxed">
-            Join a team of innovators, designers, and engineers working together to shape the future of digital financial experiences.
+            {{ pageSubtitle() }}
           </p>
       </div>
     </div>
@@ -28,12 +28,12 @@
           <span
             class="inline-block bg-[#E0E7FF] text-[#1D1DDB] rounded-full px-3 py-1 text-xs font-semibold tracking-tight"
           >
-            Open Roles
+            {{ job.roleLabel }}
           </span>
           <h2 class="text-[#1D1DDB] font-bold text-xl md:text-2xl leading-snug">
             {{ job.title }}
           </h2>
-          <p class="text-gray-500 text-sm font-medium">
+          <p class="text-gray-500 text-sm font-medium careers-preline">
             {{ job.metaLine }}
           </p>
         </div>
@@ -64,7 +64,7 @@
             class="flex items-center justify-between gap-8 pl-10 pr-1 py-1 border-[1px] border-[#1D1DDB] rounded-full group hover:shadow-md transition-all duration-300 bg-white shrink-0"
           >
             <span class="text-[#FF7A00] font-extrabold text-lg tracking-tight">
-              Submit Application
+              {{ job.applyButtonText }}
             </span>
             <span
               class="bg-[#1D1DDB] w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 transition-transform duration-300 ease-out group-hover:scale-105"
@@ -91,12 +91,17 @@
         [attr.aria-hidden]="!isExpanded(job.id)"
       >
         <div class="pt-6 mt-6 border-t border-gray-100 text-left space-y-4">
-          <h3 class="text-[#1D1DDB] font-bold text-lg">Job Description</h3>
+          <h3 class="text-[#1D1DDB] font-bold text-lg">{{ job.descriptionHeading }}</h3>
           <div class="text-gray-600 text-sm md:text-base font-normal leading-relaxed space-y-4">
-            <p *ngFor="let paragraph of job.descriptionParagraphs">{{ paragraph }}</p>
+            <p *ngFor="let paragraph of job.descriptionParagraphs" class="careers-preline">{{ paragraph }}</p>
           </div>
         </div>
       </div>
     </article>
   </div>
+</div>
+
+<div class="py-20 text-center" *ngIf="loading">Loading...</div>
+<div class="py-20 text-center text-red-500" *ngIf="loadError">
+  تعذر تحميل صفحة الوظائف.
 </div>

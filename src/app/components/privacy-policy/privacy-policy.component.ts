@@ -2,9 +2,12 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  OnInit,
   OnDestroy
 } from '@angular/core';
+import { Meta, Title } from '@angular/platform-browser';
 import gsap from 'gsap';
+import { CmsPage, CmsPageSection, CmsPageSectionItem, PagesService } from '../../services/pages.service';
 
 @Component({
   selector: 'app-privacy-policy',
@@ -12,22 +15,47 @@ import gsap from 'gsap';
   styleUrls: ['./privacy-policy.component.scss']
 })
 
-export class PrivacyPolicyComponent implements AfterViewInit, OnDestroy {
-  constructor(private readonly host: ElementRef<HTMLElement>) {}
+export class PrivacyPolicyComponent implements OnInit, AfterViewInit, OnDestroy {
+  constructor(
+    private readonly host: ElementRef<HTMLElement>,
+    private readonly pagesService: PagesService,
+    private readonly title: Title,
+    private readonly meta: Meta
+  ) {}
 
-  readonly pageTitle = 'Privacy Policy';
-
-  readonly pageSubtitle =
-    'We are committed to protecting your personal data through transparent practices, strong security measures, and responsible data handling.';
-
-  readonly contactEmail = 'info@waseela-cf.com';
-
-  readonly contactMailHref = 'mailto:info@waseela-cf.com';
+  loading = true;
+  loadError = false;
+  page: CmsPage | null = null;
 
   private ctx?: gsap.Context;
+  private viewReady = false;
+
+  ngOnInit(): void {
+    this.pagesService.getPageBySlug('privacy_policy').subscribe({
+      next: (page) => {
+        this.page = page;
+        this.applySeo(page);
+        this.loading = false;
+        this.trySetupAnimations();
+      },
+      error: () => {
+        this.loading = false;
+        this.loadError = true;
+      }
+    });
+  }
 
   ngAfterViewInit(): void {
+    this.viewReady = true;
+    this.trySetupAnimations();
+  }
+
+  private trySetupAnimations(): void {
+    if (!this.viewReady || !this.page || this.loadError) {
+      return;
+    }
     const root = this.host.nativeElement;
+    this.ctx?.revert();
     this.ctx = gsap.context(() => {
       const card = root.querySelector<HTMLElement>('[data-terms-card]');
       if (card) {
@@ -48,6 +76,38 @@ export class PrivacyPolicyComponent implements AfterViewInit, OnDestroy {
         });
       }
     }, root);
+  }
+
+  introSection(): CmsPageSection | null {
+    return this.pickSection('Privacy_Policy');
+  }
+
+  headerSection(): CmsPageSection | null {
+    return this.pickSection('Header');
+  }
+
+  contentItems(): CmsPageSectionItem[] {
+    const section = this.pickSection('content') || this.pickSection('Content');
+    if (!section?.items?.length) {
+      return [];
+    }
+    return [...section.items]
+      .filter((item) => item.isActive)
+      .sort((a, b) => a.sortOrder - b.sortOrder);
+  }
+
+  private pickSection(key: string): CmsPageSection | null {
+    const section = this.page?.sections?.find((x) => x.sectionKey === key);
+    return section?.isActive ? section : null;
+  }
+
+  private applySeo(page: CmsPage): void {
+    if (page.metaTitle) {
+      this.title.setTitle(page.metaTitle);
+    }
+    if (page.metaDescription) {
+      this.meta.updateTag({ name: 'description', content: page.metaDescription });
+    }
   }
 
   ngOnDestroy(): void {
