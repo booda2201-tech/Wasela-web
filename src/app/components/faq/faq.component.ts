@@ -2,12 +2,15 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  OnInit,
   OnDestroy,
   QueryList,
   ViewChildren
 } from '@angular/core';
+import { Meta, Title } from '@angular/platform-browser';
 import gsap from 'gsap';
 import { Subscription } from 'rxjs';
+import { CmsPage, PagesService } from '../../services/pages.service';
 
 export interface FaqItem {
   id: number;
@@ -20,47 +23,48 @@ export interface FaqItem {
   templateUrl: './faq.component.html',
   styleUrls: ['./faq.component.scss']
 })
-export class FaqComponent implements AfterViewInit, OnDestroy {
+export class FaqComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChildren('faqCard') private faqCardEls!: QueryList<ElementRef<HTMLElement>>;
   @ViewChildren('faqPanel') private faqPanels!: QueryList<ElementRef<HTMLElement>>;
 
-  faqs: FaqItem[] = [
-    {
-      id: 1,
-      question: 'What is Waseela?',
-      answer:
-        'Waseela is a digital financing platform that lets you apply, get approved, and pay in installments across everyday purchases—with clear terms and in-app control.'
-    },
-    {
-      id: 2,
-      question: 'How do I apply for financing?',
-      answer:
-        'Download the Waseela app, complete a short digital application, and receive an instant decision powered by our smart credit logic where eligible.'
-    },
-    {
-      id: 3,
-      question: 'Where can I use my limit?',
-      answer:
-        'You can use your approved limit at partner merchants and categories listed in the app, so you always know where your financing is accepted.'
-    },
-    {
-      id: 4,
-      question: 'Are there fees or hidden charges?',
-      answer:
-        'Fees and instalment plans are shown clearly before you confirm any transaction. You can review summaries anytime inside the app.'
-    },
-    {
-      id: 5,
-      question: 'How do I contact support?',
-      answer:
-        'Reach our team through in-app support or the official channels listed on our website—we’re here to help with applications, repayments, or merchant questions.'
-    }
-  ];
+  loading = true;
+  loadError = false;
+  page: CmsPage | null = null;
+  faqs: FaqItem[] = [];
 
   private expandedIds = new Set<number>();
 
   private listSub?: Subscription;
   private entranceDone = false;
+
+  constructor(
+    private readonly pagesService: PagesService,
+    private readonly title: Title,
+    private readonly meta: Meta
+  ) {}
+
+  ngOnInit(): void {
+    this.pagesService.getPageBySlug('faqs').subscribe({
+      next: (page) => {
+        this.page = page;
+        this.applySeo(page);
+        this.faqs = this.contentFaqs(page);
+        this.loading = false;
+      },
+      error: () => {
+        this.loading = false;
+        this.loadError = true;
+      }
+    });
+  }
+
+  heroTitle(): string {
+    return this.pickSection('FAQs')?.title || this.page?.name || 'FAQs';
+  }
+
+  heroDescription(): string {
+    return this.pickSection('FAQs')?.description || '';
+  }
 
   isExpanded(id: number): boolean {
     return this.expandedIds.has(id);
@@ -134,7 +138,7 @@ export class FaqComponent implements AfterViewInit, OnDestroy {
   }
 
   private runEntrance(): void {
-    if (this.entranceDone) {
+    if (this.entranceDone || this.loading || this.loadError) {
       return;
     }
     requestAnimationFrame(() => {
@@ -151,5 +155,38 @@ export class FaqComponent implements AfterViewInit, OnDestroy {
         ease: 'power2.out'
       });
     });
+  }
+
+  private pickSection(key: string) {
+    const section = this.page?.sections?.find((s) => s.sectionKey === key);
+    return section?.isActive ? section : null;
+  }
+
+  private contentFaqs(page: CmsPage): FaqItem[] {
+    const contentSection = page.sections
+      .filter((s) => s.isActive && s.sectionKey.toLowerCase() === 'content')
+      .sort((a, b) => a.sortOrder - b.sortOrder)[0];
+
+    if (!contentSection?.items?.length) {
+      return [];
+    }
+
+    return [...contentSection.items]
+      .filter((item) => item.isActive)
+      .sort((a, b) => a.sortOrder - b.sortOrder)
+      .map((item) => ({
+        id: item.id,
+        question: item.title || '',
+        answer: item.description || ''
+      }));
+  }
+
+  private applySeo(page: CmsPage): void {
+    if (page.metaTitle) {
+      this.title.setTitle(page.metaTitle);
+    }
+    if (page.metaDescription) {
+      this.meta.updateTag({ name: 'description', content: page.metaDescription });
+    }
   }
 }

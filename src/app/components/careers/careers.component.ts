@@ -2,17 +2,23 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  OnInit,
   OnDestroy,
   QueryList,
   ViewChildren
 } from '@angular/core';
+import { Meta, Title } from '@angular/platform-browser';
 import gsap from 'gsap';
 import { Subscription } from 'rxjs';
+import { CmsPage, PagesService } from '../../services/pages.service';
 
 export interface CareerJob {
   id: number;
+  roleLabel: string;
   title: string;
   metaLine: string;
+  applyButtonText: string;
+  descriptionHeading: string;
   descriptionParagraphs: string[];
 }
 
@@ -21,60 +27,48 @@ export interface CareerJob {
   templateUrl: './careers.component.html',
   styleUrls: ['./careers.component.scss']
 })
-export class CareersComponent implements AfterViewInit, OnDestroy {
+export class CareersComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChildren('jobCard') private jobCardEls!: QueryList<ElementRef<HTMLElement>>;
   @ViewChildren('jobDescPanel') private jobDescPanels!: QueryList<ElementRef<HTMLElement>>;
 
-  jobs: CareerJob[] = [
-    {
-      id: 1,
-      title: 'Senior Flutter Developer',
-      metaLine: 'Full Time • On Site • Cairo, Egypt',
-      descriptionParagraphs: [
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-        'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
-      ]
-    },
-    {
-      id: 2,
-      title: 'Senior Flutter Developer',
-      metaLine: 'Full Time • On Site • Cairo, Egypt',
-      descriptionParagraphs: [
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-        'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
-      ]
-    },
-    {
-      id: 3,
-      title: 'Senior Flutter Developer',
-      metaLine: 'Full Time • On Site • Cairo, Egypt',
-      descriptionParagraphs: [
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-        'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.'
-      ]
-    },
-    {
-      id: 4,
-      title: 'Senior Flutter Developer',
-      metaLine: 'Full Time • On Site • Cairo, Egypt',
-      descriptionParagraphs: [
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
-      ]
-    },
-    {
-      id: 5,
-      title: 'Senior Flutter Developer',
-      metaLine: 'Full Time • On Site • Cairo, Egypt',
-      descriptionParagraphs: [
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
-      ]
-    }
-  ];
+  loading = true;
+  loadError = false;
+  page: CmsPage | null = null;
+  jobs: CareerJob[] = [];
 
   private expandedJobIds = new Set<number>();
 
   private listSub?: Subscription;
   private cardsAnimated = false;
+
+  constructor(
+    private readonly pagesService: PagesService,
+    private readonly title: Title,
+    private readonly meta: Meta
+  ) {}
+
+  ngOnInit(): void {
+    this.pagesService.getPageBySlug('careers').subscribe({
+      next: (page) => {
+        this.page = page;
+        this.applySeo(page);
+        this.jobs = this.mapJobs(page);
+        this.loading = false;
+      },
+      error: () => {
+        this.loading = false;
+        this.loadError = true;
+      }
+    });
+  }
+
+  pageTitle(): string {
+    return this.page?.name || 'Careers';
+  }
+
+  pageSubtitle(): string {
+    return 'Join a team of innovators, designers, and engineers working together to shape the future of digital financial experiences.';
+  }
 
   isExpanded(jobId: number): boolean {
     return this.expandedJobIds.has(jobId);
@@ -151,7 +145,7 @@ export class CareersComponent implements AfterViewInit, OnDestroy {
   }
 
   private tryAnimateCards(): void {
-    if (this.cardsAnimated) {
+    if (this.cardsAnimated || this.loading || this.loadError) {
       return;
     }
     requestAnimationFrame(() => {
@@ -168,5 +162,41 @@ export class CareersComponent implements AfterViewInit, OnDestroy {
         ease: 'power2.out'
       });
     });
+  }
+
+  private mapJobs(page: CmsPage): CareerJob[] {
+    return [...page.sections]
+      .filter((section) => section.isActive)
+      .sort((a, b) => a.sortOrder - b.sortOrder)
+      .map((section) => {
+        const firstDetail = [...(section.items ?? [])]
+          .filter((item) => item.isActive)
+          .sort((a, b) => a.sortOrder - b.sortOrder)[0];
+
+        const rawDesc = firstDetail?.description || '';
+        const descriptionParagraphs = rawDesc
+          .split(/\r?\n+/)
+          .map((x) => x.trim())
+          .filter(Boolean);
+
+        return {
+          id: section.id,
+          roleLabel: section.subTitle || 'Open Roles',
+          title: section.title || '',
+          metaLine: (section.description || '').replace(/\s*\.\s*/g, ' • ').trim(),
+          applyButtonText: section.buttonText || 'Submit Application',
+          descriptionHeading: firstDetail?.title || 'Job Description',
+          descriptionParagraphs
+        };
+      });
+  }
+
+  private applySeo(page: CmsPage): void {
+    if (page.metaTitle) {
+      this.title.setTitle(page.metaTitle);
+    }
+    if (page.metaDescription) {
+      this.meta.updateTag({ name: 'description', content: page.metaDescription });
+    }
   }
 }

@@ -1,4 +1,4 @@
-<section class="faq-section relative bg-white overflow-hidden">
+<section class="faq-section relative bg-white overflow-hidden" *ngIf="!loading && !loadError">
   <header class="faq-header relative overflow-hidden">
     <div class="faq-header__visual absolute inset-0 pointer-events-none" aria-hidden="true">
       <div class="faq-header__img"></div>
@@ -7,11 +7,11 @@
 
     <div class="relative z-10 container mx-auto px-4 md:px-6 py-24 md:py-36 text-center">
       <div class="max-w-4xl mx-auto space-y-4">
-        <h1 class="text-[34px] md:text-[50px] font-[900] text-[#1D1DDB] leading-[1.1]">
-          FAQs
+        <h1 class="text-4xl md:text-[50px] font-[900] text-[#1D1DDB] leading-[1.1]">
+          {{ heroTitle() }}
         </h1>
-        <p class="text-gray-500 text-sm md:text-xl font-medium leading-relaxed max-w-[95%] md:max-w-none mx-auto">
-          Find clear answers to common questions about our services, features, security practices, and how our platform works.
+        <p class="text-gray-500 text-lg md:text-xl font-medium leading-relaxed faq-preline">
+          {{ heroDescription() }}
         </p>
       </div>
     </div>
@@ -87,3 +87,8 @@
     </div>
   </div>
 </section>
+
+<div class="py-20 text-center" *ngIf="loading">Loading...</div>
+<div class="py-20 text-center text-red-500" *ngIf="loadError">
+  تعذر تحميل صفحة الأسئلة الشائعة.
+</div>

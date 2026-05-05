@@ -1,4 +1,4 @@
-<section class="contact-page relative bg-white overflow-hidden pt-24 pb-16 md:pb-24">
+<section class="contact-page relative bg-white overflow-hidden pt-24 pb-16 md:pb-24" *ngIf="!loading && !loadError">
   <!-- Hero: عنوان + خلفية Slide (بدون navbar/footer) -->
   <header class="contact-hero relative overflow-hidden">
     <div class="contact-hero__visual absolute inset-0 pointer-events-none" aria-hidden="true">
@@ -9,12 +9,12 @@
 
     <div class="relative z-10 container mx-auto px-6 text-center max-w-3xl py-12 md:py-16">
       <h1 class="text-4xl md:text-[50px] font-black text-[#0d11b3] leading-tight tracking-wide">
-        {{ headline }}
+        {{ headline() }}
       </h1>
       <p
-        class="mt-4 text-sm md:text-base text-[#737373] font-medium leading-relaxed max-w-xl mx-auto tracking-wide"
+        class="mt-4 text-sm md:text-base text-[#737373] font-medium leading-relaxed max-w-xl mx-auto tracking-wide contact-preline"
       >
-        {{ subtitle }}
+        {{ subtitle() }}
       </p>
     </div>
   </header>
@@ -91,7 +91,7 @@
 
         <div class="flex justify-end mt-10 md:mt-12">
           <button type="submit" class="contact-submit group">
-            <span class="contact-submit__text">Submit</span>
+            <span class="contact-submit__text">{{ submitLabel() }}</span>
             <span class="contact-submit__icon">
               <i class="bi bi-arrow-up-right" aria-hidden="true"></i>
             </span>
@@ -106,28 +106,33 @@
         <a
           data-contact-pill
           class="contact-pill"
-          [href]="emailHref"
+          [href]="emailHref()"
         >
           <span class="contact-pill__icon" aria-hidden="true">
             <i class="bi bi-envelope"></i>
           </span>
-          <span class="contact-pill__text">{{ emailLabel }}</span>
+          <span class="contact-pill__text">{{ contactEmail }}</span>
         </a>
 
         <div data-contact-pill class="contact-pill contact-pill--static">
           <span class="contact-pill__icon" aria-hidden="true">
             <i class="bi bi-geo-alt"></i>
           </span>
-          <span class="contact-pill__text">{{ addressLine }}</span>
+          <span class="contact-pill__text">{{ contactAddress }}</span>
         </div>
 
-        <a data-contact-pill class="contact-pill" [href]="phoneHref">
+        <a data-contact-pill class="contact-pill" [href]="phoneHref()">
           <span class="contact-pill__icon" aria-hidden="true">
             <i class="bi bi-telephone"></i>
           </span>
-          <span class="contact-pill__text">{{ phoneLabel }}</span>
+          <span class="contact-pill__text">{{ contactPhone }}</span>
         </a>
       </div>
     </div>
   </div>
 </section>
+
+<div class="py-20 text-center" *ngIf="loading">Loading...</div>
+<div class="py-20 text-center text-red-500" *ngIf="loadError">
+  تعذر تحميل صفحة تواصل معنا.
+</div>

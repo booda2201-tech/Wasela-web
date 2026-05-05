@@ -1,55 +1,55 @@
-<section class="merchants-section py-20 bg-white">
+<section class="py-20 bg-white" *ngIf="!loading && !loadError && page">
   <div class="container mx-auto px-4 py-16">
+    <div class="text-center mb-20 px-4" *ngIf="heroSection() as hero">
+      <h2 class="text-4xl md:text-6xl font-black text-[#1D1DDB] mb-6">
+        {{ hero.title }}
+      </h2>
+      <p class="text-gray-500 font-medium max-w-2xl mx-auto mb-10 leading-relaxed text-sm md:text-base merchants-preline">
+        {{ hero.description }}
+      </p>
 
-    <!-- Header Section -->
-    <div class="merchants-header text-center mb-20 px-4">
-        <!-- العنوان الرئيسي - Merchants -->
-        <h2 class="text-4xl md:text-6xl font-black text-[#1D1DDB] mb-6">Merchants</h2>
-        <!-- الوصف الجديد المطابق للصورة -->
-        <p class="text-gray-500 font-medium max-w-2xl mx-auto mb-10 leading-relaxed text-sm md:text-base">
-          Our merchant solutions are designed to simplify payments,<br class="hidden md:block">
-          streamline operations, and support sustainable business growth at every stage.
-        </p>
-        <div class="flex items-center justify-center gap-3">
-          <!-- النص البنفسجي الكبير -->
-          <h1 class="text-5xl md:text-7xl font-black text-[#94A3FF] tracking-tight leading-none">
-            1000+ Merchants
-          </h1>
+      <div class="flex items-center justify-center gap-3" *ngIf="merchantsCountSection() as countSection">
+        <h1 class="text-5xl md:text-7xl font-black text-[#94A3FF] tracking-tight leading-none">
+          {{ countSection.title }}
+        </h1>
 
-          <div class="bg-[#E4EAFF] px-3 py-1 md:px-4 md:py-2 rounded-full flex items-center justify-center self-end mb-2 md:mb-4 transition-transform duration-300 hover:scale-105 cursor-default shadow-sm border border-[#D0D9FF]">
-            <!-- النقطة البرتقالي جوه الزرار -->
-            <div class="w-2.5 h-2.5 md:w-3.5 md:h-3.5 bg-[#FF7A00] rounded-full shadow-inner translate-x-3"></div>
-          </div>
+        <div class="bg-[#E4EAFF] px-3 py-1 md:px-4 md:py-2 rounded-full flex items-center justify-center self-end mb-2 md:mb-4 transition-transform duration-300 hover:scale-105 cursor-default shadow-sm border border-[#D0D9FF]">
+          <div class="w-2.5 h-2.5 md:w-3.5 md:h-3.5 bg-[#FF7A00] rounded-full shadow-inner translate-x-3"></div>
         </div>
+      </div>
     </div>
 
-    <!-- Grid Container -->
-    <div class="merchants-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div *ngFor="let col of columns(); let colIndex = index" class="flex flex-col gap-6 h-[1150px]">
+        <div
+          *ngFor="let merchant of col; let rowIndex = index"
+          class="relative overflow-hidden rounded-[2rem] group cursor-pointer w-full shadow-md transition-all duration-999 smooth-accordion flex-shrink min-h-[150px]"
+          [ngClass]="cardClass(rowIndex, colIndex)"
+        >
+          <img
+            *ngIf="backgroundSrc(merchant) as bg"
+            [src]="bg"
+            class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 will-change-transform"
+            [alt]="merchant.title || 'Merchant background'"
+          />
 
-      <!-- Columns -->
-      <div *ngFor="let col of columns" class="merchants-column flex flex-col gap-6 h-[1150px]">
-        <!-- Cards -->
-        <!-- استخدمنا smooth-accordion و duration-1000 للحصول على أفضل سلاسة -->
-        <div *ngFor="let merchant of col"
-              class="merchant-card relative overflow-hidden rounded-[2rem] group cursor-pointer w-full shadow-md transition-all duration-999 smooth-accordion flex-shrink min-h-[150px]"
-              [ngClass]="merchant.classes">
-
-          <!-- Background Image -->
-          <img [src]="merchant.bg" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 will-change-transform">
-
-          <!-- Overlay -->
           <div class="absolute inset-0 bg-black/20 opacity-0 transition-opacity duration-700 group-hover:opacity-100 pointer-events-none"></div>
 
-          <!-- Logo & Circle -->
           <div class="absolute inset-0 flex items-center justify-center">
-            <img [src]="merchant.logo" class="max-w-full max-h-full object-contain">
+            <img
+              *ngIf="logoSrc(merchant) as logo"
+              [src]="logo"
+              class="max-w-full max-h-full object-contain"
+              [alt]="merchant.title || 'Merchant logo'"
+            />
           </div>
-
         </div>
-
       </div>
-
     </div>
-
   </div>
 </section>
+
+<div class="py-20 text-center" *ngIf="loading">Loading...</div>
+<div class="py-20 text-center text-red-500" *ngIf="loadError">
+  تعذر تحميل صفحة Merchants.
+</div>

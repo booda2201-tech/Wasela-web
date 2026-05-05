@@ -28,7 +28,7 @@
           <span
             class="inline-block bg-[#E0E7FF] text-[#1D1DDB] rounded-full px-3 py-1 text-xs font-semibold tracking-tight"
           >
-            Open Roles
+            {{ job.roleLabel }}
           </span>
           <h2 class="text-[#1D1DDB] font-bold text-lg md:text-2xl leading-snug">
             {{ job.title }}
@@ -93,10 +93,15 @@
         <div class="pt-4 md:pt-6 mt-4 md:mt-6 border-t border-gray-100 text-left space-y-3 md:space-y-4">
           <h3 class="text-[#1D1DDB] font-bold text-base md:text-lg">Job Description</h3>
           <div class="text-gray-600 text-sm md:text-base font-normal leading-relaxed space-y-4">
-            <p *ngFor="let paragraph of job.descriptionParagraphs">{{ paragraph }}</p>
+            <p *ngFor="let paragraph of job.descriptionParagraphs" class="careers-preline">{{ paragraph }}</p>
           </div>
         </div>
       </div>
     </article>
   </div>
+</div>
+
+<div class="py-20 text-center" *ngIf="loading">Loading...</div>
+<div class="py-20 text-center text-red-500" *ngIf="loadError">
+  تعذر تحميل صفحة الوظائف.
 </div>
