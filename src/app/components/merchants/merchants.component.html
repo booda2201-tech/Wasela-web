@@ -1,8 +1,8 @@
-<section class="py-20 bg-white">
+<section class="merchants-section py-20 bg-white">
   <div class="container mx-auto px-4 py-16">
 
     <!-- Header Section -->
-    <div class="text-center mb-20 px-4">
+    <div class="merchants-header text-center mb-20 px-4">
         <!-- العنوان الرئيسي - Merchants -->
         <h2 class="text-4xl md:text-6xl font-black text-[#1D1DDB] mb-6">Merchants</h2>
         <!-- الوصف الجديد المطابق للصورة -->
@@ -24,14 +24,14 @@
     </div>
 
     <!-- Grid Container -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div class="merchants-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
 
       <!-- Columns -->
-      <div *ngFor="let col of columns" class="flex flex-col gap-6 h-[1150px]">
+      <div *ngFor="let col of columns" class="merchants-column flex flex-col gap-6 h-[1150px]">
         <!-- Cards -->
         <!-- استخدمنا smooth-accordion و duration-1000 للحصول على أفضل سلاسة -->
         <div *ngFor="let merchant of col"
-              class="relative overflow-hidden rounded-[2rem] group cursor-pointer w-full shadow-md transition-all duration-999 smooth-accordion flex-shrink min-h-[150px]"
+              class="merchant-card relative overflow-hidden rounded-[2rem] group cursor-pointer w-full shadow-md transition-all duration-999 smooth-accordion flex-shrink min-h-[150px]"
               [ngClass]="merchant.classes">
 
           <!-- Background Image -->

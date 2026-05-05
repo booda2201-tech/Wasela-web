@@ -89,3 +89,220 @@
     border-radius: 120px 20px 120px 20px;
   }
 }
+
+.partners-section {
+  .partners-title {
+    letter-spacing: -0.02em;
+  }
+
+  .partners-subtitle {
+    max-width: 860px;
+  }
+
+  // .partner-column {
+  //   // background: #f8f9ff;
+  //   // border: 1px solid #eceefc;
+  //   border-radius: 20px;
+  //   padding: 1.25rem 1rem 1.5rem;
+  // }
+
+  .partner-heading {
+    font-size: clamp(1.75rem, 4vw, 3rem);
+    line-height: 1.06;
+    font-weight: 900;
+    color: #1d1ddb;
+    margin-bottom: 1.2rem;
+  }
+
+  .logo-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.8rem;
+  }
+
+  .logo-cell {
+    --i: 0;
+    background: #fff;
+    // border: 1px solid #edf0ff;
+    border-radius: 14px;
+    min-height: 82px;
+    padding: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: partnerCellFloat 3.2s ease-in-out infinite;
+    animation-delay: calc(var(--i) * 140ms);
+    transition: transform 0.28s ease, box-shadow 0.25s ease, opacity 0.28s ease, filter 0.28s ease;
+  }
+
+  .partner-logo {
+    max-height: 45px;
+    width: auto;
+    object-fit: contain;
+    opacity: 1.9;
+    animation: partnerLogoFade 3.2s ease-in-out infinite;
+    animation-delay: calc(var(--i) * 140ms);
+    transition: transform 0.28s ease, opacity 0.28s ease, filter 0.28s ease;
+  }
+
+  .logo-cell:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(29, 29, 219, 0.08);
+
+    .partner-logo {
+      opacity: 1;
+      transform: scale(1.04);
+    }
+  }
+
+  &.is-swapping {
+    .logo-cell {
+      opacity: 0.28;
+      transform: translateY(7px) scale(0.97);
+      filter: blur(0.8px);
+    }
+
+    .partner-logo {
+      opacity: 0;
+      transform: translateY(10px) scale(0.95);
+      filter: blur(1px);
+    }
+  }
+}
+
+@keyframes partnerCellFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+@keyframes partnerLogoFade {
+  0%, 100% { opacity: 0.75; }
+  50% { opacity: 1; }
+}
+
+.download-section {
+  .download-shell {
+    position: relative;
+    border-radius: 30px;
+    overflow: visible;
+    background: linear-gradient(90deg, #f8f9ff 0%, #e8f2ff 100%);
+    min-height: 500px;
+    padding: clamp(2rem, 5vw, 1.5rem) clamp(1.5rem, 5vw, 6rem);
+    display: flex;
+    align-items: center;
+  }
+
+  .download-bg-w {
+    position: absolute;
+    left: 1%;
+    top: 50%;
+    transform: translateY(-58%);
+    font-size: clamp(20rem, 40vw, 44.5rem);
+    line-height: 0.8;
+    font-weight: 900;
+    color: #1d1ddb;
+    opacity: 0.05;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .download-copy {
+    position: relative;
+    z-index: 2;
+    max-width: 620px;
+
+    h2 {
+      color: #1d1ddb;
+      font-size: clamp(2rem, 5vw, 4.1rem);
+      line-height: 1.08;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      color: #5d6472;
+      font-size: clamp(1rem, 2vw, 1.5rem);
+      font-weight: 500;
+      margin-bottom: 1.6rem;
+    }
+  }
+
+  .store-badges {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+
+    img {
+      width: 154px;
+      height: auto;
+      object-fit: contain;
+    }
+  }
+
+  .download-ornaments {
+    position: absolute;
+    left: 45%;
+    bottom: 28px;
+    display: flex;
+    align-items: flex-end;
+    z-index: 1;
+  }
+
+  .orb {
+    display: block;
+    border-radius: 999px;
+  }
+
+  .orb-purple {
+    width: 168px;
+    height: 92px;
+    background: #e2e7ff;
+    transform: translateX(72px);
+  }
+
+  .orb-cream {
+    width: 124px;
+    height: 124px;
+    background: #f7e7cf;
+    box-shadow: inset 0 5px 12px rgba(160, 125, 80, 0.15);
+    position: relative;
+    top: 12px;
+    z-index: 1;
+  }
+
+  .download-mockup {
+    position: absolute;
+    right: -34px;
+    bottom: -42px;
+    width: min(100%, 950px);
+    max-width: none;
+    height: auto;
+    z-index: 2;
+    object-fit: contain;
+    pointer-events: none;
+  }
+}
+
+@media (max-width: 1024px) {
+  .download-section {
+    .download-shell {
+      min-height: 610px;
+      align-items: flex-start;
+      padding-bottom: 270px;
+    }
+
+    .download-ornaments {
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 188px;
+    }
+
+    .download-mockup {
+      width: min(70%, 420px);
+      right: 50%;
+      transform: translateX(50%);
+      bottom: -26px;
+    }
+  }
+}

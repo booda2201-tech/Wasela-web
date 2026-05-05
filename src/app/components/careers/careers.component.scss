@@ -53,3 +53,10 @@
   overflow: hidden;
   z-index: 0;
 }
+
+@media (max-width: 767px) {
+  .faq-header__img {
+    background-position: center 42%;
+    opacity: 0.34;
+  }
+}

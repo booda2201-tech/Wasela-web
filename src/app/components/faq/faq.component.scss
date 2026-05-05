@@ -83,3 +83,37 @@
 .faq-answer-panel {
   will-change: height;
 }
+
+@media (max-width: 767px) {
+  .faq-header__img {
+    background-position: center 42%;
+    opacity: 0.34;
+    filter: saturate(1.03) blur(0.3px);
+  }
+
+  .faq-header__wash {
+    background:
+      radial-gradient(
+        ellipse 92% 80% at 50% 40%,
+        rgba(224, 231, 255, 0.5) 0%,
+        rgba(255, 255, 255, 0.78) 48%,
+        #ffffff 82%
+      ),
+      linear-gradient(180deg, rgba(248, 250, 255, 0.45) 0%, #ffffff 100%);
+  }
+
+  .faq-decor__orange {
+    width: 10.2rem;
+    height: 10.2rem;
+    right: -2.6rem;
+    bottom: -2.8rem;
+  }
+
+  .faq-decor__blue {
+    width: 12rem;
+    height: 6rem;
+    right: -0.4rem;
+    bottom: 0.9rem;
+    transform: rotate(-14deg);
+  }
+}

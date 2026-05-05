@@ -282,4 +282,82 @@
   .terms-link--inline {
     margin-left: 0.15em;
   }
+
+  @media (max-width: 767px) {
+    .terms-page {
+      padding-top: 4.5rem;
+      padding-bottom: 3.5rem;
+    }
+
+    .terms-page__inner {
+      padding-left: 0.75rem;
+      padding-right: 0.75rem;
+      padding-bottom: 0.75rem;
+    }
+
+    .terms-page__intro {
+      padding-top: 0.25rem;
+      padding-bottom: 1rem;
+    }
+
+    .terms-page__title {
+      font-size: 1.85rem !important;
+      line-height: 1.1 !important;
+    }
+
+    .terms-page__subtitle {
+      margin-top: 0.6rem !important;
+      font-size: 0.82rem !important;
+      line-height: 1.45 !important;
+      max-width: 96% !important;
+    }
+
+    .terms-card-shell {
+      padding-bottom: 2.1rem;
+    }
+
+    .terms-card-shell__under-art {
+      right: -14%;
+      top: 1%;
+      width: 52vw;
+      opacity: 0.55;
+    }
+
+    .terms-card {
+      border-radius: 18px !important;
+      padding: 1rem 0.9rem 1.15rem !important;
+    }
+
+    .terms-prose {
+      font-size: 0.79rem;
+      line-height: 1.58;
+      letter-spacing: 0.01em;
+    }
+
+    .terms-p {
+      margin-bottom: 0.85rem;
+    }
+
+    .terms-section-heading {
+      margin: 1.35rem 0 0.6rem;
+      font-size: 0.9rem;
+      line-height: 1.4;
+    }
+
+    .terms-subheading {
+      margin: 1rem 0 0.5rem;
+      font-size: 0.84rem;
+      line-height: 1.4;
+    }
+
+    .terms-list {
+      margin-bottom: 0.95rem;
+      padding-left: 1rem;
+
+      li {
+        margin-bottom: 0.45rem;
+        padding-left: 0.1rem;
+      }
+    }
+  }
   

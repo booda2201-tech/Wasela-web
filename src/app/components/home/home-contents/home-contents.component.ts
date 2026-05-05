@@ -1,11 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-home-contents',
   templateUrl: './home-contents.component.html',
   styleUrls: ['./home-contents.component.scss']
 })
-export class HomeContentsComponent {
+export class HomeContentsComponent implements OnInit, OnDestroy {
 
 
 categories = [
@@ -68,6 +68,10 @@ col4 = [
 
 columns = [this.col1, this.col2, this.col3, this.col4];
 
+private partnersRotationTimer?: ReturnType<typeof setInterval>;
+private partnersSwapTimeout?: ReturnType<typeof setTimeout>;
+partnersSwapping = false;
+
   // ngOnInit() {
   //   // بنقسم المصفوفة الكبيرة لـ 4 أعمدة (كل عمود فيه 3 كروت)
   //   for (let i = 0; i < this.merchants.length; i += 3) {
@@ -96,5 +100,38 @@ testimonials = [
     avatar: 'assets/images/merchant-icon.png'
   }
 ];
+
+ngOnInit(): void {
+  // تبديل اللوجوهات بنفس نمط الفيديو: خروج/دخول مع تبديل فعلي
+  this.partnersRotationTimer = setInterval(() => {
+    this.partnersSwapping = true;
+
+    this.partnersSwapTimeout = setTimeout(() => {
+      this.rotatePartners(this.bankingPartners);
+      this.rotatePartners(this.techPartners);
+      this.rotatePartners(this.keyPartners);
+      this.partnersSwapping = false;
+    }, 280);
+  }, 2600);
+}
+
+ngOnDestroy(): void {
+  if (this.partnersRotationTimer) {
+    clearInterval(this.partnersRotationTimer);
+  }
+  if (this.partnersSwapTimeout) {
+    clearTimeout(this.partnersSwapTimeout);
+  }
+}
+
+private rotatePartners(partners: Array<{ name: string; logo: string }>): void {
+  if (partners.length < 2) {
+    return;
+  }
+  const first = partners.shift();
+  if (first) {
+    partners.push(first);
+  }
+}
 
 }

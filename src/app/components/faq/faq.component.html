@@ -5,46 +5,46 @@
       <div class="faq-header__wash"></div>
     </div>
 
-    <div class="relative z-10 container mx-auto px-6 py-36 text-center">
+    <div class="relative z-10 container mx-auto px-4 md:px-6 py-24 md:py-36 text-center">
       <div class="max-w-4xl mx-auto space-y-4">
-        <h1 class="text-4xl md:text-[50px] font-[900] text-[#1D1DDB] leading-[1.1]">
+        <h1 class="text-[34px] md:text-[50px] font-[900] text-[#1D1DDB] leading-[1.1]">
           FAQs
         </h1>
-        <p class="text-gray-500 text-lg md:text-xl font-medium leading-relaxed">
+        <p class="text-gray-500 text-sm md:text-xl font-medium leading-relaxed max-w-[95%] md:max-w-none mx-auto">
           Find clear answers to common questions about our services, features, security practices, and how our platform works.
         </p>
       </div>
     </div>
   </header>
 
-  <div class="faq-body relative px-6 pb-20 pt-2">
+  <div class="faq-body relative px-4 md:px-6 pb-10 md:pb-20 pt-1 md:pt-2">
     <div class="faq-decor" aria-hidden="true">
       <div class="faq-decor__orange"></div>
       <div class="faq-decor__blue"></div>
     </div>
 
     <div class="faq-inner container mx-auto relative z-10">
-      <div class="mx-auto max-w-4xl space-y-4">
+      <div class="mx-auto max-w-4xl space-y-3 md:space-y-4">
         <article
           #faqCard
           *ngFor="let item of faqs"
-          class="faq-card relative z-10 bg-white rounded-[20px] border border-gray-100 shadow-sm"
+          class="faq-card relative z-10 bg-white rounded-[16px] md:rounded-[20px] border border-gray-100 shadow-sm"
         >
           <button
             type="button"
-            class="faq-trigger w-full flex justify-between items-center gap-4 text-left p-5 md:p-6 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1D1DDB]/30 focus-visible:ring-offset-2 rounded-[20px]"
+            class="faq-trigger w-full flex justify-between items-center gap-3 md:gap-4 text-left p-4 md:p-6 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1D1DDB]/30 focus-visible:ring-offset-2 rounded-[16px] md:rounded-[20px]"
             (click)="toggle(item.id)"
             [attr.aria-expanded]="isExpanded(item.id)"
             [attr.aria-controls]="'faq-answer-' + item.id"
             [attr.id]="'faq-q-' + item.id"
           >
-            <span class="font-bold text-[#1D1DDB] text-base md:text-lg leading-snug pr-2">
+            <span class="font-bold text-[#1D1DDB] text-[15px] md:text-lg leading-snug pr-2">
               {{ item.question }}
             </span>
 
-            <span class="relative flex h-9 w-9 flex-shrink-0 items-center justify-center text-[#1D1DDB]">
+            <span class="relative flex h-8 w-8 md:h-9 md:w-9 flex-shrink-0 items-center justify-center text-[#1D1DDB]">
               <svg
-                class="faq-icon-plus absolute h-6 w-6 transition-opacity duration-300 ease-out"
+                class="faq-icon-plus absolute h-5 w-5 md:h-6 md:w-6 transition-opacity duration-300 ease-out"
                 [class.opacity-0]="isExpanded(item.id)"
                 [class.scale-75]="isExpanded(item.id)"
                 fill="none"
@@ -55,7 +55,7 @@
                 <path stroke-linecap="round" stroke-width="2.2" d="M12 5v14M5 12h14" />
               </svg>
               <svg
-                class="faq-icon-close absolute h-6 w-6 transition-opacity duration-300 ease-out"
+                class="faq-icon-close absolute h-5 w-5 md:h-6 md:w-6 transition-opacity duration-300 ease-out"
                 [class.opacity-0]="!isExpanded(item.id)"
                 [class.scale-75]="!isExpanded(item.id)"
                 fill="none"
@@ -76,8 +76,8 @@
             [attr.aria-labelledby]="'faq-q-' + item.id"
             [attr.aria-hidden]="!isExpanded(item.id)"
           >
-            <div class="faq-answer-inner px-5 md:px-6 pb-5 md:pb-6 pt-0 border-t border-gray-100">
-              <p class="text-gray-600 text-sm md:text-base font-medium leading-relaxed pt-4">
+            <div class="faq-answer-inner px-4 md:px-6 pb-4 md:pb-6 pt-0 border-t border-gray-100">
+              <p class="text-gray-600 text-[13px] md:text-base font-medium leading-relaxed pt-3 md:pt-4">
                 {{ item.answer }}
               </p>
             </div>

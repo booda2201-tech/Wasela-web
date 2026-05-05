@@ -27,23 +27,23 @@
     <div class="relative shape-wrapper">
 
       <!-- 1. الطبقة الكحلية (الشكل اللي ورا - Offset) -->
-      <div class="absolute inset-0 bg-[#1D1DDB] blob-shape shadow-layer transition-all duration-500 group-hover:translate-x-0 group-hover:translate-y-0 translate-x-3 translate-y-3"></div>
+      <div class="absolute inset-0 bg-[#1D1DDB] blob-shape  transition-all duration-500 group-hover:translate-x-0 group-hover:translate-y-0 translate-x-3 translate-y-3"></div>
 
       <!-- 2. الحاوية الأساسية (الصورة + الـ Overlay) -->
-      <div class="relative overflow-hidden blob-shape main-layer shadow-lg transition-transform duration-500 group-hover:-translate-y-2">
+      <div class="relative overflow-hidden blob-shape main-layer  transition-transform duration-500 group-hover:-translate-y-2">
 
         <!-- الصورة -->
         <img [src]="cat.img" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
 
         <!-- الـ Overlay (بيظهر في النص عند الهوفر) -->
-        <div class="absolute inset-0 bg-[#1D1DDB] opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center p-6">
+        <div class="absolute inset-0 bg-[#1D1DDB] opacity-5 group-hover:opacity-100  duration-500 flex items-center justify-center p-6">
           <span class="text-white text-2xl font-black text-center leading-tight uppercase tracking-tighter">
             {{cat.title}}
           </span>
         </div>
 
         <!-- النص السفلي (بيختفي عند الهوفر) -->
-        <div class="absolute bottom-6 left-0 right-0 z-10 text-center transition-opacity duration-300 group-hover:opacity-0">
+        <div class="absolute bottom-12 left-0 right-0 z-10 text-center transition-opacity duration-300 group-hover:opacity-0">
           <h4 class="text-white text-lg font-black drop-shadow-lg px-2 uppercase italic">
             {{cat.title}}
           </h4>
@@ -58,17 +58,17 @@
   </div>
 </section>
 
-<section class="py-20 bg-white">
+<section class="partners-section py-20 bg-white" [class.is-swapping]="partnersSwapping">
   <div class="container mx-auto px-4 text-center">
 
     <!-- الرأس: العنوان والوصف -->
-    <h2 class="text-5xl md:text-5xl font-black text-[#1D1DDB] mb-6">Our Partners</h2>
-    <p class="text-gray-500 max-w-3xl mx-auto mb-10 leading-relaxed font-medium">
+    <h2 class="partners-title text-4xl md:text-5xl font-black text-[#1D1DDB] mb-6">Our Partners</h2>
+    <p class="partners-subtitle text-gray-500 max-w-3xl mx-auto mb-10 leading-relaxed font-medium">
       Waseela Works with Trusted Merchants and Partners to Ensure Quality and Reliability. Our Merchant Ecosystem Makes Payments Easy, Transparent, and Supports Strong Partnerships.
     </p>
 
     <!-- الزرار (نفس الاستايل السابق مع تعديل النص) -->
-    <button class="mb-20 flex items-center justify-between gap-8 pl-10 pr-1 py-1 border-[1px] border-[#1D1DDB] rounded-full group hover:shadow-lg transition-all mx-auto bg-white">
+    <button class="mb-16 flex items-center justify-between gap-8 pl-10 pr-1 py-1 border-[1px] border-[#1D1DDB] rounded-full group hover:shadow-lg transition-all mx-auto bg-white">
       <span class="text-[#FF7A00] font-extrabold text-lg tracking-tight">View All Merchants</span>
       <div class="bg-[#1D1DDB] w-12 h-12 rounded-full flex items-center justify-center transition-transform duration-300 group-hover:scale-105">
         <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -78,35 +78,41 @@
     </button>
 
     <!-- شبكة الشركاء الرئيسية: 3 أعمدة -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-7 md:gap-8 text-center">
 
       <!-- قسم Banking -->
-      <div>
-        <h3 class="text-5xl font-black text-[#1D1DDB] mb-12">Banking</h3>
-        <div class="grid grid-cols-2 gap-8 items-center">
-          <img *ngFor="let partner of bankingPartners"
-                [src]="partner.logo" [alt]="partner.name"
-              class="max-h-25 mx-auto object-contain transition-all duration-300">
+      <div class="partner-column">
+        <h3 class="partner-heading">Banking</h3>
+        <div class="logo-grid">
+          <div *ngFor="let partner of bankingPartners; let idx = index"
+                class="logo-cell"
+                [style.--i]="idx">
+            <img [src]="partner.logo" [alt]="partner.name" class="partner-logo">
+          </div>
         </div>
       </div>
 
       <!-- قسم Technology -->
-      <div>
-        <h3 class="text-5xl font-black text-[#1D1DDB] mb-12">Technology</h3>
-        <div class="grid grid-cols-2 gap-8 items-center">
-          <img *ngFor="let partner of techPartners"
-                [src]="partner.logo" [alt]="partner.name"
-              class="max-h-25 mx-auto object-contain transition-all duration-300">
+      <div class="partner-column">
+        <h3 class="partner-heading">Technology</h3>
+        <div class="logo-grid">
+          <div *ngFor="let partner of techPartners; let idx = index"
+                class="logo-cell"
+                [style.--i]="idx + 2">
+            <img [src]="partner.logo" [alt]="partner.name" class="partner-logo">
+          </div>
         </div>
       </div>
 
       <!-- قسم Key Partners -->
-      <div>
-        <h3 class="text-5xl font-black text-[#1D1DDB] mb-12">Key Partners</h3>
-        <div class="grid grid-cols-2 gap-8 items-center">
-          <img *ngFor="let partner of keyPartners"
-                [src]="partner.logo" [alt]="partner.name"
-                class="max-h-25 mx-auto object-contain transition-all duration-300">
+      <div class="partner-column">
+        <h3 class="partner-heading">Key Partners</h3>
+        <div class="logo-grid">
+          <div *ngFor="let partner of keyPartners; let idx = index"
+                class="logo-cell"
+                [style.--i]="idx + 4">
+            <img [src]="partner.logo" [alt]="partner.name" class="partner-logo">
+          </div>
         </div>
       </div>
 
@@ -200,43 +206,31 @@
   </div>
 </section>
 
-<section class="relative py-20 overflow-hidden">
-  <div class="container mx-auto px-4">
-    <!-- الوعاء الرئيسي للسيكشن مع الخلفية المتدرجة -->
-    <div class="relative bg-gradient-to-r from-[#F8F9FF] to-[#E0F2FE] rounded-[2rem] px-8 md:px-20 py-16 md:py-24 overflow-hidden shadow-sm">
+<section class="download-section py-8 md:py-12 overflow-hidden">
+  <div class="container mx-auto px-0">
+    <div class="download-shell">
+      <div class="download-bg-w">W</div>
 
-      <!-- حرف الـ W العملاق في الخلفية -->
-      <div class="absolute left-[0%] top-1/2 -translate-y-1/2 select-none pointer-events-none opacity-[0.05]">
-        <h1 class="text-[49rem] font-black text-[#1D1DDB] leading-none">W</h1>
-      </div>
-
-      <!-- الأشكال الهندسية اللي على اليمين تحت -->
-      <div class="absolute left-[45%] bottom-10 flex items-end">
-        <!-- الشكل البيضاوي البنفسجي -->
-        <div class="w-40 h-24 bg-[#e4eaff] rounded-full translate-x-24"></div>
-        <!-- الدائرة الكريمي -->
-        <div class="w-32 h-32 bg-[#f7e7cf] rounded-full shadow-inner relative z-10 top-3"></div>
-      </div>
-
-      <!-- المحتوى النصي -->
-      <div class="relative z-20 max-w-2xl">
-        <h2 class="text-4xl md:text-6xl font-black text-[#1D1DDB] leading-tight mb-6">
-          Stay in Control of <br> What Matters Most
+      <div class="download-copy">
+        <h2>
+          Stay in Control of
+          <br>
+          What Matters Most
         </h2>
-        <p class="text-gray-500 text-lg md:text-xl font-medium mb-10">
-          Download the Waseela App Now
-        </p>
+        <p>Download the Waseela App Now</p>
 
-        <!-- أزرار المتاجر -->
-        <div class="flex flex-wrap gap-4">
-          <!-- App Store -->
-            <img src="../../../../assets/images/app-store.png" alt="App Store" class="w-25 h-15">
-
-          <!-- Google Play -->
-            <img src="../../../../assets/images/google-play.png" alt="Google Play" class="w-25 h-15">
+        <div class="store-badges">
+          <img src="../../../../assets/images/app-store.png" alt="App Store">
+          <img src="../../../../assets/images/google-play.png" alt="Google Play">
         </div>
       </div>
-<!-- <img src="../../../../assets/gif/footer-mockup 1.gif" class="w-50 h-50 object-contain" alt="Waseela App">  -->
-    </div>       
+
+      <div class="download-ornaments" aria-hidden="true">
+        <span class="orb orb-purple"></span>
+        <span class="orb orb-cream"></span>
+      </div>
+
+      <img src="../../../../assets/gif/footer-mockup 1.gif" class="download-mockup" alt="Waseela App">
+    </div>
   </div>
 </section>

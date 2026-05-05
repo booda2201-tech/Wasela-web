@@ -6,7 +6,7 @@ import { Component, AfterViewInit, ElementRef, QueryList, ViewChildren } from '@
 })
 export class FeaturesComponent implements AfterViewInit{
 
-activeCard: number = 0;
+activeCard: number = 1;
 
 @ViewChildren('featureCard') cards!: QueryList<ElementRef>;
 
@@ -21,7 +21,7 @@ features = [
     id: 2,
     title: 'Flexible by Design',
     desc: 'Installment Plans That Adapt to Your Income and Priorities.',
-    img: 'assets/gif/why waseela-flexible by design.gif'
+    img: '../../../../assets/gif/why waseela-flexible by design.gif'
   },
   {
     id: 3,
@@ -37,9 +37,9 @@ features = [
   },
   {
     id: 5,
-    title: 'Instant Approvals',
+    title: 'Human Centered',
     desc: 'Get your credit limit in minutes with our AI-driven engine.',
-    img: '../../../../assets/gif/why waseela-instant approvals.gif'
+    img: '../../../../assets/gif/human centered screen.gif'
   },
 
 ];
@@ -79,7 +79,7 @@ scrollToCard(id: number) {
 
 
   resetActive() {
-      this.activeCard = 0; // يرجع للموبايل الثابت بس
+      this.activeCard = 1;
     }
 
 }
