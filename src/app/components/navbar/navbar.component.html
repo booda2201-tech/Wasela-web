@@ -35,7 +35,7 @@
       >
     </div>
 
-    <div class="flex items-center">
+    <div class="hidden md:flex items-center">
       <button class="download-btn group">
         <span class="btn-text hidden sm:inline">Download now</span>
         <span class="btn-text sm:hidden">Download</span>
@@ -45,5 +45,31 @@
       </button>
     </div>
 
+    <button
+      type="button"
+      class="mobile-menu-btn md:hidden"
+      (click)="toggleMobileMenu()"
+      [attr.aria-expanded]="isMobileMenuOpen"
+      aria-controls="mobile-nav-menu"
+      aria-label="Toggle menu"
+    >
+      <i class="bi" [ngClass]="isMobileMenuOpen ? 'bi-x-lg' : 'bi-list'"></i>
+    </button>
+
+  </div>
+
+  <div
+    id="mobile-nav-menu"
+    class="mobile-nav-menu lg:hidden"
+    [class.open]="isMobileMenuOpen"
+  >
+    <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="closeMobileMenu()">Home</a>
+    <a routerLink="/merchants" (click)="closeMobileMenu()">Merchants</a>
+    <a routerLink="/categories" (click)="closeMobileMenu()">Categories</a>
+    <a routerLink="/about-us" (click)="closeMobileMenu()">About Us</a>
+    <button type="button" class="mobile-download-btn" (click)="closeMobileMenu()">
+      <span>Download now</span>
+      <i class="bi bi-arrow-up-right"></i>
+    </button>
   </div>
 </nav>

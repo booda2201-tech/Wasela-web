@@ -1,3 +1,42 @@
+.navbar-root {
+  @media (max-width: 767px) {
+    border-bottom: 2px solid #1d4dff !important;
+  }
+}
+
+.mobile-menu-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 35px;
+  height: 35px;
+  border: 0;
+  background: transparent;
+  color: #1d1ddb;
+  padding: 0;
+  line-height: 1;
+
+  i {
+    font-size: 1.2rem;
+  }
+
+  &:focus-visible {
+    outline: 2px solid #c7d2fe;
+    outline-offset: 2px;
+    border-radius: 8px;
+  }
+}
+
+@media (min-width: 768px) {
+  .mobile-menu-btn {
+    display: none !important;
+  }
+}
+
+.mobile-nav-menu {
+  display: none;
+}
+
 .download-btn {
   display: flex;
   align-items: center;
@@ -44,6 +83,10 @@
 }
 
 @media (max-width: 767px) {
+  .navbar-root {
+    border-bottom: 1px solid #dbe3ff !important;
+  }
+
   .download-btn {
     gap: 0.45rem;
     padding: 3px 3px 3px 10px;
@@ -61,6 +104,84 @@
       i {
         font-size: 0.95rem;
       }
+    }
+  }
+
+  .mobile-menu-btn {
+    width: 30px;
+    height: 30px;
+    color: #1d1ddb;
+
+    i {
+      font-size: 1.2rem;
+    }
+  }
+
+  .mobile-nav-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    margin: 0 0.175rem;
+    padding: 0 0.8rem;
+    border-radius: 14px;
+    border: 1px solid #e4e8ff;
+    background: #fff;
+    box-shadow: 0 12px 28px rgba(29, 29, 219, 0.1);
+    transition: max-height 0.28s ease, opacity 0.22s ease, padding 0.22s ease, margin-top 0.22s ease;
+
+    a {
+      display: block;
+      color: #1b1bb0;
+      font-weight: 800;
+      font-size: 1rem;
+      text-decoration: none;
+      padding: 0.7rem 0.2rem;
+      border-bottom: 1px solid #eef1ff;
+      transition: color 0.2s ease, transform 0.2s ease;
+
+      &:last-child {
+        border-bottom: 0;
+      }
+
+      &:active {
+        transform: translateX(2px);
+      }
+    }
+
+    &.open {
+      max-height: 320px;
+      opacity: 1;
+      margin-top: 1.55rem;
+      padding: 0.35rem 0.8rem 0.45rem;
+    }
+  }
+
+  .mobile-download-btn {
+    margin-top: 0.35rem;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    border: 0;
+    border-radius: 10px;
+    padding: 0.62rem 0.8rem;
+    background: #1d1ddb;
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.92rem;
+    transition: transform 0.18s ease, opacity 0.18s ease;
+
+    i {
+      font-size: 0.95rem;
+    }
+
+    &:active {
+      transform: translateY(1px);
+      opacity: 0.92;
     }
   }
 }

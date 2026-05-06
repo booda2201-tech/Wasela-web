@@ -353,6 +353,20 @@ $total: 3.5s;
   animation: fadeIn 0.5s ease-out 2.85s both;
 }
 
+.hero-mobile {
+  display: none;
+}
+
+@media (min-width: 641px) {
+  .hero-desktop {
+    display: block;
+  }
+
+  .hero-mobile {
+    display: none;
+  }
+}
+
 @media (max-width: 900px) {
   .hero-toggle {
     width: min(540px, 90vw);
@@ -374,6 +388,150 @@ $total: 3.5s;
 }
 
 @media (max-width: 640px) {
+  .hero-desktop {
+    display: none;
+  }
+
+  .hero-mobile {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    min-height: clamp(500px, 78svh, 720px);
+    width: 100%;
+    background: #1b1cc4;
+    overflow: hidden;
+    padding: 1.35rem 0.9rem 0.2rem;
+  }
+
+  .hero-mobile-content {
+    width: 100%;
+    max-width: 255px;
+    text-align: center;
+    z-index: 2;
+    flex-shrink: 0;
+  }
+
+  .hero-mobile-headline {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #fff;
+    font-family: 'Inter', 'Helvetica Neue', sans-serif;
+    font-weight: 800;
+    font-size: clamp(2.35rem, 11.8vw, 3.05rem);
+    line-height: 1.06;
+    letter-spacing: -0.02em;
+    margin-top: 5.5rem;
+  }
+
+  .hero-mobile-cta {
+    margin-top: 0.85rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.85rem;
+  }
+
+  .hero-mobile-explore {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 55px;
+    min-width: 185px;
+    padding: 0 40px 0 1rem;
+    border-radius: 999px;
+    background: #fff;
+    color: #171ba7;
+    text-decoration: none;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    box-shadow: 0 5px 14px rgba(0, 0, 0, 0.18);
+  }
+
+  .hero-mobile-arrow {
+    position: absolute;
+    right: 0;
+    top: 0px;
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    background: #f56300;
+    display: grid;
+    place-items: center;
+  }
+
+  .hero-mobile-stores {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.26rem;
+  }
+
+  .hero-mobile-store-badge {
+    display: block;
+    line-height: 0;
+    border-radius: 6px;
+    overflow: hidden;
+    // box-shadow: 0 4px 12px rgba(0, 0, 0, 0.16);
+    // background: #fff;
+
+    img {
+      display: block;
+      height: 45px;
+      width: auto;
+      max-width: 130px;
+      object-fit: contain;
+    }
+  }
+
+  .hero-mobile-visual {
+    position: relative;
+    left: auto;
+    bottom: auto;
+    width: 100%;
+    transform: none;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    z-index: 1;
+    margin-top: 0.65rem;
+    flex: 1;
+    min-height: 260px;
+  }
+
+  .hero-mobile-blue-circle {
+    position: absolute;
+    width: 280px;
+    height: 150px;
+    border-radius: 80px;
+    background: #2727ff;
+    right: calc(50% - 126px);
+    bottom: 100px;
+  }
+
+
+  .hero-mobile-orange-circle {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background: #f56300;
+    right: calc(50% - 126px);
+    bottom: 100px;
+  }
+
+  .hero-mobile-gif {
+    position: relative;
+    width: min(150vw, 1850px) !important;
+    max-width: none !important;
+    height: auto !important;
+    object-fit: contain;
+  }
+
   .line-matters {
     transform: translateX(0.14em);
   }
@@ -428,6 +586,44 @@ $total: 3.5s;
   .powered-by {
     bottom: 5.25rem;
     right: 1rem;
+  }
+}
+
+@media (max-width: 390px) {
+  .hero-mobile-content {
+    max-width: 236px;
+  }
+
+  .hero-mobile-headline {
+    font-size: clamp(2.15rem, 11.4vw, 2.7rem);
+  }
+
+  .hero-mobile-explore {
+    min-width: 144px;
+    min-height: 40px;
+    padding-right: 38px;
+    font-size: 0.7rem;
+  }
+
+  .hero-mobile-arrow {
+    width: 40px;
+    height: 40px;
+  }
+
+  .hero-mobile-store-badge img {
+    height: 23px;
+    max-width: 84px;
+  }
+
+  .hero-mobile-orange-circle {
+    width: 194px;
+    height: 194px;
+    right: calc(50% - 118px);
+    bottom: 52px;
+  }
+
+  .hero-mobile-gif {
+    width: min(68vw, 238px);
   }
 }
 

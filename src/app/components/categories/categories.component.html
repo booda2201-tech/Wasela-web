@@ -1,12 +1,12 @@
-<section class="py-20 bg-white" *ngIf="!loading && !loadError && page">
-  <div class="container mx-auto px-6 py-16 text-center">
+<section class="py-12 md:py-20 bg-white" *ngIf="!loading && !loadError && page">
+  <div class="container mx-auto px-4 sm:px-6 py-10 md:py-16 text-center">
     <ng-container *ngIf="heroSection() as hero">
-      <h2 class="text-[#1D1DDB] text-4xl font-[900] mb-4">{{ hero.title }}</h2>
-      <p class="text-gray-400 max-w-2xl mx-auto mb-16">{{ hero.description }}</p>
+      <h2 class="text-[#1D1DDB] text-3xl md:text-4xl font-[900] mb-3 md:mb-4">{{ hero.title }}</h2>
+      <p class="text-gray-400 text-sm md:text-base max-w-2xl mx-auto mb-10 md:mb-16">{{ hero.description }}</p>
     </ng-container>
 
-    <div *ngFor="let cat of categorySections()" class="mb-32 last:mb-0">
-      <div class="relative flex justify-center mb-20 min-h-[400px]">
+    <div *ngFor="let cat of categorySections()" class="mb-16 md:mb-32 last:mb-0">
+      <div class="relative flex justify-center mb-10 md:mb-20 min-h-[260px] md:min-h-[400px]">
         <div class="category-blob-wrapper relative">
           <div class="blob-bg absolute inset-0 z-10">
             <img
@@ -27,22 +27,22 @@
         </div>
       </div>
 
-      <h3 class="text-[#1D1DDB] text-3xl font-black mb-3">{{ cat.title }}</h3>
-      <p class="text-gray-400 text-base font-medium mb-12 max-w-md mx-auto">{{ cat.description }}</p>
+      <h3 class="text-[#1D1DDB] text-2xl md:text-3xl font-black mb-2 md:mb-3">{{ cat.title }}</h3>
+      <p class="text-gray-400 text-sm md:text-base font-medium mb-8 md:mb-12 max-w-md mx-auto">{{ cat.description }}</p>
 
-      <div class="flex flex-wrap justify-center gap-8 max-w-3xl mx-auto">
+      <div class="flex flex-wrap justify-center gap-4 md:gap-8 max-w-3xl mx-auto">
         <div
           *ngFor="let sub of activeItems(cat); let i = index"
           [ngClass]="i % 2 === 0 ? 'bg-[#F3F4FF]' : 'bg-[#FFF8F3]'"
-          class="flex flex-col items-center justify-center w-44 h-32 rounded-[20px] transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 cursor-pointer border border-transparent hover:border-blue-100"
+          class="flex flex-col items-center justify-center w-36 h-28 sm:w-40 sm:h-32 md:w-44 md:h-32 rounded-[16px] md:rounded-[20px] transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 cursor-pointer border border-transparent hover:border-blue-100"
         >
           <img
             *ngIf="itemImage(sub) as subImg"
             [src]="subImg"
-            class="w-10 h-10 mb-4 object-contain"
+            class="w-8 h-8 md:w-10 md:h-10 mb-2 md:mb-4 object-contain"
             [alt]="sub.title || ''"
           />
-          <span class="text-[#1D1DDB] font-bold text-sm text-center px-4">{{ sub.title }}</span>
+          <span class="text-[#1D1DDB] font-bold text-xs md:text-sm text-center px-2 md:px-4">{{ sub.title }}</span>
         </div>
       </div>
     </div>

@@ -1,29 +1,29 @@
-<section class="py-20 bg-white" *ngIf="!loading && !loadError && page">
-  <div class="container mx-auto px-4 py-16">
-    <div class="text-center mb-20 px-4" *ngIf="heroSection() as hero">
-      <h2 class="text-4xl md:text-6xl font-black text-[#1D1DDB] mb-6">
+<section class="py-12 md:py-20 bg-white" *ngIf="!loading && !loadError && page">
+  <div class="container mx-auto px-4 sm:px-6 py-10 md:py-16">
+    <div class="text-center mb-12 md:mb-20 px-2 md:px-4" *ngIf="heroSection() as hero">
+      <h2 class="text-3xl md:text-6xl font-black text-[#1D1DDB] mb-4 md:mb-6">
         {{ hero.title }}
       </h2>
-      <p class="text-gray-500 font-medium max-w-2xl mx-auto mb-10 leading-relaxed text-sm md:text-base merchants-preline">
+      <p class="text-gray-500 font-medium max-w-3x1 mx-auto mb-7 md:mb-10 leading-relaxed text-sm md:text-base merchants-preline">
         {{ hero.description }}
       </p>
 
-      <div class="flex items-center justify-center gap-3" *ngIf="merchantsCountSection() as countSection">
-        <h1 class="text-5xl md:text-7xl font-black text-[#94A3FF] tracking-tight leading-none">
+      <div class="flex items-center justify-center gap-2 md:gap-3" *ngIf="merchantsCountSection() as countSection">
+        <h1 class="text-4xl md:text-7xl font-black text-[#94A3FF] tracking-tight leading-none">
           {{ countSection.title }}
         </h1>
 
         <div class="bg-[#E4EAFF] px-3 py-1 md:px-4 md:py-2 rounded-full flex items-center justify-center self-end mb-2 md:mb-4 transition-transform duration-300 hover:scale-105 cursor-default shadow-sm border border-[#D0D9FF]">
-          <div class="w-2.5 h-2.5 md:w-3.5 md:h-3.5 bg-[#FF7A00] rounded-full shadow-inner translate-x-3"></div>
+          <div class="w-2.5 h-2.5 md:w-3.5 md:h-3.5 bg-[#FF7A00] rounded-full shadow-inner translate-x-2 md:translate-x-3"></div>
         </div>
       </div>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-      <div *ngFor="let col of columns(); let colIndex = index" class="flex flex-col gap-6 h-[1150px]">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+      <div *ngFor="let col of columns(); let colIndex = index" class="flex flex-col gap-4 md:gap-6 h-auto lg:h-[1150px]">
         <div
           *ngFor="let merchant of col; let rowIndex = index"
-          class="relative overflow-hidden rounded-[2rem] group cursor-pointer w-full shadow-md transition-all duration-999 smooth-accordion flex-shrink min-h-[150px]"
+          class="relative overflow-hidden rounded-[1.5rem] md:rounded-[2rem] group cursor-pointer w-full shadow-md transition-all duration-999 smooth-accordion flex-shrink min-h-[120px] md:min-h-[150px]"
           [ngClass]="cardClass(rowIndex, colIndex)"
         >
           <img
@@ -39,7 +39,7 @@
             <img
               *ngIf="logoSrc(merchant) as logo"
               [src]="logo"
-              class="max-w-full max-h-full object-contain"
+              class="max-w-[80%] max-h-[80%] md:max-w-full md:max-h-full object-contain"
               [alt]="merchant.title || 'Merchant logo'"
             />
           </div>
