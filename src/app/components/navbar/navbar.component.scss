@@ -27,7 +27,10 @@
   }
 }
 
-@media (min-width: 768px) {
+
+
+
+@media (min-width: 968px) {
   .mobile-menu-btn {
     display: none !important;
   }
@@ -37,74 +40,87 @@
   display: none;
 }
 
-.download-btn {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 4px 4px 4px 24px; // مساحة أكبر للشمال عشان النص
-  border: 1.5px solid #1D1DDB;
-  border-radius: 9999px;
-  background: transparent;
-  transition: all 0.3s ease;
+.mobile-nav-menu.open {
+  max-height: 350px !important;
+  opacity: 1;
+  margin-top: 1.55rem;
+  padding: 0.55rem 0.8rem 0.55rem;
+}
 
-  .btn-text {
-    color: #FF6B00; // النص برتقالي زي الصورة بالظبط
+/* زر التحميل — نفس Figma: كبسولة بيضا، نص برتقالي متوسّط، دايرة زرقا بارتفاع الزر */
+.download-btn {
+  display: inline-grid;
+  grid-template-columns: minmax(0, 1fr) 52px;
+  grid-template-rows: 52px;
+  align-items: center;
+  box-sizing: border-box;
+  min-width: 245px;
+  padding: 0 0 0 1.25rem;
+  border: 1px solid #1d1ddb;
+  border-radius: 9999px;
+  background: #fff;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  transition: background-color 0.25s ease;
+  flex: 0 0 auto;
+
+  .download-btn__label {
+    grid-column: 1;
+    grid-row: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #ff6b00;
     font-weight: 700;
     font-size: 1rem;
+    line-height: 1;
+    letter-spacing: 0.01em;
+    min-width: 0;
+    padding-right: 0.35rem;
   }
 
   .icon-circle {
-    background-color: #1D1DDB; // الدايرة زرقاء
-    color: white;
-    width: 40px;
-    height: 40px;
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: end;
+    width: 52px;
+    height: 52px;
+    flex-shrink: 0;
+    background-color: #1d1ddb;
+    color: #fff;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    transition: all 0.3s ease;
+    transition: background-color 0.25s ease, color 0.25s ease;
 
     i {
-      font-size: 1.5rem;
-      stroke-width: 2; // تخانة السهم
+      font-size: 1.15rem;
+      line-height: 1;
     }
   }
 
   &:hover {
-    background-color: #1D1DDB;
-    .btn-text {
-      color: white;
+    background-color: #1d1ddb;
+
+    .download-btn__label {
+      color: #fff;
     }
+
     .icon-circle {
-      background-color: white;
-      color: #1D1DDB;
+      background-color: #fff;
+      color: #1d1ddb;
     }
   }
 }
 
-@media (max-width: 767px) {
+@media (max-width: 967px) {
   .navbar-root {
     border-bottom: 1px solid #dbe3ff !important;
-  }
-
-  .download-btn {
-    gap: 0.45rem;
-    padding: 3px 3px 3px 10px;
-    border-width: 1.25px;
-
-    .btn-text {
-      font-size: 0.76rem;
-      font-weight: 800;
-    }
-
-    .icon-circle {
-      width: 30px;
-      height: 30px;
-
-      i {
-        font-size: 0.95rem;
-      }
-    }
   }
 
   .mobile-menu-btn {
@@ -124,7 +140,7 @@
     max-height: 0;
     overflow: hidden;
     opacity: 0;
-    margin: 0 0.175rem;
+    margin: 0 0.5rem;
     padding: 0 0.8rem;
     border-radius: 14px;
     border: 1px solid #e4e8ff;
@@ -134,9 +150,9 @@
 
     a {
       display: block;
-      color: #1b1bb0;
-      font-weight: 800;
-      font-size: 1rem;
+      color: #3b3b3b;
+      font-weight: 500;
+      font-size: 1.1rem;
       text-decoration: none;
       padding: 0.7rem 0.2rem;
       border-bottom: 1px solid #eef1ff;
@@ -162,21 +178,68 @@
   .mobile-download-btn {
     margin-top: 0.35rem;
     width: 100%;
-    display: flex;
+    max-width: 100%;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 52px;
+    grid-template-rows: 52px;
     align-items: center;
-    justify-content: center;
-    gap: 0.45rem;
-    border: 0;
-    border-radius: 10px;
-    padding: 0.62rem 0.8rem;
-    background: #1d1ddb;
-    color: #fff;
-    font-weight: 700;
-    font-size: 0.92rem;
+    box-sizing: border-box;
+    padding: 0 0 0 1rem;
+    border: 1px solid #1d1ddb;
+    border-radius: 9999px;
+    background: #fff;
+    overflow: hidden;
+    cursor: pointer;
+    font: inherit;
     transition: transform 0.18s ease, opacity 0.18s ease;
 
-    i {
-      font-size: 0.95rem;
+    .download-btn__label {
+      grid-column: 1;
+      grid-row: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #ff6b00;
+      font-weight: 700;
+      font-size: clamp(0.82rem, 3.5vw, 1rem);
+      line-height: 1;
+      letter-spacing: 0.01em;
+      min-width: 0;
+      padding-right: 0.35rem;
+    }
+
+    .icon-circle {
+      grid-column: 2;
+      grid-row: 1;
+      justify-self: end;
+      width: 52px;
+      height: 52px;
+      flex-shrink: 0;
+      border-radius: 50%;
+      background: #1d1ddb;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      i {
+        font-size: 1.05rem;
+        line-height: 1;
+      }
+    }
+
+    &:hover {
+      background: #1d1ddb;
+
+      .download-btn__label {
+        color: #fff;
+      }
+
+      .icon-circle {
+        background: #fff;
+        color: #1d1ddb;
+      }
     }
 
     &:active {

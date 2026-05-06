@@ -1,16 +1,77 @@
+/* ─── Diodrum Arabic Bold (Figma: DiodrumArabicBold) ───
+ * الملف في المشروع: src/assets/fonts/alfont_com_AlFont_com_DiodrumArabic-Bold-1.ttf
+ * لو غيّرت الاسم، حدّث الـ url تحت.
+ */
+@mixin diodrum-bold-src {
+  src:
+    local('Diodrum Arabic Bold'),
+    local('Diodrum Arabic'),
+    local('DiodrumArabic-Bold'),
+    local('DiodrumArabicBold'),
+    url('/assets/fonts/alfont_com_AlFont_com_DiodrumArabic-Bold-1.ttf') format('truetype');
+}
+
+/* Figma أحياناً يعرض Weight 400 مع نمط Bold — نعرّف 400 و700 لنفس الملف */
+@font-face {
+  font-family: 'Diodrum Arabic';
+  @include diodrum-bold-src;
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Diodrum Arabic';
+  @include diodrum-bold-src;
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'DiodrumArabicBold';
+  @include diodrum-bold-src;
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'DiodrumArabicBold';
+  @include diodrum-bold-src;
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+$font-family-sans-serif:
+  'Diodrum Arabic',
+  'DiodrumArabicBold',
+  system-ui,
+  -apple-system,
+  'Segoe UI',
+  Roboto,
+  'Helvetica Neue',
+  'Noto Sans',
+  Arial,
+  sans-serif;
+$headings-font-family: 'Diodrum Arabic', 'DiodrumArabicBold', system-ui, sans-serif;
 
 @import 'bootstrap/scss/bootstrap';
 @import 'bootstrap-icons/font/bootstrap-icons.css';
-
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-
 // Variables
 $waseela-blue: #1D1DDB;
-$waseela-orange: #FF6B00;
+$waseela-orange: #ff6b00;
+
+html,
+body {
+  font-family: 'Diodrum Arabic', 'DiodrumArabicBold', system-ui, sans-serif;
+}
 
 .text-waseela-blue { color: $waseela-blue; }
 .bg-waseela-blue { background-color: $waseela-blue; }
@@ -29,4 +90,64 @@ $waseela-orange: #FF6B00;
 }
 .group:hover .group-hover\:text-waseela-blue {
   color: $waseela-blue !important;
+}
+
+
+.contact-pill {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 52px;
+  padding: 0 1rem 0 0;
+  border: 0.8px solid #0d11b3;
+  border-radius: 9999px;
+  background: #fff;
+  text-decoration: none;
+  color: inherit;
+  transition:
+    box-shadow 0.25s ease,
+    transform 0.2s ease;
+  flex: 1 1 auto;
+  min-width: 0;
+
+  @media (min-width: 1024px) {
+    flex: 0 1 auto;
+    max-width: 100%;
+  }
+}
+
+.contact-pill:hover:not(.contact-pill--static) {
+  box-shadow: 0 8px 24px rgba(13, 17, 179, 0.12);
+  transform: translateY(-1px);
+}
+
+.contact-pill--static {
+  cursor: default;
+}
+
+.contact-pill__icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  margin: -0.8px 0 -0.8px -0.8px;
+  border-radius: 50%;
+  background: #0d11b3;
+  color: #fff;
+
+  i {
+    font-size: 1.15rem;
+  }
+}
+
+.contact-pill__text {
+  padding: 0.5rem 0.75rem 0.5rem 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #f56300;
+  line-height: 1.35;
+  text-align: left;
+  overflow-wrap: anywhere;
 }

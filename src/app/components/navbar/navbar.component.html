@@ -2,43 +2,64 @@
 <nav class="bg-white py-3 md:py-3 fixed top-0 w-full z-50 border-b border-gray-100">
   <div class="main-container mx-auto px-3 md:px-4 flex justify-between items-center">
 
-    <div class="flex items-center">
-      <span class="text-[30px] md:text-4xl font-black text-[#1D1DDB] tracking-tight leading-none">Waseela</span>
-      <span class="w-2 h-2 md:w-2.5 md:h-2.5 ml-1 mt-3 md:mt-4 rounded-full bg-[#FF6B00]"></span>
+    <div class="flex items-center" routerLink="/">
+      <img src="../../../../assets/hero/Waseela Logo.png" alt="Waseela" class="text-[30px] md:text-4xl font-black tracking-tight leading-none">
+      <!-- <span class="text-[30px] md:text-4xl font-black text-[#1D1DDB] tracking-tight leading-none">Waseela</span>
+      <span class="w-2 h-2 md:w-2.5 md:h-2.5 ml-1 mt-3 md:mt-4 rounded-full bg-[#FF6B00]"></span> -->
     </div>
 
-    <div class="hidden md:flex items-center space-x-20">
+    <div class="hidden lg:flex items-center space-x-12">
       <a
         routerLink="/"
-        routerLinkActive="text-[#1D1DDB] font-bold border-b-[#1D1DDB]"
+        routerLinkActive
+        #homeDesktopLink="routerLinkActive"
         [routerLinkActiveOptions]="{ exact: true }"
-        class="fs-5 border-b-2 border-transparent pb-1 font-semibold text-gray-500 transition-colors hover:text-[#1D1DDB]"
+        [style.color]="homeDesktopLink.isActive ? '#1D1DDB' : null"
+        [class.font-bold]="homeDesktopLink.isActive"
+        class="fs-5 pb-1 font-medium text-gray-500 transition-colors hover:text-[#1D1DDB]"
         >Home</a
       >
       <a
         routerLink="/merchants"
-        routerLinkActive="text-[#1D1DDB] font-bold border-b-[#1D1DDB]"
-        class="fs-5 border-b-2 border-transparent pb-1 font-semibold text-gray-500 transition-colors hover:text-[#1D1DDB]"
+        routerLinkActive
+        #merchantsDesktopLink="routerLinkActive"
+        [style.color]="merchantsDesktopLink.isActive ? '#1D1DDB' : null"
+        [class.font-bold]="merchantsDesktopLink.isActive"
+        class="fs-5 pb-1 font-medium text-gray-500 transition-colors hover:text-[#1D1DDB]"
         >Merchants</a
       >
       <a
         routerLink="/categories"
-        routerLinkActive="text-[#1D1DDB] font-bold border-b-[#1D1DDB]"
-        class="fs-5 border-b-2 border-transparent pb-1 font-semibold text-gray-500 transition-colors hover:text-[#1D1DDB]"
+        routerLinkActive
+        #categoriesDesktopLink="routerLinkActive"
+        [style.color]="categoriesDesktopLink.isActive ? '#1D1DDB' : null"
+        [class.font-bold]="categoriesDesktopLink.isActive"
+        class="fs-5 pb-1 font-medium text-gray-500 transition-colors hover:text-[#1D1DDB]"
         >Categories</a
       >
       <a
         routerLink="/about-us"
-        routerLinkActive="text-[#1D1DDB] font-bold border-b-[#1D1DDB]"
-        class="fs-5 border-b-2 border-transparent pb-1 font-semibold text-gray-500 transition-colors hover:text-[#1D1DDB]"
+        routerLinkActive
+        #aboutDesktopLink="routerLinkActive"
+        [style.color]="aboutDesktopLink.isActive ? '#1D1DDB' : null"
+        [class.font-bold]="aboutDesktopLink.isActive"
+        class="fs-5 pb-1 font-medium text-gray-500 transition-colors hover:text-[#1D1DDB]"
         >About Us</a
+      >
+      <a
+        routerLink="/contact-us"
+        routerLinkActive
+        #contactDesktopLink="routerLinkActive"
+        [style.color]="contactDesktopLink.isActive ? '#1D1DDB' : null"
+        [class.font-bold]="contactDesktopLink.isActive"
+        class="fs-5 pb-1 font-medium text-gray-500 transition-colors hover:text-[#1D1DDB]"
+        >Contact Us</a
       >
     </div>
 
-    <div class="hidden md:flex items-center">
-      <button class="download-btn group">
-        <span class="btn-text hidden sm:inline">Download now</span>
-        <span class="btn-text sm:hidden">Download</span>
+    <div class="hidden lg:flex items-center">
+      <button class="download-btn group" type="button">
+        <span class="download-btn__label">Download now</span>
         <span class="icon-circle">
           <i class="bi bi-arrow-up-right"></i>
         </span>
@@ -47,7 +68,7 @@
 
     <button
       type="button"
-      class="mobile-menu-btn md:hidden"
+      class="mobile-menu-btn lg:hidden"
       (click)="toggleMobileMenu()"
       [attr.aria-expanded]="isMobileMenuOpen"
       aria-controls="mobile-nav-menu"
@@ -63,13 +84,16 @@
     class="mobile-nav-menu lg:hidden"
     [class.open]="isMobileMenuOpen"
   >
-    <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="closeMobileMenu()">Home</a>
-    <a routerLink="/merchants" (click)="closeMobileMenu()">Merchants</a>
-    <a routerLink="/categories" (click)="closeMobileMenu()">Categories</a>
-    <a routerLink="/about-us" (click)="closeMobileMenu()">About Us</a>
+    <a routerLink="/" routerLinkActive #homeMobileLink="routerLinkActive" [routerLinkActiveOptions]="{ exact: true }" [style.color]="homeMobileLink.isActive ? '#1D1DDB' : null" [class.font-bold]="homeMobileLink.isActive" (click)="closeMobileMenu()">Home</a>
+    <a routerLink="/merchants" routerLinkActive #merchantsMobileLink="routerLinkActive" [style.color]="merchantsMobileLink.isActive ? '#1D1DDB' : null" [class.font-bold]="merchantsMobileLink.isActive" (click)="closeMobileMenu()">Merchants</a>
+    <a routerLink="/categories" routerLinkActive #categoriesMobileLink="routerLinkActive" [style.color]="categoriesMobileLink.isActive ? '#1D1DDB' : null" [class.font-bold]="categoriesMobileLink.isActive" (click)="closeMobileMenu()">Categories</a>
+    <a routerLink="/about-us" routerLinkActive #aboutMobileLink="routerLinkActive" [style.color]="aboutMobileLink.isActive ? '#1D1DDB' : null" [class.font-bold]="aboutMobileLink.isActive" (click)="closeMobileMenu()">About Us</a>
+    <a routerLink="/contact-us" routerLinkActive #contactMobileLink="routerLinkActive" [style.color]="contactMobileLink.isActive ? '#1D1DDB' : null" [class.font-bold]="contactMobileLink.isActive" (click)="closeMobileMenu()">Contact Us</a>
     <button type="button" class="mobile-download-btn" (click)="closeMobileMenu()">
-      <span>Download now</span>
-      <i class="bi bi-arrow-up-right"></i>
+      <span class="download-btn__label">Download now</span>
+      <span class="icon-circle">
+        <i class="bi bi-arrow-up-right"></i>
+      </span>
     </button>
   </div>
 </nav>
