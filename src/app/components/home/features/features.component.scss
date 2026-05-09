@@ -1,35 +1,93 @@
+/* How Waseela Works — تحت 1024px فقط؛ lg+ بدون أي من ده */
+@media (max-width: 1023px) {
+  .how-it-works-main {
+    height: auto !important;
+    min-height: 0;
+    align-items: stretch;
+  }
 
+  .how-it-works-copy {
+    flex-shrink: 0;
+    padding-top: 1.75rem;
+    padding-bottom: 0.5rem;
+  }
 
+  .how-it-works-inner {
+    max-width: min(22rem, 92vw);
+    margin-left: auto;
+    margin-right: auto;
+  }
 
-.main {
-  width: 100%;
-  height: 400px; // الارتفاع الثابت اللي طلبته
-  position: relative;
-  box-shadow: 0 10px 50px rgba(0, 0, 0, 0.02); // ظل خفيف جداً للحواف
-
-  h2 {
-    font-family: 'Inter', sans-serif;
-    font-weight: 900; // أقصى درجة ثقل للخط
+  .how-it-works-title {
+    font-size: clamp(1.6rem, 5.4vw, 2rem);
+    line-height: 1.12;
     letter-spacing: -0.02em;
+    margin-bottom: 0.75rem;
   }
 
-  p {
-    font-family: 'Inter', sans-serif;
-    word-spacing: 1px;
+  .how-it-works-desc {
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    color: #383838;
   }
 
-  // جعل الخط المنقط يظهر بشكل احترافي
-  .border-dashed {
-    border-style: dashed;
-    border-spacing: 10px;
+  .how-it-works-visual {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    overflow: hidden;
+    flex: 1 1 auto;
+    min-height: clamp(11.5rem, 52vw, 16rem) !important;
   }
 
-  img {
-    // حركة انسيابية لو حبيت تفتح الصفحة
-    transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    &:hover {
-        transform: translateY(20px) scale(1.02);
-    }
+  .how-it-works-gif {
+    top: auto !important;
+    bottom: -30%;
+    left: 45% !important;
+    transform: translateX(-50%) !important;
+    width: min(155vw, 560px) !important;
+    max-width: none;
+    object-position: bottom center;
+  }
+}
+
+/* بطاقات الخطوات — تحت md (768px) فقط؛ md:grid-cols-3 وأحجام الكروت الأصلية من Tailwind من 768px */
+@media (max-width: 767px) {
+  .step-cards-grid {
+    gap: 0.875rem;
+    // margin-top: 1.25rem;
+  }
+
+  .step-card {
+    min-height: unset !important;
+    border-radius: 14px;
+  }
+
+  .step-card-visual {
+    overflow: hidden;
+    min-height: clamp(11rem, 48vw, 15.5rem);
+    flex: 0 0 auto;
+  }
+
+  .step-card-img--blue {
+    width: 115% !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    bottom: -1.25rem !important;
+  }
+
+  .step-card-img--orange {
+    width: 150% !important;
+    bottom: -4.6rem !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+  }
+
+  .step-card-img--navy {
+    width: 105% !important;
+    left: 62% !important;
+    bottom: -1px !important;
+    transform: translateX(-50%) !important;
   }
 }
 
@@ -68,8 +126,14 @@
 }
 
 .why-waseela-section {
+  /* نافذة ثابتة ≈ ٤ كروت + الفجوات؛ الباقي بالسكرول على كل المقاسات */
+  $why-gap: 0.8rem;
+  $why-visible: 4;
+  $why-card-est: 5.875rem;
+  $why-list-h: calc(#{$why-visible} * #{$why-card-est} + (#{$why-visible} - 1) * #{$why-gap});
+
   .why-waseela-visual {
-    min-height: 450px;
+    min-height: 550px;
   }
 
   .why-waseela-phone-base,
@@ -80,14 +144,19 @@
     height: 120%;
     object-fit: contain;
     pointer-events: none;
+    img {
+      width: 100%;
+      height: 150% !important;
+      object-fit: contain;
+    }
   }
 
   .why-waseela-title {
-    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-size: clamp(2rem, 4vw, 3rem);
     line-height: 1.06;
     font-weight: 600;
     color: #1d1ddb;
-    margin-bottom: 30px;
+    margin-bottom: 50px;
     letter-spacing: -0.02em;
   }
 
@@ -101,8 +170,11 @@
     position: relative;
     width: 6px;
     border-radius: 999px;
-    background: #ff6b00;
-    min-height: 372px;
+    background: #e8e8f0;
+    height: 22rem;
+    min-height: 22rem;
+    align-self: stretch;
+    flex-shrink: 0;
     margin-top: 4px;
     margin-bottom: 4px;
   }
@@ -111,24 +183,35 @@
     position: absolute;
     left: 0;
     width: 100%;
-    height: 25%;
-    background: #1d1ddb;
+    background: #ff6b00;
     border-radius: 999px;
-    transition: top 0.35s ease, opacity 0.25s ease;
+    transition:
+      top 0.35s ease,
+      height 0.35s ease,
+      opacity 0.25s ease;
   }
 
   .why-waseela-cards {
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 0.8rem;
+    gap: $why-gap;
+    max-height: 22rem;
+    min-height: 0;
+    overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 
   .feature-card {
     background: #fff;
     border: 1px solid #e8e8f0;
     border-radius: 20px;
-    padding: 1rem 1.2rem;
+    padding: 12px 20px;
     cursor: pointer;
     transition: all 0.25s ease;
 
@@ -137,7 +220,7 @@
       line-height: 1.18;
       font-weight: 900;
       color: #111827;
-      margin: 0 0 0.4rem;
+      margin: 0 0 0.5rem;
     }
 
     p {
@@ -160,6 +243,15 @@
   .why-waseela-section {
     .why-waseela-visual {
       min-height: 280px;
+    }
+  }
+}
+
+/* موبايل فقط: الشريط البرتقالي بدون خلفية رمادية؛ الارتفاع نفس نافذة الـ ٤ كروت */
+@media (max-width: 767px) {
+  .why-waseela-section {
+    .why-waseela-track {
+      background: transparent;
     }
   }
 }

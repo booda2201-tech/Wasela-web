@@ -1,31 +1,110 @@
+/* مربع موحّد لكل البطاقات (زي شبكة المرجع) — المحتوى كله من ملف الصورة */
 .shape-wrapper {
-  aspect-ratio: 1 / 1; // عشان يطلع مربع زي الفيجما
-  filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.1));
+  position: relative;
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.08));
 }
 
-.blob-shape {
+.category-card-frame {
+  position: relative;
   width: 100%;
   height: 100%;
-  // الشكل الأساسي (زي صورة Mobility أو Education)
-  border-radius: 20% 40% 20% 40% / 40% 20% 40% 20%;
-
-  // عشان كل كارت يبقى واخد شكل مختلف شوية زي الفيجما
-  .category-card:nth-child(odd) & {
-    border-radius: 30% 70% 50% 50% / 30% 30% 70% 70%;
-  }
-
-  .category-card:nth-child(3n) & {
-    border-radius: 50% 50% 30% 70% / 50% 50% 70% 30%;
-  }
-
-  // تأثير الـ Masking الحقيقي لو عندك الـ SVGs (اختياري بس بيخليها Perfect)
-  // mask-image: url('assets/masks/blob.svg');
-  // mask-size: contain;
+  overflow: visible;
+  border-radius: 0;
+  background: transparent;
 }
 
-.main-layer {
-  background: #f0f0f000;
+.category-card-img {
+  position: relative;
+  z-index: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+}
+
+/* تكبير يدوي لصور معيّنة (غيّر الـ # أو نسبة scale حسب اللي عندك بيبان أصغر) */
+
+#category-img-health-care,
+#category-img-sports-clubs {
+  transform: scale(1.20);
+  transform-origin: center center;
+}
+
+#category-img-education,
+#category-img-green-limits {
+  transform: scale(1.40);
+  transform-origin: center center;
+}
+
+
+.category-card-title {
+  position: absolute;
+  bottom: 20%;
+  left: 0;
+  right: 0;
   z-index: 2;
+  margin: 0;
+  padding: 0 0.65rem;
+  text-align: center;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: clamp(1.05rem, 2.9vw, 1.4rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: #fff;
+  text-transform: none;
+  font-style: normal;
+  text-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.55),
+    0 2px 14px rgba(0, 0, 0, 0.35);
+  pointer-events: none;
+}
+
+/* Categories We Finance — أقل من md فقط: عمودين، عناوين يسار، كروت أنسب للهاتف، الزر تحت الشبكة من الـ HTML order */
+@media (max-width: 767px) {
+  .categories-section {
+    .category-grid {
+      column-gap: 0.5rem;
+      row-gap: 1rem;
+      padding: 0.375rem 0.125rem;
+    }
+
+    .category-card-title {
+      text-align: left;
+      padding-left: 0.5rem;
+      padding-right: 0.75rem;
+      font-size: clamp(0.78rem, 3.5vw, 1rem);
+      bottom: 16%;
+    }
+
+    .shape-wrapper {
+      transform: scale(0.93);
+      transform-origin: center bottom;
+    }
+
+    /* نفس الحجم التقريبي لكل الصور: إلغاء الـ scale المختلف حسب الـ id على الديسكتوب */
+    #category-img-health-care,
+    #category-img-sports-clubs {
+      transform: scale(1.3) !important;
+      transform-origin: center center;
+    }
+
+    #category-img-education,
+    #category-img-green-limits {
+      transform: scale(1.6) !important;
+      transform-origin: center center;
+    }
+
+    .category-card-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center center;
+    }
+  }
 }
 
 .shadow-layer {
@@ -33,64 +112,534 @@
   // بنخلي الـ radius بتاع الطبقة اللي ورا أوسع شوية عشان تبان
 }
 
-.category-card {
-  &:hover {
-    .blob-shape {
-      // عند الهوفر الشكل "بيلم" شوية ويبقى منتظم أكتر
-      border-radius: 15% 15% 15% 15%;
-    }
-  }
-}
-
 .smooth-accordion {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
   will-change: height, flex-grow; /* بتعرف المتصفح إن العناصر دي هتتحرك */
 }
 
+/* زر التصنيفات — كبسولة بيضا، حد أزرق، نص برتقالي غامق، دايرة كحلي بارتفاع الزر + bi-arrow-up-right */
+.categories-cta-btn {
+  display: inline-grid;
+  grid-template-columns: minmax(0, 1fr) 52px;
+  grid-template-rows: 52px;
+  align-items: center;
+  box-sizing: border-box;
+  min-width: min(100%, 22rem);
+  padding: 0 0 0 1.25rem;
+  border: 1px solid #1d1ddb;
+  border-radius: 9999px;
+  background: #fff;
+  overflow: hidden;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  transition: box-shadow 0.25s ease;
 
-
-
-.testimonial-wrapper {
-  width: 100%;
-  max-width: 480px;
-
-
-  // الظل الأزرق (الخلفية)
-  &::before {
-    content: '';
-    position: absolute;
-    top: 5%;
-    left: -5%;
-    width: 110%;
-    height: 100%;
-    background: #1D1DDB;
-    z-index: 1;
-    // الشكل غير المنتظم اللي في الصورة
-    border-radius: 20px 100px 20px 120px;
-    transition: all 0.5s ease;
+  &:hover {
+    box-shadow: 0 4px 14px rgba(29, 29, 219, 0.12);
   }
 
-  &:hover::before {
-    transform: rotate(-2deg) scale(1.02);
+  &:focus-visible {
+    outline: 2px solid #1d1ddb;
+    outline-offset: 2px;
   }
 
-  .testimonial-card {
-    border-radius: 20px 120px 20px 100px; // عكس اتجاه الخلفية الزرقاء
-    min-height: 350px;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+  .categories-cta-btn__label {
+    grid-column: 1;
+    grid-row: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #ff7a00;
+    font-weight: 800;
+    font-size: 1.125rem;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    min-width: 0;
+    padding: 0 0.75rem 0.2rem 0;
+  }
+
+  .categories-cta-btn__icon {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: end;
+    width: 52px;
+    height: 52px;
+    flex-shrink: 0;
+    background-color: #1d1ddb;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+
+    i {
+      font-size: 1.15rem;
+      line-height: 1;
+    }
   }
 }
 
-// الكارت اللي في النص (المميز)
-.lg\:scale-110 {
-  &::before {
-    background: #1D1DDB;
-    // شكل مختلف شوية للي في النص
-    border-radius: 120px 20px 120px 20px;
+/* نفس شكل الزر: واحد فوق للديسكتوب فقط، واحد تحت الشبكة للموبايل فقط */
+.categories-cta-btn--desktop-only {
+  @media (max-width: 767px) {
+    display: none !important;
+  }
+}
+
+.categories-cta-btn--mobile-only {
+  @media (min-width: 768px) {
+    display: none !important;
+  }
+}
+
+.categories-cta-btn-2 {
+  display: inline-grid;
+  grid-template-columns: minmax(0, 1fr) 52px;
+  grid-template-rows: 52px;
+  align-items: center;
+  box-sizing: border-box;
+  min-width: min(100%, 15rem);
+  padding: 0 0 0 1.25rem;
+  border: 1px solid #1d1ddb;
+  border-radius: 9999px;
+  background: #fff;
+  overflow: hidden;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  transition: box-shadow 0.25s ease;
+
+  &:hover {
+    box-shadow: 0 4px 14px rgba(29, 29, 219, 0.12);
+  }
+
+  &:focus-visible {
+    outline: 2px solid #1d1ddb;
+    outline-offset: 2px;
+  }
+
+  .categories-cta-btn__label {
+    grid-column: 1;
+    grid-row: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #ff7a00;
+    font-weight: 800;
+    font-size: 1.125rem;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    min-width: 0;
+    padding: 0 0.75rem 0.2rem 0;
+  }
+
+  .categories-cta-btn__icon {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: end;
+    width: 52px;
+    height: 52px;
+    flex-shrink: 0;
+    background-color: #1d1ddb;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+
+    i {
+      font-size: 1.15rem;
+      line-height: 1;
+    }
+  }
+}
+
+
+/* خلفية قسم الشهادات — Slide 16_9 - 5 3 (Figma) */
+.testimonials-section {
+  position: relative;
+  // background-color: #030308;
+  background-image: url('../../../../assets/images/Slide 16_9 - 5 3.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  overflow: hidden;
+
+}
+
+/* شهادات: صورة كارت (Figma) + نص ديناميكي فوقها */
+.testimonials-swiper-wrap {
+  --swiper-navigation-color: #1d1ddb;
+  --swiper-pagination-color: #1d1ddb;
+  --swiper-pagination-bullet-inactive-color: #c7c9e8;
+  --swiper-pagination-bullet-inactive-opacity: 1;
+  padding-bottom: 2.75rem;
+
+  @media (max-width: 639px) {
+    padding-bottom: 2rem;
+  }
+}
+
+.testimonials-swiper {
+  width: 100%;
+}
+
+.testimonial-slide {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  height: auto;
+  box-sizing: border-box;
+  padding: 10px;
+
+  @media (max-width: 639px) {
+    padding: 6px 4px;
+  }
+
+  @media (min-width: 1200px) {
+    padding-top: 12px;
+    padding-bottom: 20px;
+  }
+}
+
+.testimonial-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  margin-inline: auto;
+  filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.08));
+  transition: transform 0.35s ease;
+
+  @media (max-width: 639px) {
+    max-width: 100%;
+    filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.07));
+  }
+
+  // &:hover {
+  //   transform: translateY(-2px);
+  // }
+}
+
+.testimonial-card-frame {
+  position: relative;
+  width: 100%;
+  line-height: 0;
+
+  @media (max-width: 639px) {
+    overflow-x: hidden;
+  }
+}
+
+.testimonial-card-photo {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+/* محاذاة Figma: أفاتار نصفه فوق الكارت، نصوص متوسطة وهوامش جانبية واسعة */
+.testimonial-card-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  justify-content: flex-start;
+  box-sizing: border-box;
+  pointer-events: none;
+  /* مساحة بيضاء داخل الشكل: يمين/شمال أوسع، أسفل مريح */
+  padding: 9% 14% 11% 14%;
+
+  @media (max-width: 639px) {
+    /* هوامش جانبية أوضح + عرض كامل للنص عشان ما يخرجش بره الشكل الأبيض */
+    padding: 12% max(16%, 1.1rem) 13% max(16%, 1.1rem);
+    align-items: stretch;
+    overflow-x: hidden;
+  }
+
+  /* سلايدين: تقليل الهوامش نسبيًا عشان مساحة النص تكبر جوّه المنطقة البيضاء */
+  @media (min-width: 640px) and (max-width: 1199px) {
+    padding: 8% 11% 9.5% 11%;
+  }
+
+  /* إطار Group 10 أو نص طويل: هامش أقل فوق/تحت عشان جسم الشهادة يبان كامل */
+  &--compact {
+    padding: 7% 11% 7.5% 11%;
+
+    @media (max-width: 639px) {
+      padding: 10% max(15%, 1rem) 11% max(15%, 1rem);
+      align-items: stretch;
+      overflow-x: hidden;
+    }
+
+    @media (min-width: 640px) and (max-width: 1199px) {
+      padding: 6.5% 10% 8% 10%;
+    }
+
+    .testimonial-avatar-ring {
+      margin-top: min(-9%, -2.35rem);
+      margin-bottom: 0.45rem;
+
+      @media (max-width: 639px) {
+        margin-top: min(-8%, -1.85rem);
+        margin-bottom: 0.35rem;
+      }
+
+      @media (min-width: 640px) and (max-width: 1199px) {
+        margin-top: min(-8.5%, -2.1rem);
+        margin-bottom: 0.4rem;
+      }
+    }
+
+    .testimonial-avatar-ring .testimonial-avatar-icon {
+      font-size: clamp(2.1rem, 8.5vw, 3.85rem);
+      transform: translateY(11%);
+
+      @media (max-width: 639px) {
+        font-size: clamp(1.85rem, 8.5vw, 2.65rem);
+      }
+
+      @media (min-width: 640px) and (max-width: 1199px) {
+        font-size: clamp(1.95rem, 6.8vw, 3rem);
+      }
+    }
+
+    .testimonial-overlay-type {
+      margin-top: 0;
+    }
+
+    .testimonial-overlay-name {
+      margin-top: 0.2rem;
+    }
+
+    .testimonial-overlay-quote {
+      margin: 0.35rem 0 0.15rem;
+      font-size: clamp(1.5rem, 4.5vw, 2.1rem);
+
+      @media (min-width: 640px) and (max-width: 1199px) {
+        margin: 0.3rem 0 0.12rem;
+        font-size: clamp(1.35rem, 3.8vw, 1.85rem);
+      }
+    }
+
+    .testimonial-overlay-body {
+      line-height: 1.52;
+      font-size: clamp(0.78rem, 2.2vw, 0.94rem);
+
+      @media (max-width: 639px) {
+        font-size: clamp(0.76rem, 3.2vw, 0.9rem);
+        line-height: 1.5;
+      }
+
+      @media (min-width: 640px) and (max-width: 1199px) {
+        font-size: clamp(0.74rem, 1.85vw, 0.88rem);
+        line-height: 1.5;
+      }
+    }
+  }
+}
+
+.testimonial-avatar-ring {
+  flex-shrink: 0;
+  width: clamp(4rem, 16vw, 5.25rem);
+  height: clamp(4rem, 16vw, 5.25rem);
+  /* نصف الدائرة يتدلى فوق حافة الكارت البيضاء */
+  margin-top: min(-10.5%, -2.75rem);
+  margin-bottom: 0.75rem;
+  border-radius: 50%;
+  background: #ffc091;
+  border: none;
+  box-shadow: none;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  pointer-events: auto;
+
+  @media (max-width: 639px) {
+    align-self: center;
+    width: clamp(3.5rem, 14vw, 4.75rem);
+    height: clamp(3.5rem, 14vw, 4.75rem);
+    margin-top: min(-9%, -2rem);
+    margin-bottom: 0.5rem;
+  }
+
+  @media (min-width: 640px) and (max-width: 1199px) {
+    width: clamp(3.65rem, 12vw, 5rem);
+    height: clamp(3.65rem, 12vw, 5rem);
+    margin-top: min(-9.5%, -2.35rem);
+    margin-bottom: 0.55rem;
+  }
+}
+
+/* زي المرجع: مساحة فوق الرأس، الجزء السفلي من الأيقونة قريب من قوس الدائرة */
+.testimonial-avatar-ring .testimonial-avatar-icon {
+  display: block;
+  line-height: 1;
+  color: #1d1ddb;
+  font-size: clamp(2.5rem, 10vw, 4.5rem);
+  transform: translateY(10%);
+
+  @media (max-width: 639px) {
+    font-size: clamp(2rem, 9vw, 2.85rem);
+    transform: translateY(10%);
+  }
+
+  @media (min-width: 640px) and (max-width: 1199px) {
+    font-size: clamp(2.15rem, 7.5vw, 3.35rem);
+  }
+}
+
+.testimonial-avatar-img {
+  width: 52%;
+  height: 52%;
+  object-fit: contain;
+}
+
+.testimonial-overlay-type {
+  margin: 0.125rem 0 0;
+  padding: 0 0.25rem;
+  font-size: clamp(1.0625rem, 2.75vw, 1.375rem);
+  font-weight: 900;
+  color: #2b2b2b;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  flex-shrink: 0;
+  max-width: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  overflow-wrap: break-word;
+  word-break: break-word;
+
+  @media (max-width: 639px) {
+    padding-inline: 0;
+    text-align: center;
+  }
+}
+
+.testimonial-overlay-name {
+  margin: 0.375rem 0 0;
+  padding: 0 0.25rem;
+  font-size: clamp(0.8125rem, 2.1vw, 0.9375rem);
+  font-weight: 500;
+  color: #8a8a8a;
+  line-height: 1.3;
+  flex-shrink: 0;
+  max-width: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  overflow-wrap: break-word;
+  word-break: break-word;
+
+  @media (max-width: 639px) {
+    padding-inline: 0;
+    text-align: center;
+  }
+}
+
+.testimonial-overlay-quote {
+  margin: 0.625rem 0 0.375rem;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(1.875rem, 5vw, 2.5rem);
+  line-height: 0.85;
+  color: #1d1ddb;
+  flex-shrink: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+
+  @media (max-width: 639px) {
+    margin: 0.45rem 0 0.28rem;
+    font-size: clamp(1.35rem, 6.5vw, 1.85rem);
+    text-align: center;
+  }
+
+  @media (min-width: 640px) and (max-width: 1199px) {
+    margin: 0.45rem 0 0.28rem;
+    font-size: clamp(1.55rem, 4.2vw, 2.15rem);
+  }
+}
+
+.testimonial-overlay-body {
+  margin: 0;
+  flex: 1 1 auto;
+  min-height: 0;
+  /* بدون max-height: النص ياخد كل المساحة الفاضية تحت العنوان والاقتباس (شاشات متوسطة وغيرها) */
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 0 clamp(0.125rem, 1.2vw, 0.5rem);
+  font-size: clamp(0.8125rem, 2.35vw, 1rem);
+  font-weight: 500;
+  line-height: 1.65;
+  color: #4a4a4a;
+  -webkit-overflow-scrolling: touch;
+  pointer-events: auto;
+  max-width: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  hyphens: auto;
+
+  @media (max-width: 639px) {
+    font-size: clamp(0.72rem, 3.25vw, 0.88rem);
+    line-height: 1.55;
+    padding-inline: 0;
+  }
+
+  @media (min-width: 640px) and (max-width: 1199px) {
+    font-size: clamp(0.78rem, 2.05vw, 0.92rem);
+    line-height: 1.58;
+  }
+}
+
+.testimonial-wrapper--featured {
+  @media (min-width: 1200px) {
+    /* أخف من الأول عشان النص ما يتقصّش مع الـ overflow بتاع السلايدر */
+    transform: scale(1.04) translateY(5%);
   }
 }
 
 .partners-section {
+  .partners-mobile-swiper-wrap {
+    --swiper-pagination-color: #1d1ddb;
+    --swiper-pagination-bullet-inactive-color: #c7c9e8;
+    --swiper-pagination-bullet-inactive-opacity: 1;
+    --swiper-pagination-bullet-size: 8px;
+    --swiper-pagination-bullet-horizontal-gap: 6px;
+    max-width: min(22rem, 100%);
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 0.25rem 2.25rem;
+  }
+
+  .partners-swiper {
+    width: 100%;
+    overflow: visible;
+  }
+
+  .partners-swiper-slide {
+    height: auto;
+    box-sizing: border-box;
+  }
+
+  swiper-slide.partners-swiper-slide {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+  }
+
+  .partners-swiper-slide-inner {
+    width: 100%;
+    max-width: 20rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
   .partners-title {
     letter-spacing: -0.02em;
   }
@@ -107,7 +656,7 @@
   // }
 
   .partner-heading {
-    font-size: clamp(1.75rem, 4vw, 3rem);
+    font-size: clamp(1.75rem, 4vw, 2.3rem);
     line-height: 1.06;
     font-weight: 900;
     color: #1d1ddb;
@@ -180,129 +729,602 @@
   50% { opacity: 1; }
 }
 
+/* Merchants — تحت lg: عمودان متدرّجان؛ زر تحت الشبكة صغير فقط، زر بعد النص كبير فقط (يتغلب على display بتاع الزر) */
+.merchants-showcase-section {
+  /* نفس سلوك الـ pro على الموبايل والديسكتوب: مسرح بارتفاع ثابت + قصّ الزيادة من الهوفر */
+  .merchants-grid-stage {
+    height: 950px;
+    max-height: 950px;
+    overflow: hidden;
+  }
+
+  /* دفاية جوّا الكرت: زوم الصورة ما يخرجش من الزوايا */
+  .merchant-card-image-clip {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    border-radius: inherit;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .merchants-cta--desktop {
+    display: none !important;
+    @media (min-width: 1024px) {
+      display: inline-grid !important;
+    }
+  }
+
+  .merchants-cta--mobile {
+    display: inline-grid !important;
+    @media (min-width: 1024px) {
+      display: none !important;
+    }
+  }
+
+  .merchants-cta-mobile-row {
+    display: none;
+    @media (max-width: 1023px) {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      padding-inline: 0.5rem;
+      margin-top: 2rem;
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  @media (max-width: 1023px) {
+    .merchants-col:nth-child(even) {
+      padding-top: clamp(0.85rem, 4.5vw, 1.65rem);
+    }
+  }
+}
+
 .download-section {
+  overflow: visible;
+
+  .download-layout {
+    position: relative;
+    padding-bottom: clamp(3rem, 7vw, 5.5rem);
+  }
+
   .download-shell {
     position: relative;
     border-radius: 30px;
-    overflow: visible;
-    background: linear-gradient(90deg, #f8f9ff 0%, #e8f2ff 100%);
-    min-height: 500px;
-    padding: clamp(2rem, 5vw, 1.5rem) clamp(1.5rem, 5vw, 6rem);
-    display: flex;
-    align-items: center;
+    overflow: hidden;
+    line-height: 0;
   }
 
-  .download-bg-w {
-    position: absolute;
-    left: 1%;
-    top: 50%;
-    transform: translateY(-58%);
-    font-size: clamp(20rem, 40vw, 44.5rem);
-    line-height: 0.8;
-    font-weight: 900;
-    color: #1d1ddb;
-    opacity: 0.05;
-    pointer-events: none;
-    user-select: none;
+  .download-frame {
+    display: block;
+    width: 100%;
+    height: 500px;
   }
 
   .download-copy {
-    position: relative;
+    position: absolute;
     z-index: 2;
-    max-width: 620px;
+    /* Figma: النص ~258px من يسار إطار ~1140px ≈ 22.6% */
+    left: 10%;
+    top: 50%;
+    transform: translateY(-50%);
+    right: auto;
+    bottom: auto;
+    width: min(33.6875rem, calc(100% - 2.5rem));
+    max-width: 33.6875rem;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    pointer-events: none;
+    font-family:
+      'Diodrum Arabic',
+      system-ui,
+      -apple-system,
+      sans-serif;
 
-    h2 {
-      color: #1d1ddb;
-      font-size: clamp(2rem, 5vw, 4.1rem);
-      line-height: 1.08;
-      font-weight: 900;
+    .download-heading,
+    .download-subtitle,
+    .store-badges {
+      pointer-events: auto;
+    }
+
+    /* Figma: 55px Bold, #0d11b3 — الأحجام من SCSS فقط (بدون Tailwind على العنوان) */
+    .download-heading {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0;
+      margin: 0 0 1rem;
+      padding: 0;
+      color: #0d11b3;
+      font-size: clamp(1.875rem, 3.05vw, 3rem);
+      font-weight: 700;
+      line-height: 1.2;
       letter-spacing: -0.02em;
-      margin-bottom: 1rem;
     }
 
-    p {
-      color: #5d6472;
-      font-size: clamp(1rem, 2vw, 1.5rem);
-      font-weight: 500;
-      margin-bottom: 1.6rem;
+    .download-heading__line {
+      display: block;
     }
+
+    @media (min-width: 1100px) {
+      .download-heading__line {
+        white-space: nowrap;
+      }
+    }
+
+    /* Figma: 16px Medium, #525252 */
+    .download-subtitle {
+      color: #525252;
+      font-size: 1rem;
+      line-height: 1.5;
+      font-weight: 500;
+      margin: 0 0 1.25rem;
+      max-width: 33.6875rem;
+    }
+  }
+
+  .store-badge-slot {
+    display: contents;
   }
 
   .store-badges {
     display: flex;
-    gap: 0.75rem;
+    gap: 1.25rem;
     flex-wrap: wrap;
+    align-items: center;
 
     img {
-      width: 154px;
-      height: auto;
+      width: auto;
+      height: 40px;
       object-fit: contain;
     }
   }
 
-  .download-ornaments {
-    position: absolute;
-    left: 45%;
-    bottom: 28px;
-    display: flex;
-    align-items: flex-end;
-    z-index: 1;
-  }
-
-  .orb {
-    display: block;
-    border-radius: 999px;
-  }
-
-  .orb-purple {
-    width: 168px;
-    height: 92px;
-    background: #e2e7ff;
-    transform: translateX(72px);
-  }
-
-  .orb-cream {
-    width: 124px;
-    height: 124px;
-    background: #f7e7cf;
-    box-shadow: inset 0 5px 12px rgba(160, 125, 80, 0.15);
-    position: relative;
-    top: 12px;
-    z-index: 1;
-  }
-
-  .download-mockup {
-    position: absolute;
-    right: -34px;
-    bottom: -42px;
-    width: min(100%, 950px);
-    max-width: none;
-    height: auto;
-    z-index: 2;
-    object-fit: contain;
-    pointer-events: none;
-  }
-}
-
-@media (max-width: 1024px) {
-  .download-section {
-    .download-shell {
-      min-height: 610px;
-      align-items: flex-start;
-      padding-bottom: 270px;
+  /* ديسكتوب فقط — نفس السلوك الأصلي (بدون خلفية W وبدون غلاف يغيّر التموضع) */
+  @media (min-width: 1024px) {
+    .download-mockup-wrap {
+      display: contents;
     }
 
-    .download-ornaments {
-      left: 50%;
-      transform: translateX(-50%);
-      bottom: 188px;
+    .download-mockup-backdrop {
+      display: none !important;
+    }
+
+    .download-mockup-device {
+      display: contents;
     }
 
     .download-mockup {
-      width: min(70%, 420px);
-      right: 50%;
-      transform: translateX(50%);
-      bottom: -26px;
+      position: absolute;
+      right: clamp(-3rem, -6vw, -1rem);
+      bottom: clamp(-1.25rem, -2vw, 1.25rem);
+      width: min(76%, 58rem);
+      max-width: none;
+      height: auto;
+      z-index: 3;
+      object-fit: contain;
+      pointer-events: none;
+      transform: translateY(-4%);
+    }
+  }
+}
+
+/* الكارت الزخرفي للموبايل فقط — من 768px فما فوق ما يغيّرش تخطيط التابلت/الديسكتوب */
+@media (min-width: 768px) {
+  .download-section .download-mockup-card {
+    display: contents;
+  }
+}
+
+/* تابلت + موبايل (تحت الديسكتوب فقط — min-width: 1024px ما يتلمسش) */
+@media (max-width: 1023px) {
+  .download-section {
+    background: #fff;
+
+    .download-layout {
+      display: block;
+      position: relative;
+      margin-inline: auto;
+      max-width: min(42rem, 100%);
+      padding-bottom: clamp(3.5rem, 12vw, 6rem);
+    }
+
+    .download-shell {
+      width: 100%;
+      max-width: none;
+      margin-inline: 0;
+      border-radius: 30px;
+      overflow: hidden;
+      background: #f6f7fb;
+    }
+
+    .download-frame {
+      display: block;
+      width: 100%;
+      height: auto;
+      max-height: none;
+      object-fit: contain;
+      object-position: center bottom;
+    }
+
+    .download-copy {
+      position: absolute;
+      z-index: 2;
+      left: clamp(0.75rem, 4vw, 1.5rem);
+      right: auto;
+      top: 50%;
+      bottom: auto;
+      transform: translateY(-50%);
+      width: min(42%, 14rem);
+      max-width: calc(100% - 10.5rem);
+      margin-inline: 0;
+      align-items: flex-start;
+      text-align: left;
+      padding: 0;
+      font-family:
+        'Diodrum Arabic',
+        system-ui,
+        -apple-system,
+        sans-serif;
+    }
+
+    .download-heading {
+      align-items: flex-start;
+      text-align: left;
+      margin: 0 0 clamp(0.5rem, 1.8vw, 0.75rem);
+      padding: 0;
+      color: #0d11b3;
+      font-size: clamp(1.1rem, 2.75vw, 1.45rem);
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+    }
+
+    .download-heading__line {
+      white-space: normal;
+      text-align: left;
+    }
+
+    .download-subtitle {
+      margin: 0 0 clamp(0.6rem, 2vw, 0.95rem);
+      padding: 0;
+      max-width: none;
+      text-align: left;
+      font-size: clamp(0.8125rem, 2vw, 0.9375rem);
+      line-height: 1.45;
+      font-weight: 500;
+      color: #525252;
+    }
+
+    .store-badges {
+      justify-content: flex-start;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: clamp(0.5rem, 1.8vw, 1rem);
+      width: 100%;
+      max-width: none;
+      margin-inline: 0;
+    }
+
+    .store-badge-slot {
+      display: contents;
+    }
+
+    .store-badges img {
+      width: auto;
+      height: clamp(28px, 5vw, 40px);
+      max-height: 40px;
+      max-width: 100%;
+      object-fit: contain;
+    }
+
+    .download-mockup-wrap {
+      display: block;
+      position: absolute;
+      right: clamp(-0.85rem, -2.5vw, 0rem);
+      bottom: clamp(-1.35rem, -4.5vw, 0.5rem);
+      left: auto;
+      width: min(58%, 20.5rem);
+      max-width: none;
+      z-index: 3;
+      pointer-events: none;
+      line-height: 0;
+      overflow: visible;
+    }
+
+    .download-mockup-backdrop {
+      position: absolute;
+      left: 50%;
+      bottom: -8%;
+      transform: translateX(-50%);
+      width: min(138%, 36rem);
+      height: 112%;
+      min-height: 12rem;
+      z-index: 0;
+      pointer-events: none;
+      background: linear-gradient(168deg, #fcfcfe 0%, #f4f6fc 42%, #e9edf7 100%);
+      border-radius: 52% 52% 42% 42% / 38% 38% 48% 48%;
+    }
+
+    .download-mockup-backdrop::before {
+      content: 'W';
+      position: absolute;
+      left: 50%;
+      bottom: -4%;
+      transform: translateX(-50%);
+      font-family:
+        'Diodrum Arabic',
+        system-ui,
+        -apple-system,
+        sans-serif;
+      font-weight: 800;
+      font-size: clamp(7rem, 28vw, 16rem);
+      color: rgba(13, 17, 179, 0.08);
+      line-height: 0.82;
+      letter-spacing: -0.07em;
+      user-select: none;
+    }
+
+    .download-mockup-backdrop::after {
+      content: '';
+      position: absolute;
+      right: -6%;
+      bottom: -14%;
+      width: min(52%, 20rem);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: radial-gradient(
+        circle at 38% 38%,
+        rgba(235, 228, 215, 0.58) 0%,
+        rgba(248, 249, 253, 0) 70%
+      );
+      filter: blur(32px);
+    }
+
+    .download-mockup {
+      position: relative;
+      z-index: 1;
+      display: block;
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      pointer-events: none;
+      transform: translateY(1%) !important;
+    }
+  }
+}
+
+/* هاتف فقط — Figma: خلفية بيضاء، نص وشارات متمركزة، نص فرعي طويل، شارات بإطار، ثم GIF مع W وراه */
+@media (max-width: 767px) {
+  .download-section {
+    background: #fff;
+    overflow-x: clip;
+
+    .download-layout {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      max-width: 100%;
+      margin-inline: auto;
+      padding-bottom: clamp(2rem, 9vw, 3.25rem);
+      gap: clamp(1.25rem, 6vw, 2rem);
+    }
+
+    .download-shell {
+      width: 100%;
+      max-width: 100%;
+      margin-inline: 0;
+      border-radius: 0;
+      overflow: visible;
+      background: transparent;
+      min-height: 0;
+      order: 1;
+    }
+
+    .download-frame {
+      display: none !important;
+    }
+
+    .download-copy {
+      position: relative;
+      z-index: 2;
+      left: auto;
+      right: auto;
+      top: auto;
+      bottom: auto;
+      transform: none;
+      width: 100%;
+      max-width: min(22.5rem, 100%);
+      margin-inline: 0;
+      align-items: flex-start;
+      text-align: left;
+      padding: 0.35rem 0 0;
+      font-family:
+        'Inter',
+        system-ui,
+        -apple-system,
+        sans-serif;
+    }
+
+    .download-heading {
+      align-items: flex-start;
+      text-align: left;
+      margin: 0 0 0.75rem;
+      padding: 0;
+      color: #1d1ddb;
+      font-size: clamp(1.2rem, 5.4vw, 1.55rem);
+      font-weight: 800;
+      line-height: 1.18;
+      letter-spacing: -0.03em;
+    }
+
+    .download-heading__line {
+      text-align: left;
+      white-space: normal;
+    }
+
+    .download-subtitle--mobile {
+      margin: 0 0 1.35rem;
+      padding: 0;
+      max-width: min(21rem, 100%);
+      text-align: left;
+      font-size: clamp(0.9rem, 3.6vw, 1rem);
+      line-height: 1.55;
+      font-weight: 500;
+      color: #4a4a4a;
+    }
+
+    .store-badges {
+      justify-content: flex-start;
+      align-items: stretch;
+      flex-wrap: nowrap;
+      gap: 0.75rem;
+      width: 100%;
+      max-width: min(21.5rem, 100%);
+      margin-inline: 0;
+    }
+
+    // .store-badge-slot {
+    //   display: flex;
+    //   flex: 1 1 0;
+    //   min-width: 0;
+    //   align-items: center;
+    //   justify-content: center;
+    //   padding: 0.45rem 0.55rem;
+    //   // background: #fff;
+    //   // border: 1px solid #e5e7eb;
+    //   border-radius: 10px;
+    //   box-sizing: border-box;
+    //   box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+    // }
+
+    .store-badges img {
+      width: auto;
+      height: auto;
+      max-height: 38px;
+      max-width: 100%;
+      object-fit: contain;
+    }
+
+    /* Figma: بيضاوي لافندر ورا — كارت أبيض بزوايا كبيرة — الموباب فوق بميل خفيف */
+    .download-mockup-wrap {
+      position: relative !important;
+      display: flex !important;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: stretch;
+      left: auto !important;
+      right: auto !important;
+      bottom: auto !important;
+      width: 100%;
+      max-width: min(22.5rem, calc(100% - 0.5rem));
+      margin-inline: auto;
+      box-sizing: border-box;
+      padding: clamp(0.5rem, 3vw, 1rem) 0 clamp(0.25rem, 2vw, 0.75rem);
+      min-height: clamp(13rem, 52vw, 17rem);
+      order: 2;
+    }
+
+    .download-mockup-backdrop {
+      left: 50%;
+      right: auto;
+      bottom: 8%;
+      top: -6%;
+      transform: translateX(-50%);
+      width: 118%;
+      max-width: none;
+      height: 88%;
+      min-height: 11rem;
+      border-radius: 50%;
+      background:
+        radial-gradient(
+          ellipse 92% 78% at 50% 58%,
+          rgba(228, 232, 252, 0.85) 0%,
+          rgba(241, 244, 255, 0.45) 52%,
+          rgba(255, 255, 255, 0) 72%
+        ),
+        linear-gradient(175deg, #f8f9fe 0%, #e8ecf9 100%);
+      opacity: 0.95;
+    }
+
+    .download-mockup-backdrop::before {
+      font-size: clamp(8rem, 54vw, 13rem);
+      bottom: 2%;
+      left: 50%;
+      transform: translateX(-50%);
+      color: rgba(13, 17, 179, 0.065);
+    }
+
+    .download-mockup-backdrop::after {
+      right: -8%;
+      bottom: 4%;
+      width: min(75%, 17rem);
+      filter: blur(28px);
+      background: radial-gradient(
+        circle at 40% 40%,
+        rgba(245, 240, 230, 0.5) 0%,
+        rgba(250, 251, 255, 0) 68%
+      );
+    }
+
+    .download-mockup-card {
+      position: relative;
+      z-index: -1;
+      display: block;
+      width: 120%;
+      right: 10%;      
+      margin-inline: auto;
+      // padding: clamp(1.15rem, 4.5vw, 1.65rem) clamp(0.65rem, 3.5vw, 1rem)
+      //   clamp(1.1rem, 4vw, 1.5rem);
+      background-image: url('../../../../assets/images/Frame.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      // border-radius: clamp(1.65rem, 5.5vw, 2.25rem);
+      // border: 1px solid rgba(226, 232, 240, 0.95);
+      // box-shadow:
+      //   0 1px 2px rgba(15, 23, 42, 0.04),
+      //   0 12px 32px rgba(13, 17, 179, 0.07);
+      box-sizing: border-box;
+    }
+
+    .download-mockup-device {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      max-width: min(75rem, 99%);
+      right: -6%;
+      margin-left: auto;
+      margin-right: clamp(0.15rem, 2vw, -6rem);
+      margin-top: 0;
+      border-radius: 0;
+      overflow: visible;
+      line-height: 0;
+      background: transparent;
+      box-shadow: none;
+    }
+
+    .download-mockup {
+      position: relative !important;
+      left: auto !important;
+      right: auto !important;
+      top: auto !important;
+      bottom: auto !important;
+      display: block;
+      width: 100%;
+      height: auto;
+      max-height: none;
+      margin: 0;
+      object-fit: contain;
+      object-position: center center;
+      z-index: 2;
+      transform: rotate(5deg) translateX(4%);
+      -webkit-user-drag: none;
     }
   }
 }

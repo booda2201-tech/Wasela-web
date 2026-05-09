@@ -1,236 +1,273 @@
-<section class="py-20 bg-white text-center">
+<section class="categories-section py-4 bg-white text-center">
   <div class="container mx-auto px-6">
 
     <!-- Header -->
-    <h2 class="text-5xl md:text-5xl font-[900] text-[#1D1DDB] mb-4">Categories We Finance</h2>
-    <p class="text-gray-500 max-w-2xl mx-auto mb-10 font-medium">
-      Waseela finances a wide range of everyday essentials to help individuals and families feel secure and move forward confidently.
+    <h2 class="text-3xl md:text-4xl font-[900] text-[#1D1DDB] mb-4">Categories We Finance</h2>
+    <p class="text-gray-500 max-w-1xl mx-auto mb-10 font-medium">
+      Waseela finances a wide range of everyday <br> essentials to help individuals and families feel secure and move forward confidently.
     </p>
 
-    <!-- Button -->
-<button class="mb-16 flex items-center justify-between gap-8 pl-10 pr-1 py-1 border-[1px] border-[#1D1DDB] rounded-full group hover:shadow-md transition-all mx-auto bg-white">
-  <span class="text-[#FF7A00] font-extrabold text-lg tracking-tight">
-    View Financing Categories
-  </span>
+    <button type="button" class="categories-cta-btn categories-cta-btn--desktop-only mb-4 mx-auto">
+      <span class="categories-cta-btn__label">View All Financing Categories</span>
+      <span class="categories-cta-btn__icon" aria-hidden="true">
+        <i class="bi bi-arrow-up-right"></i>
+      </span>
+    </button>
 
-  <div class="bg-[#1D1DDB] w-12 h-12 rounded-full flex items-center justify-center transition-transform duration-300 group-hover:scale-105">
-    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 17L17 7M17 7H7M17 7v10"></path>
-    </svg>
-  </div>
-</button>
+    <div class="category-grid grid grid-cols-2 lg:grid-cols-4 gap-x-5 gap-y-8 md:gap-x-6 md:gap-y-10 p-3 md:p-4 items-stretch">
+      <div *ngFor="let cat of categories; let i = index" class="category-card w-full flex justify-center">
 
-    <!-- Grid Categories -->
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-16 gap-y-28 p-4">
-  <div *ngFor="let cat of categories; let i = index" class="category-card group">
-
-    <div class="relative shape-wrapper">
-
-      <!-- 1. الطبقة الكحلية (الشكل اللي ورا - Offset) -->
-      <div class="absolute inset-0 bg-[#1D1DDB] blob-shape  transition-all duration-500 group-hover:translate-x-0 group-hover:translate-y-0 translate-x-3 translate-y-3"></div>
-
-      <!-- 2. الحاوية الأساسية (الصورة + الـ Overlay) -->
-      <div class="relative overflow-hidden blob-shape main-layer  transition-transform duration-500 group-hover:-translate-y-2">
-
-        <!-- الصورة -->
-        <img [src]="cat.img" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-
-        <!-- الـ Overlay (بيظهر في النص عند الهوفر) -->
-        <div class="absolute inset-0 bg-[#1D1DDB] opacity-5 group-hover:opacity-100  duration-500 flex items-center justify-center p-6">
-          <span class="text-white text-2xl font-black text-center leading-tight uppercase tracking-tighter">
-            {{cat.title}}
-          </span>
-        </div>
-
-        <!-- النص السفلي (بيختفي عند الهوفر) -->
-        <div class="absolute bottom-12 left-0 right-0 z-10 text-center transition-opacity duration-300 group-hover:opacity-0">
-          <h4 class="text-white text-lg font-black drop-shadow-lg px-2 uppercase italic">
-            {{cat.title}}
-          </h4>
+        <div class="relative shape-wrapper w-full">
+          <div class="category-card-frame">
+            <img [id]="cat.imgId" [src]="cat.img" class="category-card-img" [alt]="cat.title" loading="lazy">
+            <h3 class="category-card-title">{{ cat.title }}</h3>
+          </div>
         </div>
 
       </div>
     </div>
 
-  </div>
-</div>
+    <button type="button" class="categories-cta-btn categories-cta-btn--mobile-only mt-6 mb-4 mx-auto">
+      <span class="categories-cta-btn__label">View All Financing Categories</span>
+      <span class="categories-cta-btn__icon" aria-hidden="true">
+        <i class="bi bi-arrow-up-right"></i>
+      </span>
+    </button>
 
   </div>
 </section>
 
-<section class="partners-section py-20 bg-white" [class.is-swapping]="partnersSwapping">
+<section class="partners-section py-6 bg-white" [class.is-swapping]="partnersSwapping">
   <div class="container mx-auto px-4 text-center">
 
     <!-- الرأس: العنوان والوصف -->
-    <h2 class="partners-title text-4xl md:text-5xl font-black text-[#1D1DDB] mb-6">Our Partners</h2>
-    <p class="partners-subtitle text-gray-500 max-w-3xl mx-auto mb-10 leading-relaxed font-medium">
+    <h2 class="partners-title text-3xl md:text-4xl  font-black text-[#1D1DDB] mb-5">Our Partners</h2>
+    <p class="partners-subtitle text-gray-500 max-w-1xl mx-auto mb-10 leading-relaxed font-medium">
       Waseela Works with Trusted Merchants and Partners to Ensure Quality and Reliability. Our Merchant Ecosystem Makes Payments Easy, Transparent, and Supports Strong Partnerships.
     </p>
 
     <!-- الزرار (نفس الاستايل السابق مع تعديل النص) -->
-    <button class="mb-16 flex items-center justify-between gap-8 pl-10 pr-1 py-1 border-[1px] border-[#1D1DDB] rounded-full group hover:shadow-lg transition-all mx-auto bg-white">
-      <span class="text-[#FF7A00] font-extrabold text-lg tracking-tight">View All Merchants</span>
-      <div class="bg-[#1D1DDB] w-12 h-12 rounded-full flex items-center justify-center transition-transform duration-300 group-hover:scale-105">
-        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 17L17 7M17 7H7M17 7v10"></path>
-        </svg>
-      </div>
+    <button type="button" class="categories-cta-btn-2 mb-4 mx-auto">
+      <span class="categories-cta-btn__label">View All Merchants</span>
+      <span class="categories-cta-btn__icon" aria-hidden="true">
+        <i class="bi bi-arrow-up-right"></i>
+      </span>
     </button>
 
-    <!-- شبكة الشركاء الرئيسية: 3 أعمدة -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-7 md:gap-8 text-center">
-
-      <!-- قسم Banking -->
-      <div class="partner-column">
-        <h3 class="partner-heading">Banking</h3>
-        <div class="logo-grid">
-          <div *ngFor="let partner of bankingPartners; let idx = index"
+    <!-- موبايل: سويبر — سلايد واحد = شبكة فئة واحدة (2×2) -->
+    <div class="partners-mobile-swiper-wrap md:hidden">
+      <swiper-container
+        #partnersSwiperMobile
+        init="false"
+        class="partners-swiper"
+      >
+        <swiper-slide *ngFor="let col of partnerColumns" class="partners-swiper-slide">
+          <div class="partner-column partners-swiper-slide-inner">
+            <h3 class="partner-heading">{{ col.title }}</h3>
+            <div class="logo-grid">
+              <div
+                *ngFor="let partner of col.partners; let idx = index"
                 class="logo-cell"
-                [style.--i]="idx">
-            <img [src]="partner.logo" [alt]="partner.name" class="partner-logo">
+                [style.--i]="idx + col.styleBase"
+              >
+                <img [src]="partner.logo" [alt]="partner.name" class="partner-logo" loading="lazy" />
+              </div>
+            </div>
+          </div>
+        </swiper-slide>
+      </swiper-container>
+    </div>
+
+    <!-- ديسكتوب: 3 أعمدة كما كان -->
+    <div class="hidden md:grid md:grid-cols-3 gap-7 md:gap-8 text-center">
+      <div *ngFor="let col of partnerColumns" class="partner-column">
+        <h3 class="partner-heading">{{ col.title }}</h3>
+        <div class="logo-grid">
+          <div
+            *ngFor="let partner of col.partners; let idx = index"
+            class="logo-cell"
+            [style.--i]="idx + col.styleBase"
+          >
+            <img [src]="partner.logo" [alt]="partner.name" class="partner-logo" loading="lazy" />
           </div>
         </div>
       </div>
-
-      <!-- قسم Technology -->
-      <div class="partner-column">
-        <h3 class="partner-heading">Technology</h3>
-        <div class="logo-grid">
-          <div *ngFor="let partner of techPartners; let idx = index"
-                class="logo-cell"
-                [style.--i]="idx + 2">
-            <img [src]="partner.logo" [alt]="partner.name" class="partner-logo">
-          </div>
-        </div>
-      </div>
-
-      <!-- قسم Key Partners -->
-      <div class="partner-column">
-        <h3 class="partner-heading">Key Partners</h3>
-        <div class="logo-grid">
-          <div *ngFor="let partner of keyPartners; let idx = index"
-                class="logo-cell"
-                [style.--i]="idx + 4">
-            <img [src]="partner.logo" [alt]="partner.name" class="partner-logo">
-          </div>
-        </div>
-      </div>
-
     </div>
   </div>
 </section>
 
-<section class="py-20 bg-white">
+<section class="merchants-showcase-section py-6 bg-white">
   <div class="container mx-auto px-4">
 
-    <!-- Header Section -->
-    <div class="text-center mb-16">
-      <h1 class="text-5xl md:text-5xl font-black text-[#1D1DDB] mb-4">Merchants</h1>
-      <p class="text-gray-500 font-medium mb-10">
-        Helping Merchants Accept Payments Easily and Grow Confidently
+    <!-- Header: الزر فوق يظهر من lg فقط — تحت الشبكة على الشاشات الأصغر -->
+    <div class="merchants-showcase-header text-center mb-8 lg:mb-16">
+      <h1 class="text-3xl md:text-4xl font-black text-[#1D1DDB] mb-4">Merchants</h1>
+      <p class="text-gray-500 font-medium mb-0 lg:mb-10 max-w-md mx-auto text-[15px] leading-snug lg:text-base lg:leading-normal lg:max-w-none">
+        Helping Merchants Accept Payments
+        <br class="lg:hidden" aria-hidden="true" />
+        Easily and Grow Confidently
       </p>
 
-      <button class="flex items-center justify-between gap-8 pl-10 pr-1 py-1 border-[1px] border-[#1D1DDB] rounded-full group hover:shadow-lg transition-all mx-auto bg-white">
-        <span class="text-[#FF7A00] font-extrabold text-lg tracking-tight">View All Merchants</span>
-        <div class="bg-[#1D1DDB] w-12 h-12 rounded-full flex items-center justify-center transition-transform duration-300 group-hover:scale-105">
-          <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 17L17 7M17 7H7M17 7v10"></path>
-          </svg>
-        </div>
+      <button type="button" class="categories-cta-btn-2 merchants-cta--desktop mb-2 mx-auto mt-3 lg:mt-0">
+        <span class="categories-cta-btn__label">View All Merchants</span>
+        <span class="categories-cta-btn__icon" aria-hidden="true">
+          <i class="bi bi-arrow-up-right"></i>
+        </span>
       </button>
     </div>
 
-    <!-- Grid Container -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-
-      <!-- Columns -->
-      <div *ngFor="let col of columns" class="flex flex-col gap-6 h-[950px]">
-        <!-- Cards -->
-        <!-- استخدمنا smooth-accordion و duration-1000 للحصول على أفضل سلاسة -->
-        <div *ngFor="let merchant of col"
-              class="relative overflow-hidden rounded-[2rem] group cursor-pointer w-full shadow-md transition-all duration-999 smooth-accordion flex-shrink min-h-[150px]"
-              [ngClass]="merchant.classes">
-
-          <!-- Background Image -->
-          <img [src]="merchant.bg" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 will-change-transform">
-
-          <!-- Overlay -->
-          <div class="absolute inset-0 bg-black/20 opacity-0 transition-opacity duration-700 group-hover:opacity-100 pointer-events-none"></div>
-
-          <!-- Logo & Circle -->
-          <div class="absolute inset-0 flex items-center justify-center">
-            <img [src]="merchant.logo" class="max-w-full max-h-full object-contain">
+    <!-- مسرح + أعمدة بارتفاع ثابت (كل المقاسات): الهوفر يتقصّ جوّا القفص وميحرّكش الصفحة -->
+    <div class="merchants-grid-stage">
+      <div class="merchants-grid grid h-full grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
+        <div
+          *ngFor="let col of columns; let colIndex = index"
+          class="merchants-col h-[950px] max-h-[950px] min-h-0 overflow-hidden gap-3 sm:gap-4 lg:gap-6"
+          [ngClass]="colIndex >= 2 ? 'hidden lg:flex flex-col' : 'flex flex-col'"
+        >
+        <div
+          *ngFor="let merchant of col"
+          class="merchant-card group relative overflow-hidden rounded-[1.35rem] lg:rounded-[2rem] cursor-pointer w-full shadow-md hover:shadow-lg transition-all duration-700 smooth-accordion flex-shrink min-h-[120px] lg:min-h-[150px]"
+          [ngClass]="merchant.classes"
+        >
+          <div class="merchant-card-image-clip">
+            <img
+              [src]="merchant.bg"
+              class="merchant-card-bg w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 will-change-transform"
+              alt=""
+              loading="lazy"
+              decoding="async"
+            />
           </div>
 
+          <div class="absolute inset-0 bg-black/20 opacity-0 transition-opacity duration-700 group-hover:opacity-100 pointer-events-none z-[1]"></div>
+
+          <div class="absolute inset-0 z-[2] flex items-center justify-center p-2 lg:p-0 pointer-events-none">
+            <div class="merchant-card-logo-ring flex items-center justify-center rounded-full bg-white/90 shadow-sm ring-2 ring-white/80 w-[3.25rem] h-[3.25rem] sm:w-16 sm:h-16 lg:bg-transparent lg:shadow-none lg:ring-0 lg:rounded-none lg:w-auto lg:h-auto">
+              <img [src]="merchant.logo" class="max-w-[78%] max-h-[78%] lg:max-w-full lg:max-h-full object-contain" alt="" />
+            </div>
+          </div>
         </div>
-
+        </div>
       </div>
+    </div>
 
+    <div class="merchants-cta-mobile-row">
+      <button type="button" class="categories-cta-btn-2 merchants-cta--mobile">
+        <span class="categories-cta-btn__label">View All Merchants</span>
+        <span class="categories-cta-btn__icon" aria-hidden="true">
+          <i class="bi bi-arrow-up-right"></i>
+        </span>
+      </button>
     </div>
 
   </div>
 </section>
 
-<section class="py-24 bg-[#F8F9FF]">
-  <div class="container mx-auto px-6">
-    <h2 class="text-4xl md:text-5xl font-[900] text-[#1D1DDB] text-center mb-20">
+<section class="testimonials-section py-8 md:py-12">
+  <div class="container mx-auto px-6 testimonials-section__inner">
+    <h2 class="text-3xl md:text-4xl font-black text-[#1D1DDB] mb-4 text-center">
       Customers & Merchants Testimonials
     </h2>
 
-<!-- تغيير الـ gap لـ 20 في الشاشات الكبيرة -->
-<div class="flex flex-col lg:flex-row items-center justify-center gap-20 lg:gap-32">
-      <div *ngFor="let item of testimonials"
-            [class.lg:scale-110]="item.featured"
-            class="testimonial-wrapper relative group">
+    
 
-        <!-- الكارت الأساسي -->
-        <div class="testimonial-card relative z-10 bg-white p-8 text-center flex flex-col items-center">
+    <!-- صورة كارت من Figma + نص/أفاتار ديناميكي فوقها — Swiper -->
+    <div class="testimonials-swiper-wrap max-w-[1500px] mx-auto px-3 py-4 sm:px-4">
+      <swiper-container
+        #testimonialSwiper
+        init="false"
+        class="testimonials-swiper"
+      >
+        <swiper-slide *ngFor="let item of testimonials" class="testimonial-slide">
+          <div
+            class="testimonial-wrapper"
+            [class.testimonial-wrapper--featured]="item.featured"
+          >
+            <div class="testimonial-card-frame">
+              <img
+                [src]="item.cardImage"
+                alt=""
+                class="testimonial-card-photo"
+                loading="lazy"
+                decoding="async"
+              />
+              <div
+                class="testimonial-card-overlay"
+                [class.testimonial-card-overlay--compact]="testimonialUsesCompactOverlay(item)"
+              >
+                <div class="testimonial-avatar-ring">
+                  <i class="bi bi-person-fill testimonial-avatar-icon" aria-hidden="true"></i>
+                  <!-- <img [src]="item.avatar" class="testimonial-avatar-img" [alt]="item.name" loading="lazy" /> -->
+                </div>
 
-          <!-- الصورة الشخصية -->
-          <div class="w-20 h-20 bg-[#FFC091] rounded-full flex items-center justify-center mb-4 -mt-16 border-4 border-white shadow-sm">
-              <img [src]="item.avatar" class="w-10 h-10 object-contain">
+                <h3 class="testimonial-overlay-type">{{ item.type }}</h3>
+                <span class="testimonial-overlay-name">{{ item.name }}</span>
+
+                <div class="testimonial-overlay-quote" aria-hidden="true">“</div>
+
+                <p class="testimonial-overlay-body">
+                  {{ item.content }}
+                </p>
+              </div>
+            </div>
           </div>
-
-          <h3 class="text-[#4A4A4A] font-black text-xl mb-1">{{item.type}}</h3>
-          <span class="text-gray-400 text-sm mb-4">{{item.name}}</span>
-
-          <!-- علامة الاقتباس -->
-          <div class="text-[#1D1DDB] text-4xl font-serif mb-2">“</div>
-
-          <p class="text-[#4A4A4A] leading-relaxed text-sm md:text-base px-4">
-            {{item.content}}
-          </p>
-        </div>
-      </div>
+        </swiper-slide>
+      </swiper-container>
     </div>
   </div>
 </section>
 
-<section class="download-section py-8 md:py-12 overflow-hidden">
-  <div class="container mx-auto px-0">
-    <div class="download-shell">
-      <div class="download-bg-w">W</div>
+<section class="download-section py-6 md:py-12" aria-labelledby="download-heading">
+  <div class="container mx-auto px-4 lg:px-0">
+    <div class="download-layout">
+      <div class="download-shell">
+        <img
+          src="../../../../assets/images/Frame.png"
+          alt=""
+          class="download-frame"
+          decoding="async"
+          loading="lazy"
+        />
+        <div class="download-copy">
+          <!-- Figma 8:647 — سطران ثابتان: "Stay in Control of" ثم "What Matters Most" -->
+          <h2 class="download-heading" id="download-heading">
+            <span class="download-heading__line">Stay in Control of</span>
+            <span class="download-heading__line">What Matters Most</span>
+          </h2>
+          <p class="download-subtitle download-subtitle--desktop hidden md:block">
+            Download the Waseela App Now
+          </p>
+          <p class="download-subtitle download-subtitle--mobile md:hidden text-left">
+            Download the Waseela app today and experience a simpler, calmer way to manage essential expenses.
+          </p>
 
-      <div class="download-copy">
-        <h2>
-          Stay in Control of
-          <br>
-          What Matters Most
-        </h2>
-        <p>Download the Waseela App Now</p>
-
-        <div class="store-badges">
-          <img src="../../../../assets/images/app-store.png" alt="App Store">
-          <img src="../../../../assets/images/google-play.png" alt="Google Play">
+          <div class="store-badges">
+            <div class="store-badge-slot">
+              <img src="../../../../assets/images/app-store.png" alt="Download on the App Store" />
+            </div>
+            <div class="store-badge-slot">
+              <img src="../../../../assets/images/google-play.png" alt="Get it on Google Play" />
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="download-ornaments" aria-hidden="true">
-        <span class="orb orb-purple"></span>
-        <span class="orb orb-cream"></span>
+      <div class="download-mockup-wrap">
+        <!-- <div class="download-mockup-backdrop" aria-hidden="true"></div> -->
+        <div class="download-mockup-card">
+          <div class="download-mockup-device">
+            <img
+              src="../../../../assets/gif/footer-mockup%201.gif"
+              class="download-mockup"
+              alt="Waseela App"
+              width="800"
+              height="600"
+              loading="eager"
+              decoding="async"
+            />
+          </div>
+        </div>
       </div>
-
-      <img src="../../../../assets/gif/footer-mockup 1.gif" class="download-mockup" alt="Waseela App">
     </div>
   </div>
 </section>

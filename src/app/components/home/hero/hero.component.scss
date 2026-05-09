@@ -60,39 +60,40 @@ $total: 3.5s;
 @keyframes megaPillGrow {
   0%,
   42% {
-    transform: translateY(-50%) scale(0.05);
+    transform: translate(-50%, -50%) scale(0.05);
     opacity: 0;
   }
 //   45% {
 //     opacity: 1;
 //   }
   45% {
-    transform: translateY(-50%) scale(0.25);
+    transform: translate(-50%, -50%) scale(0.25);
   }
   52% {
-    transform: translateY(-50%) scale(0.31);
+    transform: translate(-50%, -50%) scale(0.31);
   }
   55% {
-    transform: translateY(-50%) scale(0.35);
+    transform: translate(-50%, -50%) scale(0.35);
   }
   64% {
-    transform: translateY(-50%) scale(0.52);
+    transform: translate(-50%, -50%) scale(0.52);
   }
   68% {
-    transform: translateY(-50%) scale(0.62);
+    transform: translate(-50%, -50%) scale(0.62);
   }
   74% {
-    transform: translateY(-50%) scale(0.82);
+    transform: translate(-50%, -50%) scale(0.72);
   }
   78% {
-    transform: translateY(-50%) scale(0.95);
+    transform: translate(-50%, -50%) scale(0.85);
     opacity: 1;
   }
   82% {
-    transform: translateY(-50%) scale(1);
+    transform: translate(-50%, -50%) scale(0.95);
     opacity: 0;
   }
   100% {
+    transform: translate(-50%, -50%) scale(1);
     opacity: 0;
   }
 }
@@ -149,7 +150,7 @@ $total: 3.5s;
 
 .hero-mega-pill {
   position: absolute;
-  left: -16% !important;
+  left: 50% !important;
   top: 50%;
   width: 2500px;
   height: 1500px;
@@ -157,19 +158,12 @@ $total: 3.5s;
   border-radius: 9999px;
   background: $blue-pill;
   box-shadow: inset 0 4px 32px rgba(0, 0, 0, 0.22);
-  transform: translateY(50%);
+  transform: translate(-50%, -50%);
 //   transform-origin: 30% 50%;
   z-index: 1;
   pointer-events: none;
   animation: megaPillGrow $total cubic-bezier(0.5, 0, 0.2, 1) both;
-  @media (min-width: 1200px) {
-    left: -30% !important;
-    top: 50%;
-  }
-  @media (max-width: 900px) {
-     right: 10%;
-     top: 50%;
-  }
+
 }
 
 .hero-toggle {
@@ -217,13 +211,13 @@ $total: 3.5s;
 
 .hero-headline {
   position: absolute;
-  left: clamp(2rem, 6vw, 8rem);
+  left: clamp(1rem, 2vw, 1rem);
   top: 50%;
   transform: translateY(-50%);
   z-index: 4;
   display: flex;
   flex-direction: column;
-  max-width: min(800px, 65vw) !important;
+  max-width: min(400px, 40vw) !important;
   animation: headlineIn 0.65s cubic-bezier(0.22, 1, 0.36, 1) 2.62s both;
   font-family: 'Diodrum Arabic', 'DiodrumArabicBold', system-ui, sans-serif !important;
 }
@@ -240,23 +234,25 @@ $total: 3.5s;
 }
 
 .hero-gif {
-  width: min(60vw,295rem);
-  height: 1050px;
+  width: min(60vw, 800px);
+  max-width: none !important;
+  height: auto !important;
   display: block;
   object-fit: contain;
-  img {
-    width: 120% !important;
-    height: 120% !important;
-    object-fit: contain;
+  @media (min-width: 1200px) {
+    width: min(100vw, 1000px);
+  }
+  @media (min-width: 1600px) {
+    width: min(80vw, 1050px);
   }
   @media (max-width: 1024px) {
-    width: min(80vw,295rem);
+    width: min(80vw, 895px);
   }
   @media (max-width: 900px) {
-    width: min(72vw, 360px);
+    width: min(92vw, 1960px);
   }
   @media (max-width: 640px) {
-    width: min(75vw, 450px);
+    width: min(85vw, 850px);
   }
   @media (max-width: 390px) {
     width: min(75vw, 450px);
@@ -294,7 +290,7 @@ $total: 3.5s;
 
 .hero-cta {
   position: absolute;
-  right: 20%;
+  right: 12%;
   bottom: 17%;
   transform: translateY(-50%);
   z-index: 4;
@@ -303,6 +299,15 @@ $total: 3.5s;
   align-items: flex-start;
   gap: 1rem;
   animation: ctaIn 0.65s cubic-bezier(0.22, 1, 0.36, 1) 2.68s both;
+  @media (max-width: 1500px) {
+    right: 2%;
+  }
+  @media (max-width: 640px) {
+    right: 8%;
+  }
+  @media (max-width: 390px) {
+    right: 6%;
+  }
 }
 
 /* نفس شكل زر الموبايل: كبسولة، نص أزرق متوسّط، دايرة برتقالي + سهم قطري */
@@ -446,7 +451,7 @@ $total: 3.5s;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    min-height: clamp(500px, 78svh, 720px);
+    min-height: clamp(500px, 78svh, 680px);
     width: 100%;
     background: #1b1cc4;
     overflow: hidden;
@@ -471,17 +476,18 @@ $total: 3.5s;
     font-size: clamp(2.35rem, 11.8vw, 3.05rem);
     line-height: 1.2;
     letter-spacing: 0;
-    margin-top: 5.5rem;
+    margin-top: 4rem;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
   .hero-mobile-cta {
-    margin-top: 0.85rem;
+    margin-top: 1.3rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 0.85rem;
+
   }
 
   .hero-mobile-explore {
@@ -491,7 +497,7 @@ $total: 3.5s;
     align-items: center;
     box-sizing: border-box;
     width: 100%;
-    max-width: 280px;
+    max-width: 200px;
     padding: 0 0 0 1rem;
     border: 1px solid $blue-bg;
     border-radius: 9999px;
@@ -499,8 +505,8 @@ $total: 3.5s;
     color: $blue-bg;
     text-decoration: none;
     font-family: 'Inter', sans-serif;
-    font-size: clamp(0.78rem, 3.2vw, 0.95rem);
-    font-weight: 700;
+    font-size: clamp(0.78rem, 3.2vw, 1rem);
+    font-weight: 800;
     line-height: 1;
     overflow: hidden;
     box-shadow: 0 5px 14px rgba(0, 0, 0, 0.12);
@@ -571,7 +577,7 @@ $total: 3.5s;
     justify-content: center;
     align-items: flex-end;
     z-index: 1;
-    margin-top: 0.65rem;
+    // margin-top: 0.65rem;
     flex: 1;
     min-height: 260px;
   }
@@ -579,7 +585,7 @@ $total: 3.5s;
   .hero-mobile-blue-circle {
     position: absolute;
     width: 280px;
-    height: 150px;
+    height: 120px;
     border-radius: 80px;
     background: #2727ff;
     right: calc(50% - 126px);
@@ -593,8 +599,8 @@ $total: 3.5s;
     height: 150px;
     border-radius: 50%;
     background: #f56300;
-    right: calc(50% - 126px);
-    bottom: 100px;
+    right: calc(50% - 128px);
+    bottom: 85px;
   }
 
   .hero-mobile-gif {
@@ -603,6 +609,8 @@ $total: 3.5s;
     max-width: none !important;
     height: auto !important;
     object-fit: contain;
+    // margin-top: 0.85rem;
+    transform: translateY(20px);
   }
 
   .line-matters {
@@ -610,12 +618,13 @@ $total: 3.5s;
   }
 
   .hero-gif-wrap {
-    top: 47%;
+    top: 40%;
     animation-delay: 2.96s;
   }
 
   .hero-gif {
-    width: min(72vw, 360px);
+    left: 40% !important;
+    width: min(72vw, 260px);
   }
 
   .hero-headline {

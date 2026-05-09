@@ -1,20 +1,23 @@
-<div class="container mx-auto px-6 py-20 space-y-24">
+<div class="container mx-auto px-6 pt-16 space-y-24">
 
-<div class="how-it-works-main bg-[#eef5ff] rounded-[24px] md:rounded-[26px] relative flex flex-col lg:flex-row items-center overflow-hidden min-h-[320px]">
-
-  <!-- الجزء الخاص بالموبايل: "غاطس" في الأرضية -->
-  <div class="w-full lg:w-[48%] self-stretch relative min-h-[350px] lg:min-h-[450px]">
-    <img src="../../../../assets/gif/how waseela works.gif"
-          alt="Waseela App"
-          class="absolute -bottom-7 lg:-bottom-10 left-1/2 lg:left-[45%] -translate-x-1/2 w-[120%] lg:w-[135%] max-w-none h-auto object-contain">
+<!-- DOM: صورة ثم نص. موبايل: flex-col-reverse + SCSS. lg+: كما كان بالضبط -->
+<div
+  class="how-it-works-main h-auto lg:h-[350px] bg-[#eef5ff] rounded-[24px] md:rounded-[26px] relative flex flex-col-reverse lg:flex-row items-center overflow-hidden min-h-[220px]"
+>
+  <div class="how-it-works-visual w-full lg:w-[60%] self-stretch relative min-h-[300px] lg:min-h-[400px]">
+    <img
+      src="../../../../assets/gif/how waseela works.gif"
+      alt="Waseela App"
+      class="how-it-works-gif absolute -top-16 lg:-top-10 left-1/2 lg:left-[40%] -translate-x-1/2 w-[50%] lg:w-[135%] max-w-none h-auto object-contain"
+    />
   </div>
 
-  <div class="w-full lg:w-[52%] h-full flex flex-col justify-center px-6 md:px-10 lg:px-12 py-10 lg:py-0 space-y-4 text-center lg:text-left">
-    <div class="max-w-[620px]">
-      <h2 class="text-[34px] md:text-[44px] font-[900] text-[#1D1DDB] leading-[1.1] mb-4">
+  <div class="w-full lg:w-[52%] flex flex-col justify-start px-6 md:px-10 lg:px-12 py-10 lg:py-0 space-y-4 text-center lg:text-left">
+    <div class="max-w-[650px]">
+      <h2 class="text-left text-[25px] md:text-[40px] font-[900] text-[#1D1DDB] leading-[1.1] mb-4">
         How Waseela Works
       </h2>
-      <p class="text-[#252525] text-[15px] md:text-[18px] font-medium leading-[1.6]">
+      <p class="text-left text-[#252525] text-[15px] max-sm:text-[13px] font-medium leading-[1.5]">
         Waseela Is Designed To Remove Complexity From Consumer Finance. Our Digital-First Journey Ensures That Applying, Getting Approved, And Paying Installments Is Simple, Fast, And Stress-Free.
       </p>
     </div>
@@ -22,79 +25,85 @@
 </div>
 
 
-  <!-- Section 2: Step Cards -->
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5">
+  <!-- Section 2: Step Cards — شبكة md+ كما هي؛ تحت md من SCSS -->
+  <div class="step-cards-grid grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-3 mt-5">
     <!-- Card 1 -->
-    <div class="bg-[#b9e6ff] rounded-[14px] flex flex-col min-h-[500px] overflow-hidden">
-      <div class="space-y-4 p-4 md:p-6 pb-3">
-        <h3 class="text-[22px] md:text-[35px] leading-[1.08] font-black text-[#1D1DDB]">1. Apply Digitally</h3>
-        <p class="text-[#0f2f55] text-[12px] md:text-[15px] leading-[1.5] font-medium">Download The Waseela App And Complete Your Application In Minutes. Our Onboarding Is Paperless, Intuitive, And Designed For Ease - No Branches, No Long Forms, No Unnecessary Steps.</p>
+    <div class="step-card bg-[#b9e6ff] rounded-[15px] flex flex-col min-h-[500px] overflow-hidden">
+      <div class="space-y-4 p-6 md:p-10 pb-4">
+        <h3 class="text-[22px] md:text-[30px] leading-[1.08] font-black text-[#1D1DDB]">1. Apply Digitally</h3>
+        <p class="text-[#0f2f55] text-[12px] md:text-[15px] leading-[1.5] font-medium mt-4 max-w-[350px]">Download The Waseela App <br> And Complete Your Application In Minutes. Our Onboarding Is Paperless, Intuitive, And Designed For Ease - No Branches, No Long Forms, No Unnecessary Steps.</p>
       </div>
-      <div class="flex gap-3 px-7 md:px-8 mt-2">
-        <img src="../../../../assets/images/app-store.png" class="h-10 md:h-11 cursor-pointer hover:scale-105 transition" alt="App Store">
-        <img src="../../../../assets/images/google-play.png" class="h-10 md:h-11 cursor-pointer hover:scale-105 transition" alt="Google Play">
+      <div class="flex flex-wrap gap-3 px-4 md:px-8 mt-2">
+        <img src="../../../../assets/images/Mobile app store badge (2).png" class="h-10 md:h-11 cursor-pointer hover:scale-105 transition" alt="App Store">
+        <img src="../../../../assets/images/Mobile app store badge (3).png" class="h-10 md:h-11 cursor-pointer hover:scale-105 transition" alt="Google Play">
       </div>
-      <div class="relative flex-1 mt-1">
-        <img src="../../../../assets/gif/iphone in light blue container.gif" class="absolute -bottom-8 left-1/2 -translate-x-1/3 w-[135%] max-w-none h-auto object-contain" alt="Waseela App">
+      <div class="step-card-visual relative flex-1 mt-2">
+        <img src="../../../../assets/gif/iphone in light blue container.gif" class="step-card-img step-card-img--blue absolute -bottom-8 left-1/2 -translate-x-1/3 w-[135%] max-w-none h-auto object-contain" alt="Waseela App">
       </div>
     </div>
 
     <!-- Card 2 -->
-    <div class="bg-[#f87300] rounded-[14px] flex flex-col min-h-[600px] text-white overflow-hidden">
-      <div class="space-y-4 p-4 md:p-6 pb-3">
-        <h3 class="text-[22px] md:text-[35px] leading-[1.08] font-black">2. Instant,<br>AI-Driven Approval</h3>
-        <p class="opacity-95 font-medium text-[12px] md:text-[15px] leading-[1.5]">Using Smart Credit Logic, Waseela Assesses Eligibility Efficiently And Assigns An Available Financing Limit Or Invoice-Based Approval, Giving You Clarity From The Start.</p>
+    <div class="step-card bg-[#f87300] rounded-[14px] flex flex-col min-h-[600px] text-white overflow-hidden">
+      <div class="space-y-4 p-6 md:p-10 pb-4">
+        <h3 class="text-[22px] md:text-[30px] leading-[1.08] font-black">2. Instant,<br>AI-Driven Approval</h3>
+        <p class="opacity-95 font-medium text-[12px] md:text-[15px] leading-[1.5] mt-4">Using Smart Credit Logic, Waseela Assesses Eligibility Efficiently And Assigns An Available Financing Limit Or Invoice-Based Approval, Giving You Clarity From The Start.</p>
       </div>
-      <div class="relative flex-1 mt-1">
-        <img src="../../../../assets/gif/iphone in orange container.gif" class="absolute -bottom-10 left-1/2 -translate-x-1/2 w-[155%] max-w-none h-auto object-contain" alt="Waseela App">
+      <div class="step-card-visual relative flex-1 mt-1">
+        <img src="../../../../assets/gif/iphone in orange container.gif" class="step-card-img step-card-img--orange absolute -bottom-10 left-1/2 -translate-x-1/2 w-[175%] max-w-none h-auto object-contain" alt="Waseela App">
       </div>
     </div>
 
     <!-- Card 3 -->
-    <div class="bg-[#0000ad] rounded-[14px] flex flex-col min-h-[600px] text-white overflow-hidden">
-      <div class="space-y-4 p-4 md:p-6 pb-3">
-        <h3 class="text-[25px] md:text-[35px] leading-[1.08] font-black">3. Use Your Limit<br>Where It Matters</h3>
-        <p class="opacity-95 font-medium text-[12px] md:text-[15px] leading-[1.5]">Pay With Waseela At Our Trusted Partner Merchants &amp; Split Payments Into Clear, Manageable Installments - All Visible And Trackable Inside The App.</p>
+    <div class="step-card bg-[#0000ad] rounded-[14px] flex flex-col min-h-[600px] text-white overflow-hidden">
+      <div class="space-y-4 p-6 md:p-10 pb-4">
+        <h3 class="text-[22px] md:text-[30px] leading-[1.08] font-black">3. Use Your Limit<br>Where It Matters</h3>
+        <p class="opacity-95 font-medium text-[12px] md:text-[15px] leading-[1.5] mt-4">Pay With Waseela At Our Trusted Partner Merchants &amp; Split Payments Into Clear, Manageable Installments - All Visible And Trackable Inside The App.</p>
       </div>
-      <div class="relative flex-1 mt-1">
-        <img src="../../../../assets/gif/Iphone in Blue container.gif" class="absolute -bottom-5 left-[35%] -translate-x-1/2 w-[135%] max-w-none h-auto object-contain" alt="Waseela App">
+      <div class="step-card-visual relative flex-1 mt-1">
+        <img src="../../../../assets/gif/Iphone in Blue container.gif" class="step-card-img step-card-img--navy absolute -bottom-5 left-[35%] -translate-x-1/2 w-[135%] max-w-none h-auto object-contain" alt="Waseela App">
       </div>
     </div>
   </div>
 
   <!-- Section 3: Why Waseela? -->
-<section class="why-waseela-section container mx-auto px-6 py-16 md:py-20 flex flex-col lg:flex-row items-center gap-10 lg:gap-14">
+<section class="why-waseela-section mt-4 container mx-auto px-2 py-2 md:py-2 flex flex-col lg:flex-row items-stretch lg:items-center gap-5 lg:gap-10">
 
-  <div class="why-waseela-visual w-full lg:w-1/1 relative" (mouseleave)="resetActive()">
+  <div class="why-waseela-visual w-full lg:w-1/1 relative">
     <img src="../../../../assets/images/Slide 16_9 - 5 3.png" class="why-waseela-phone-base" alt="Waseela app preview">
 
-    <ng-container *ngFor="let feature of features | slice:0:4">
+    <ng-container *ngFor="let feature of features">
       <img [src]="feature.img"
             [class.opacity-100]="activeCard === feature.id"
             [class.opacity-0]="activeCard !== feature.id"
-            class="why-waseela-phone-overlay transition-opacity duration-500 ease-in-out"
+            class="why-waseela-phone-overlay transition-opacity duration-500 ease-in-out w-[185%]"
             alt="Waseela feature preview">
     </ng-container>
   </div>
 
-  <div class="w-full lg:w-1/2">
+  <div class="w-full lg:w-1/1">
     <h2 class="why-waseela-title">Why Waseela?</h2>
 
     <div class="why-waseela-content">
-      <div class="why-waseela-track hidden md:block">
-        <div class="blue-indicator"
-             [style.top.%]="(activeCard - 1) * 25"
-             [style.opacity]="activeCard > 0 ? 1 : 0">
-        </div>
+      <div class="why-waseela-track block">
+        <div
+          class="blue-indicator"
+          [style.height.%]="featureCount ? 100 / featureCount : 0"
+          [style.top.%]="featureCount ? (activeIndex * 100) / featureCount : 0"
+          [style.opacity]="activeCard > 0 ? 1 : 0"
+        ></div>
       </div>
 
       <div class="why-waseela-cards">
-        <div *ngFor="let feature of features | slice:0:4"
-             #featureCard
+        <div *ngFor="let feature of features"
              [attr.data-id]="feature.id"
-             (mouseenter)="setActive(feature.id)"
+             [attr.data-why-feature]="feature.id"
+             (click)="setActive(feature.id)"
              [class.active-card]="activeCard === feature.id"
-             class="feature-card">
+             class="feature-card"
+             role="button"
+             tabindex="0"
+             (keydown.enter)="setActive(feature.id)"
+             (keydown.space)="$event.preventDefault(); setActive(feature.id)">
           <h4>{{feature.title}}</h4>
           <p>{{feature.desc}}</p>
         </div>
@@ -102,6 +111,5 @@
     </div>
   </div>
 </section>
-
 </div>
 
