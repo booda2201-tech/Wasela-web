@@ -1,66 +1,105 @@
-<section class="categories-section py-4 bg-white text-center">
+<section *ngIf="financeSection() as fin" class="categories-section py-4 bg-white text-center">
   <div class="container mx-auto px-6">
-
-    <!-- Header -->
-    <h2 class="text-3xl md:text-4xl font-[900] text-[#1D1DDB] mb-4">Categories We Finance</h2>
-    <p class="text-gray-500 max-w-1xl mx-auto mb-10 font-medium">
-      Waseela finances a wide range of everyday <br> essentials to help individuals and families feel secure and move forward confidently.
+    <h2 *ngIf="fin.title" class="text-3xl md:text-4xl font-[900] text-[#1D1DDB] mb-4">{{ fin.title }}</h2>
+    <p *ngIf="fin.description" class="text-gray-500 max-w-1xl mx-auto mb-10 font-medium cms-preline">
+      {{ fin.description }}
     </p>
 
-    <button type="button" class="categories-cta-btn categories-cta-btn--desktop-only mb-4 mx-auto">
-      <span class="categories-cta-btn__label">View All Financing Categories</span>
+    <a
+      *ngIf="fin.buttonText && fin.buttonUrl && isExternalUrl(fin.buttonUrl)"
+      class="categories-cta-btn categories-cta-btn--desktop-only mb-4 mx-auto inline-flex no-underline"
+      [href]="fin.buttonUrl"
+      rel="noopener noreferrer"
+    >
+      <span class="categories-cta-btn__label">{{ fin.buttonText }}</span>
       <span class="categories-cta-btn__icon" aria-hidden="true">
         <i class="bi bi-arrow-up-right"></i>
       </span>
-    </button>
+    </a>
+    <a
+      *ngIf="fin.buttonText && fin.buttonUrl && !isExternalUrl(fin.buttonUrl)"
+      class="categories-cta-btn categories-cta-btn--desktop-only mb-4 mx-auto inline-flex no-underline"
+      [routerLink]="fin.buttonUrl"
+    >
+      <span class="categories-cta-btn__label">{{ fin.buttonText }}</span>
+      <span class="categories-cta-btn__icon" aria-hidden="true">
+        <i class="bi bi-arrow-up-right"></i>
+      </span>
+    </a>
 
-    <div class="category-grid grid grid-cols-2 lg:grid-cols-4 gap-x-5 gap-y-8 md:gap-x-6 md:gap-y-10 p-3 md:p-4 items-stretch">
-      <div *ngFor="let cat of categories; let i = index" class="category-card w-full flex justify-center">
-
+    <div
+      *ngIf="categories.length"
+      class="category-grid grid grid-cols-2 lg:grid-cols-4 gap-x-5 gap-y-8 md:gap-x-6 md:gap-y-10 p-3 md:p-4 items-stretch"
+    >
+      <div *ngFor="let cat of categories" class="category-card w-full flex justify-center">
         <div class="relative shape-wrapper w-full">
           <div class="category-card-frame">
-            <img [id]="cat.imgId" [src]="cat.img" class="category-card-img" [alt]="cat.title" loading="lazy">
+            <img [id]="cat.imgId" [src]="cat.img" class="category-card-img" [alt]="cat.title" loading="lazy" />
             <h3 class="category-card-title">{{ cat.title }}</h3>
           </div>
         </div>
-
       </div>
     </div>
 
-    <button type="button" class="categories-cta-btn categories-cta-btn--mobile-only mt-6 mb-4 mx-auto">
-      <span class="categories-cta-btn__label">View All Financing Categories</span>
+    <a
+      *ngIf="fin.buttonText && fin.buttonUrl && isExternalUrl(fin.buttonUrl)"
+      class="categories-cta-btn categories-cta-btn--mobile-only mt-6 mb-4 mx-auto inline-flex no-underline"
+      [href]="fin.buttonUrl"
+      rel="noopener noreferrer"
+    >
+      <span class="categories-cta-btn__label">{{ fin.buttonText }}</span>
       <span class="categories-cta-btn__icon" aria-hidden="true">
         <i class="bi bi-arrow-up-right"></i>
       </span>
-    </button>
-
+    </a>
+    <a
+      *ngIf="fin.buttonText && fin.buttonUrl && !isExternalUrl(fin.buttonUrl)"
+      class="categories-cta-btn categories-cta-btn--mobile-only mt-6 mb-4 mx-auto inline-flex no-underline"
+      [routerLink]="fin.buttonUrl"
+    >
+      <span class="categories-cta-btn__label">{{ fin.buttonText }}</span>
+      <span class="categories-cta-btn__icon" aria-hidden="true">
+        <i class="bi bi-arrow-up-right"></i>
+      </span>
+    </a>
   </div>
 </section>
 
-<section class="partners-section py-6 bg-white" [class.is-swapping]="partnersSwapping">
+<section
+  *ngIf="partnersSection() as part"
+  class="partners-section py-6 bg-white"
+  [class.is-swapping]="partnersSwapping"
+>
   <div class="container mx-auto px-4 text-center">
-
-    <!-- الرأس: العنوان والوصف -->
-    <h2 class="partners-title text-3xl md:text-4xl  font-black text-[#1D1DDB] mb-5">Our Partners</h2>
-    <p class="partners-subtitle text-gray-500 max-w-1xl mx-auto mb-10 leading-relaxed font-medium">
-      Waseela Works with Trusted Merchants and Partners to Ensure Quality and Reliability. Our Merchant Ecosystem Makes Payments Easy, Transparent, and Supports Strong Partnerships.
+    <h2 *ngIf="part.title" class="partners-title text-3xl md:text-4xl font-black text-[#1D1DDB] mb-5">{{ part.title }}</h2>
+    <p *ngIf="part.description" class="partners-subtitle text-gray-500 max-w-1xl mx-auto mb-10 leading-relaxed font-medium cms-preline">
+      {{ part.description }}
     </p>
 
-    <!-- الزرار (نفس الاستايل السابق مع تعديل النص) -->
-    <button type="button" class="categories-cta-btn-2 mb-4 mx-auto">
-      <span class="categories-cta-btn__label">View All Merchants</span>
+    <a
+      *ngIf="part.buttonText && part.buttonUrl && isExternalUrl(part.buttonUrl)"
+      class="categories-cta-btn-2 mb-4 mx-auto inline-flex no-underline"
+      [href]="part.buttonUrl"
+      rel="noopener noreferrer"
+    >
+      <span class="categories-cta-btn__label">{{ part.buttonText }}</span>
       <span class="categories-cta-btn__icon" aria-hidden="true">
         <i class="bi bi-arrow-up-right"></i>
       </span>
-    </button>
+    </a>
+    <a
+      *ngIf="part.buttonText && part.buttonUrl && !isExternalUrl(part.buttonUrl)"
+      class="categories-cta-btn-2 mb-4 mx-auto inline-flex no-underline"
+      [routerLink]="part.buttonUrl"
+    >
+      <span class="categories-cta-btn__label">{{ part.buttonText }}</span>
+      <span class="categories-cta-btn__icon" aria-hidden="true">
+        <i class="bi bi-arrow-up-right"></i>
+      </span>
+    </a>
 
-    <!-- موبايل: سويبر — سلايد واحد = شبكة فئة واحدة (2×2) -->
-    <div class="partners-mobile-swiper-wrap md:hidden">
-      <swiper-container
-        #partnersSwiperMobile
-        init="false"
-        class="partners-swiper"
-      >
+    <div *ngIf="partnerColumns.length" class="partners-mobile-swiper-wrap md:hidden">
+      <swiper-container #partnersSwiperMobile init="false" class="partners-swiper">
         <swiper-slide *ngFor="let col of partnerColumns" class="partners-swiper-slide">
           <div class="partner-column partners-swiper-slide-inner">
             <h3 class="partner-heading">{{ col.title }}</h3>
@@ -78,8 +117,7 @@
       </swiper-container>
     </div>
 
-    <!-- ديسكتوب: 3 أعمدة كما كان -->
-    <div class="hidden md:grid md:grid-cols-3 gap-7 md:gap-8 text-center">
+    <div *ngIf="partnerColumns.length" class="hidden md:grid md:grid-cols-3 gap-7 md:gap-8 text-center">
       <div *ngFor="let col of partnerColumns" class="partner-column">
         <h3 class="partner-heading">{{ col.title }}</h3>
         <div class="logo-grid">
@@ -96,164 +134,160 @@
   </div>
 </section>
 
-<section class="merchants-showcase-section py-6 bg-white">
-  <div class="container mx-auto px-4">
-
-    <!-- Header: الزر فوق يظهر من lg فقط — تحت الشبكة على الشاشات الأصغر -->
-    <div class="merchants-showcase-header text-center mb-8 lg:mb-16">
-      <h1 class="text-3xl md:text-4xl font-black text-[#1D1DDB] mb-4">Merchants</h1>
-      <p class="text-gray-500 font-medium mb-0 lg:mb-10 max-w-md mx-auto text-[15px] leading-snug lg:text-base lg:leading-normal lg:max-w-none">
-        Helping Merchants Accept Payments
-        <br class="lg:hidden" aria-hidden="true" />
-        Easily and Grow Confidently
+<section *ngIf="homeMerchantsSection() as hm" class="merchants-showcase-section py-6 bg-white">
+  <div class="container mx-auto px-4 ">
+    <div class="merchants-showcase-header  text-center mb-8 lg:mb-16">
+      <h1 *ngIf="hm.title" class="text-3xl md:text-4xl font-black text-[#1D1DDB] mb-4">{{ hm.title }}</h1>
+      <p
+        *ngIf="hm.description"
+        class="text-gray-500 font-medium mb-0 lg:mb-10 max-w-md mx-auto text-[15px] leading-snug lg:text-base lg:leading-normal lg:max-w-none cms-preline"
+      >
+        {{ hm.description }}
       </p>
 
-      <button type="button" class="categories-cta-btn-2 merchants-cta--desktop mb-2 mx-auto mt-3 lg:mt-0">
-        <span class="categories-cta-btn__label">View All Merchants</span>
+      <a
+        *ngIf="hm.buttonText && merchantsHomeCtaExternalHref(hm)"
+        class="categories-cta-btn-2 merchants-cta--desktop mb-2 mx-auto mt-3 lg:mt-0 inline-flex no-underline"
+        [href]="merchantsHomeCtaExternalHref(hm)!"
+        rel="noopener noreferrer"
+      >
+        <span class="categories-cta-btn__label">{{ hm.buttonText }}</span>
         <span class="categories-cta-btn__icon" aria-hidden="true">
           <i class="bi bi-arrow-up-right"></i>
         </span>
-      </button>
+      </a>
+      <a
+        *ngIf="hm.buttonText && !merchantsHomeCtaExternalHref(hm)"
+        class="categories-cta-btn-2 merchants-cta--desktop mb-2 mx-auto mt-3 lg:mt-0 inline-flex no-underline"
+        [routerLink]="merchantsHomeCtaRouterPath(hm)"
+      >
+        <span class="categories-cta-btn__label">{{ hm.buttonText }}</span>
+        <span class="categories-cta-btn__icon" aria-hidden="true">
+          <i class="bi bi-arrow-up-right"></i>
+        </span>
+      </a>
     </div>
 
-    <!-- مسرح + أعمدة بارتفاع ثابت (كل المقاسات): الهوفر يتقصّ جوّا القفص وميحرّكش الصفحة -->
-    <div class="merchants-grid-stage">
+    <div *ngIf="hasMerchantCards" class="merchants-grid-stage">
       <div class="merchants-grid grid h-full grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
         <div
-          *ngFor="let col of columns; let colIndex = index"
+          *ngFor="let col of merchantColumns; let colIndex = index"
           class="merchants-col h-[950px] max-h-[950px] min-h-0 overflow-hidden gap-3 sm:gap-4 lg:gap-6"
           [ngClass]="colIndex >= 2 ? 'hidden lg:flex flex-col' : 'flex flex-col'"
         >
-        <div
-          *ngFor="let merchant of col"
-          class="merchant-card group relative overflow-hidden rounded-[1.35rem] lg:rounded-[2rem] cursor-pointer w-full shadow-md hover:shadow-lg transition-all duration-700 smooth-accordion flex-shrink min-h-[120px] lg:min-h-[150px]"
-          [ngClass]="merchant.classes"
-        >
-          <div class="merchant-card-image-clip">
-            <img
-              [src]="merchant.bg"
-              class="merchant-card-bg w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 will-change-transform"
-              alt=""
-              loading="lazy"
-              decoding="async"
-            />
-          </div>
+          <div
+            *ngFor="let merchant of col"
+            class="merchant-card group relative overflow-hidden rounded-[1.35rem] lg:rounded-[2rem] cursor-pointer w-full shadow-none transition-all duration-700 smooth-accordion flex-shrink min-h-[120px] lg:min-h-[150px]"
+            [ngClass]="merchant.classes"
+          >
+            <div class="merchant-card-image-clip">
+              <img
+                [src]="merchant.bg"
+                class="merchant-card-bg w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 will-change-transform"
+                alt=""
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
 
-          <div class="absolute inset-0 bg-black/20 opacity-0 transition-opacity duration-700 group-hover:opacity-100 pointer-events-none z-[1]"></div>
+            <div
+              class="absolute inset-0 bg-black/20 opacity-0 transition-opacity duration-700 group-hover:opacity-100 pointer-events-none z-[1]"
+            ></div>
 
-          <div class="absolute inset-0 z-[2] flex items-center justify-center p-2 lg:p-0 pointer-events-none">
-            <div class="merchant-card-logo-ring flex items-center justify-center rounded-full bg-white/90 shadow-sm ring-2 ring-white/80 w-[3.25rem] h-[3.25rem] sm:w-16 sm:h-16 lg:bg-transparent lg:shadow-none lg:ring-0 lg:rounded-none lg:w-auto lg:h-auto">
-              <img [src]="merchant.logo" class="max-w-[78%] max-h-[78%] lg:max-w-full lg:max-h-full object-contain" alt="" />
+            <div class="absolute inset-0 z-[2] flex items-center justify-center p-2 lg:p-0 pointer-events-none">
+              <div
+                class="merchant-card-logo-ring flex items-center justify-center rounded-full bg-white/90 shadow-none ring-2 ring-white/80 w-[3.25rem] h-[3.25rem] sm:w-16 sm:h-16 lg:bg-transparent lg:ring-0 lg:rounded-none lg:w-auto lg:h-auto"
+              >
+                <img
+                  [src]="merchant.logo"
+                  class="max-w-[78%] max-h-[78%] lg:max-w-full lg:max-h-full object-contain"
+                  alt=""
+                />
+              </div>
             </div>
           </div>
-        </div>
         </div>
       </div>
     </div>
 
     <div class="merchants-cta-mobile-row">
-      <button type="button" class="categories-cta-btn-2 merchants-cta--mobile">
-        <span class="categories-cta-btn__label">View All Merchants</span>
+      <a
+        *ngIf="hm.buttonText && merchantsHomeCtaExternalHref(hm)"
+        class="categories-cta-btn-2 merchants-cta--mobile inline-flex no-underline"
+        [href]="merchantsHomeCtaExternalHref(hm)!"
+        rel="noopener noreferrer"
+      >
+        <span class="categories-cta-btn__label">{{ hm.buttonText }}</span>
         <span class="categories-cta-btn__icon" aria-hidden="true">
           <i class="bi bi-arrow-up-right"></i>
         </span>
-      </button>
-    </div>
-
-  </div>
-</section>
-
-<section class="testimonials-section py-8 md:py-12">
-  <div class="container mx-auto px-6 testimonials-section__inner">
-    <h2 class="text-3xl md:text-4xl font-black text-[#1D1DDB] mb-4 text-center">
-      Customers & Merchants Testimonials
-    </h2>
-
-    
-
-    <!-- صورة كارت من Figma + نص/أفاتار ديناميكي فوقها — Swiper -->
-    <div class="testimonials-swiper-wrap max-w-[1500px] mx-auto px-3 py-4 sm:px-4">
-      <swiper-container
-        #testimonialSwiper
-        init="false"
-        class="testimonials-swiper"
+      </a>
+      <a
+        *ngIf="hm.buttonText && !merchantsHomeCtaExternalHref(hm)"
+        class="categories-cta-btn-2 merchants-cta--mobile inline-flex no-underline"
+        [routerLink]="merchantsHomeCtaRouterPath(hm)"
       >
-        <swiper-slide *ngFor="let item of testimonials" class="testimonial-slide">
-          <div
-            class="testimonial-wrapper"
-            [class.testimonial-wrapper--featured]="item.featured"
-          >
-            <div class="testimonial-card-frame">
-              <img
-                [src]="item.cardImage"
-                alt=""
-                class="testimonial-card-photo"
-                loading="lazy"
-                decoding="async"
-              />
-              <div
-                class="testimonial-card-overlay"
-                [class.testimonial-card-overlay--compact]="testimonialUsesCompactOverlay(item)"
-              >
-                <div class="testimonial-avatar-ring">
-                  <i class="bi bi-person-fill testimonial-avatar-icon" aria-hidden="true"></i>
-                  <!-- <img [src]="item.avatar" class="testimonial-avatar-img" [alt]="item.name" loading="lazy" /> -->
-                </div>
-
-                <h3 class="testimonial-overlay-type">{{ item.type }}</h3>
-                <span class="testimonial-overlay-name">{{ item.name }}</span>
-
-                <div class="testimonial-overlay-quote" aria-hidden="true">“</div>
-
-                <p class="testimonial-overlay-body">
-                  {{ item.content }}
-                </p>
-              </div>
-            </div>
-          </div>
-        </swiper-slide>
-      </swiper-container>
+        <span class="categories-cta-btn__label">{{ hm.buttonText }}</span>
+        <span class="categories-cta-btn__icon" aria-hidden="true">
+          <i class="bi bi-arrow-up-right"></i>
+        </span>
+      </a>
     </div>
   </div>
+
+  <!-- الشهادات داخل نفس سكشن التجار (في آخر القسم) -->
+  <ng-container *ngTemplateOutlet="homeTestimonials"></ng-container>
 </section>
 
-<section class="download-section py-6 md:py-12" aria-labelledby="download-heading">
+<!-- لو تم تعطيل سكشن التجار من الـ CMS، اعرض الشهادات لوحدها -->
+<ng-container  *ngIf="!homeMerchantsSection()">
+  <ng-container *ngTemplateOutlet="homeTestimonials"></ng-container>
+</ng-container>
+
+<section *ngIf="downloadSection() as dl" class="download-section py-6 md:py-12" aria-labelledby="download-heading">
   <div class="container mx-auto px-4 lg:px-0">
     <div class="download-layout">
-      <div class="download-shell">
-        <img
-          src="../../../../assets/images/Frame.png"
-          alt=""
-          class="download-frame"
-          decoding="async"
-          loading="lazy"
-        />
+      <div
+        class="download-shell"
+        [style.background-image]="downloadBackgroundUrl ? 'url(' + downloadBackgroundUrl + ')' : null"
+        [style.background-size]="downloadBackgroundUrl ? 'cover' : null"
+        [style.background-position]="downloadBackgroundUrl ? 'center' : null"
+      >
+        <img src="../../../../assets/images/Frame.png" alt="" class="download-frame" decoding="async" loading="lazy" />
         <div class="download-copy">
-          <!-- Figma 8:647 — سطران ثابتان: "Stay in Control of" ثم "What Matters Most" -->
           <h2 class="download-heading" id="download-heading">
-            <span class="download-heading__line">Stay in Control of</span>
-            <span class="download-heading__line">What Matters Most</span>
+            <span *ngIf="downloadHeadingLine1" class="download-heading__line">{{ downloadHeadingLine1 }}</span>
+            <span *ngIf="downloadHeadingLine2" class="download-heading__line">{{ downloadHeadingLine2 }}</span>
           </h2>
-          <p class="download-subtitle download-subtitle--desktop hidden md:block">
-            Download the Waseela App Now
+          <p *ngIf="downloadSubtitle" class="download-subtitle download-subtitle--desktop hidden md:block cms-preline">
+            {{ downloadSubtitle }}
           </p>
-          <p class="download-subtitle download-subtitle--mobile md:hidden text-left">
-            Download the Waseela app today and experience a simpler, calmer way to manage essential expenses.
+          <p *ngIf="downloadSubtitleMobile" class="download-subtitle download-subtitle--mobile md:hidden text-left cms-preline">
+            {{ downloadSubtitleMobile }}
           </p>
 
           <div class="store-badges">
             <div class="store-badge-slot">
-              <img src="../../../../assets/images/app-store.png" alt="Download on the App Store" />
+              <a *ngIf="appStoreUrl" [href]="appStoreUrl" rel="noopener noreferrer">
+                <img src="../../../../assets/images/app-store.png" alt="Download on the App Store" />
+              </a>
+              <img
+                *ngIf="!appStoreUrl"
+                src="../../../../assets/images/app-store.png"
+                alt="Download on the App Store"
+              />
             </div>
             <div class="store-badge-slot">
-              <img src="../../../../assets/images/google-play.png" alt="Get it on Google Play" />
+              <a *ngIf="googlePlayUrl" [href]="googlePlayUrl" rel="noopener noreferrer">
+                <img src="../../../../assets/images/google-play.png" alt="Get it on Google Play" />
+              </a>
+              <img *ngIf="!googlePlayUrl" src="../../../../assets/images/google-play.png" alt="Get it on Google Play" />
             </div>
           </div>
         </div>
       </div>
 
       <div class="download-mockup-wrap">
-        <!-- <div class="download-mockup-backdrop" aria-hidden="true"></div> -->
         <div class="download-mockup-card">
           <div class="download-mockup-device">
             <img
@@ -271,3 +305,59 @@
     </div>
   </div>
 </section>
+
+<ng-template #homeTestimonials>
+  <ng-container *ngIf="testimonialsSection() as ts">
+    <section *ngIf="testimonials.length" class="testimonials-section py-8 md:py-12 mt-5">
+      <div class="container mx-auto px-6 testimonials-section__inner">
+        <h2 *ngIf="ts.title" class="text-3xl md:text-4xl font-black text-[#1D1DDB] mb-4 text-center">{{ ts.title }}</h2>
+
+        <div class="testimonials-swiper-wrap max-w-[1500px] mx-auto px-3 py-4 sm:px-4">
+          <swiper-container #testimonialSwiper init="false" class="testimonials-swiper">
+            <swiper-slide *ngFor="let item of testimonials" class="testimonial-slide">
+              <div class="testimonial-wrapper" [class.testimonial-wrapper--featured]="item.featured">
+                <article class="testimonial-layered-card">
+                  <div class="testimonial-layered-card__bg" aria-hidden="true">
+                    <img
+                      *ngIf="item.backgroundSrc"
+                      [src]="item.backgroundSrc"
+                      alt=""
+                      class="testimonial-layered-card__bg-img"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </div>
+
+                  <div class="testimonial-layered-card__panel">
+                    <div class="testimonial-layered-card__avatar-ring">
+                      <img
+                        *ngIf="item.avatarSrc"
+                        [src]="item.avatarSrc"
+                        alt=""
+                        class="testimonial-layered-card__avatar-img"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                      <i
+                        *ngIf="!item.avatarSrc"
+                        class="bi bi-person-fill testimonial-layered-card__avatar-icon"
+                        aria-hidden="true"
+                      ></i>
+                    </div>
+
+                    <div class="testimonial-layered-card__body">
+                      <h3 class="testimonial-layered-card__type">{{ item.type }}</h3>
+                      <span class="testimonial-layered-card__name">{{ item.name }}</span>
+                      <div class="testimonial-layered-card__quote" aria-hidden="true">“</div>
+                      <p class="testimonial-layered-card__text cms-preline">{{ item.content }}</p>
+                    </div>
+                  </div>
+                </article>
+              </div>
+            </swiper-slide>
+          </swiper-container>
+        </div>
+      </div>
+    </section>
+  </ng-container>
+</ng-template>

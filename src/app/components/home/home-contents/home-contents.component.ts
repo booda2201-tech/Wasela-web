@@ -1,169 +1,122 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
+import { catchError, forkJoin, of } from 'rxjs';
+
+import { environment } from '../../../../environments/environment';
+import {
+  CmsPage,
+  CmsPageSection,
+  CmsPageSectionItem,
+  PagesService,
+  resolveCmsAssetUrl,
+} from '../../../services/pages.service';
 
 @Component({
   selector: 'app-home-contents',
   templateUrl: './home-contents.component.html',
-  styleUrls: ['./home-contents.component.scss']
+  styleUrls: ['./home-contents.component.scss'],
 })
-export class HomeContentsComponent implements OnInit, OnDestroy, AfterViewInit {
+export class HomeContentsComponent implements OnInit, OnDestroy, AfterViewInit, OnChanges {
+  @Input() homePage: CmsPage | null = null;
+  @Input() merchantsPage: CmsPage | null = null;
+
   @ViewChild('testimonialSwiper') testimonialSwiperRef?: ElementRef<HTMLElement & { initialize: () => void }>;
   @ViewChild('partnersSwiperMobile') partnersSwiperMobileRef?: ElementRef<HTMLElement & { initialize: () => void }>;
 
   private testimonialSwiperInited = false;
   private partnersMobileSwiperInited = false;
 
+  categories: Array<{ id: number; title: string; img: string; imgId: string }> = [];
 
-  categories = [
-    { title: 'Health Care', img: 'assets/images/Group h.png', imgId: 'category-img-health-care' },
-    { title: 'Family Events', img: 'assets/images/Group f.png', imgId: 'category-img-family-events' },
-    { title: 'Education', img: 'assets/images/Group FF.png', imgId: 'category-img-education' },
-    { title: 'Mobility', img: 'assets/images/Group m.png', imgId: 'category-img-mobility' },
-    { title: 'Home Finishing', img: 'assets/images/Group hf.png', imgId: 'category-img-home-finishing' },
-    { title: 'Sports & Clubs', img: 'assets/images/Group s.png', imgId: 'category-img-sports-clubs' },
-    { title: 'Everyday Essentials', img: 'assets/images/Group ee.png', imgId: 'category-img-everyday-essentials' },
-    { title: 'Green Limits', img: 'assets/images/Group g.png', imgId: 'category-img-green-limits' }
-  ];
-
-  bankingPartners = [
-    { name: 'NBK', logo: '../../../../assets/images/Asset 19@4x 1.png' },
-    { name: 'EG BANK', logo: '../../../../assets/images/Asset 23@4x 1.png' },
-    { name: 'Suez Canal Bank', logo: '../../../../assets/images/Asset 22@4x 1.png' },
-    { name: 'Arab African', logo: '../../../../assets/images/Asset 26@4x 1.png' }
-  ];
-
-  techPartners = [
-    { name: 'Raya', logo: '../../../../assets/images/Asset 30@4x 1.png' },
-    { name: 'Kaspersky', logo: '../../../../assets/images/Asset 33@4x 1.png' },
-    { name: 'ArkLeap', logo: '../../../../assets/images/Asset 32@4x 1.png' },
-    { name: 'Lens', logo: '../../../../assets/images/Asset 29@4x 1.png' }
-  ];
-
-  keyPartners = [
-    { name: 'InstaPay', logo: '../../../../assets/images/Asset 41@4x 1.png' },
-    { name: 'Fawry', logo: '../../../../assets/images/Asset 34@4x 1.png' },
-    { name: 'e& money', logo: '../../../../assets/images/Asset 35@4x 1.png' },
-    { name: 'Khales', logo: '../../../../assets/images/Asset 36@4x 1.png' }
-  ];
-
-  /** Banking / Technology / Key Partners — شبكة الديسكتوب + سلايد واحد في الموبايل */
   partnerColumns: Array<{
     title: string;
     partners: Array<{ name: string; logo: string }>;
     styleBase: number;
-  }> = [
-    { title: 'Banking', partners: this.bankingPartners, styleBase: 0 },
-    { title: 'Technology', partners: this.techPartners, styleBase: 2 },
-    { title: 'Key Partners', partners: this.keyPartners, styleBase: 4 }
-  ];
+  }> = [];
 
-// تأكد إنك مقسمهم col1, col2.. إلخ عشان الـ Loop في الـ HTML بتاعك يشتغل صح
-col1 = [
-  { bg: '../../../../assets/images/Rectangle 41508.png', logo: '../../../../assets/images/Ellipse 6795 (1).png', classes: 'h-[380px] hover:h-[500px]' },
-  { bg: '../../../../assets/images/Rectangle 41509.png', logo: '../../../../assets/images/Ellipse 6795 (2).png', classes: 'h-[300px] hover:h-[420px]' },
-  { bg: '../../../../assets/images/Rectangle 41511.png', logo: '../../../../assets/images/Ellipse 6795 (3).png', classes: 'h-[220px] hover:h-[340px]' }
-];
+  merchantColumns: Array<Array<{ bg: string; logo: string; classes: string }>> = [[], [], [], []];
 
-col2 = [
-  { bg: '../../../../assets/images/Rectangle 41512.png', logo: '../../../../assets/images/Ellipse 6795 (4).png', classes: 'h-[400px] hover:h-[520px]' },
-  { bg: '../../../../assets/images/Rectangle 41510.png', logo: '../../../../assets/images/Ellipse 6795 (7).png', classes: 'h-[280px] hover:h-[400px]' },
-  { bg: '../../../../assets/images/Rectangle 41513.png', logo: '../../../../assets/images/Ellipse 6795 (5).png', classes: 'h-[220px] hover:h-[340px]' }
-];
+  get hasMerchantCards(): boolean {
+    return this.merchantColumns.some((col) => col.length > 0);
+  }
 
-col3 = [
-  { bg: '../../../../assets/images/Rectangle 41514.png', logo: '../../../../assets/images/Ellipse 6795 (8).png', classes: 'h-[240px] hover:h-[360px]' },
-  { bg: '../../../../assets/images/Rectangle 41515.png', logo: '../../../../assets/images/Ellipse 6795 (6).png', classes: 'h-[320px] hover:h-[440px]' },
-  { bg: '../../../../assets/images/Rectangle 41516.png', logo: '../../../../assets/images/Ellipse 6795 (10).png', classes: 'h-[340px] hover:h-[460px]' }
-];
-
-col4 = [
-  { bg: '../../../../assets/images/Rectangle 41517.png', logo: '../../../../assets/images/Ellipse 6795 (12).png', classes: 'h-[300px] hover:h-[420px]' },
-  { bg: '../../../../assets/images/Rectangle 41518.png', logo: '../../../../assets/images/Ellipse 6795 (11).png', classes: 'h-[350px] hover:h-[470px]' },
-  { bg: '../../../../assets/images/Rectangle 41519.png', logo: '../../../../assets/images/Ellipse 6795 (9).png', classes: 'h-[250px] hover:h-[370px]' }
-];
-
-columns = [this.col1, this.col2, this.col3, this.col4];
-
-private partnersRotationTimer?: ReturnType<typeof setInterval>;
-private partnersSwapTimeout?: ReturnType<typeof setTimeout>;
-partnersSwapping = false;
-
-  // ngOnInit() {
-  //   // بنقسم المصفوفة الكبيرة لـ 4 أعمدة (كل عمود فيه 3 كروت)
-  //   for (let i = 0; i < this.merchants.length; i += 3) {
-  //     this.columns.push(this.merchants.slice(i, i + 3));
-  //   }
-  // }
-
-  /**
-   * cardImage = صورة الكارت الفارغة من Figma (الإطار الأزرق والشكل).
-   * الباقي يتعبّى فوق الصورة ويتغيّر من API/CMS.
-   */
   testimonials: Array<{
-    cardImage: string;
     type: string;
     name: string;
     content: string;
-    avatar: string;
     featured?: boolean;
-    /** مساحة بيضاء أقل في الصورة أو نص أطول — هامش أوضح للنص */
-    compactOverlay?: boolean;
-  }> = [
-    {
-      cardImage: 'assets/images/Group 7 (2).png',
-      type: 'Merchant Partner',
-      name: 'Merchant name',
-      content:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cursus nibh mauris, nec turpis orci lectus maecenas.',
-      avatar: 'assets/images/Ellipse 6795 (1).png'
-    },
-    {
-      cardImage: 'assets/images/Group 10.png',
-      type: 'Waseela Customer',
-      name: 'Customer Name',
-      content:
-        'Waseela helped me pay my children’s school fees without stress. Everything was clear, and the app made it easy to track installments.',
-      avatar: 'assets/images/Ellipse 6795 (2).png',
-      featured: true
-    },
-    {
-      cardImage: 'assets/images/Group 9.png',
-      type: 'Merchant Partner',
-      name: 'Merchant name',
-      content:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cursus nibh mauris, nec turpis orci lectus maecenas.',
-      avatar: 'assets/images/Ellipse 6795 (3).png'
-    },
-    {
-      cardImage: 'assets/images/Group 7 (2).png',
-      type: 'Waseela Customer',
-      name: 'Customer Name',
-      content:
-        'Simple onboarding and clear installment schedule. We recommend Waseela to our customers every day.',
-      avatar: 'assets/images/Ellipse 6795 (4).png',
-      compactOverlay: true
-    },
-    {
-      cardImage: 'assets/images/Group 10.png',
-      type: 'Merchant Partner',
-      name: 'Merchant name',
-      content:
-        'Partnering with Waseela increased conversion at checkout. Support team is responsive and professional.',
-      avatar: 'assets/images/Ellipse 6795 (5).png',
-      featured: true
-    },
-    {
-      cardImage: 'assets/images/Group 9.png',
-      type: 'Waseela Customer',
-      name: 'Customer Name',
-      content:
-        'Transparent fees and an app that actually explains what you owe. Exactly what we needed.',
-      avatar: 'assets/images/Ellipse 6795 (6).png'
-    }
+    avatarSrc: string | null;
+    backgroundSrc: string | null;
+  }> = [];
+
+  downloadHeadingLine1 = '';
+  downloadHeadingLine2 = '';
+  downloadSubtitle = '';
+  downloadSubtitleMobile = '';
+  downloadBackgroundUrl: string | null = null;
+  appStoreUrl: string | null = null;
+  googlePlayUrl: string | null = null;
+
+  private partnersRotationTimer?: ReturnType<typeof setInterval>;
+  private partnersSwapTimeout?: ReturnType<typeof setTimeout>;
+  partnersSwapping = false;
+
+  readonly cardHeightClasses = [
+    'h-[380px] hover:h-[500px]',
+    'h-[300px] hover:h-[420px]',
+    'h-[220px] hover:h-[340px]',
+    'h-[400px] hover:h-[520px]',
+    'h-[280px] hover:h-[400px]',
+    'h-[220px] hover:h-[340px]',
+    'h-[240px] hover:h-[360px]',
+    'h-[320px] hover:h-[440px]',
+    'h-[340px] hover:h-[460px]',
+    'h-[300px] hover:h-[420px]',
+    'h-[350px] hover:h-[470px]',
+    'h-[250px] hover:h-[370px]',
   ];
 
-  /** Group 10: منطقة النص في الصورة أضيق من Group 7 / 9 */
-  testimonialUsesCompactOverlay(item: (typeof this.testimonials)[number]): boolean {
-    return !!item.compactOverlay || item.cardImage.includes('Group 10');
+  constructor(private readonly pagesService: PagesService) {}
+
+  ngOnInit(): void {
+    if (!this.homePage) {
+      forkJoin({
+        home: this.pagesService.getPageBySlug('home'),
+        merchants: this.pagesService.getPageBySlug('merchants').pipe(catchError(() => of(null))),
+      }).subscribe({
+        next: ({ home, merchants }) => {
+          this.homePage = home;
+          this.merchantsPage = merchants;
+          this.applyCmsData();
+        },
+      });
+    } else {
+      this.applyCmsData();
+    }
+
+    this.partnersRotationTimer = setInterval(() => {
+      this.partnersSwapping = true;
+      this.partnersSwapTimeout = setTimeout(() => {
+        this.partnerColumns.forEach((col) => this.rotatePartners(col.partners));
+        this.partnersSwapping = false;
+      }, 280);
+    }, 2600);
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['homePage'] || changes['merchantsPage']) {
+      this.applyCmsData();
+      queueMicrotask(() => this.refreshSwipers());
+    }
   }
 
   ngAfterViewInit(): void {
@@ -171,6 +124,238 @@ partnersSwapping = false;
       this.initTestimonialSwiper();
       this.initPartnersMobileSwiper();
     });
+  }
+
+  ngOnDestroy(): void {
+    if (this.partnersRotationTimer) {
+      clearInterval(this.partnersRotationTimer);
+    }
+    if (this.partnersSwapTimeout) {
+      clearTimeout(this.partnersSwapTimeout);
+    }
+  }
+
+  sectionByKey(key: string): CmsPageSection | null {
+    const section = this.homePage?.sections?.find((s) => s.sectionKey === key);
+    return section?.isActive ? section : null;
+  }
+
+  financeSection(): CmsPageSection | null {
+    return this.sectionByKey('finance_categories');
+  }
+
+  partnersSection(): CmsPageSection | null {
+    return this.sectionByKey('our_partners');
+  }
+
+  homeMerchantsSection(): CmsPageSection | null {
+    return this.sectionByKey('merchants');
+  }
+
+  testimonialsSection(): CmsPageSection | null {
+    return this.sectionByKey('testimonials');
+  }
+
+  downloadSection(): CmsPageSection | null {
+    return this.sectionByKey('download_app_cta');
+  }
+
+  asset(path: string | null | undefined): string | null {
+    return resolveCmsAssetUrl(environment.apiOrigin, path);
+  }
+
+  isExternalUrl(url: string | null | undefined): boolean {
+    return !!url && /^https?:\/\//i.test(url);
+  }
+
+  /** مسار الـ router لزر التجّار في الـ home؛ الافتراضي `/merchants` */
+  merchantsHomeCtaRouterPath(section: CmsPageSection): string {
+    const raw = section.buttonUrl?.trim();
+    if (!raw || this.isExternalUrl(raw)) {
+      return '/merchants';
+    }
+    return raw.startsWith('/') ? raw : `/${raw}`;
+  }
+
+  /** رابط خارجي لزر التجّار أو `null` لو المفروض يستخدم router */
+  merchantsHomeCtaExternalHref(section: CmsPageSection): string | null {
+    const raw = section.buttonUrl?.trim();
+    return raw && this.isExternalUrl(raw) ? raw : null;
+  }
+
+  merchantLogoSrc(item: CmsPageSectionItem): string | null {
+    return this.asset(item.imageMediaFileUrl || item.imageUrl);
+  }
+
+  merchantBgSrc(item: CmsPageSectionItem): string | null {
+    return this.asset(item.backgroundImageMediaFileUrl || item.backgroundImageUrl);
+  }
+
+  merchantCardClass(indexInColumn: number, columnIndex: number): string {
+    const idx = (columnIndex * 3 + indexInColumn) % this.cardHeightClasses.length;
+    return this.cardHeightClasses[idx];
+  }
+
+  private applyCmsData(): void {
+    this.buildCategories();
+    this.buildPartnerColumns();
+    this.buildMerchantColumns();
+    this.buildTestimonials();
+    this.buildDownloadSection();
+  }
+
+  private buildCategories(): void {
+    const section = this.financeSection();
+    if (!section?.items?.length) {
+      this.categories = [];
+      return;
+    }
+    const items = [...section.items]
+      .filter((i) => i.isActive)
+      .sort((a, b) => a.sortOrder - b.sortOrder || a.id - b.id);
+    this.categories = items.map((item) => {
+      const src =
+        this.asset(item.imageMediaFileUrl || item.imageUrl) ?? '';
+      return {
+        id: item.id,
+        title: item.title ?? '',
+        img: src,
+        imgId: `category-img-${item.id}`,
+      };
+    });
+  }
+
+  private buildPartnerColumns(): void {
+    const section = this.partnersSection();
+    if (!section?.items?.length) {
+      this.partnerColumns = [];
+      return;
+    }
+    const items = [...section.items]
+      .filter((i) => i.isActive)
+      .sort((a, b) => a.sortOrder - b.sortOrder || a.id - b.id);
+    this.partnerColumns = items.map((item, colIndex) => {
+      const partners = item.galleryMedia
+        .filter((g) => g.isActive && g.fileUrl)
+        .sort((a, b) => a.sortOrder - b.sortOrder || a.id - b.id)
+        .map((g, logoIndex) => ({
+          name: `${item.title ?? 'Partner'} ${logoIndex + 1}`,
+          logo: this.asset(g.fileUrl) ?? '',
+        }));
+      return {
+        title: item.title ?? '',
+        partners,
+        styleBase: colIndex * 2,
+      };
+    });
+  }
+
+  private buildMerchantColumns(): void {
+    const page = this.merchantsPage;
+    const section = page?.sections?.find((s) => s.sectionKey === '1000_Merchants' && s.isActive);
+    if (!section?.items?.length) {
+      this.merchantColumns = [[], [], [], []];
+      return;
+    }
+    const source = [...section.items]
+      .filter((item) => item.isActive)
+      .sort((a, b) => a.sortOrder - b.sortOrder || a.id - b.id);
+    const cols: CmsPageSectionItem[][] = [[], [], [], []];
+    source.forEach((item, index) => {
+      cols[index % 4].push(item);
+    });
+    this.merchantColumns = cols.map((col, columnIndex) =>
+      col.map((item, indexInColumn) => {
+        const bg = this.merchantBgSrc(item) ?? '';
+        const logo = this.merchantLogoSrc(item) ?? '';
+        return {
+          bg,
+          logo,
+          classes: this.merchantCardClass(indexInColumn, columnIndex),
+        };
+      })
+    );
+  }
+
+  private buildTestimonials(): void {
+    const section = this.testimonialsSection();
+    if (!section?.items?.length) {
+      this.testimonials = [];
+      return;
+    }
+    const items = [...section.items]
+      .filter((i) => i.isActive)
+      .sort((a, b) => a.sortOrder - b.sortOrder || a.id - b.id);
+    this.testimonials = items.map((item, index) => ({
+      type: item.title ?? '',
+      name: item.subTitle ?? '',
+      content: item.description ?? '',
+      featured: index === 1,
+      avatarSrc: this.asset(item.imageMediaFileUrl || item.imageUrl),
+      backgroundSrc: this.asset(item.backgroundImageMediaFileUrl || item.backgroundImageUrl),
+    }));
+  }
+
+  private buildDownloadSection(): void {
+    const section = this.downloadSection();
+    if (!section) {
+      this.downloadHeadingLine1 = '';
+      this.downloadHeadingLine2 = '';
+      this.downloadSubtitle = '';
+      this.downloadSubtitleMobile = '';
+      this.downloadBackgroundUrl = null;
+      this.appStoreUrl = null;
+      this.googlePlayUrl = null;
+      return;
+    }
+    const title = section.title ?? '';
+    const lower = title.toLowerCase();
+    const splitAt = lower.indexOf('what matters');
+    if (splitAt > 0) {
+      this.downloadHeadingLine1 = title.slice(0, splitAt).trim();
+      this.downloadHeadingLine2 = title.slice(splitAt).trim();
+    } else {
+      this.downloadHeadingLine1 = title;
+      this.downloadHeadingLine2 = '';
+    }
+    this.downloadSubtitle = section.description ?? '';
+    this.downloadSubtitleMobile = section.description ?? '';
+    this.downloadBackgroundUrl = this.asset(
+      section.backgroundImageMediaFileUrl || section.backgroundImageUrl
+    );
+    const parsed = this.parseStoreUrls(section.extraDataJson);
+    const app = parsed.appStoreUrl?.trim();
+    const play = parsed.googlePlayUrl?.trim();
+    this.appStoreUrl =
+      app && !this.isPlaceholderUrl(app) ? app : null;
+    this.googlePlayUrl =
+      play && !this.isPlaceholderUrl(play) ? play : null;
+  }
+
+  private isPlaceholderUrl(url: string): boolean {
+    return url === '...' || url === '#' || url.length < 4;
+  }
+
+  private parseStoreUrls(json: string | null): { appStoreUrl?: string; googlePlayUrl?: string } {
+    if (!json) {
+      return {};
+    }
+    try {
+      const o = JSON.parse(json) as Record<string, unknown>;
+      return {
+        appStoreUrl: (o['appStoreUrl'] ?? o['app_store_url']) as string | undefined,
+        googlePlayUrl: (o['googlePlayUrl'] ?? o['google_play_url']) as string | undefined,
+      };
+    } catch {
+      return {};
+    }
+  }
+
+  private refreshSwipers(): void {
+    this.testimonialSwiperInited = false;
+    this.partnersMobileSwiperInited = false;
+    this.initTestimonialSwiper();
+    this.initPartnersMobileSwiper();
   }
 
   private initTestimonialSwiper(): void {
@@ -187,23 +372,20 @@ partnersSwapping = false;
       spaceBetween: 10,
       speed: 450,
       centeredSlides: true,
-      // navigation: true,
-      // pagination: { clickable: true },
-      // watchOverflow: true,
       breakpoints: {
         640: {
           slidesPerView: 2,
           slidesPerGroup: 2,
           spaceBetween: 20,
-          centeredSlides: false
+          centeredSlides: false,
         },
         1200: {
           slidesPerView: 3,
           slidesPerGroup: 3,
           spaceBetween: 24,
-          centeredSlides: false
-        }
-      }
+          centeredSlides: false,
+        },
+      },
     });
     el.initialize();
     this.testimonialSwiperInited = true;
@@ -222,36 +404,9 @@ partnersSwapping = false;
       slidesPerGroup: 1,
       spaceBetween: 20,
       speed: 450,
-      // loop: true,
-      // pagination: {
-      //   clickable: true
-      // }
     });
     el.initialize();
     this.partnersMobileSwiperInited = true;
-  }
-
-  ngOnInit(): void {
-    // تبديل اللوجوهات بنفس نمط الفيديو: خروج/دخول مع تبديل فعلي
-    this.partnersRotationTimer = setInterval(() => {
-      this.partnersSwapping = true;
-
-      this.partnersSwapTimeout = setTimeout(() => {
-        this.rotatePartners(this.bankingPartners);
-        this.rotatePartners(this.techPartners);
-        this.rotatePartners(this.keyPartners);
-        this.partnersSwapping = false;
-      }, 280);
-    }, 2600);
-  }
-
-  ngOnDestroy(): void {
-    if (this.partnersRotationTimer) {
-      clearInterval(this.partnersRotationTimer);
-    }
-    if (this.partnersSwapTimeout) {
-      clearTimeout(this.partnersSwapTimeout);
-    }
   }
 
   private rotatePartners(partners: Array<{ name: string; logo: string }>): void {

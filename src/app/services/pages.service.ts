@@ -26,6 +26,14 @@ export function readApiEnvelope<T>(raw: unknown): ApiEnvelope<T> {
   return { success, message, data, errors };
 }
 
+export interface CmsGalleryMediaItem {
+  id: number;
+  mediaFileId: number;
+  fileUrl: string | null;
+  sortOrder: number;
+  isActive: boolean;
+}
+
 export interface CmsPageSectionItem {
   id: number;
   pageSectionId: number;
@@ -37,6 +45,9 @@ export interface CmsPageSectionItem {
   backgroundImageUrl: string | null;
   backgroundImageMediaFileUrl: string | null;
   extraDataJson: string | null;
+  buttonText: string | null;
+  buttonUrl: string | null;
+  galleryMedia: CmsGalleryMediaItem[];
   sortOrder: number;
   isActive: boolean;
 }
@@ -50,6 +61,9 @@ export interface CmsPageSection {
   subTitle: string | null;
   description: string | null;
   buttonText: string | null;
+  buttonUrl: string | null;
+  extraDataJson: string | null;
+  videoUrl: string | null;
   imageUrl: string | null;
   imageMediaFileUrl: string | null;
   backgroundImageUrl: string | null;
@@ -77,8 +91,26 @@ function strOrNull(v: unknown): string | null {
   return s === '' ? null : s;
 }
 
+function normalizeGalleryMediaItem(raw: unknown): CmsGalleryMediaItem {
+  const r = asRecord(raw);
+  return {
+    id: Number(r['id'] ?? r['Id']),
+    mediaFileId: Number(r['mediaFileId'] ?? r['MediaFileId'] ?? 0),
+    fileUrl: strOrNull(r['fileUrl'] ?? r['FileUrl']),
+    sortOrder: Number(r['sortOrder'] ?? r['SortOrder'] ?? 0),
+    isActive: !!(r['isActive'] ?? r['IsActive']),
+  };
+}
+
 function normalizeItem(raw: unknown): CmsPageSectionItem {
   const r = asRecord(raw);
+  const galleryRaw = (r['galleryMedia'] ?? r['GalleryMedia'] ?? []) as unknown[];
+  const gallery = Array.isArray(galleryRaw)
+    ? galleryRaw
+        .map(normalizeGalleryMediaItem)
+        .filter((g) => g.isActive)
+        .sort((a, b) => a.sortOrder - b.sortOrder || a.id - b.id)
+    : [];
   return {
     id: Number(r['id'] ?? r['Id']),
     pageSectionId: Number(r['pageSectionId'] ?? r['PageSectionId']),
@@ -92,6 +124,9 @@ function normalizeItem(raw: unknown): CmsPageSectionItem {
       r['backgroundImageMediaFileUrl'] ?? r['BackgroundImageMediaFileUrl']
     ),
     extraDataJson: strOrNull(r['extraDataJson'] ?? r['ExtraDataJson']),
+    buttonText: strOrNull(r['buttonText'] ?? r['ButtonText']),
+    buttonUrl: strOrNull(r['buttonUrl'] ?? r['ButtonUrl']),
+    galleryMedia: gallery,
     sortOrder: Number(r['sortOrder'] ?? r['SortOrder'] ?? 0),
     isActive: !!(r['isActive'] ?? r['IsActive']),
   };
@@ -109,6 +144,9 @@ function normalizeSection(raw: unknown): CmsPageSection {
     subTitle: strOrNull(r['subTitle'] ?? r['SubTitle']),
     description: strOrNull(r['description'] ?? r['Description']),
     buttonText: strOrNull(r['buttonText'] ?? r['ButtonText']),
+    buttonUrl: strOrNull(r['buttonUrl'] ?? r['ButtonUrl']),
+    extraDataJson: strOrNull(r['extraDataJson'] ?? r['ExtraDataJson']),
+    videoUrl: strOrNull(r['videoUrl'] ?? r['VideoUrl']),
     imageUrl: strOrNull(r['imageUrl'] ?? r['ImageUrl']),
     imageMediaFileUrl: strOrNull(r['imageMediaFileUrl'] ?? r['ImageMediaFileUrl']),
     backgroundImageUrl: strOrNull(r['backgroundImageUrl'] ?? r['BackgroundImageUrl']),

@@ -1,3 +1,7 @@
+.cms-preline {
+  white-space: pre-line;
+}
+
 /* مربع موحّد لكل البطاقات (زي شبكة المرجع) — المحتوى كله من ملف الصورة */
 .shape-wrapper {
   position: relative;
@@ -258,19 +262,15 @@
 }
 
 
-/* خلفية قسم الشهادات — Slide 16_9 - 5 3 (Figma) */
+/* قسم الشهادات — خلفية فاتحة مع وهج أزرق خفيف (مرجع Figma) */
 .testimonials-section {
   position: relative;
-  // background-color: #030308;
-  background-image: url('../../../../assets/images/Slide 16_9 - 5 3.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  background:
+    radial-gradient(ellipse 75% 55% at 50% 42%, rgba(29, 29, 219, 0.07) 0%, transparent 58%),
+    #ffffff;
   overflow: hidden;
-
 }
 
-/* شهادات: صورة كارت (Figma) + نص ديناميكي فوقها */
 .testimonials-swiper-wrap {
   --swiper-navigation-color: #1d1ddb;
   --swiper-pagination-color: #1d1ddb;
@@ -290,7 +290,7 @@
 .testimonial-slide {
   display: flex;
   justify-content: center;
-  align-items: stretch;
+  align-items: center;
   height: auto;
   box-sizing: border-box;
   padding: 10px;
@@ -300,307 +300,197 @@
   }
 
   @media (min-width: 1200px) {
-    padding-top: 12px;
-    padding-bottom: 20px;
+    padding-top: 16px;
+    padding-bottom: 24px;
   }
 }
 
 .testimonial-wrapper {
   position: relative;
   width: 100%;
-  max-width: 480px;
+  max-width: min(100%, 24rem);
   margin-inline: auto;
-  filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.08));
   transition: transform 0.35s ease;
 
-  @media (max-width: 639px) {
-    max-width: 100%;
-    filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.07));
+  @media (min-width: 640px) {
+    max-width: min(100%, 26rem);
   }
-
-  // &:hover {
-  //   transform: translateY(-2px);
-  // }
 }
 
-.testimonial-card-frame {
+/* طبقة خلفية من API + لوحة بيضاء + أفاتار من API (مرجع Figma) */
+.testimonial-layered-card {
+  --blue: #1d1ddb;
+  --peach: #ffc091;
   position: relative;
   width: 100%;
-  line-height: 0;
+  display: grid;
+  place-items: center;
+  padding: 0.75rem 0 1.25rem;
+  box-sizing: border-box;
+}
+
+.testimonial-layered-card__bg {
+  grid-area: 1 / 1;
+  z-index: 0;
+  width: 100%;
+  max-width: 28rem;
+  margin-inline: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+  transform: translate(4%, 6%);
 
   @media (max-width: 639px) {
-    overflow-x: hidden;
+    transform: translate(2%, 4%);
+    max-width: 100%;
   }
 }
 
-.testimonial-card-photo {
-  display: block;
+.testimonial-layered-card__bg-img {
   width: 100%;
   height: auto;
+  display: block;
   object-fit: contain;
 }
 
-/* محاذاة Figma: أفاتار نصفه فوق الكارت، نصوص متوسطة وهوامش جانبية واسعة */
-.testimonial-card-overlay {
+.testimonial-layered-card__panel {
+  grid-area: 1 / 1;
+  position: relative;
+  z-index: 2;
+  width: min(100%, 17.5rem);
+  margin: 0 auto;
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  padding: clamp(2.65rem, 11%, 3.15rem) clamp(0.85rem, 5.5%, 1.1rem) clamp(1.1rem, 5%, 1.35rem);
+  box-sizing: border-box;
+}
+
+.testimonial-layered-card__avatar-ring {
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -46%);
+  width: clamp(3.35rem, 19vw, 4.6rem);
+  height: clamp(3.35rem, 19vw, 4.6rem);
+  border-radius: 50%;
+  background: var(--peach);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  box-shadow: none;
+}
+
+.testimonial-layered-card__avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+
+.testimonial-layered-card__avatar-icon {
+  color: var(--blue);
+  font-size: clamp(1.5rem, 6vw, 2.1rem);
+  line-height: 1;
+  transform: translateY(5%);
+}
+
+.testimonial-layered-card__body {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  justify-content: flex-start;
-  box-sizing: border-box;
-  pointer-events: none;
-  /* مساحة بيضاء داخل الشكل: يمين/شمال أوسع، أسفل مريح */
-  padding: 9% 14% 11% 14%;
-
-  @media (max-width: 639px) {
-    /* هوامش جانبية أوضح + عرض كامل للنص عشان ما يخرجش بره الشكل الأبيض */
-    padding: 12% max(16%, 1.1rem) 13% max(16%, 1.1rem);
-    align-items: stretch;
-    overflow-x: hidden;
-  }
-
-  /* سلايدين: تقليل الهوامش نسبيًا عشان مساحة النص تكبر جوّه المنطقة البيضاء */
-  @media (min-width: 640px) and (max-width: 1199px) {
-    padding: 8% 11% 9.5% 11%;
-  }
-
-  /* إطار Group 10 أو نص طويل: هامش أقل فوق/تحت عشان جسم الشهادة يبان كامل */
-  &--compact {
-    padding: 7% 11% 7.5% 11%;
-
-    @media (max-width: 639px) {
-      padding: 10% max(15%, 1rem) 11% max(15%, 1rem);
-      align-items: stretch;
-      overflow-x: hidden;
-    }
-
-    @media (min-width: 640px) and (max-width: 1199px) {
-      padding: 6.5% 10% 8% 10%;
-    }
-
-    .testimonial-avatar-ring {
-      margin-top: min(-9%, -2.35rem);
-      margin-bottom: 0.45rem;
-
-      @media (max-width: 639px) {
-        margin-top: min(-8%, -1.85rem);
-        margin-bottom: 0.35rem;
-      }
-
-      @media (min-width: 640px) and (max-width: 1199px) {
-        margin-top: min(-8.5%, -2.1rem);
-        margin-bottom: 0.4rem;
-      }
-    }
-
-    .testimonial-avatar-ring .testimonial-avatar-icon {
-      font-size: clamp(2.1rem, 8.5vw, 3.85rem);
-      transform: translateY(11%);
-
-      @media (max-width: 639px) {
-        font-size: clamp(1.85rem, 8.5vw, 2.65rem);
-      }
-
-      @media (min-width: 640px) and (max-width: 1199px) {
-        font-size: clamp(1.95rem, 6.8vw, 3rem);
-      }
-    }
-
-    .testimonial-overlay-type {
-      margin-top: 0;
-    }
-
-    .testimonial-overlay-name {
-      margin-top: 0.2rem;
-    }
-
-    .testimonial-overlay-quote {
-      margin: 0.35rem 0 0.15rem;
-      font-size: clamp(1.5rem, 4.5vw, 2.1rem);
-
-      @media (min-width: 640px) and (max-width: 1199px) {
-        margin: 0.3rem 0 0.12rem;
-        font-size: clamp(1.35rem, 3.8vw, 1.85rem);
-      }
-    }
-
-    .testimonial-overlay-body {
-      line-height: 1.52;
-      font-size: clamp(0.78rem, 2.2vw, 0.94rem);
-
-      @media (max-width: 639px) {
-        font-size: clamp(0.76rem, 3.2vw, 0.9rem);
-        line-height: 1.5;
-      }
-
-      @media (min-width: 640px) and (max-width: 1199px) {
-        font-size: clamp(0.74rem, 1.85vw, 0.88rem);
-        line-height: 1.5;
-      }
-    }
-  }
+  width: 100%;
+  min-height: 0;
 }
 
-.testimonial-avatar-ring {
-  flex-shrink: 0;
-  width: clamp(4rem, 16vw, 5.25rem);
-  height: clamp(4rem, 16vw, 5.25rem);
-  /* نصف الدائرة يتدلى فوق حافة الكارت البيضاء */
-  margin-top: min(-10.5%, -2.75rem);
-  margin-bottom: 0.75rem;
-  border-radius: 50%;
-  background: #ffc091;
-  border: none;
-  box-shadow: none;
-  overflow: hidden;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  pointer-events: auto;
-
-  @media (max-width: 639px) {
-    align-self: center;
-    width: clamp(3.5rem, 14vw, 4.75rem);
-    height: clamp(3.5rem, 14vw, 4.75rem);
-    margin-top: min(-9%, -2rem);
-    margin-bottom: 0.5rem;
-  }
-
-  @media (min-width: 640px) and (max-width: 1199px) {
-    width: clamp(3.65rem, 12vw, 5rem);
-    height: clamp(3.65rem, 12vw, 5rem);
-    margin-top: min(-9.5%, -2.35rem);
-    margin-bottom: 0.55rem;
-  }
-}
-
-/* زي المرجع: مساحة فوق الرأس، الجزء السفلي من الأيقونة قريب من قوس الدائرة */
-.testimonial-avatar-ring .testimonial-avatar-icon {
-  display: block;
-  line-height: 1;
-  color: #1d1ddb;
-  font-size: clamp(2.5rem, 10vw, 4.5rem);
-  transform: translateY(10%);
-
-  @media (max-width: 639px) {
-    font-size: clamp(2rem, 9vw, 2.85rem);
-    transform: translateY(10%);
-  }
-
-  @media (min-width: 640px) and (max-width: 1199px) {
-    font-size: clamp(2.15rem, 7.5vw, 3.35rem);
-  }
-}
-
-.testimonial-avatar-img {
-  width: 52%;
-  height: 52%;
-  object-fit: contain;
-}
-
-.testimonial-overlay-type {
-  margin: 0.125rem 0 0;
-  padding: 0 0.25rem;
-  font-size: clamp(1.0625rem, 2.75vw, 1.375rem);
+.testimonial-layered-card__type {
+  margin: 0;
+  padding: 0 0.2rem;
+  font-size: clamp(0.95rem, 2.75vw, 1.15rem);
   font-weight: 900;
   color: #2b2b2b;
   line-height: 1.2;
   letter-spacing: -0.02em;
-  flex-shrink: 0;
   max-width: 100%;
-  width: 100%;
-  box-sizing: border-box;
   overflow-wrap: break-word;
-  word-break: break-word;
-
-  @media (max-width: 639px) {
-    padding-inline: 0;
-    text-align: center;
-  }
 }
 
-.testimonial-overlay-name {
-  margin: 0.375rem 0 0;
-  padding: 0 0.25rem;
-  font-size: clamp(0.8125rem, 2.1vw, 0.9375rem);
+.testimonial-layered-card__name {
+  margin: 0.3rem 0 0;
+  padding: 0 0.2rem;
+  font-size: clamp(0.75rem, 2vw, 0.9rem);
   font-weight: 500;
   color: #8a8a8a;
   line-height: 1.3;
-  flex-shrink: 0;
   max-width: 100%;
-  width: 100%;
-  box-sizing: border-box;
   overflow-wrap: break-word;
-  word-break: break-word;
-
-  @media (max-width: 639px) {
-    padding-inline: 0;
-    text-align: center;
-  }
 }
 
-.testimonial-overlay-quote {
-  margin: 0.625rem 0 0.375rem;
+.testimonial-layered-card__quote {
+  margin: 0.4rem 0 0.15rem;
   font-family: Georgia, 'Times New Roman', serif;
-  font-size: clamp(1.875rem, 5vw, 2.5rem);
+  font-size: clamp(1.35rem, 4.2vw, 1.75rem);
   line-height: 0.85;
-  color: #1d1ddb;
+  color: var(--blue);
   flex-shrink: 0;
-  max-width: 100%;
-  box-sizing: border-box;
-
-  @media (max-width: 639px) {
-    margin: 0.45rem 0 0.28rem;
-    font-size: clamp(1.35rem, 6.5vw, 1.85rem);
-    text-align: center;
-  }
-
-  @media (min-width: 640px) and (max-width: 1199px) {
-    margin: 0.45rem 0 0.28rem;
-    font-size: clamp(1.55rem, 4.2vw, 2.15rem);
-  }
 }
 
-.testimonial-overlay-body {
+.testimonial-layered-card__text {
   margin: 0;
-  flex: 1 1 auto;
-  min-height: 0;
-  /* بدون max-height: النص ياخد كل المساحة الفاضية تحت العنوان والاقتباس (شاشات متوسطة وغيرها) */
+  max-height: 11rem;
   overflow-y: auto;
-  overflow-x: hidden;
-  padding: 0 clamp(0.125rem, 1.2vw, 0.5rem);
-  font-size: clamp(0.8125rem, 2.35vw, 1rem);
-  font-weight: 500;
-  line-height: 1.65;
-  color: #4a4a4a;
   -webkit-overflow-scrolling: touch;
-  pointer-events: auto;
-  max-width: 100%;
-  width: 100%;
-  box-sizing: border-box;
+  padding: 0 0.1rem;
+  font-size: clamp(0.72rem, 2.05vw, 0.86rem);
+  font-weight: 500;
+  line-height: 1.55;
+  color: #4a4a4a;
   text-align: center;
   overflow-wrap: break-word;
   word-break: break-word;
-  hyphens: auto;
 
   @media (max-width: 639px) {
-    font-size: clamp(0.72rem, 3.25vw, 0.88rem);
-    line-height: 1.55;
-    padding-inline: 0;
-  }
-
-  @media (min-width: 640px) and (max-width: 1199px) {
-    font-size: clamp(0.78rem, 2.05vw, 0.92rem);
-    line-height: 1.58;
+    max-height: 9.5rem;
   }
 }
 
+/* شريحة نشطة (وسط السلايدر): خط أوضح + تكبير خفيف — بدون ظلال */
 .testimonial-wrapper--featured {
+  .testimonial-layered-card__avatar-ring {
+    width: clamp(3.65rem, 21vw, 5.1rem);
+    height: clamp(3.65rem, 21vw, 5.1rem);
+  }
+
+  .testimonial-layered-card__avatar-icon {
+    font-size: clamp(1.65rem, 6.5vw, 2.35rem);
+  }
+
+  .testimonial-layered-card__type {
+    font-size: clamp(1.08rem, 3.15vw, 1.38rem);
+  }
+
+  .testimonial-layered-card__name {
+    font-size: clamp(0.84rem, 2.35vw, 1.05rem);
+  }
+
+  .testimonial-layered-card__quote {
+    font-size: clamp(1.55rem, 4.9vw, 2.1rem);
+  }
+
+  .testimonial-layered-card__text {
+    font-size: clamp(0.84rem, 2.4vw, 1.02rem);
+    max-height: 12.5rem;
+
+    @media (max-width: 639px) {
+      max-height: 10.5rem;
+    }
+  }
+
   @media (min-width: 1200px) {
-    /* أخف من الأول عشان النص ما يتقصّش مع الـ overflow بتاع السلايدر */
-    transform: scale(1.04) translateY(5%);
+    transform: scale(1.06) translateY(-5%);
   }
 }
 
@@ -732,10 +622,34 @@
 /* Merchants — تحت lg: عمودان متدرّجان؛ زر تحت الشبكة صغير فقط، زر بعد النص كبير فقط (يتغلب على display بتاع الزر) */
 .merchants-showcase-section {
   /* نفس سلوك الـ pro على الموبايل والديسكتوب: مسرح بارتفاع ثابت + قصّ الزيادة من الهوفر */
+  /* معاينة في الـ home: ارتفاع أقل + قصّ سفلي + تدرج يوحي إن في محتوى تحت */
   .merchants-grid-stage {
-    height: 950px;
-    max-height: 950px;
+    position: relative;
+    height: auto;
+    // max-height: clamp(30rem, 80vh, 40rem);
+    min-height: clamp(30rem, 80vh, 40rem);
     overflow: hidden;
+
+    @media (min-width: 1024px) {
+      max-height: clamp(27rem, 48vh, 42rem);
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: clamp(3.25rem, 11vw, 5rem);
+      background: linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.55) 50%,
+        #ffffff 100%
+      );
+      pointer-events: none;
+      z-index: 4;
+    }
   }
 
   /* دفاية جوّا الكرت: زوم الصورة ما يخرجش من الزوايا */
@@ -780,6 +694,7 @@
       padding-top: clamp(0.85rem, 4.5vw, 1.65rem);
     }
   }
+  // margin-bottom: 150px!important;
 }
 
 .download-section {

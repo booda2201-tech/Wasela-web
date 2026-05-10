@@ -1,7 +1,13 @@
-<app-hero></app-hero>
+<div *ngIf="loading" class="home-page-state container mx-auto px-6 py-20 text-center text-gray-600">
+  Loading…
+</div>
 
-<app-features></app-features>
+<div *ngIf="loadError" class="home-page-state container mx-auto px-6 py-20 text-center text-red-600">
+  We could not load the home page. Please try again later.
+</div>
 
-<!-- <app-categories></app-categories> -->
-
-<app-home-contents></app-home-contents>
+<ng-container *ngIf="!loading && !loadError && homePage">
+  <app-hero></app-hero>
+  <app-features [homePage]="homePage"></app-features>
+  <app-home-contents [homePage]="homePage" [merchantsPage]="merchantsPage"></app-home-contents>
+</ng-container>
