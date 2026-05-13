@@ -104,22 +104,72 @@ export class BlogsComponent implements OnInit, AfterViewInit, OnDestroy {
       .sort((a, b) => a.sortOrder - b.sortOrder)[0] ?? null;
   }
 
-  posts(): BlogPost[] {
-    const section = this.pickSection('blogs_header');
-    if (!section?.items?.length) {
-      return [];
+  /**
+   * عناصر الشبكة: `blogs_grid` أولًا ثم `blogs_header` (بدون تكرار id).
+   * لو الاتنين فاضيين نعرض بطاقات احتياطية عشان التنقل لصفحة التفاصيل يفضل شغال.
+   */
+  gridPosts(): BlogPost[] {
+    const fromCms = this.collectGridItemsFromCms();
+    return fromCms.length > 0 ? fromCms : this.fallbackGridPosts;
+  }
+
+  private readonly fallbackGridPosts: BlogPost[] = [
+    {
+      id: 1,
+      title: 'HOW TO INCREASE SALES',
+      excerpt:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+      tag: 'INSIGHTS',
+      date: 'SEPTEMBER 28, 2024',
+      imageSrc: 'assets/images/Slide 16_9 - 5 3.png'
+    },
+    {
+      id: 2,
+      title: 'FINTECH VS. TECHFIN',
+      excerpt:
+        "Explore the difference between fintech and techfin in today's market and what it means for your business.",
+      tag: 'NEWS',
+      date: 'OCTOBER 5, 2024',
+      imageSrc: 'assets/images/Slide 16_9 - 5 3.png'
+    },
+    {
+      id: 3,
+      title: 'DIGITAL PAYMENTS GROWTH',
+      excerpt:
+        'Key trends shaping digital payments across the region and how teams can prepare for the next wave.',
+      tag: 'TRENDS',
+      date: 'OCTOBER 12, 2024',
+      imageSrc: 'assets/images/Slide 16_9 - 5 3.png'
     }
-    return [...section.items]
-      .filter((item) => item.isActive)
-      .sort((a, b) => a.sortOrder - b.sortOrder)
-      .map((item) => ({
-        id: item.id,
-        title: item.title || '',
-        excerpt: item.description || '',
-        tag: item.subTitle || '',
-        date: item.extraDataJson || '',
-        imageSrc: this.mediaUrl(item.imageMediaFileUrl || item.imageUrl) || ''
-      }));
+  ];
+
+  private collectGridItemsFromCms(): BlogPost[] {
+    const keys = ['blogs_grid', 'blogs_header'] as const;
+    const seen = new Set<number>();
+    const out: BlogPost[] = [];
+    for (const key of keys) {
+      const section = this.pickSection(key);
+      if (!section?.items?.length) {
+        continue;
+      }
+      for (const item of [...section.items]
+        .filter((i) => i.isActive)
+        .sort((a, b) => a.sortOrder - b.sortOrder)) {
+        if (seen.has(item.id)) {
+          continue;
+        }
+        seen.add(item.id);
+        out.push({
+          id: item.id,
+          title: item.title || '',
+          excerpt: item.description || '',
+          tag: item.subTitle || '',
+          date: item.extraDataJson || '',
+          imageSrc: this.mediaUrl(item.imageMediaFileUrl || item.imageUrl) || ''
+        });
+      }
+    }
+    return out;
   }
 
   gridTitle(): string {

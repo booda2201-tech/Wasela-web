@@ -1,0 +1,69 @@
+<section class="blog-detail">
+  <!-- <div class="blog-detail__bg" aria-hidden="true">
+    <div class="blog-detail__bg-slide"></div>
+    <div class="blog-detail__bg-wash"></div>
+  </div> -->
+
+  <div class="blog-detail__inner">
+    <nav class="blog-detail__crumb" aria-label="Breadcrumb">
+      <button type="button" class="blog-detail__back" (click)="goBack()">
+        <i class="bi bi-arrow-left" aria-hidden="true"></i>
+        <span>Back to blogs</span>
+      </button>
+    </nav>
+
+    <div class="blog-detail__hero-wrap">
+      <div class="blog-detail__decor" aria-hidden="true">
+        <img
+          src="assets/images/Group (7).png"
+          alt=""
+          class="blog-detail__decor-img"
+          loading="lazy"
+        />
+      </div>
+
+      <div class="blog-detail__hero">
+        <img
+          [src]="heroImage"
+          alt=""
+          class="blog-detail__hero-img"
+          loading="lazy"
+        />
+        <!-- <div class="blog-detail__hero-overlay">
+          <p class="blog-detail__hero-kicker">{{ demo.heroTitle }}</p>
+        </div> -->
+      </div>
+    </div>
+
+    <article class="blog-detail__article">
+      <div class="blog-detail__article-sheet">
+        <div class="blog-detail__quote-row">
+          <div class="blog-detail__quote-bar" aria-hidden="true"></div>
+          <div class="blog-detail__quote-copy">
+            <p class="blog-detail__quote-lead">{{ demo.quote }}</p>
+            <p class="blog-detail__quote-by">{{ demo.quoteBy }}</p>
+          </div>
+        </div>
+
+        <div class="blog-detail__prose-block">
+          <p *ngFor="let para of demo.introParagraphs" class="blog-detail__gradient-body">
+            {{ para }}
+          </p>
+        </div>
+
+        <h2 class="blog-detail__h2">{{ demo.section1.title }}</h2>
+        <p class="blog-detail__gradient-body blog-detail__gradient-body--spaced">
+          {{ demo.section1.body }}
+        </p>
+
+        <h2 class="blog-detail__h2 blog-detail__h2--tight">{{ demo.section2.title }}</h2>
+        <p class="blog-detail__gradient-body">{{ demo.section2.lead }}</p>
+        <ol class="blog-detail__ol">
+          <li *ngFor="let item of demo.section2.listItems" class="blog-detail__li">
+            {{ item }}
+          </li>
+        </ol>
+      </div>
+    </article>
+  </div>
+</section>

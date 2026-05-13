@@ -18,11 +18,13 @@
   right: 0;
   bottom: 0;
   inset: 55%;
+  width: min(110vw, 100rem);
+  height: min(70vw, 33rem);
   background-image: url('../../../assets/images/Slide 16_9 - 5 3.png');
   background-size: cover;
   background-position: center 50%;
   background-repeat: no-repeat;
-  opacity: 0.42;
+  opacity: 10;
   filter: saturate(1.05) blur(0.5px);
 }
 
@@ -44,6 +46,7 @@
   position: relative;
 }
 
+/* صورة Group (7): أسفل يمين القائمة، تتداخل مع آخر الكروت زي المرجع */
 .faq-decor {
   position: absolute;
   inset: 0;
@@ -52,29 +55,19 @@
   z-index: 0;
 }
 
-.faq-decor__orange {
+.faq-decor__img {
   position: absolute;
-  bottom: -3rem;
-  right: -2rem;
-  width: min(52vw, 18rem);
-  height: min(52vw, 18rem);
-  border-radius: 50%;
-  background: rgba(255, 122, 0, 0.14);
-  z-index: 0;
+  right: 22%;
+  bottom: 15%;
+  width: min(42rem, 12vw);
+  height: auto;
+  max-height: min(58vh, 36rem);
+  object-fit: contain;
+  object-position: right bottom;
+  opacity: 0.5;
+  filter: saturate(1.06);
+  user-select: none;
 }
-
-.faq-decor__blue {
-  position: absolute;
-  bottom: 2rem;
-  right: 10%;
-  width: min(68vw, 21rem);
-  height: 10rem;
-  border-radius: 3rem;
-  background: rgba(29, 29, 219, 0.07);
-  transform: rotate(-10deg);
-  z-index: 0;
-}
-
 .faq-inner {
   position: relative;
   z-index: 10;
@@ -95,6 +88,14 @@
     filter: saturate(1.03) blur(0.3px);
   }
 
+  .faq-decor__img {
+    right: clamp(-1.25rem, -4vw, 0rem);
+    bottom: clamp(3.25rem, 12vh, 8rem);
+    width: min(36rem, 125vw);
+    max-height: min(52vh, 30rem);
+    opacity: 0.48;
+  }
+
   .faq-header__wash {
     background:
       radial-gradient(
@@ -106,18 +107,4 @@
       linear-gradient(180deg, rgba(248, 250, 255, 0.45) 0%, #ffffff 100%);
   }
 
-  .faq-decor__orange {
-    width: 10.2rem;
-    height: 10.2rem;
-    right: -2.6rem;
-    bottom: -2.8rem;
-  }
-
-  .faq-decor__blue {
-    width: 12rem;
-    height: 6rem;
-    right: -0.4rem;
-    bottom: 0.9rem;
-    transform: rotate(-14deg);
-  }
 }

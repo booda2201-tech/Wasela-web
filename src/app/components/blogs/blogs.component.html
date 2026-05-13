@@ -1,18 +1,24 @@
-<section class="blogs-page relative overflow-x-clip bg-white pb-16 pt-24 md:pb-24" *ngIf="!loading && !loadError">
+<section
+  class="blogs-page relative overflow-x-clip bg-white pb-12 pt-16 sm:pb-16 sm:pt-20 md:pb-24 md:pt-24"
+  *ngIf="!loading && !loadError"
+>
   <div class="blogs-page__bg" aria-hidden="true">
     <div class="blogs-page__bg-slide blogs-page__bg-slide--back"></div>
     <div class="blogs-page__bg-slide blogs-page__bg-slide--mid"></div>
     <div class="blogs-page__bg-wash"></div>
   </div>
 
-  <div class="blogs-page__inner relative z-[1] mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8">
+  <div class="blogs-page__inner relative z-[1] mx-auto max-w-[1280px] px-3 sm:px-5 lg:px-8">
     <header class="blogs-header text-center" data-blogs-heading>
       <h1 class="blogs-header__title">{{ pageTitle() }}</h1>
       <p class="blogs-header__subtitle blogs-preline">{{ pageSubtitle() }}</p>
     </header>
 
     <!-- بطاقة مميزة + Link.png خلف الزاوية (ديكور) -->
-    <div class="blogs-featured-wrap relative mx-auto mt-10 max-w-[1251px] md:mt-12">
+    <div
+      class="blogs-featured-wrap relative mx-auto mt-6 max-w-[1251px] sm:mt-10 md:mt-12"
+      *ngIf="featuredItem() as fi"
+    >
       <div class="blogs-featured__decor" aria-hidden="true">
         <img
           src="assets/images/Group (7).png"
@@ -25,7 +31,7 @@
       <a
         data-blogs-featured
         class="blogs-featured"
-        href="#"
+        [routerLink]="['/blogs', fi.id]"
       >
         <div class="blogs-featured__media">
           <img
@@ -38,32 +44,38 @@
           <p class="blogs-featured__headline">{{ featuredHeadline() }}</p>
         </div>
 
-        <div class="blogs-featured__panel" *ngIf="featuredItem() as featuredItem">
-          <span class="blogs-tag blogs-tag--panel">{{ featuredItem.subTitle }}</span>
+        <div class="blogs-featured__panel">
+          <span class="blogs-tag blogs-tag--panel">{{ fi.subTitle }}</span>
           <div class="blogs-featured__meta">
             <i class="bi bi-calendar3 blogs-featured__cal" aria-hidden="true"></i>
-            <span class="blogs-featured__date">{{ featuredItem.extraDataJson }}</span>
+            <span class="blogs-featured__date">{{ fi.extraDataJson }}</span>
           </div>
-          <h2 class="blogs-featured__kicker">{{ featuredItem.title }}</h2>
-          <p class="blogs-featured__excerpt blogs-preline">{{ featuredItem.description }}</p>
+          <h2 class="blogs-featured__kicker">{{ fi.title }}</h2>
+          <p class="blogs-featured__excerpt blogs-preline">{{ fi.description }}</p>
           <span class="blogs-featured__more">Continue reading</span>
         </div>
       </a>
     </div>
 
     <!-- شبكة 3 بطاقات -->
-    <h2 *ngIf="gridTitle()" class="blogs-grid-title text-center text-[#0d11b3] text-2xl font-bold mt-4">
+    <h2
+      *ngIf="gridTitle()"
+      class="blogs-grid-title text-center text-xl font-bold text-[#0d11b3] sm:text-2xl mt-3 sm:mt-4"
+    >
       {{ gridTitle() }}
     </h2>
     <div
-      class="blogs-grid mx-auto mt-12 flex max-w-[1251px] flex-col flex-wrap justify-center gap-5 md:mt-16 md:flex-row md:gap-6"
+      class="blogs-grid mx-auto mt-8 flex max-w-[1251px] flex-col flex-wrap justify-center gap-4 sm:mt-12 sm:gap-5 md:mt-16 md:flex-row md:gap-6"
     >
       <article
-        *ngFor="let post of posts()"
+        *ngFor="let post of gridPosts()"
         data-blog-card
-        class="blogs-card mx-auto w-full max-w-[400px] shrink-0 overflow-hidden rounded-xl bg-white shadow-[9px_9px_15px_rgba(0,0,0,0.1)] md:mx-0 md:w-[calc(33.333%-1rem)] md:max-w-[399.914px]"
+        class="blogs-card mx-auto w-full max-w-[400px] shrink-0 overflow-hidden rounded-xl bg-white shadow-[9px_9px_15px_rgba(0,0,0,0.1)] sm:max-w-none sm:mx-0 md:w-[calc(50%-0.75rem)] md:max-w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)] lg:max-w-[399.914px]"
       >
-        <a class="blogs-card__link block text-inherit no-underline" href="#">
+        <a
+          class="blogs-card__link h-full min-h-full text-inherit no-underline outline-none focus-visible:ring-2 focus-visible:ring-[#0d11b3] focus-visible:ring-offset-2"
+          [routerLink]="['/blogs', post.id]"
+        >
           <div class="blogs-card__thumb-wrap relative overflow-hidden rounded-t-[5px]">
             <img
               *ngIf="post.imageSrc"
@@ -74,13 +86,13 @@
             />
             <span class="blogs-tag blogs-tag--float">{{ post.tag }}</span>
           </div>
-          <div class="blogs-card__body px-6 pb-8 pt-8 md:px-7">
+          <div class="blogs-card__body px-4 pb-6 pt-6 sm:px-6 sm:pb-8 sm:pt-8 md:px-7">
             <div class="blogs-card__meta">
               <i class="bi bi-calendar3 blogs-card__cal" aria-hidden="true"></i>
               <span class="blogs-card__date">{{ post.date }}</span>
             </div>
             <h3 class="blogs-card__title">{{ post.title }}</h3>
-            <p class="blogs-card__excerpt blogs-preline">{{ post.excerpt }}</p>
+            <p class="blogs-card__excerpt">{{ post.excerpt }}</p>
           </div>
         </a>
       </article>
@@ -88,7 +100,7 @@
 
     <!-- ترقيم الصفحات -->
     <nav
-      class="blogs-pagination mx-auto mt-14 flex flex-wrap items-center justify-center gap-0.5 md:mt-16"
+      class="blogs-pagination mx-auto mt-10 flex max-w-full flex-wrap items-center justify-center gap-1 px-1 sm:mt-14 md:mt-16"
       aria-label="Blog pagination"
     >
       <ng-container *ngFor="let p of paginationPages">

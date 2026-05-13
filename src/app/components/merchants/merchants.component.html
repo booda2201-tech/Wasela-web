@@ -1,49 +1,145 @@
-<section class="py-12 md:py-20 bg-white" *ngIf="!loading && !loadError && page">
-  <div class="container mx-auto px-4 sm:px-6 py-10 md:py-16">
-    <div class="text-center mb-12 md:mb-20 px-2 md:px-4" *ngIf="heroSection() as hero">
-      <h2 class="text-3xl md:text-6xl font-black text-[#1D1DDB] mb-4 md:mb-6">
-        {{ hero.title }}
-      </h2>
-      <p class="text-gray-500 font-medium max-w-3x1 mx-auto mb-7 md:mb-10 leading-relaxed text-sm md:text-base merchants-preline">
-        {{ hero.description }}
-      </p>
+<section
+  class="max-lg:py-10 max-lg:sm:py-12 max-lg:md:py-14 max-lg:bg-gradient-to-b max-lg:from-[#FAFBFF] max-lg:via-white max-lg:to-[#F2F4FF] lg:bg-white lg:py-12 lg:md:py-20"
+  *ngIf="!loading && !loadError && page"
+>
+  <div
+    class="container mx-auto px-4 sm:px-6 max-lg:py-8 max-lg:md:py-10 lg:py-10 lg:md:py-16"
+  >
+    <div
+      class="max-lg:mb-10 max-lg:rounded-[1.75rem] max-lg:border max-lg:border-white/70 max-lg:bg-white/80 max-lg:backdrop-blur-xl max-lg:shadow-[0_12px_48px_-18px_rgba(29,29,219,0.2)] max-lg:p-6 max-lg:sm:p-8 lg:contents"
+      *ngIf="heroSection() as hero"
+    >
+      <div
+        class="text-center mb-12 px-2 md:px-4 max-lg:mb-0 lg:flex lg:flex-col lg:items-center lg:gap-2.5 lg:tracking-[0.2px]"
+      >
+        <h2
+          class="mb-4 lg:mt-2 md:mb-3 max-lg:mb-4 
+           max-lg:text-[2rem] max-lg:tracking-[-0.02em] 
+           text-3xl font-black text-[#1D1DDB] lg:mb-0 lg:bg-none lg:bg-clip-border lg:text-[3rem]"
+        >
+          {{ hero.title }}
+        </h2>
+        <p
+          class="text-gray-500 font-medium max-w-3xl mx-auto mb-7 md:mb-10 leading-relaxed text-sm md:text-base 
+          merchants-preline max-lg:mb-6 max-lg:max-w-[30rem] max-lg:text-[.7rem] 
+          max-lg:leading-relaxed max-lg:text-slate-600 max-lg:sm:max-w-md sm:max-lg:text-[0.97rem] 
+          lg:mb-0 lg:max-w-[55.5rem] lg:text-sm lg:leading-5 lg:text-[#737373]"
+        >
+          {{ hero.description }}
+        </p>
+        <div
+          class="merchants-count-box flex items-center justify-center max-lg:mb-0 max-lg:rounded-2xl 
+          max-lg:border max-lg:border-[#E2E8FF] max-lg:bg-gradient-to-r max-lg:from-[#F8FAFF] 
+          max-lg:to-[#EEF2FF] max-lg:px-0 max-lg:py-6 max-lg:sm:px-0 
+          max-lg:sm:py-0 max-lg:shadow-[inset_0_1px_0_rgba(255,255,255,0.9)] lg:mt-2 
+          lg:rounded-none lg:border-0 lg:bg-transparent lg:from-transparent lg:to-transparent 
+          lg:px-0 lg:py-2 lg:shadow-none"
+          *ngIf="merchantsCountSection() as countSection"
+        >
+          <div
+            class="merchants-count-inner inline-flex items-end justify-center gap-2 md:gap-3"
+          >
+            <h1
+              class="merchants-count-title text-3xl font-black text-[#94A3FF] tracking-tight leading-none 
+            max-lg:text-[2.65rem] max-lg:sm:text-5xl max-lg:tracking-[-0.03em] 
+            max-lg:text-[#6B7CFF] max-lg:drop-shadow-[0_2px_24px_rgba(107,124,255,0.35)] 
+            lg:text-[3.4375rem] lg:md:text-[3.4375rem] lg:leading-[3.5rem] lg:text-[#9598ff] 
+            lg:drop-shadow-none"
+            >
+              {{ countSection.title }}
+            </h1>
 
-      <div class="flex items-center justify-center gap-2 md:gap-3" *ngIf="merchantsCountSection() as countSection">
-        <h1 class="text-4xl md:text-7xl font-black text-[#94A3FF] tracking-tight leading-none">
-          {{ countSection.title }}
-        </h1>
-
-        <div class="bg-[#E4EAFF] px-3 py-1 md:px-4 md:py-2 rounded-full flex items-center justify-center self-end mb-2 md:mb-4 transition-transform duration-300 hover:scale-105 cursor-default shadow-sm border border-[#D0D9FF]">
-          <div class="w-2.5 h-2.5 md:w-3.5 md:h-3.5 bg-[#FF7A00] rounded-full shadow-inner translate-x-2 md:translate-x-3"></div>
+            <div class="brand-icon flex shrink-0 items-end lg:mb-0 lg:md:mb-0.5">
+              <img
+                src="../../../../assets/images/gg.png"
+                alt="Merchants Count Icon"
+                class="merchants-count-icon-img w-5 h-5 md:w-9 md:h-5 object-contain object-bottom block"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-      <div *ngFor="let col of columns(); let colIndex = index" class="flex flex-col gap-4 md:gap-6 h-auto lg:h-[1150px]">
+    <ng-template #merchantCard let-m="merchant" let-cls="cls" let-lgFlex="lgFlex">
+      <div
+        class="merchant-col__card relative overflow-hidden rounded-[1.25rem] sm:rounded-2xl group cursor-pointer w-full shadow-md transition-all duration-700 smooth-accordion flex-shrink max-lg:shadow-[0_28px_56px_-32px_rgba(15,23,42,0.55)] max-lg:ring-1 max-lg:ring-white/40 max-lg:active:scale-[0.985] max-lg:duration-300 lg:rounded-[2rem] lg:shadow-md lg:ring-0 lg:active:scale-100 min-h-0"
+        [ngClass]="cls"
+        [ngStyle]="lgFlex != null ? { '--card-flex': lgFlex } : {}"
+      >
+        <img
+          *ngIf="backgroundSrc(m) as bg"
+          [src]="bg"
+          class="absolute inset-0 size-full object-cover transition-transform duration-1000 will-change-transform max-lg:scale-[1.04] max-lg:group-hover:scale-[1.06] max-lg:group-active:scale-[1.02] group-hover:scale-110 lg:scale-100 lg:group-hover:scale-110"
+          [alt]="m.title || 'Merchant background'"
+          loading="lazy"
+          decoding="async"
+        />
+
         <div
-          *ngFor="let merchant of col; let rowIndex = index"
-          class="relative overflow-hidden rounded-[1.5rem] md:rounded-[2rem] group cursor-pointer w-full shadow-md transition-all duration-999 smooth-accordion flex-shrink min-h-[120px] md:min-h-[150px]"
-          [ngClass]="cardClass(rowIndex, colIndex)"
-        >
+          class="absolute inset-0 pointer-events-none transition-opacity duration-700 bg-gradient-to-b from-[#0d11b3]/50 to-[rgba(12,12,13,0.05)] max-lg:bg-gradient-to-t max-lg:from-black/60 max-lg:via-black/20 max-lg:to-transparent opacity-100 lg:group-hover:from-[#0d11b3]/60"
+        ></div>
+
+        <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
           <img
-            *ngIf="backgroundSrc(merchant) as bg"
-            [src]="bg"
-            class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 will-change-transform"
-            [alt]="merchant.title || 'Merchant background'"
+            *ngIf="logoSrc(m) as logo"
+            [src]="logo"
+            class="max-w-[90%] max-h-[90%] sm:max-w-[92%] sm:max-h-[92%] object-contain md:max-w-full md:max-h-full max-lg:drop-shadow-[0_10px_28px_rgba(0,0,0,0.45)] lg:drop-shadow-none"
+            [alt]="m.title || 'Merchant logo'"
+            loading="lazy"
+            decoding="async"
           />
-
-          <div class="absolute inset-0 bg-black/20 opacity-0 transition-opacity duration-700 group-hover:opacity-100 pointer-events-none"></div>
-
-          <div class="absolute inset-0 flex items-center justify-center">
-            <img
-              *ngIf="logoSrc(merchant) as logo"
-              [src]="logo"
-              class="max-w-[80%] max-h-[80%] md:max-w-full md:max-h-full object-contain"
-              [alt]="merchant.title || 'Merchant logo'"
-            />
-          </div>
         </div>
+      </div>
+    </ng-template>
+
+    <!-- موبايل وتابلت: سلايدر -->
+    <div
+      class="merchants-page-swiper-wrap -mx-4 px-1 sm:-mx-6 sm:px-2 lg:hidden"
+      *ngIf="merchantItemsList.length"
+    >
+      <swiper-container
+        #merchantsSwiperMobile
+        init="false"
+        class="merchants-page-swiper"
+      >
+        <swiper-slide
+          *ngFor="let merchant of merchantItemsList; let i = index; trackBy: trackByMerchantId"
+          class="merchants-page-swiper-slide"
+        >
+          <ng-container
+            *ngTemplateOutlet="
+              merchantCard;
+              context: { merchant: merchant, cls: cardClassForMerchantIndex(i) }
+            "
+          ></ng-container>
+        </swiper-slide>
+      </swiper-container>
+    </div>
+
+    <!-- ديسكتوب: 4 أعمدة — هوفر يكبّر الكرت ويصغّر اللي فوقه وتحته (نفس سلوك الفيجما) -->
+    <div
+      class="merchants-desktop-grid hidden lg:grid lg:grid-cols-4 lg:gap-[18px]"
+      *ngIf="merchantItemsList.length"
+    >
+      <div
+        *ngFor="let col of columnsLayout; let colIndex = index; trackBy: trackByColumnIndex"
+        class="merchants-desktop-col"
+      >
+        <ng-container
+          *ngFor="let merchant of col; let rowIndex = index; trackBy: trackByMerchantId"
+        >
+          <ng-container
+            *ngTemplateOutlet="
+              merchantCard;
+              context: {
+                merchant: merchant,
+                cls: cardClass(rowIndex, colIndex),
+                lgFlex: cardFlexWeight(rowIndex, colIndex)
+              }
+            "
+          ></ng-container>
+        </ng-container>
       </div>
     </div>
   </div>
@@ -51,5 +147,5 @@
 
 <div class="py-20 text-center" *ngIf="loading">Loading...</div>
 <div class="py-20 text-center text-red-500" *ngIf="loadError">
-  تعذر تحميل صفحة Merchants.
+  فشل في تحميل صفحة Merchants.
 </div>

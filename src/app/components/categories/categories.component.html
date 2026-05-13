@@ -1,12 +1,12 @@
-<section class="py-12 md:py-20 bg-white" *ngIf="!loading && !loadError && page">
-  <div class="container mx-auto px-4 sm:px-6 py-10 md:py-16 text-center">
+<section class="py-12 lg:py-14 bg-white" *ngIf="!loading && !loadError && page">
+  <div class="container mx-auto px-4 sm:px-6 py-16 text-center">
     <ng-container *ngIf="heroSection() as hero">
       <h2 class="text-[#1D1DDB] text-3xl md:text-4xl font-[900] mb-3 md:mb-4">{{ hero.title }}</h2>
-      <p class="text-gray-400 text-sm md:text-base max-w-2xl mx-auto mb-10 md:mb-16">{{ hero.description }}</p>
+      <p class="text-gray-400 text-sm md:text-base max-w-2xl mx-auto mb-10 md:mb-16 lg:mb-8">{{ hero.description }}</p>
     </ng-container>
 
-    <div *ngFor="let cat of categorySections()" class="mb-16 md:mb-32 last:mb-0">
-      <div class="relative flex justify-center mb-10 md:mb-20 min-h-[260px] md:min-h-[400px]">
+    <div *ngFor="let cat of categorySections()" class="mb-10 last:mb-0">
+      <div class="relative flex justify-center md:mb-6 lg:mb-6 min-h-[260px] md:min-h-[400px]">
         <div class="category-blob-wrapper relative">
           <div class="blob-bg absolute inset-0 z-10">
             <img
@@ -27,24 +27,43 @@
         </div>
       </div>
 
-      <h3 class="text-[#1D1DDB] text-2xl md:text-3xl font-black mb-2 md:mb-3">{{ cat.title }}</h3>
-      <p class="text-gray-400 text-sm md:text-base font-medium mb-8 md:mb-12 max-w-md mx-auto">{{ cat.description }}</p>
+      <h3 class="text-[#1D1DDB] text-2xl md:text-3xl font-black mb-4 md:mb-3">{{ cat.title }}</h3>
+      <p class="text-gray-400 text-sm md:text-base font-medium mb-8 md:mb-12 mx-auto ">{{ cat.description }}</p>
 
-      <div class="flex flex-wrap justify-center gap-4 md:gap-8 max-w-3xl mx-auto">
-        <div
-          *ngFor="let sub of activeItems(cat); let i = index"
-          [ngClass]="i % 2 === 0 ? 'bg-[#F3F4FF]' : 'bg-[#FFF8F3]'"
-          class="flex flex-col items-center justify-center w-36 h-28 sm:w-40 sm:h-32 md:w-44 md:h-32 rounded-[16px] md:rounded-[20px] transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 cursor-pointer border border-transparent hover:border-blue-100"
-        >
-          <img
+      <ng-container *ngIf="activeItems(cat) as subs">
+        <div [ngClass]="subcategoryGridClass(subs.length)">
+          <div
+            *ngFor="let sub of subs; let i = index"
+            [ngClass]="[
+              i % 2 === 0 ? 'bg-[#F3F4FF]' : 'bg-[#FFF8F3]',
+              subcategoryItemGridClass(subs.length, i)
+            ]"
+            class="category-sub-card group relative flex w-40 flex-col items-center rounded-[16px]
+             border border-transparent px-3 pb-3.5 pt-10 shadow-[0_2px_12px_-4px_rgba(29,29,219,0.08)] 
+             transition-all duration-300 hover:-translate-y-2 hover:border-[#E2E8FF] hover:shadow-[0_20px_44px_-16px_rgba(29,29,219,0.16)] 
+             sm:w-50 sm:pb-4 sm:pt-6 md:w-55 md:rounded-[20px] md:pb-6 md:pt-[3.5rem] lg:w-full 
+             lg:max-w-[15rem] lg:justify-self-center cursor-pointer"
+          >
+          <div
             *ngIf="itemImage(sub) as subImg"
-            [src]="subImg"
-            class="w-8 h-8 md:w-10 md:h-10 mb-2 md:mb-4 object-contain"
-            [alt]="sub.title || ''"
-          />
-          <span class="text-[#1D1DDB] font-bold text-xs md:text-sm text-center px-2 md:px-4">{{ sub.title }}</span>
+            class="pointer-events-none absolute left-1/2 top-0 z-10 flex h-[3.5rem] w-[3.5rem] 
+            -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white 
+            shadow-[0_10px_28px_-6px_rgba(29,29,219,0.2),0_2px_8px_-2px_rgba(15,23,42,0.06)] 
+            ring-1 ring-[#EEF0FF] sm:h-15 sm:w-15 md:h-[5rem] md:w-[5rem]"
+          >
+            <img
+              [src]="subImg"
+              class="h-8 w-8 object-contain sm:h-9 sm:w-9 md:h-10 md:w-10"
+              [alt]="sub.title || ''"
+            />
+          </div>
+          <span
+            class="mt-auto text-center text-xs font-bold leading-tight text-[#1D1DDB] 
+            md:text-sm md:leading-snug px-.5"
+            >{{ sub.title }}</span>
+          </div>
         </div>
-      </div>
+      </ng-container>
     </div>
   </div>
 </section>

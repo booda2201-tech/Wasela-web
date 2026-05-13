@@ -1,5 +1,5 @@
 <section *ngIf="financeSection() as fin" class="categories-section py-4 bg-white text-center">
-  <div class="container mx-auto px-6">
+  <div class="container mx-auto px-3">
     <h2 *ngIf="fin.title" class="text-3xl md:text-4xl font-[900] text-[#1D1DDB] mb-4">{{ fin.title }}</h2>
     <p *ngIf="fin.description" class="text-gray-500 max-w-1xl mx-auto mb-10 font-medium cms-preline">
       {{ fin.description }}
@@ -29,7 +29,7 @@
 
     <div
       *ngIf="categories.length"
-      class="category-grid grid grid-cols-2 lg:grid-cols-4 gap-x-5 gap-y-8 md:gap-x-6 md:gap-y-10 p-3 md:p-4 items-stretch"
+      class="category-grid grid grid-cols-2 lg:grid-cols-4 gap-x-3 gap-y-4 md:gap-x-3 md:gap-y-4 p-3 md:p-3 items-stretch"
     >
       <div *ngFor="let cat of categories" class="category-card w-full flex justify-center">
         <div class="relative shape-wrapper w-full">
@@ -67,10 +67,10 @@
 
 <section
   *ngIf="partnersSection() as part"
-  class="partners-section py-6 bg-white"
+  class="partners-section py-3 bg-white"
   [class.is-swapping]="partnersSwapping"
 >
-  <div class="container mx-auto px-4 text-center">
+  <div class="container mx-auto px-3 text-center">
     <h2 *ngIf="part.title" class="partners-title text-3xl md:text-4xl font-black text-[#1D1DDB] mb-5">{{ part.title }}</h2>
     <p *ngIf="part.description" class="partners-subtitle text-gray-500 max-w-1xl mx-auto mb-10 leading-relaxed font-medium cms-preline">
       {{ part.description }}
@@ -134,9 +134,9 @@
   </div>
 </section>
 
-<section *ngIf="homeMerchantsSection() as hm" class="merchants-showcase-section py-6 bg-white">
-  <div class="container mx-auto px-4 ">
-    <div class="merchants-showcase-header  text-center mb-8 lg:mb-16">
+<section *ngIf="homeMerchantsSection() as hm" class="merchants-showcase-section py-3 bg-white">
+  <div class="container mx-auto px-3">
+    <div class="merchants-showcase-header text-center mb-4 lg:mb-16">
       <h1 *ngIf="hm.title" class="text-3xl md:text-4xl font-black text-[#1D1DDB] mb-4">{{ hm.title }}</h1>
       <p
         *ngIf="hm.description"
@@ -189,18 +189,17 @@
                 decoding="async"
               />
             </div>
-
             <div
               class="absolute inset-0 bg-black/20 opacity-0 transition-opacity duration-700 group-hover:opacity-100 pointer-events-none z-[1]"
             ></div>
 
             <div class="absolute inset-0 z-[2] flex items-center justify-center p-2 lg:p-0 pointer-events-none">
               <div
-                class="merchant-card-logo-ring flex items-center justify-center rounded-full bg-white/90 shadow-none ring-2 ring-white/80 w-[3.25rem] h-[3.25rem] sm:w-16 sm:h-16 lg:bg-transparent lg:ring-0 lg:rounded-none lg:w-auto lg:h-auto"
+                class="merchant-card-logo-ring flex items-center justify-center rounded-full shadow-none ring-2 ring-white/80 w-[10.25rem] h-[10.25rem] sm:w-16 sm:h-16 lg:bg-transparent lg:ring-0 lg:rounded-none lg:w-auto lg:h-auto"
               >
                 <img
                   [src]="merchant.logo"
-                  class="max-w-[78%] max-h-[78%] lg:max-w-full lg:max-h-full object-contain"
+                  class="max-w-[50%] max-h-[50%] lg:max-w-full lg:max-h-full object-contain"
                   alt=""
                 />
               </div>
@@ -244,8 +243,8 @@
   <ng-container *ngTemplateOutlet="homeTestimonials"></ng-container>
 </ng-container>
 
-<section *ngIf="downloadSection() as dl" class="download-section py-6 md:py-12" aria-labelledby="download-heading">
-  <div class="container mx-auto px-4 lg:px-0">
+<section *ngIf="downloadSection() as dl" class="download-section py-3 md:py-6" aria-labelledby="download-heading">
+  <div class="container mx-auto px-3 lg:px-0">
     <div class="download-layout">
       <div
         class="download-shell"
@@ -308,15 +307,15 @@
 
 <ng-template #homeTestimonials>
   <ng-container *ngIf="testimonialsSection() as ts">
-    <section *ngIf="testimonials.length" class="testimonials-section py-8 md:py-12 mt-5">
-      <div class="container mx-auto px-6 testimonials-section__inner">
+    <section *ngIf="testimonials.length" class="testimonials-section py-3 md:py-6 mt-3">
+      <div class="container mx-auto px-3 testimonials-section__inner">
         <h2 *ngIf="ts.title" class="text-3xl md:text-4xl font-black text-[#1D1DDB] mb-4 text-center">{{ ts.title }}</h2>
 
-        <div class="testimonials-swiper-wrap max-w-[1500px] mx-auto px-3 py-4 sm:px-4">
+        <div class="testimonials-swiper-wrap max-w-[1500px] mx-auto px-3 py-3 sm:px-3">
           <swiper-container #testimonialSwiper init="false" class="testimonials-swiper">
-            <swiper-slide *ngFor="let item of testimonials" class="testimonial-slide">
+            <swiper-slide *ngFor="let item of testimonials; let i = index" class="testimonial-slide">
               <div class="testimonial-wrapper" [class.testimonial-wrapper--featured]="item.featured">
-                <article class="testimonial-layered-card">
+                <article class="testimonial-layered-card" [class.testimonial-layered-card--first]="i === 0">
                   <div class="testimonial-layered-card__bg" aria-hidden="true">
                     <img
                       *ngIf="item.backgroundSrc"

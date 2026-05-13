@@ -3,7 +3,8 @@ import {
   Component,
   ElementRef,
   OnDestroy,
-  OnInit
+  OnInit,
+  ViewChild
 } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import gsap from 'gsap';
@@ -22,12 +23,16 @@ gsap.registerPlugin(ScrollTrigger);
 
 const SCROLL_ENTER = 'top bottom';
 
+type SwiperContainerEl = HTMLElement & { initialize: () => void };
+
 @Component({
   selector: 'app-about-us',
   templateUrl: './about-us.component.html',
   styleUrls: ['./about-us.component.scss']
 })
 export class AboutUsComponent implements OnInit, OnDestroy {
+  @ViewChild('teamLeadershipSwiper') teamLeadershipSwiperRef?: ElementRef<SwiperContainerEl>;
+
   constructor(
     private readonly host: ElementRef<HTMLElement>,
     private readonly pagesService: PagesService,
@@ -50,6 +55,7 @@ export class AboutUsComponent implements OnInit, OnDestroy {
   leadershipItems: CmsPageSectionItem[] = [];
 
   private gsapCtx?: gsap.Context;
+  private teamLeadershipSwiperInited = false;
 
   ngOnInit(): void {
     this.pagesService.getPageBySlug('about-us').subscribe({
@@ -58,7 +64,10 @@ export class AboutUsComponent implements OnInit, OnDestroy {
         this.applySeo(page);
         this.refreshDerivedLists();
         this.loading = false;
-        queueMicrotask(() => this.setupScrollAnimations());
+        queueMicrotask(() => {
+          this.setupScrollAnimations();
+          setTimeout(() => this.tryInitTeamLeadershipSwiper(), 0);
+        });
       },
       error: (err: unknown) => {
         this.loading = false;
@@ -70,6 +79,58 @@ export class AboutUsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.gsapCtx?.revert();
+    const el = this.teamLeadershipSwiperRef?.nativeElement as unknown as {
+      swiper?: { destroy: (deleteInstance?: boolean, cleanStyles?: boolean) => void };
+    };
+    el?.swiper?.destroy(true, true);
+    this.teamLeadershipSwiperInited = false;
+  }
+
+  trackByTeamMemberId(_index: number, item: CmsPageSectionItem): number {
+    return item.id;
+  }
+
+  private tryInitTeamLeadershipSwiper(): void {
+    if (this.teamLeadershipSwiperInited) {
+      return;
+    }
+    const el = this.teamLeadershipSwiperRef?.nativeElement;
+    if (!el || this.leadershipItems.length === 0) {
+      return;
+    }
+    const n = this.leadershipItems.length;
+    const reduceMotion =
+      typeof window !== 'undefined' &&
+      window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    const autoplayOn = n > 1 && !reduceMotion;
+
+    Object.assign(el, {
+      slidesPerView: 1,
+      slidesPerGroup: 1,
+      spaceBetween: 16,
+      speed: 560,
+      grabCursor: true,
+      rewind: true,
+      autoplay: autoplayOn
+        ? {
+            delay: 5200,
+            disableOnInteraction: false,
+            pauseOnMouseEnter: true
+          }
+        : false,
+      breakpoints: {
+        768: {
+          spaceBetween: 20
+        },
+        1024: {
+          slidesPerView: 3,
+          slidesPerGroup: 3,
+          spaceBetween: 28
+        }
+      }
+    });
+    el.initialize();
+    this.teamLeadershipSwiperInited = true;
   }
 
   private describeLoadError(err: unknown): string {

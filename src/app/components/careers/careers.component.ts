@@ -16,7 +16,8 @@ export interface CareerJob {
   id: number;
   roleLabel: string;
   title: string;
-  metaLine: string;
+  /** أجزاء سطر الميتا من الـ API؛ النقاط البرتقالية ثابتة في القالب بين العناصر */
+  metaSegments: string[];
   applyButtonText: string;
   descriptionHeading: string;
   descriptionParagraphs: string[];
@@ -183,7 +184,7 @@ export class CareersComponent implements OnInit, AfterViewInit, OnDestroy {
           id: section.id,
           roleLabel: section.subTitle || 'Open Roles',
           title: section.title || '',
-          metaLine: (section.description || '').replace(/\s*\.\s*/g, ' • ').trim(),
+          metaSegments: this.parseMetaSegments(section.description || ''),
           applyButtonText: section.buttonText || 'Submit Application',
           descriptionHeading: firstDetail?.title || 'Job Description',
           descriptionParagraphs
@@ -198,5 +199,18 @@ export class CareersComponent implements OnInit, AfterViewInit, OnDestroy {
     if (page.metaDescription) {
       this.meta.updateTag({ name: 'description', content: page.metaDescription });
     }
+  }
+
+  /** يفصل وصف القسم (ميتا الوظيفة) إلى أجزاء؛ يدعم النقطة أو • أو | من الـ CMS */
+  private parseMetaSegments(raw: string): string[] {
+    const t = raw.trim();
+    if (!t) {
+      return [];
+    }
+    const normalized = t.replace(/\s*\.\s*/g, ' • ').replace(/\s*\|\s*/g, ' • ');
+    return normalized
+      .split(/\s*•\s*/)
+      .map((s) => s.trim())
+      .filter(Boolean);
   }
 }

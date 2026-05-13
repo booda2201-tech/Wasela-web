@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 
 import { environment } from '../../../environments/environment';
@@ -10,30 +10,38 @@ import {
   resolveCmsAssetUrl
 } from '../../services/pages.service';
 
+type SwiperContainerEl = HTMLElement & { initialize: () => void };
+
 @Component({
   selector: 'app-merchants',
   templateUrl: './merchants.component.html',
   styleUrls: ['./merchants.component.scss']
 })
-export class MerchantsComponent implements OnInit {
+export class MerchantsComponent implements OnInit, AfterViewInit {
+  @ViewChild('merchantsSwiperMobile') merchantsSwiperRef?: ElementRef<SwiperContainerEl>;
+
   loading = true;
   loadError = false;
   page: CmsPage | null = null;
 
-  readonly cardHeightClasses = [
-    'h-[450px] hover:h-[580px]',
-    'h-[360px] hover:h-[480px]',
-    'h-[290px] hover:h-[400px]',
-    'h-[480px] hover:h-[620px]',
-    'h-[340px] hover:h-[460px]',
-    'h-[280px] hover:h-[400px]',
-    'h-[320px] hover:h-[420px]',
-    'h-[380px] hover:h-[520px]',
-    'h-[400px] hover:h-[540px]',
-    'h-[360px] hover:h-[500px]',
-    'h-[420px] hover:h-[560px]',
-    'h-[320px] hover:h-[430px]'
-  ];
+  private merchantsSwiperInited = false;
+
+  /**
+   * نفس بيانات التجار مُخزّنة هنا — استدعاء merchantItems()/columns() في القالب كان
+   * ينشئ مصفوفات جديدة كل change detection فيُعاد إنشاء الصور وتحميلها من جديد.
+   */
+  merchantItemsList: CmsPageSectionItem[] = [];
+  columnsLayout: CmsPageSectionItem[][] = [[], [], [], []];
+
+  /** موبايل/تابلت: ارتفاع الكرت داخل السلايدر (~500px+ حسب الفيجما) */
+  readonly cardMobileHeights =
+    'max-lg:h-[500px] max-lg:sm:h-[540px] max-lg:md:h-[560px]';
+
+  /**
+   * ديسكتوب (lg+): أوزان flex نسبية لنفس نسب ارتفاعات الفيجما (~450/100 …)
+   * عند الهوير يتغيّر flex في SCSS والجيران يصغروا داخل عمود بارتفاع ثابت.
+   */
+  readonly cardFlexByIndex = [1.2, 2.6, 1.9, 2.8, 1.4, 2.0, 1.2, 2.5, 1.0, 2.6, 2.0, 1.2];
 
   constructor(
     private readonly pagesService: PagesService,
@@ -41,12 +49,18 @@ export class MerchantsComponent implements OnInit {
     private readonly meta: Meta
   ) {}
 
+  ngAfterViewInit(): void {
+    queueMicrotask(() => setTimeout(() => this.tryInitMerchantsSwiper(), 0));
+  }
+
   ngOnInit(): void {
     this.pagesService.getPageBySlug('merchants').subscribe({
       next: (page) => {
         this.page = page;
+        this.rebuildMerchantLayout();
         this.applySeo(page);
         this.loading = false;
+        queueMicrotask(() => setTimeout(() => this.tryInitMerchantsSwiper(), 0));
       },
       error: () => {
         this.loading = false;
@@ -63,28 +77,77 @@ export class MerchantsComponent implements OnInit {
     return this.pickSection('1000_Merchants');
   }
 
-  merchantItems(): CmsPageSectionItem[] {
+  private rebuildMerchantLayout(): void {
     const section = this.merchantsCountSection();
     if (!section?.items?.length) {
-      return [];
+      this.merchantItemsList = [];
+      this.columnsLayout = [[], [], [], []];
+      return;
     }
-    return [...section.items]
+    const items = [...section.items]
       .filter((item) => item.isActive)
       .sort((a, b) => a.sortOrder - b.sortOrder || a.id - b.id);
-  }
-
-  columns(): CmsPageSectionItem[][] {
-    const source = this.merchantItems();
+    this.merchantItemsList = items;
     const cols: CmsPageSectionItem[][] = [[], [], [], []];
-    source.forEach((item, index) => {
+    items.forEach((item, index) => {
       cols[index % 4].push(item);
     });
-    return cols;
+    this.columnsLayout = cols;
   }
 
-  cardClass(indexInColumn: number, columnIndex: number): string {
-    const idx = (columnIndex * 3 + indexInColumn) % this.cardHeightClasses.length;
-    return this.cardHeightClasses[idx];
+  trackByMerchantId(_index: number, item: CmsPageSectionItem): number {
+    return item.id;
+  }
+
+  trackByColumnIndex(index: number, _col: CmsPageSectionItem[]): number {
+    return index;
+  }
+
+  private cardPatternIndex(rowIndex: number, columnIndex: number): number {
+    return (columnIndex * 3 + rowIndex) % this.cardFlexByIndex.length;
+  }
+
+  /** Classes للكرت: ارتفاعات الموبايل فقط؛ الديسكتوب يعتمد على flex + SCSS */
+  cardClass(_rowIndex: number, _columnIndex: number): string {
+    return this.cardMobileHeights;
+  }
+
+  cardFlexWeight(rowIndex: number, columnIndex: number): number {
+    return this.cardFlexByIndex[this.cardPatternIndex(rowIndex, columnIndex)];
+  }
+
+  cardClassForMerchantIndex(_flatIndex: number): string {
+    return this.cardMobileHeights;
+  }
+
+  private tryInitMerchantsSwiper(): void {
+    if (this.merchantsSwiperInited) {
+      return;
+    }
+    const el = this.merchantsSwiperRef?.nativeElement;
+    if (!el || this.merchantItemsList.length === 0) {
+      return;
+    }
+    Object.assign(el, {
+      slidesPerView: 1.08,
+      spaceBetween: 16,
+      speed: 520,
+      centeredSlides: true,
+      grabCursor: true,
+      // pagination: { clickable: true },
+      breakpoints: {
+        480: {
+          slidesPerView: 1.18,
+          spaceBetween: 18
+        },
+        640: {
+          slidesPerView: 1.28,
+          spaceBetween: 20
+        }
+      }
+    });
+    el.initialize();
+    this.merchantsSwiperInited = true;
   }
 
   logoSrc(item: CmsPageSectionItem): string | null {
@@ -114,5 +177,4 @@ export class MerchantsComponent implements OnInit {
     const section = this.page?.sections?.find((s) => s.sectionKey === key);
     return section?.isActive ? section : null;
   }
-
 }

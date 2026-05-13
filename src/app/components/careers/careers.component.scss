@@ -20,11 +20,12 @@
   right: 0;
   bottom: 0;
   background-image: url('../../../assets/images/Slide 16_9 - 5 3.png');
-  width: 100%;
+  width: min(110vw, 100rem);
+  height: min(70vw, 33rem);
   background-size: cover;
   background-position: center 50%;
   background-repeat: no-repeat;
-  opacity: 0.42;
+  opacity: 10;
   filter: saturate(1.05) blur(0.5px);
 }
 
@@ -56,6 +57,111 @@
 
 .careers-preline {
   white-space: pre-line;
+}
+
+.careers-job-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: 0.5rem;
+  row-gap: 0.25rem;
+}
+
+.careers-job-meta__text {
+  min-width: 0;
+}
+
+.careers-job-meta__dot {
+  display: inline-block;
+  width: 0.28rem;
+  height: 0.28rem;
+  border-radius: 50%;
+  background: #ff7a00;
+  flex-shrink: 0;
+  vertical-align: middle;
+}
+
+/* زر إرسال الطلب — نفس فكرة contact-submit: الدائرة ملاصقة حدود الكبسولة */
+.careers-apply-submit {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0;
+  padding-inline-start: 1.125rem;
+  min-height: 40px;
+  border: 1px solid #1d1ddb;
+  border-radius: 9999px;
+  background: #fff;
+  cursor: pointer;
+  overflow: hidden;
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+
+  @media (min-width: 768px) {
+    gap: 1rem;
+    padding-inline-start: 1.75rem;
+    min-height: 52px;
+  }
+
+  &:hover {
+    background: #1d1ddb;
+    box-shadow: 0 4px 14px rgba(29, 29, 219, 0.18);
+  }
+}
+
+.careers-apply-submit__text {
+  color: #ff7a00;
+  font-weight: 800;
+  font-size: 0.875rem;
+  line-height: 1.45;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+
+  @media (min-width: 768px) {
+    font-size: 1.125rem;
+  }
+}
+
+.careers-apply-submit:hover .careers-apply-submit__text {
+  color: #fff;
+}
+
+.careers-apply-submit__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #1d1ddb;
+  color: #fff;
+  transition:
+    background 0.3s ease,
+    color 0.3s ease,
+    transform 0.3s ease;
+
+  @media (min-width: 768px) {
+    width: 52px;
+    height: 52px;
+  }
+
+  i {
+    font-size: 1rem;
+    line-height: 1;
+
+    @media (min-width: 768px) {
+      font-size: 1.35rem;
+    }
+  }
+}
+
+.careers-apply-submit:hover .careers-apply-submit__icon {
+  background: #fff;
+  color: #1d1ddb;
+  transform: scale(1.05);
 }
 
 @media (max-width: 767px) {

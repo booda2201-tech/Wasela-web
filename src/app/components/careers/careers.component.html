@@ -26,15 +26,18 @@
       <div class="flex flex-col gap-3 md:gap-4 md:flex-row md:justify-between md:items-center">
         <div class="min-w-0 space-y-2 text-left flex-1">
           <span
-            class="inline-block bg-[#E0E7FF] text-[#1D1DDB] rounded-full px-3 py-1 text-xs font-semibold tracking-tight"
+            class="inline-block bg-[#BAEAFF] text-[#1D1DDB] rounded-full px-4 py-1 text-sm font-[500] tracking-tight"
           >
             {{ job.roleLabel }}
           </span>
-          <h2 class="text-[#1D1DDB] font-bold text-lg md:text-2xl leading-snug">
+          <h2 class="text-[#1D1DDB] font-[500] text-lg md:text-2xl leading-snug mt-2 mb-2">
             {{ job.title }}
           </h2>
-          <p class="text-gray-500 text-xs md:text-sm font-medium">
-            {{ job.metaLine }}
+          <p *ngIf="job.metaSegments.length" class="careers-job-meta text-gray-500 text-xs md:text-sm font-medium mt-3">
+            <ng-container *ngFor="let seg of job.metaSegments; let last = last">
+              <span class="careers-job-meta__text">{{ seg }}</span>
+              <span *ngIf="!last" class="careers-job-meta__dot" aria-hidden="true"></span>
+            </ng-container>
           </p>
         </div>
 
@@ -42,41 +45,20 @@
           <button
             type="button"
             (click)="toggle(job.id)"
-            class="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white border-[1px] border-[#1D1DDB] flex items-center justify-center hover:bg-gray-50 transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1D1DDB] focus-visible:ring-offset-2"
+            class="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white border-[1px] border-[#1D1DDB] flex items-center 
+            justify-center hover:bg-gray-50 transition-colors duration-300 focus:outline-none 
+            focus-visible:ring-2 focus-visible:ring-[#1D1DDB] focus-visible:ring-offset-2"
             [attr.aria-expanded]="isExpanded(job.id)"
             [attr.aria-controls]="'job-desc-' + job.id"
             [attr.id]="'job-toggle-' + job.id"
           >
-            <svg
-            class="w-4 h-4 md:w-5 md:h-5 text-orange-500 transition-transform duration-300"
-              [class.rotate-180]="isExpanded(job.id)"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7" />
-            </svg>
+             <i class="bi bi-chevron-down text-orange-500" [class.rotate-180]="isExpanded(job.id)" aria-hidden="true"></i>
           </button>
 
-          <button
-            type="button"
-            class="flex items-center justify-between gap-4 md:gap-8 pl-5 md:pl-10 pr-1 py-1 border-[1px] border-[#1D1DDB] rounded-full group hover:shadow-md transition-all duration-300 bg-white shrink-0"
-          >
-            <span class="text-[#FF7A00] font-extrabold text-sm md:text-lg tracking-tight whitespace-nowrap">
-              Submit Application
-            </span>
-            <span
-              class="bg-[#1D1DDB] w-9 h-9 md:w-12 md:h-12 rounded-full flex items-center justify-center flex-shrink-0 transition-transform duration-300 ease-out group-hover:scale-105"
-            >
-              <svg class="w-4 h-4 md:w-5 md:h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2.5"
-                  d="M7 17L17 7M17 7H7M17 7v10"
-                ></path>
-              </svg>
+          <button type="button" class="careers-apply-submit group shrink-0">
+            <span class="careers-apply-submit__text">Submit Application</span>
+            <span class="careers-apply-submit__icon" aria-hidden="true">
+              <i class="bi bi-arrow-up-right"></i>
             </span>
           </button>
         </div>
@@ -91,7 +73,7 @@
         [attr.aria-hidden]="!isExpanded(job.id)"
       >
         <div class="pt-4 md:pt-6 mt-4 md:mt-6 border-t border-gray-100 text-left space-y-3 md:space-y-4">
-          <h3 class="text-[#1D1DDB] font-bold text-base md:text-lg">Job Description</h3>
+          <h3 class="text-[#1D1DDB] font-[500] text-base md:text-lg">Job Description</h3>
           <div class="text-gray-600 text-sm md:text-base font-normal leading-relaxed space-y-4">
             <p *ngFor="let paragraph of job.descriptionParagraphs" class="careers-preline">{{ paragraph }}</p>
           </div>

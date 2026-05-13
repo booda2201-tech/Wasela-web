@@ -1,79 +1,92 @@
 <div class="about-page" *ngIf="!loading && !loadError && page">
-  <!-- Who We Are -->
-  <section class="about-section about-section--surface" *ngIf="pickSection('who_we_are') as who">
-    <div class="about-shell about-shell--narrow about-heading-stack">
-      <div class="about-heading-blobs" data-about-blob-group aria-hidden="true">
-        <span class="about-blob about-blob--blue about-blob--hero-main" data-about-blob></span>
-        <span class="about-blob about-blob--orange about-blob--hero-accent" data-about-blob></span>
+  <div
+    class="about-narrative-cluster"
+    *ngIf="pickSection('who_we_are') || pickSection('our_foundation')"
+  >
+    <!-- Who We Are -->
+    <section class="about-section about-section--surface about-section--narrative" *ngIf="pickSection('who_we_are') as who">
+      <div class="about-shell about-shell--narrow about-shell--copy about-heading-stack">
+        <div class="about-heading-blobs-1" data-about-blob-group aria-hidden="true">
+          <img src="assets/images/Group (7).png" alt="" class="about-blob-image-1" />
+        </div>
+        <div class="about-heading-content about-heading-content--tight" data-about-reveal>
+          <h2 class="about-title">{{ who.title }}</h2>
+          <p class="about-lede about-text-preline">{{ who.description }}</p>
+        </div>
       </div>
-      <div class="about-heading-content" data-about-reveal>
-        <h2 class="about-title">{{ who.title }}</h2>
-        <p class="about-lede about-text-preline">{{ who.description }}</p>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Our Foundation -->
-  <section class="about-section about-section--surface" *ngIf="pickSection('our_foundation') as foundation">
-    <div class="about-shell about-shell--narrow about-heading-stack">
-      <div class="about-heading-stack about-partners-heading-gap">
-        <div class="about-heading-blobs" data-about-blob-group aria-hidden="true">
-          <span class="about-blob about-blob--blue about-blob--partner-a" data-about-blob></span>
-          <span class="about-blob about-blob--orange about-blob--partner-b" data-about-blob></span>
+
+    <!-- Our Foundation -->
+    <section class="about-section about-section--surface about-section--narrative" *ngIf="pickSection('our_foundation') as foundation">
+      <div class="about-shell about-shell--narrow about-shell--copy about-heading-stack">
+        <div class="about-heading-content about-heading-content--tight" data-about-reveal>
+          <h2 class="about-title">{{ foundation.title }}</h2>
+          <p class="about-lede about-text-preline">{{ foundation.description }}</p>
+          <div class="about-foundation-lockup">
+            <!-- <p class="about-foundation-lockup__kicker">A subsidiary of</p> -->
+            <img
+              [src]="aurCapitalLogoSrc"
+              alt="AUR Capital"
+              class="about-foundation-lockup__logo"
+              loading="lazy"
+            />
+          </div>
         </div>
       </div>
-      <div class="about-heading-content" data-about-reveal>
-        <h2 class="about-title">{{ foundation.title }}</h2>
-        <p class="about-lede about-text-preline">{{ foundation.description }}</p>
-        <div class="about-foundation-lockup">
-          <img
-            [src]="aurCapitalLogoSrc"
-            alt="AUR Capital"
-            class="about-foundation-lockup__logo"
-            loading="lazy"
-          />
-        </div>
-      </div>
-    </div>
-  </section>
+    </section>
+  </div>
 
   <!-- Our Purpose -->
-  <section class="about-section about-section--surface" *ngIf="pickSection('our_purpose') as purpose">
-    <div class="about-shell about-shell--narrow about-heading-stack">
-      <div class="about-shell about-shell--narrow about-heading-stack py-2 mt-5">
-        <div class="about-heading-blobs" data-about-blob-group aria-hidden="true">
-          <span class="about-blob about-blob--blue about-blob--hero-main" data-about-blob></span>
-          <span class="about-blob about-blob--orange about-blob--hero-accent" data-about-blob></span>
-        </div>
-      </div>
-      <div class="about-heading-content" data-about-reveal>
+  <section class="about-section about-section--surface about-section--purpose-narrative" *ngIf="pickSection('our_purpose') as purpose">
+    <div class="about-shell about-shell--narrow about-shell--copy about-heading-stack">
+      <div class="about-heading-content about-heading-content--tight" data-about-reveal>
         <h2 class="about-title">{{ purpose.title }}</h2>
         <p class="about-lede about-text-preline">{{ purpose.description }}</p>
       </div>
     </div>
   </section>
 
-  <!-- Our Partners -->
-  <section class="about-section about-section--surface" *ngIf="pickSection('our_partners') as partnersSection">
+  <!-- Our Partners — infinite logo strip -->
+  <section
+    class="about-section about-section--surface about-section--partners-strip"
+    *ngIf="pickSection('our_partners') as partnersSection"
+  >
     <div class="about-shell">
-      <div class="about-heading-stack about-partners-heading-gap">
-        <div class="about-heading-blobs" data-about-blob-group aria-hidden="true">
-          <span class="about-blob about-blob--blue about-blob--partner-a" data-about-blob></span>
-          <span class="about-blob about-blob--orange about-blob--partner-b" data-about-blob></span>
-        </div>
+      <div class="about-heading-content about-heading-content--partners-strip" data-about-reveal>
+        <h2 class="about-title">{{ partnersSection.title }}</h2>
       </div>
 
-      <div class="about-heading-content" data-about-reveal>
-        <h2 class="about-title">{{ partnersSection.title }}</h2>
-        <div class="about-partners-grid">
-          <div *ngFor="let p of partnerItems" class="about-partner">
-            <img
-              *ngIf="partnerLogoSrc(p) as logo"
-              [src]="logo"
-              [alt]="p.title || 'Partner'"
-              class="about-partner__logo"
-              loading="lazy"
-            />
+      <div
+        class="about-partners-marquee"
+        *ngIf="partnerItems.length"
+        role="region"
+        [attr.aria-label]="partnersSection.title || 'Partners'"
+      >
+        <div class="about-partners-marquee__viewport">
+          <div class="about-partners-marquee__track">
+            <div class="about-partners-marquee__segment">
+              <div *ngFor="let p of partnerItems" class="about-partner">
+                <img
+                  *ngIf="partnerLogoSrc(p) as logo"
+                  [src]="logo"
+                  [alt]="p.title || 'Partner'"
+                  class="about-partner__logo"
+                  loading="lazy"
+                />
+              </div>
+            </div>
+            <div class="about-partners-marquee__segment" aria-hidden="true">
+              <div *ngFor="let p of partnerItems" class="about-partner">
+                <img
+                  *ngIf="partnerLogoSrc(p) as logo"
+                  [src]="logo"
+                  [alt]=""
+                  class="about-partner__logo"
+                  loading="lazy"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -81,26 +94,32 @@
   </section>
 
   <!-- Compliance -->
-  <section class="about-section about-section--surface" *ngIf="pickSection('compliance_licensing') as compliance">
+  <section
+    class="about-section about-section--surface about-section--compliance"
+    *ngIf="pickSection('compliance_licensing') as compliance"
+  >
     <div class="about-shell">
-      <div class="about-heading-content" data-about-reveal>
+      <div class="about-compliance-head" data-about-reveal>
         <h2 class="about-title">{{ compliance.title }}</h2>
-        <p class="about-subtitle about-text-preline" *ngIf="compliance.description">
+        <p class="about-subtitle about-text-preline mt-4" *ngIf="compliance.description">
           {{ compliance.description }}
         </p>
       </div>
 
       <div class="about-compliance-zone">
-        <span class="about-compliance-zone__wash about-compliance-zone__wash--blue" aria-hidden="true"></span>
-        <span class="about-compliance-zone__wash about-compliance-zone__wash--orange" aria-hidden="true"></span>
-
         <div data-compliance-grid class="about-compliance-grid">
           <article *ngFor="let c of complianceItems" data-compliance-card class="about-compliance-card">
-            <div class="about-compliance-card__decor">
-              <span class="blob blob--blue"></span>
-              <span class="blob blob--orange"></span>
+            <div class="about-compliance-card__inner">
+              <div class="about-compliance-card__decor" aria-hidden="true">
+                <img
+                  src="assets/images/Group (7).png"
+                  alt=""
+                  class="about-compliance-card__img"
+                  loading="lazy"
+                />
+              </div>
+              <h3 class="about-compliance-card__title">{{ c.title }}</h3>
             </div>
-            <h3>{{ c.title }}</h3>
           </article>
         </div>
       </div>
@@ -115,15 +134,14 @@
     <div data-about-reveal class="about-split-grid">
       <div class="about-split-col" *ngIf="pickSection('our_story') as story">
         <div class="about-split-title-wrap">
-          <div class="about-split-title-blobs" data-about-blob-group aria-hidden="true">
-            <span class="about-blob about-blob--blue about-blob--split-left" data-about-blob></span>
-          </div>
+
           <h2 class="about-split-title">{{ story.title }}</h2>
         </div>
         <p class="about-split-body about-text-preline">{{ story.description }}</p>
         <div class="about-media-panel">
           <div class="about-media-wrapper">
-            <img
+  
+            <!-- <img
               [src]="storyBackgroundSrc()"
               alt=""
               class="about-media-panel__img about-media-panel__img--back"
@@ -134,23 +152,25 @@
               alt=""
               class="about-media-panel__img about-media-panel__img--front"
               loading="lazy"
-            />
+            /> -->
+
+            <img src="assets/images/Group 01.png" alt="" 
+            class="about-media-panel__img about-media-panel__img--back" loading="lazy">
+
           </div>
         </div>
       </div>
 
       <div class="about-split-col about-split-col--offset" *ngIf="pickSection('leadership_governance') as gov">
         <div class="about-split-title-wrap">
-          <div class="about-split-title-blobs about-split-title-blobs--right" data-about-blob-group aria-hidden="true">
-            <span class="about-blob about-blob--orange about-blob--split-right" data-about-blob></span>
-          </div>
           <h2 class="about-split-title">{{ gov.title }}</h2>
         </div>
         <p class="about-split-body about-text-preline">{{ gov.description }}</p>
 
         <div class="about-media-panel">
           <div class="about-media-wrapper">
-            <img
+          
+            <!-- <img
               [src]="governanceBackgroundSrc()"
               alt=""
               class="about-media-panel__img about-media-panel__img--back"
@@ -161,7 +181,10 @@
               alt=""
               class="about-media-panel__img about-media-panel__img--front"
               loading="lazy"
-            />
+            /> -->
+         
+             <img src="assets/images/Group 02.png" alt="" 
+             class="about-media-panel__img about-media-panel__img--back" loading="lazy">
           </div>
         </div>
       </div>
@@ -175,7 +198,7 @@
         <img src="assets/images/Group (7).png" alt="" class="about-blob-image" />
       </div>
 
-      <div class="about-heading-content" data-about-reveal>
+      <div class="about-heading-content--tight" data-about-reveal>
         <h2 class="about-title">{{ mv.title }}</h2>
 
         <div class="about-mv-block" *ngFor="let block of missionVisionItems">
@@ -189,29 +212,40 @@
   <!-- Leadership -->
   <section class="about-section about-section--surface" *ngIf="pickSection('leadership_team') as leaders">
     <div class="about-shell">
-      <div class="about-heading-content" data-about-reveal>
+      <div class="about-heading-content--tight" data-about-reveal>
         <h2 class="about-title">{{ leaders.title }}</h2>
         <p class="about-subtitle about-text-preline" *ngIf="leaders.description">
           {{ leaders.description }}
         </p>
       </div>
 
-      <div data-team-grid class="about-team-grid">
-        <article *ngFor="let member of leadershipItems" data-team-card class="about-team-card">
-          <div class="about-team-portrait">
-            <img
-              *ngIf="teamPhotoSrc(member) as photo"
-              [src]="photo"
-              [alt]="member.title || ''"
-              class="about-team-portrait__img"
-              loading="lazy"
-            />
-            <div *ngIf="!teamPhotoSrc(member)" class="about-team-portrait__placeholder" aria-hidden="true"></div>
-          </div>
-          <h3 class="about-team-name">{{ member.title }}</h3>
-          <p class="about-team-role">{{ member.subTitle }}</p>
-          <p class="about-team-bio about-text-preline">{{ member.description }}</p>
-        </article>
+      <div data-team-grid class="about-team-swiper-wrap">
+        <swiper-container
+          #teamLeadershipSwiper
+          init="false"
+          class="about-team-swiper"
+        >
+          <swiper-slide
+            *ngFor="let member of leadershipItems; trackBy: trackByTeamMemberId"
+            class="about-team-swiper-slide"
+          >
+            <article data-team-card class="about-team-card">
+              <div class="about-team-portrait">
+                <img
+                  *ngIf="teamPhotoSrc(member) as photo"
+                  [src]="photo"
+                  [alt]="member.title || ''"
+                  class="about-team-portrait__img"
+                  loading="lazy"
+                />
+                <div *ngIf="!teamPhotoSrc(member)" class="about-team-portrait__placeholder" aria-hidden="true"></div>
+              </div>
+              <h3 class="about-team-name">{{ member.title }}</h3>
+              <p class="about-team-role">{{ member.subTitle }}</p>
+              <p class="about-team-bio about-text-preline">{{ member.description }}</p>
+            </article>
+          </swiper-slide>
+        </swiper-container>
       </div>
     </div>
   </section>

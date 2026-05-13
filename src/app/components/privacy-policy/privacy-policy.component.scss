@@ -30,12 +30,12 @@
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%) rotate(180deg);
-    width: min(110vw, 58rem);
+    width: min(110vw, 100rem);
     height: min(70vw, 33rem);
     background-image: url('../../../assets/images/Slide 16_9 - 5 3.png');
     background-size: cover;
-    background-position: center 45%;
-    opacity: 0.18;
+    background-position: center 50%;
+    opacity: 10;
   }
   
   .terms-page__bg-wash {
@@ -96,11 +96,11 @@
     display: block;
     width: 100%; // خليها 100% من حجم الـ container اللي فوقها
     height: auto;
-    opacity: 0.75;
+    opacity: 0.5;
     // filter: blur(2px); // تاتش بسيط عشان تكون "ناعمة" ورا الكلام
   
     @media (max-width: 640px) {
-      opacity: 0.7; // تقليل الحدة في الموبايل
+      opacity: 0.5; // تقليل الحدة في الموبايل
     }
   }
   

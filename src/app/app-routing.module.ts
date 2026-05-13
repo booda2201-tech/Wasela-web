@@ -14,6 +14,7 @@ import { ContactUsComponent } from './components/contact-us/contact-us.component
 import { TermsConditionsComponent } from './components/terms-conditions/terms-conditions.component';
 import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy.component';
 import { BlogsComponent } from './components/blogs/blogs.component';
+import { BlogDetailComponent } from './components/blog-detail/blog-detail.component';
 
 
 
@@ -30,6 +31,7 @@ const routes: Routes = [
   { path: 'contact-us', component: ContactUsComponent },
   { path: 'terms-conditions', component: TermsConditionsComponent },
   { path: 'privacy-policy', component: PrivacyPolicyComponent },
+  { path: 'blogs/:postId', component: BlogDetailComponent },
   { path: 'blogs', component: BlogsComponent },
   { path: '**', redirectTo: '' },
 ];

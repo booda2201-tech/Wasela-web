@@ -348,8 +348,8 @@
 }
 
 .testimonial-layered-card__bg-img {
-  width: 100%;
-  height: auto;
+  width: 150%;
+  height: auto !important;
   display: block;
   object-fit: contain;
 }
@@ -362,9 +362,35 @@
   margin: 0 auto;
   background: transparent;
   border-radius: 0;
-  box-shadow: none;
-  padding: clamp(2.65rem, 11%, 3.15rem) clamp(0.85rem, 5.5%, 1.1rem) clamp(1.1rem, 5%, 1.35rem);
+  // box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+  padding: 
+  clamp(3.65rem, 5%, 8.15rem) 
+  clamp(0.85rem, 5.5%, 1.1rem) 
+  clamp(1.1rem, 5%, 1.35rem);
   box-sizing: border-box;
+}
+
+/* أول شريحة: إطار الصورة يميل لليسار — تقليل إزاحة الخلفية + padding متساوٍ يمركز النص في الكرت */
+.testimonial-layered-card--first {
+  .testimonial-layered-card__bg {
+    transform: translate(0.5%, 5.5%);
+
+    @media (max-width: 639px) {
+      transform: translate(0%, 4%);
+    }
+  }
+
+  .testimonial-layered-card__panel {
+    padding-top: clamp(3.65rem, 5%, 8.15rem);
+    padding-bottom: clamp(1.1rem, 5%, 1.35rem);
+    padding-left: 2rem;
+    padding-right: 1rem;
+  }
+
+  .testimonial-layered-card__body {
+    margin-inline: auto;
+    max-width: 100%;
+  }
 }
 
 .testimonial-layered-card__avatar-ring {
@@ -380,7 +406,7 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  box-shadow: none;
+  // box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
 }
 
 .testimonial-layered-card__avatar-img {
@@ -388,6 +414,7 @@
   height: 100%;
   object-fit: cover;
   object-position: center top;
+  // box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
 }
 
 .testimonial-layered-card__avatar-icon {
@@ -432,7 +459,7 @@
 .testimonial-layered-card__quote {
   margin: 0.4rem 0 0.15rem;
   font-family: Georgia, 'Times New Roman', serif;
-  font-size: clamp(1.35rem, 4.2vw, 1.75rem);
+  font-size: clamp(1.85rem, 4.2vw, 2.5rem);
   line-height: 0.85;
   color: var(--blue);
   flex-shrink: 0;
@@ -440,7 +467,7 @@
 
 .testimonial-layered-card__text {
   margin: 0;
-  max-height: 11rem;
+  max-height: 12rem;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   padding: 0 0.1rem;
@@ -477,7 +504,7 @@
   }
 
   .testimonial-layered-card__quote {
-    font-size: clamp(1.55rem, 4.9vw, 2.1rem);
+    font-size: clamp(1.85rem, 4.9vw, 2.5rem);
   }
 
   .testimonial-layered-card__text {
@@ -625,11 +652,16 @@
   /* معاينة في الـ home: ارتفاع أقل + قصّ سفلي + تدرج يوحي إن في محتوى تحت */
   .merchants-grid-stage {
     position: relative;
+    max-width: 80%;
+    margin: 0 auto;
     height: auto;
     // max-height: clamp(30rem, 80vh, 40rem);
-    min-height: clamp(30rem, 80vh, 40rem);
+    min-height: clamp(30rem, 80vh, 44rem);
     overflow: hidden;
 
+    @media (max-width: 600px) {
+      max-width: 95%;
+    }
     @media (min-width: 1024px) {
       max-height: clamp(27rem, 48vh, 42rem);
     }
@@ -651,6 +683,12 @@
       z-index: 4;
     }
   }
+
+.merchant-card-logo-ring {
+  width: 12rem;
+  height: 12rem;
+}
+
 
   /* دفاية جوّا الكرت: زوم الصورة ما يخرجش من الزوايا */
   .merchant-card-image-clip {

@@ -19,8 +19,12 @@
 
   <div class="faq-body relative px-4 md:px-6 pb-10 md:pb-20 pt-1 md:pt-2">
     <div class="faq-decor" aria-hidden="true">
-      <div class="faq-decor__orange"></div>
-      <div class="faq-decor__blue"></div>
+      <img
+        src="assets/images/Group (7).png"
+        alt=""
+        class="faq-decor__img"
+        loading="lazy"
+      />
     </div>
 
     <div class="faq-inner container mx-auto relative z-10">
@@ -43,28 +47,18 @@
             </span>
 
             <span class="relative flex h-8 w-8 md:h-9 md:w-9 flex-shrink-0 items-center justify-center text-[#1D1DDB]">
-              <svg
-                class="faq-icon-plus absolute h-5 w-5 md:h-6 md:w-6 transition-opacity duration-300 ease-out"
+              <i
+                class="bi bi-plus-lg faq-icon-plus absolute inset-0 flex items-center justify-center text-xl md:text-2xl leading-none transition-opacity duration-300 ease-out"
                 [class.opacity-0]="isExpanded(item.id)"
                 [class.scale-75]="isExpanded(item.id)"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
                 aria-hidden="true"
-              >
-                <path stroke-linecap="round" stroke-width="2.2" d="M12 5v14M5 12h14" />
-              </svg>
-              <svg
-                class="faq-icon-close absolute h-5 w-5 md:h-6 md:w-6 transition-opacity duration-300 ease-out"
+              ></i>
+              <i
+                class="bi bi-x-lg faq-icon-close absolute inset-0 flex items-center justify-center text-xl md:text-2xl leading-none transition-opacity duration-300 ease-out"
                 [class.opacity-0]="!isExpanded(item.id)"
                 [class.scale-75]="!isExpanded(item.id)"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
                 aria-hidden="true"
-              >
-                <path stroke-linecap="round" stroke-width="2.2" d="M6 6l12 12M18 6L6 18" />
-              </svg>
+              ></i>
             </span>
           </button>
 

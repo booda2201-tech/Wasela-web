@@ -20,6 +20,7 @@ import { ContactUsComponent } from './components/contact-us/contact-us.component
 import { TermsConditionsComponent } from './components/terms-conditions/terms-conditions.component';
 import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy.component';
 import { BlogsComponent } from './components/blogs/blogs.component';
+import { BlogDetailComponent } from './components/blog-detail/blog-detail.component';
 
 
 
@@ -41,6 +42,7 @@ import { BlogsComponent } from './components/blogs/blogs.component';
     TermsConditionsComponent,
     PrivacyPolicyComponent,
     BlogsComponent,
+    BlogDetailComponent,
 
   ],
   imports: [
