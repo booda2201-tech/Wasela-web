@@ -82,7 +82,7 @@ $terms-body: #374151;
     right: -10%; // تقريب الصورة للداخل عشان متعملش سكرول بالعرض
     top: 5%;
     width: 50vw; // تصغير الحجم ليتناسب مع عرض الموبايل
-    opacity: 0.6; // تقليل الشفافية عشان النص يظهر بوضوح
+    opacity: 1;
   }
 
   @media (max-width: 480px) {
@@ -96,11 +96,10 @@ $terms-body: #374151;
   display: block;
   width: 100%; // خليها 100% من حجم الـ container اللي فوقها
   height: auto;
-  opacity: 0.5;
-  // filter: blur(2px); // تاتش بسيط عشان تكون "ناعمة" ورا الكلام
+  opacity: 0.8;
 
   @media (max-width: 640px) {
-    opacity: 0.5; // تقليل الحدة في الموبايل
+    opacity: 0.8;
   }
 }
 
@@ -269,7 +268,7 @@ $terms-body: #374151;
     right: -14%;
     top: 1%;
     width: 52vw;
-    opacity: 0.55;
+    opacity: 1;
   }
 
   .terms-card {

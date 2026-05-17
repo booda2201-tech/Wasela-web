@@ -11,6 +11,7 @@ import { CareersComponent } from './components/careers/careers.component';
 import { FaqComponent } from './components/faq/faq.component';
 import { AboutUsComponent } from './components/about-us/about-us.component';
 import { ContactUsComponent } from './components/contact-us/contact-us.component';
+import { JoinUsComponent } from './components/join-us/join-us.component';
 import { TermsConditionsComponent } from './components/terms-conditions/terms-conditions.component';
 import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy.component';
 import { BlogsComponent } from './components/blogs/blogs.component';
@@ -29,6 +30,7 @@ const routes: Routes = [
   { path: 'faq', component: FaqComponent },
   { path: 'about-us', component: AboutUsComponent },
   { path: 'contact-us', component: ContactUsComponent },
+  { path: 'join-us', component: JoinUsComponent },
   { path: 'terms-conditions', component: TermsConditionsComponent },
   { path: 'privacy-policy', component: PrivacyPolicyComponent },
   { path: 'blogs/:postId', component: BlogDetailComponent },

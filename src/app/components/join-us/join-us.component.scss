@@ -1,0 +1,173 @@
+/* padding الكارت: 1rem موبايل/تابلت، 2.5rem×3rem ديسكتوب (مكافئ px-4 py-4 / px-10 py-12) */
+
+// .contact-hero__img {
+//   position: absolute;
+//   inset: 0;
+//   background-image: url('../../../assets/images/Slide 16_9 - 5 3.png');
+//   background-size: cover;
+//   background-position: center 100%;
+//   background-repeat: no-repeat;
+// }
+
+.contact-hero__img--back {
+  opacity: 10;
+  width: min(110vw, 100rem);
+  height: min(70vw, 33rem);
+  transform: scale(1.02);
+  filter: saturate(1.05);
+}
+
+.contact-hero__img--front {
+  inset: 80% -80% -80% -80%;
+  opacity: 10;
+  transform: rotate(-0.15deg) scale(1.08);
+  filter: blur(0.5px) saturate(1.05);
+}
+
+
+
+.contact-form-card {
+  padding: 1rem;
+
+  @media (min-width: 1024px) {
+    padding: 4rem 3.5rem;
+  }
+
+  @media (max-width: 780px) {
+    padding: 2.5rem 1.5rem;
+  }
+
+}
+
+/* قائمة مخصصة بدل الـ select التقليدي */
+.contact-field__select-wrap {
+  position: relative;
+  display: block;
+}
+
+.contact-field__select-icon {
+  position: absolute;
+  right: 0;
+  bottom: 0.85rem;
+  pointer-events: none;
+  font-size: 0.85rem;
+  color: rgba(13, 17, 179, 0.55);
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.contact-custom-select {
+  z-index: 1;
+
+  &.is-open {
+    z-index: 30;
+
+    .contact-field__select-icon {
+      transform: rotate(180deg);
+      color: #0d11b3;
+    }
+
+    .contact-custom-select__trigger {
+      border-bottom-color: #0d11b3;
+    }
+  }
+
+  &__trigger {
+    width: 100%;
+    display: block;
+    text-align: left;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(13, 17, 179, 0.35);
+    padding: 0.35rem 1.75rem 0.65rem 0;
+    font: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.4;
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+
+    span.is-placeholder {
+      color: rgba(13, 17, 179, 0.45);
+    }
+
+    span:not(.is-placeholder) {
+      color: #0d11b3;
+    }
+
+    &:focus-visible {
+      outline: none;
+      border-bottom-color: #0d11b3;
+    }
+  }
+
+  &__panel {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: calc(100% + 0.4rem);
+    margin: 0;
+    padding: 0.35rem;
+    list-style: none;
+    background: #fff;
+    border: 1px solid rgba(13, 17, 179, 0.1);
+    border-radius: 14px;
+    box-shadow:
+      0 16px 40px -12px rgba(13, 17, 179, 0.18),
+      0 6px 16px -8px rgba(15, 23, 42, 0.08);
+    animation: contact-custom-select-in 0.2s ease;
+  }
+
+  &__panel--scroll {
+    max-height: 15rem;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+
+    &::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: rgba(13, 17, 179, 0.2);
+      border-radius: 999px;
+    }
+  }
+
+  &__option {
+    padding: 0.6rem 0.8rem;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #231f20;
+    cursor: pointer;
+    transition:
+      background 0.15s ease,
+      color 0.15s ease;
+
+    &:hover {
+      background: rgba(13, 17, 179, 0.06);
+      color: #0d11b3;
+    }
+
+    &.is-selected {
+      background: rgba(13, 17, 179, 0.08);
+      color: #0d11b3;
+      font-weight: 700;
+    }
+  }
+}
+
+@keyframes contact-custom-select-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.contact-field--full {
+  grid-column: 1 / -1;
+}

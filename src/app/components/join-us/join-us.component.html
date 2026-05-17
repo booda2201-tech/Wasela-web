@@ -1,0 +1,229 @@
+<section class="contact-page relative bg-white overflow-hidden pt-24 pb-16 md:pb-24" *ngIf="!loading && !loadError">
+  <header class="contact-hero relative overflow-hidden">
+    <div class="contact-hero__visual absolute inset-0 pointer-events-none" aria-hidden="true">
+      <div class="contact-hero__img contact-hero__img--back"></div>
+      <div class="contact-hero__img contact-hero__img--front"></div>
+      <div class="contact-hero__wash"></div>
+    </div>
+
+    <div class="relative z-10 container mx-auto px-6 text-center max-w-3xl py-12 md:py-16">
+      <h1 class="text-4xl md:text-[50px] font-black text-[#0d11b3] leading-tight tracking-wide">
+        {{ headline() }}
+      </h1>
+      <p
+        class="mt-4 text-sm md:text-base text-[#737373] font-medium leading-relaxed max-w-xl mx-auto tracking-wide contact-preline"
+      >
+        {{ subtitle() }}
+      </p>
+    </div>
+  </header>
+
+  <div class="relative px-6">
+    <div class="contact-body-inner container mx-auto max-w-6xl relative">
+      <div class="contact-decor" aria-hidden="true">
+        <img src="assets/images/Group (7).png" alt="" class="contact-decor__img" loading="lazy" />
+      </div>
+
+      <form
+        data-contact-form-card
+        class="contact-form-card relative z-10 bg-white rounded-[22px] shadow-[0_0_60px_20px_rgba(0,0,0,0.03)]"
+        (ngSubmit)="onSubmit($event)"
+      >
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-8 md:gap-y-10">
+          <label class="contact-field">
+            <span class="contact-field__label">Do you have a Commercial Register and Tax Card ID?</span>
+            <div
+              class="contact-field__select-wrap contact-custom-select"
+              [class.is-open]="openDropdown === 'commercial'"
+            >
+              <button
+                type="button"
+                class="contact-custom-select__trigger"
+                (click)="toggleDropdown('commercial'); $event.stopPropagation()"
+                [attr.aria-expanded]="openDropdown === 'commercial'"
+                aria-haspopup="listbox"
+              >
+                <span [class.is-placeholder]="!form.hasCommercialRegister">
+                  {{ commercialRegisterLabel() }}
+                </span>
+                <i class="bi bi-chevron-down contact-field__select-icon" aria-hidden="true"></i>
+              </button>
+              <ul
+                *ngIf="openDropdown === 'commercial'"
+                class="contact-custom-select__panel"
+                role="listbox"
+                (click)="$event.stopPropagation()"
+              >
+                <li
+                  *ngFor="let opt of commercialRegisterOptions"
+                  role="option"
+                  class="contact-custom-select__option"
+                  [class.is-selected]="form.hasCommercialRegister === opt.value"
+                  [hidden]="!opt.value"
+                  (click)="selectCommercialRegister(opt.value)"
+                >
+                  {{ opt.label }}
+                </li>
+              </ul>
+            </div>
+          </label>
+
+          <label class="contact-field">
+            <span class="contact-field__label">Company / Organization Name</span>
+            <input
+              class="contact-field__input"
+              type="text"
+              name="companyName"
+              [(ngModel)]="form.companyName"
+              placeholder="Company / Organization Name"
+              autocomplete="organization"
+            />
+          </label>
+
+          <label class="contact-field">
+            <span class="contact-field__label">Contact Person Name</span>
+            <input
+              class="contact-field__input"
+              type="text"
+              name="contactPersonName"
+              [(ngModel)]="form.contactPersonName"
+              placeholder="Contact Person Name"
+              autocomplete="name"
+            />
+          </label>
+
+          <label class="contact-field">
+            <span class="contact-field__label">Contact Person Phone Number</span>
+            <input
+              class="contact-field__input"
+              type="tel"
+              name="contactPersonPhone"
+              [(ngModel)]="form.contactPersonPhone"
+              placeholder="Contact Person Phone Number"
+              autocomplete="tel"
+            />
+          </label>
+
+          <label class="contact-field">
+            <span class="contact-field__label">Category</span>
+            <input
+              class="contact-field__input"
+              type="text"
+              name="category"
+              [(ngModel)]="form.category"
+              placeholder="Enter Category"
+            />
+          </label>
+
+          <label class="contact-field">
+            <span class="contact-field__label">Website or Facebook Page Link</span>
+            <input
+              class="contact-field__input"
+              type="url"
+              name="websiteLink"
+              [(ngModel)]="form.websiteLink"
+              placeholder="Enter Link"
+            />
+          </label>
+
+          <label class="contact-field">
+            <span class="contact-field__label">Governorate</span>
+            <div
+              class="contact-field__select-wrap contact-custom-select"
+              [class.is-open]="openDropdown === 'governorate'"
+            >
+              <button
+                type="button"
+                class="contact-custom-select__trigger"
+                (click)="toggleDropdown('governorate'); $event.stopPropagation()"
+                [attr.aria-expanded]="openDropdown === 'governorate'"
+                aria-haspopup="listbox"
+              >
+                <span [class.is-placeholder]="!form.governorate">
+                  {{ governorateLabel() }}
+                </span>
+                <i class="bi bi-chevron-down contact-field__select-icon" aria-hidden="true"></i>
+              </button>
+              <ul
+                *ngIf="openDropdown === 'governorate'"
+                class="contact-custom-select__panel contact-custom-select__panel--scroll"
+                role="listbox"
+                (click)="$event.stopPropagation()"
+              >
+                <li
+                  *ngFor="let opt of governorateOptions"
+                  role="option"
+                  class="contact-custom-select__option"
+                  [class.is-selected]="form.governorate === opt.value"
+                  [hidden]="!opt.value"
+                  (click)="selectGovernorate(opt.value)"
+                >
+                  {{ opt.label }}
+                </li>
+              </ul>
+            </div>
+          </label>
+
+          <label class="contact-field">
+            <span class="contact-field__label">Number of Branches</span>
+            <input
+              class="contact-field__input"
+              type="text"
+              name="numberOfBranches"
+              [(ngModel)]="form.numberOfBranches"
+              placeholder="Enter Number of Branches"
+              inputmode="numeric"
+            />
+          </label>
+          <label class="contact-field contact-field--full">
+            <span class="contact-field__label">Average Monthly Sales</span>
+            <input
+              class="contact-field__input"
+              type="text"
+              name="averageMonthlySales"
+              [(ngModel)]="form.averageMonthlySales"
+              placeholder="Enter Average Monthly Sales"
+            />
+          </label>
+        </div>
+
+        <div class="flex justify-end mt-10 md:mt-12">
+          <button type="submit" class="contact-submit group">
+            <span class="contact-submit__text">{{ submitLabel() }}</span>
+            <span class="contact-submit__icon">
+              <i class="bi bi-arrow-up-right" aria-hidden="true"></i>
+            </span>
+          </button>
+        </div>
+      </form>
+
+      <div
+        class="mt-10 md:mt-14 flex flex-col lg:flex-row flex-wrap justify-center gap-4 lg:gap-6 items-stretch lg:items-center"
+      >
+        <a data-contact-pill class="contact-pill" [href]="emailHref()">
+          <span class="contact-pill__icon" aria-hidden="true">
+            <i class="bi bi-envelope"></i>
+          </span>
+          <span class="contact-pill__text">{{ contactEmail }}</span>
+        </a>
+
+        <div class="contact-pill contact-pill--static" data-contact-pill>
+          <span class="contact-pill__icon" aria-hidden="true">
+            <i class="bi bi-geo-alt"></i>
+          </span>
+          <span class="contact-pill__text">{{ contactAddress }}</span>
+        </div>
+
+        <a data-contact-pill class="contact-pill" [href]="phoneHref()">
+          <span class="contact-pill__icon" aria-hidden="true">
+            <i class="bi bi-telephone"></i>
+          </span>
+          <span class="contact-pill__text">{{ contactPhone }}</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="py-20 text-center" *ngIf="loading">Loading...</div>
+<div class="py-20 text-center text-red-500" *ngIf="loadError">تعذر تحميل صفحة انضم إلينا.</div>

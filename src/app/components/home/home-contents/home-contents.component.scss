@@ -383,8 +383,8 @@
   .testimonial-layered-card__panel {
     padding-top: clamp(3.65rem, 5%, 8.15rem);
     padding-bottom: clamp(1.1rem, 5%, 1.35rem);
-    padding-left: 2rem;
-    padding-right: 1rem;
+    padding-left: clamp(0.85rem, 5.5%, 1.1rem);
+    padding-right: clamp(0.85rem, 5.5%, 1.1rem);
   }
 
   .testimonial-layered-card__body {
@@ -467,20 +467,25 @@
 
 .testimonial-layered-card__text {
   margin: 0;
+  width: 100%;
   max-height: 12rem;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  padding: 0 0.1rem;
-  font-size: clamp(0.72rem, 2.05vw, 0.86rem);
+  padding: 0 0.15rem;
+  font-size: clamp(0.78rem, 2.15vw, 0.9rem);
   font-weight: 500;
   line-height: 1.55;
   color: #4a4a4a;
   text-align: center;
-  overflow-wrap: break-word;
-  word-break: break-word;
+  white-space: normal;
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: none;
+  text-wrap: pretty;
 
   @media (max-width: 639px) {
     max-height: 9.5rem;
+    font-size: clamp(0.75rem, 2.35vw, 0.86rem);
   }
 }
 
@@ -508,7 +513,7 @@
   }
 
   .testimonial-layered-card__text {
-    font-size: clamp(0.84rem, 2.4vw, 1.02rem);
+    // font-size: clamp(0.84rem, 2.4vw, 1.02rem);
     max-height: 12.5rem;
 
     @media (max-width: 639px) {
@@ -1126,7 +1131,7 @@
       padding: 0;
       max-width: min(21rem, 100%);
       text-align: left;
-      font-size: clamp(0.9rem, 3.6vw, 1rem);
+      // font-size: clamp(0.9rem, 3.6vw, 1rem);
       line-height: 1.55;
       font-weight: 500;
       color: #4a4a4a;

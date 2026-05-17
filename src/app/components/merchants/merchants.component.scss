@@ -156,6 +156,83 @@
 }
 
 /* سلايدر صفحة التجار — موبايل/تابلت فقط (ارتفاع متزامن مع cardMobileHeights في TS) */
+/* زر Join our merchant Network — نفس شكل الفيجما (كبسولة + دايرة كحلي) */
+.merchants-join-cta {
+  display: inline-grid;
+  grid-template-columns: minmax(0, 1fr) 52px;
+  grid-template-rows: 52px;
+  align-items: center;
+  box-sizing: border-box;
+  width: min(100%, 20.8125rem);
+  min-width: min(100%, 15rem);
+  padding: 0 0 0 1.25rem;
+  border: 0.8px solid #0d11b3;
+  border-radius: 44px;
+  background: #fff;
+  overflow: hidden;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  transition: box-shadow 0.25s ease;
+
+  &:hover {
+    box-shadow: 0 4px 14px rgba(13, 17, 179, 0.12);
+  }
+
+  &:focus-visible {
+    outline: 2px solid #0d11b3;
+    outline-offset: 2px;
+  }
+
+  .merchants-join-cta__label {
+    grid-column: 1;
+    grid-row: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #f46200;
+    font-weight: 800;
+    font-size: 1rem;
+    line-height: 1.5;
+    letter-spacing: -0.01em;
+    min-width: 0;
+    padding: 0 0.5rem 0 0;
+    white-space: nowrap;
+  }
+
+  .merchants-join-cta__icon {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: end;
+    width: 52px;
+    height: 52px;
+    flex-shrink: 0;
+    background-color: #0d11b3;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+
+    i {
+      font-size: 1.15rem;
+      line-height: 1;
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .merchants-join-cta {
+    width: min(100%, 18.5rem);
+
+    .merchants-join-cta__label {
+      font-size: 0.875rem;
+      white-space: normal;
+    }
+  }
+}
+
 .merchants-page-swiper-wrap {
   --merchants-swiper-slide-h: 500px;
   --swiper-pagination-color: #1d1ddb;

@@ -1,0 +1,237 @@
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  HostListener,
+  OnDestroy,
+  OnInit
+} from '@angular/core';
+import { Meta, Title } from '@angular/platform-browser';
+import gsap from 'gsap';
+import { catchError, forkJoin, of } from 'rxjs';
+
+import { CmsPage, CmsPageSection, PagesService } from '../../services/pages.service';
+import { SiteSettingsService } from '../../services/site-settings.service';
+
+@Component({
+  selector: 'app-join-us',
+  templateUrl: './join-us.component.html',
+  styleUrls: [
+    '../contact-us/contact-us.component.scss',
+    './join-us.component.scss'
+  ]
+})
+export class JoinUsComponent implements OnInit, AfterViewInit, OnDestroy {
+  constructor(
+    private readonly host: ElementRef<HTMLElement>,
+    private readonly pagesService: PagesService,
+    private readonly siteSettingsService: SiteSettingsService,
+    private readonly title: Title,
+    private readonly meta: Meta
+  ) {}
+
+  loading = true;
+  loadError = false;
+  page: CmsPage | null = null;
+
+  contactEmail = '';
+  contactPhone = '';
+  contactAddress = '';
+
+  readonly commercialRegisterOptions = [
+    { value: '', label: 'Select -' },
+    { value: 'yes', label: 'Yes' },
+    { value: 'no', label: 'No' }
+  ];
+
+  /** المحافظات المصرية (27) — قيم ثابتة */
+  readonly governorateOptions = [
+    { value: '', label: 'Select -' },
+    { value: 'alexandria', label: 'Alexandria' },
+    { value: 'aswan', label: 'Aswan' },
+    { value: 'assiut', label: 'Assiut' },
+    { value: 'beheira', label: 'Beheira' },
+    { value: 'beni-suef', label: 'Beni Suef' },
+    { value: 'cairo', label: 'Cairo' },
+    { value: 'dakahlia', label: 'Dakahlia' },
+    { value: 'damietta', label: 'Damietta' },
+    { value: 'fayoum', label: 'Fayoum' },
+    { value: 'gharbia', label: 'Gharbia' },
+    { value: 'giza', label: 'Giza' },
+    { value: 'ismailia', label: 'Ismailia' },
+    { value: 'kafr-el-sheikh', label: 'Kafr El Sheikh' },
+    { value: 'luxor', label: 'Luxor' },
+    { value: 'matrouh', label: 'Matrouh' },
+    { value: 'menofia', label: 'Menofia' },
+    { value: 'minya', label: 'Minya' },
+    { value: 'new-valley', label: 'New Valley' },
+    { value: 'north-sinai', label: 'North Sinai' },
+    { value: 'port-said', label: 'Port Said' },
+    { value: 'qalyubia', label: 'Qalyubia' },
+    { value: 'qena', label: 'Qena' },
+    { value: 'red-sea', label: 'Red Sea' },
+    { value: 'sharqia', label: 'Sharqia' },
+    { value: 'sohag', label: 'Sohag' },
+    { value: 'south-sinai', label: 'South Sinai' },
+    { value: 'suez', label: 'Suez' }
+  ];
+
+  openDropdown: 'commercial' | 'governorate' | null = null;
+
+  form = {
+    hasCommercialRegister: '',
+    companyName: '',
+    contactPersonName: '',
+    contactPersonPhone: '',
+    category: '',
+    websiteLink: '',
+    governorate: '',
+    numberOfBranches: '',
+    averageMonthlySales: ''
+  };
+
+  private ctx?: gsap.Context;
+  private viewReady = false;
+
+  ngOnInit(): void {
+    forkJoin({
+      page: this.pagesService.getPageBySlug('join-us').pipe(catchError(() => of(null))),
+      contactSettings: this.siteSettingsService
+        .getSettingsMapByGroup(3)
+        .pipe(catchError(() => of<Record<string, string>>({})))
+    }).subscribe({
+      next: ({ page, contactSettings }) => {
+        this.page = page;
+        this.contactEmail = contactSettings['contact.email'] || '';
+        this.contactPhone = contactSettings['contact.phone'] || '';
+        this.contactAddress = contactSettings['contact.address'] || '';
+        if (page) {
+          this.applySeo(page);
+        } else {
+          this.title.setTitle('Join Us');
+        }
+        this.loading = false;
+        this.trySetupAnimations();
+      },
+      error: () => {
+        this.loading = false;
+        this.loadError = true;
+      }
+    });
+  }
+
+  ngAfterViewInit(): void {
+    this.viewReady = true;
+    this.trySetupAnimations();
+  }
+
+  ngOnDestroy(): void {
+    this.ctx?.revert();
+  }
+
+  onSubmit(event: Event): void {
+    event.preventDefault();
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent): void {
+    const target = event.target as HTMLElement | null;
+    if (!target?.closest('.contact-custom-select')) {
+      this.openDropdown = null;
+    }
+  }
+
+  toggleDropdown(key: 'commercial' | 'governorate'): void {
+    this.openDropdown = this.openDropdown === key ? null : key;
+  }
+
+  selectCommercialRegister(value: string): void {
+    this.form.hasCommercialRegister = value;
+    this.openDropdown = null;
+  }
+
+  selectGovernorate(value: string): void {
+    this.form.governorate = value;
+    this.openDropdown = null;
+  }
+
+  commercialRegisterLabel(): string {
+    return (
+      this.commercialRegisterOptions.find((o) => o.value === this.form.hasCommercialRegister)
+        ?.label ?? 'Select -'
+    );
+  }
+
+  governorateLabel(): string {
+    return (
+      this.governorateOptions.find((o) => o.value === this.form.governorate)?.label ?? 'Select -'
+    );
+  }
+
+  headline(): string {
+    return this.joinSection()?.title || this.page?.name || 'Join Us';
+  }
+
+  subtitle(): string {
+    return (
+      this.joinSection()?.description ||
+      'Join us as a merchant partner with our consumer finance company, seamless communication, and helping your business grow with confidence.'
+    );
+  }
+
+  submitLabel(): string {
+    return this.joinSection()?.buttonText || 'Submit';
+  }
+
+  emailHref(): string {
+    return this.contactEmail ? `mailto:${this.contactEmail}` : 'javascript:void(0)';
+  }
+
+  phoneHref(): string {
+    return this.contactPhone ? `tel:${this.contactPhone}` : 'javascript:void(0)';
+  }
+
+  private joinSection(): CmsPageSection | null {
+    const section = this.page?.sections?.find((s) => s.sectionKey === 'join_us');
+    return section?.isActive ? section : null;
+  }
+
+  private trySetupAnimations(): void {
+    if (!this.viewReady || this.loading || this.loadError) {
+      return;
+    }
+    const root = this.host.nativeElement;
+    this.ctx?.revert();
+    this.ctx = gsap.context(() => {
+      const card = root.querySelector<HTMLElement>('[data-contact-form-card]');
+      if (card) {
+        gsap.from(card, {
+          y: 40,
+          opacity: 0,
+          duration: 0.9,
+          ease: 'power2.out'
+        });
+      }
+      const pills = root.querySelectorAll<HTMLElement>('[data-contact-pill]');
+      if (pills.length) {
+        gsap.from(pills, {
+          y: 24,
+          opacity: 0,
+          duration: 0.55,
+          stagger: 0.12,
+          delay: 0.15,
+          ease: 'power2.out'
+        });
+      }
+    }, root);
+  }
+
+  private applySeo(page: CmsPage): void {
+    if (page.metaTitle) {
+      this.title.setTitle(page.metaTitle);
+    }
+    if (page.metaDescription) {
+      this.meta.updateTag({ name: 'description', content: page.metaDescription });
+    }
+  }
+}

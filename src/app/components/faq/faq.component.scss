@@ -64,7 +64,7 @@
   max-height: min(58vh, 36rem);
   object-fit: contain;
   object-position: right bottom;
-  opacity: 0.5;
+  opacity: 0.8;
   filter: saturate(1.06);
   user-select: none;
 }
@@ -81,19 +81,28 @@
   white-space: pre-line;
 }
 
+/* تابلت فقط — الديسكتوب (1024px+) يفضل على الأنماط الأساسية بدون تغيير */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .faq-body {
+    padding-bottom: clamp(3rem, 8vh, 5rem);
+  }
+
+  .faq-decor__img {
+    right: clamp(-0.5rem, -1.5vw, 0.75rem);
+    bottom: clamp(1.75rem, 7vh, 4.5rem);
+    width: clamp(8.5rem, 34vw, 13rem);
+    max-height: min(42vh, 18rem);
+    opacity: 0.8;
+    transform: translate(4%, 6%);
+  }
+}
+
+/* هاتف — الديكور + الهيدر */
 @media (max-width: 767px) {
   .faq-header__img {
     background-position: center 42%;
     opacity: 0.34;
     filter: saturate(1.03) blur(0.3px);
-  }
-
-  .faq-decor__img {
-    right: clamp(-1.25rem, -4vw, 0rem);
-    bottom: clamp(3.25rem, 12vh, 8rem);
-    width: min(36rem, 125vw);
-    max-height: min(52vh, 30rem);
-    opacity: 0.48;
   }
 
   .faq-header__wash {
@@ -107,4 +116,16 @@
       linear-gradient(180deg, rgba(248, 250, 255, 0.45) 0%, #ffffff 100%);
   }
 
+  .faq-body {
+    padding-bottom: clamp(2.5rem, 10vh, 4rem);
+  }
+
+  .faq-decor__img {
+    right: clamp(-0.75rem, -2vw, 0rem);
+    bottom: clamp(1rem, 5vh, 3rem);
+    width: clamp(6.75rem, 40vw, 10.5rem);
+    max-height: min(36vh, 14rem);
+    opacity: 0.8;
+    transform: translate(2%, 4%);
+  }
 }

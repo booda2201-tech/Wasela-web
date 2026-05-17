@@ -58,6 +58,22 @@
             </div>
           </div>
         </div>
+
+        <a
+          routerLink="/join-us"
+          class="merchants-join-cta mx-auto mt-4 max-lg:mt-5 lg:mt-3 inline-flex no-underline"
+        >
+          <span class="merchants-join-cta__label">
+            {{
+              merchantsCountSection()?.buttonText ||
+                hero.buttonText ||
+                'Join our merchant Network'
+            }}
+          </span>
+          <span class="merchants-join-cta__icon" aria-hidden="true">
+            <i class="bi bi-arrow-up-right"></i>
+          </span>
+        </a>
       </div>
     </div>
 
