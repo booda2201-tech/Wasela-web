@@ -145,12 +145,16 @@ export class JoinUsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.openDropdown = this.openDropdown === key ? null : key;
   }
 
-  selectCommercialRegister(value: string): void {
+  selectCommercialRegister(value: string, event: MouseEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
     this.form.hasCommercialRegister = value;
     this.openDropdown = null;
   }
 
-  selectGovernorate(value: string): void {
+  selectGovernorate(value: string, event: MouseEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
     this.form.governorate = value;
     this.openDropdown = null;
   }

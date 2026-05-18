@@ -60,7 +60,7 @@
                   class="contact-custom-select__option"
                   [class.is-selected]="form.hasCommercialRegister === opt.value"
                   [hidden]="!opt.value"
-                  (click)="selectCommercialRegister(opt.value)"
+                  (mousedown)="selectCommercialRegister(opt.value, $event)"
                 >
                   {{ opt.label }}
                 </li>
@@ -156,7 +156,7 @@
                   class="contact-custom-select__option"
                   [class.is-selected]="form.governorate === opt.value"
                   [hidden]="!opt.value"
-                  (click)="selectGovernorate(opt.value)"
+                  (mousedown)="selectGovernorate(opt.value, $event)"
                 >
                   {{ opt.label }}
                 </li>
