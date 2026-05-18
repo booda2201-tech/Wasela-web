@@ -26,6 +26,31 @@
 
 
 
+.join-form-feedback {
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.45;
+}
+
+.join-form-feedback--error {
+  color: #b42318;
+  background: #fef3f2;
+}
+
+.join-form-feedback--success {
+  color: #027a48;
+  background: #ecfdf3;
+}
+
+.contact-submit:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
 .contact-form-card {
   padding: 1rem;
 

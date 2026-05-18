@@ -30,7 +30,7 @@
         (ngSubmit)="onSubmit($event)"
       >
         <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-8 md:gap-y-10">
-          <label class="contact-field">
+          <div class="contact-field">
             <span class="contact-field__label">Do you have a Commercial Register and Tax Card ID?</span>
             <div
               class="contact-field__select-wrap contact-custom-select"
@@ -60,13 +60,13 @@
                   class="contact-custom-select__option"
                   [class.is-selected]="form.hasCommercialRegister === opt.value"
                   [hidden]="!opt.value"
-                  (click)="selectCommercialRegister(opt.value)"
+                  (mousedown)="selectCommercialRegister(opt.value, $event)"
                 >
                   {{ opt.label }}
                 </li>
               </ul>
             </div>
-          </label>
+          </div>
 
           <label class="contact-field">
             <span class="contact-field__label">Company / Organization Name</span>
@@ -126,7 +126,7 @@
             />
           </label>
 
-          <label class="contact-field">
+          <div class="contact-field">
             <span class="contact-field__label">Governorate</span>
             <div
               class="contact-field__select-wrap contact-custom-select"
@@ -156,13 +156,13 @@
                   class="contact-custom-select__option"
                   [class.is-selected]="form.governorate === opt.value"
                   [hidden]="!opt.value"
-                  (click)="selectGovernorate(opt.value)"
+                  (mousedown)="selectGovernorate(opt.value, $event)"
                 >
                   {{ opt.label }}
                 </li>
               </ul>
             </div>
-          </label>
+          </div>
 
           <label class="contact-field">
             <span class="contact-field__label">Number of Branches</span>
@@ -187,9 +187,13 @@
           </label>
         </div>
 
+        <p *ngIf="formError" class="join-form-feedback join-form-feedback--error" role="alert">{{ formError }}</p>
+        <p *ngIf="submitError" class="join-form-feedback join-form-feedback--error" role="alert">{{ submitError }}</p>
+        <p *ngIf="submitSuccess" class="join-form-feedback join-form-feedback--success" role="status">{{ submitSuccess }}</p>
+
         <div class="flex justify-end mt-10 md:mt-12">
-          <button type="submit" class="contact-submit group">
-            <span class="contact-submit__text">{{ submitLabel() }}</span>
+          <button type="submit" class="contact-submit group" [disabled]="submitting">
+            <span class="contact-submit__text">{{ submitting ? 'Submitting...' : submitLabel() }}</span>
             <span class="contact-submit__icon">
               <i class="bi bi-arrow-up-right" aria-hidden="true"></i>
             </span>
