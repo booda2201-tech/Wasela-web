@@ -410,7 +410,7 @@ $total: 3.5s;
   display: none;
 }
 
-@media (min-width: 641px) {
+@media (min-width: 1024px) {
   .hero-desktop {
     display: block;
   }
@@ -420,27 +420,8 @@ $total: 3.5s;
   }
 }
 
-@media (max-width: 900px) {
-  .hero-toggle {
-    width: min(540px, 90vw);
-    height: clamp(88px, 16vw, 120px);
-  }
-
-  .hero-headline {
-    max-width: 52vw;
-  }
-
-  .store-buttons {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .hero-gif {
-    width: min(54vw, 470px);
-  }
-}
-
-@media (max-width: 640px) {
+/* هيرو موبايل: ≤1023px (موبايل + تابلت) | ديسكتوب الأنيميشن من 1024px */
+@media (max-width: 1023px) {
   .hero-desktop {
     display: none;
   }
@@ -668,6 +649,68 @@ $total: 3.5s;
   .powered-by {
     bottom: 5.25rem;
     right: 1rem;
+  }
+
+  /* تابلت فقط: نفس تخطيط الموبايل مع مقاسات أكبر (641–1023px) */
+  @media (min-width: 641px) {
+    .hero-mobile {
+      min-height: clamp(620px, 88svh, 700px);
+      padding: 2.25rem 2rem 1.25rem;
+    }
+
+    .hero-mobile-content {
+      max-width: min(440px, 78vw);
+    }
+
+    .hero-mobile-headline {
+      font-size: clamp(3.5rem, 5.2vw, 3.85rem) !important;
+      margin-top: 2.5rem;
+    }
+
+    .hero-mobile-cta {
+      margin-top: 1.85rem;
+      gap: 1.15rem;
+    }
+
+    .hero-mobile-explore {
+      max-width: 248px;
+      font-size: 1rem;
+    }
+
+    .hero-mobile-stores {
+      gap: 0.5rem;
+    }
+
+    .hero-mobile-store-badge img {
+      height: 50px;
+      max-width: 154px;
+    }
+
+    .hero-mobile-visual {
+      min-height: clamp(340px, 42vh, 420px);
+      flex: 1 1 auto;
+    }
+
+    .hero-mobile-blue-circle {
+      width: min(440px, 54vw);
+      height: clamp(150px, 18vw, 185px);
+      border-radius: 100px;
+      right: calc(50% - min(220px, 27vw));
+      bottom: clamp(130px, 16vw, 165px);
+    }
+
+    .hero-mobile-orange-circle {
+      width: clamp(200px, 24vw, 240px);
+      height: clamp(200px, 24vw, 240px);
+      /* نهاية الخط: محاذاة يمين الدائرة مع يمين البيل (زي الموبايل 50% - 128 على عرض 280) */
+      right: calc(50% - min(222px, 27.2vw));
+      bottom: clamp(118px, 14vw, 152px);
+    }
+
+    .hero-mobile-gif {
+      width: min(105vw, 880px) !important;
+      transform: translateY(8px);
+    }
   }
 }
 

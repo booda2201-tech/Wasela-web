@@ -31,9 +31,11 @@ export class HomeContentsComponent implements OnInit, OnDestroy, AfterViewInit, 
 
   @ViewChild('testimonialSwiper') testimonialSwiperRef?: ElementRef<HTMLElement & { initialize: () => void }>;
   @ViewChild('partnersSwiperMobile') partnersSwiperMobileRef?: ElementRef<HTMLElement & { initialize: () => void }>;
+  @ViewChild('categoriesTabletSwiper') categoriesTabletSwiperRef?: ElementRef<HTMLElement & { initialize: () => void }>;
 
   private testimonialSwiperInited = false;
   private partnersMobileSwiperInited = false;
+  private categoriesTabletSwiperInited = false;
 
   categories: Array<{ id: number; title: string; img: string; imgId: string }> = [];
 
@@ -123,6 +125,7 @@ export class HomeContentsComponent implements OnInit, OnDestroy, AfterViewInit, 
     queueMicrotask(() => {
       this.initTestimonialSwiper();
       this.initPartnersMobileSwiper();
+      this.initCategoriesTabletSwiper();
     });
   }
 
@@ -354,8 +357,10 @@ export class HomeContentsComponent implements OnInit, OnDestroy, AfterViewInit, 
   private refreshSwipers(): void {
     this.testimonialSwiperInited = false;
     this.partnersMobileSwiperInited = false;
+    this.categoriesTabletSwiperInited = false;
     this.initTestimonialSwiper();
     this.initPartnersMobileSwiper();
+    this.initCategoriesTabletSwiper();
   }
 
   private initTestimonialSwiper(): void {
@@ -374,8 +379,8 @@ export class HomeContentsComponent implements OnInit, OnDestroy, AfterViewInit, 
       centeredSlides: true,
       breakpoints: {
         640: {
-          slidesPerView: 2,
-          slidesPerGroup: 2,
+          slidesPerView: 1,
+          slidesPerGroup: 1,
           spaceBetween: 20,
           centeredSlides: false,
         },
@@ -407,6 +412,51 @@ export class HomeContentsComponent implements OnInit, OnDestroy, AfterViewInit, 
     });
     el.initialize();
     this.partnersMobileSwiperInited = true;
+  }
+
+  private initCategoriesTabletSwiper(): void {
+    if (this.categoriesTabletSwiperInited) {
+      return;
+    }
+    const el = this.categoriesTabletSwiperRef?.nativeElement;
+    if (!el || this.categories.length < 1) {
+      return;
+    }
+
+    Object.assign(el, {
+      effect: 'coverflow',
+      grabCursor: true,
+      centeredSlides: true,
+      slidesPerView: 1,
+      slidesPerGroup: 1,
+      loop: this.categories.length > 2,
+      speed: 500,
+      spaceBetween: 18,
+      coverflowEffect: {
+        rotate: 26,
+        stretch: 0,
+        depth: 110,
+        modifier: 1.05,
+        slideShadows: false,
+      },
+      breakpoints: {
+        768: {
+          slidesPerView: 2,
+          slidesPerGroup: 1,
+          spaceBetween: 150,
+          centeredSlides: true,
+          coverflowEffect: {
+            rotate: 16,
+            stretch: 0,
+            depth: 90,
+            modifier: 0.9,
+            slideShadows: false,
+          },
+        },
+      },
+    });
+    el.initialize();
+    this.categoriesTabletSwiperInited = true;
   }
 
   private rotatePartners(partners: Array<{ name: string; logo: string }>): void {

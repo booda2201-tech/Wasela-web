@@ -29,7 +29,31 @@
 
     <div
       *ngIf="categories.length"
-      class="category-grid grid grid-cols-2 lg:grid-cols-4 gap-x-3 gap-y-4 md:gap-x-3 md:gap-y-4 p-3 md:p-3 items-stretch"
+      class="category-tablet-swiper-wrap lg:hidden"
+    >
+      <swiper-container #categoriesTabletSwiper init="false" class="categories-tablet-swiper">
+        <swiper-slide *ngFor="let cat of categories" class="categories-tablet-slide">
+          <div class="category-card w-full flex justify-center">
+            <div class="relative shape-wrapper w-full">
+              <div class="category-card-frame">
+                <img
+                  [id]="cat.imgId"
+                  [src]="cat.img"
+                  class="category-card-img"
+                  [alt]="cat.title"
+                  loading="lazy"
+                />
+                <h3 class="category-card-title">{{ cat.title }}</h3>
+              </div>
+            </div>
+          </div>
+        </swiper-slide>
+      </swiper-container>
+    </div>
+
+    <div
+      *ngIf="categories.length"
+      class="category-grid hidden lg:grid lg:grid-cols-4 gap-x-3 gap-y-4 p-3 items-stretch"
     >
       <div *ngFor="let cat of categories" class="category-card w-full flex justify-center">
         <div class="relative shape-wrapper w-full">

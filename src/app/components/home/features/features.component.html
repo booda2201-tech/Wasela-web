@@ -2,24 +2,24 @@
 
   <ng-container *ngIf="howSection() as how">
     <div
-      class="how-it-works-main h-auto lg:h-[350px] bg-[#eef5ff] rounded-[24px] md:rounded-[26px] relative flex flex-col-reverse lg:flex-row items-center overflow-hidden min-h-[220px]"
+      class="how-it-works-main h-auto lg:h-[380px] bg-[#eef5ff] rounded-[24px] lg:rounded-[26px] relative flex flex-col-reverse lg:flex-row items-center overflow-hidden min-h-[220px]"
     >
-      <div class="how-it-works-visual w-full lg:w-[60%] self-stretch relative min-h-[300px] lg:min-h-[350px]">
+      <div class="how-it-works-visual w-full lg:w-[60%] self-stretch relative min-h-[300px] lg:min-h-[370px]">
         <img
           src="../../../../assets/gif/how waseela works.gif"
           alt="Waseela App"
-          class="how-it-works-gif absolute -top-16 lg:-top-10 left-1/2 lg:left-[40%] -translate-x-1/2 w-[50%] lg:w-[135%] max-w-none h-auto object-contain"
+          class="how-it-works-gif absolute -top-16 lg:-top-10 left-1/2 lg:left-[40%] -translate-x-1/2 w-[50%] lg:w-[140%] max-w-none h-auto object-contain"
         />
       </div>
 
-      <div class="w-full lg:w-[52%] flex flex-col justify-start px-6 md:px-10 lg:px-12 py-10 lg:py-0 space-y-4 text-center lg:text-left">
-        <div class="max-w-[650px]">
-          <h2 class="text-left text-[25px] md:text-[40px] font-[900] text-[#1D1DDB] leading-[1.1] mb-4">
+      <div class="how-it-works-copy w-full lg:w-[52%] flex flex-col justify-start px-6 lg:px-12 py-10 lg:py-0 space-y-4 text-left">
+        <div class="how-it-works-inner max-w-[650px]">
+          <h2 class="how-it-works-title text-left text-[25px] lg:text-[40px] font-[900] text-[#1D1DDB] leading-[1.1] mb-4">
             {{ how.title }}
           </h2>
           <p
             *ngIf="how.description"
-            class="text-left text-[#252525] text-[15px] max-sm:text-[13px] font-medium leading-[1.5] cms-preline"
+            class="how-it-works-desc text-left text-[#252525] text-[15px] max-sm:text-[13px] font-medium leading-[1.5] cms-preline"
           >
             {{ how.description }}
           </p>
@@ -27,30 +27,30 @@
       </div>
     </div>
 
-    <div class="step-cards-grid grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-3 mt-5">
+    <div class="step-cards-grid grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-3 mt-5">
       <ng-container *ngFor="let step of howSteps(); let idx = index">
         <div
           *ngIf="idx === 0"
-          class="step-card bg-[#b9e6ff] rounded-[15px] flex flex-col min-h-[500px] overflow-hidden"
+          class="step-card step-card--blue bg-[#b9e6ff] rounded-[15px] flex flex-col lg:min-h-[500px] overflow-hidden"
         >
-          <div class="space-y-4 p-6 md:p-10 pb-4">
-            <h3 class="text-[22px] md:text-[30px] leading-[1.08] font-black text-[#1D1DDB]">{{ step.title }}</h3>
+          <div class="space-y-4 p-6 lg:p-10 pb-4">
+            <h3 class="text-[22px] lg:text-[30px] leading-[1.08] font-black text-[#1D1DDB]">{{ step.title }}</h3>
             <p
               *ngIf="step.description"
-              class="text-[#0f2f55] text-[12px] md:text-[15px] leading-[1.5] font-medium mt-4 max-w-[350px] cms-preline"
+              class="text-[#0f2f55] text-[12px] lg:text-[15px] leading-[1.5] font-medium mt-4 max-w-[350px] lg:max-w-[350px] cms-preline"
             >
               {{ step.description }}
             </p>
           </div>
-          <div class="flex flex-wrap gap-3 px-4 md:px-8 mt-2">
+          <div class="step-card-badges flex flex-wrap gap-3 px-4 lg:px-8 mt-2">
             <img
               src="../../../../assets/images/Mobile app store badge (2).png"
-              class="h-10 md:h-11 cursor-pointer hover:scale-105 transition"
+              class="h-10 lg:h-11 cursor-pointer hover:scale-105 transition"
               alt="App Store"
             />
             <img
               src="../../../../assets/images/Mobile app store badge (3).png"
-              class="h-10 md:h-11 cursor-pointer hover:scale-105 transition"
+              class="h-10 lg:h-11 cursor-pointer hover:scale-105 transition"
               alt="Google Play"
             />
           </div>
@@ -65,11 +65,11 @@
 
         <div
           *ngIf="idx === 1"
-          class="step-card bg-[#f87300] rounded-[14px] flex flex-col min-h-[600px] text-white overflow-hidden"
+          class="step-card step-card--orange bg-[#f87300] rounded-[14px] flex flex-col lg:min-h-[600px] text-white overflow-hidden"
         >
-          <div class="space-y-4 p-6 md:p-10 pb-4">
-            <h3 class="text-[22px] md:text-[30px] leading-[1.08] font-black cms-preline">{{ step.title }}</h3>
-            <p *ngIf="step.description" class="opacity-95 font-medium text-[12px] md:text-[15px] leading-[1.5] mt-4 cms-preline">
+          <div class="space-y-4 p-6 lg:p-10 pb-4">
+            <h3 class="text-[22px] lg:text-[30px] leading-[1.08] font-black cms-preline">{{ step.title }}</h3>
+            <p *ngIf="step.description" class="opacity-95 font-medium text-[12px] lg:text-[15px] leading-[1.5] mt-4 cms-preline">
               {{ step.description }}
             </p>
           </div>
@@ -84,11 +84,11 @@
 
         <div
           *ngIf="idx === 2"
-          class="step-card bg-[#0000ad] rounded-[14px] flex flex-col min-h-[600px] text-white overflow-hidden"
+          class="step-card step-card--navy bg-[#0000ad] rounded-[14px] flex flex-col lg:min-h-[600px] text-white overflow-hidden"
         >
-          <div class="space-y-4 p-6 md:p-10 pb-4">
-            <h3 class="text-[22px] md:text-[30px] leading-[1.08] font-black cms-preline">{{ step.title }}</h3>
-            <p *ngIf="step.description" class="opacity-95 font-medium text-[12px] md:text-[15px] leading-[1.5] mt-4 cms-preline">
+          <div class="space-y-4 p-6 lg:p-10 pb-4">
+            <h3 class="text-[22px] lg:text-[30px] leading-[1.08] font-black cms-preline">{{ step.title }}</h3>
+            <p *ngIf="step.description" class="opacity-95 font-medium text-[12px] lg:text-[15px] leading-[1.5] mt-4 cms-preline">
               {{ step.description }}
             </p>
           </div>

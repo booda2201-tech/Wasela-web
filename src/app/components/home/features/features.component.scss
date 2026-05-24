@@ -1,5 +1,5 @@
-/* How Waseela Works — تحت 1024px فقط؛ lg+ بدون أي من ده */
-@media (max-width: 1023px) {
+/* How Waseela Works — موبايل فقط (تحت 768px) */
+@media (max-width: 767px) {
   .how-it-works-main {
     height: auto !important;
     min-height: 0;
@@ -37,21 +37,154 @@
     justify-content: center;
     overflow: hidden;
     flex: 1 1 auto;
-    min-height: clamp(11.5rem, 52vw, 16rem) !important;
+    min-height: clamp(12rem, 55vw, 17rem) !important;
   }
 
   .how-it-works-gif {
     top: auto !important;
-    bottom: -30%;
+    bottom: -28%;
     left: 45% !important;
     transform: translateX(-50%) !important;
-    width: min(155vw, 560px) !important;
+    width: min(150vw, 500px) !important;
     max-width: none;
     object-position: bottom center;
   }
 }
 
-/* بطاقات الخطوات — تحت md (768px) فقط؛ md:grid-cols-3 وأحجام الكروت الأصلية من Tailwind من 768px */
+/* How Waseela Works — تابلت فقط (768–1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .how-it-works-main {
+    flex-direction: row !important;
+    align-items: center !important;
+    height: auto !important;
+    min-height: clamp(17rem, 30vw, 21rem) !important;
+    padding: 0;
+  }
+
+  .how-it-works-visual {
+    display: block;
+    width: 58% !important;
+    flex: 0 0 58%;
+    align-self: stretch;
+    min-height: clamp(15rem, 26vw, 19rem) !important;
+    overflow: hidden;
+  }
+
+  .how-it-works-gif {
+    top: auto !important;
+    bottom: -20% !important;
+    left: 35% !important;
+    transform: translateX(-50%) !important;
+    width: min(72vw, 550px) !important;
+    max-width: none;
+    object-position: bottom center;
+  }
+
+  .how-it-works-copy {
+    width: 42% !important;
+    flex: 0 0 42%;
+    justify-content: center;
+    padding: 1.5rem 1.25rem 1.5rem 0.75rem !important;
+  }
+
+  .how-it-works-inner {
+    max-width: 100%;
+    margin: 0;
+  }
+
+  .how-it-works-title {
+    font-size: clamp(1.35rem, 2.8vw, 1.75rem) !important;
+    line-height: 1.1;
+    margin-bottom: 0.65rem;
+  }
+
+  .how-it-works-desc {
+    font-size: clamp(0.8rem, 1.6vw, 0.9rem) !important;
+    line-height: 1.5;
+    color: #383838;
+  }
+}
+
+/* بطاقات الخطوات — تابلت فقط (768–1023px)؛ الموبايل والديسكتوب (lg+) بدون تغيير */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .step-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.65rem;
+    margin-top: 1.25rem;
+  }
+
+  .step-card {
+    min-height: clamp(21rem, 38vw, 26.5rem) !important;
+    border-radius: 13px;
+  }
+
+  .step-card--blue {
+    min-height: clamp(19.5rem, 36vw, 24.5rem) !important;
+  }
+
+  .step-card > .space-y-4 {
+    padding: 1.1rem 0.75rem 0.35rem !important;
+    gap: 0.5rem;
+  }
+
+  .step-card h3 {
+    font-size: clamp(0.95rem, 2.1vw, 1.25rem) !important;
+    line-height: 1.1;
+  }
+
+  .step-card p {
+    font-size: clamp(0.68rem, 1.45vw, 0.8rem) !important;
+    margin-top: 0.5rem !important;
+    max-width: none !important;
+    margin-top: 1.5rem !important;
+  }
+
+  .step-card--blue p {
+    max-width: 100% !important;
+  }
+
+  .step-card-badges {
+    padding-inline: 0.65rem !important;
+    gap: 0.35rem !important;
+    margin-top: 0.25rem !important;
+
+    img {
+      height: 1.85rem !important;
+      width: auto;
+    }
+  }
+
+  .step-card-visual {
+    overflow: hidden;
+    min-height: clamp(8.5rem, 20vw, 11rem);
+    flex: 1 1 auto;
+    margin-top: 0.15rem;
+  }
+
+  .step-card-img--blue {
+    width: 118% !important;
+    left: 50% !important;
+    transform: translateX(-48%) !important;
+    bottom: -0.85rem !important;
+  }
+
+  .step-card-img--orange {
+    width: 138% !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    bottom: -1.75rem !important;
+  }
+
+  .step-card-img--navy {
+    width: 112% !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    bottom: -0.35rem !important;
+  }
+}
+
+/* بطاقات الخطوات — موبايل فقط (تحت 768px) */
 @media (max-width: 767px) {
   .step-cards-grid {
     gap: 0.875rem;

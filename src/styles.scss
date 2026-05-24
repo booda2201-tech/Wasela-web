@@ -64,6 +64,7 @@ $headings-font-family: 'Diodrum Arabic', system-ui, sans-serif;
 
 @import 'bootstrap/scss/bootstrap';
 @import 'bootstrap-icons/font/bootstrap-icons.css';
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -95,6 +96,89 @@ body {
 }
 .group:hover .group-hover\:text-waseela-blue {
   color: $waseela-blue !important;
+}
+
+/* زر Submit / Explore — مشترك (Contact, Join Us, …) */
+.contact-submit {
+  display: inline-grid !important;
+  grid-template-columns: minmax(0, 1fr) 52px;
+  grid-template-rows: 52px;
+  align-items: center;
+  box-sizing: border-box;
+  min-width: 10.5rem;
+  margin: 0;
+  padding: 0 0 0 1.25rem;
+  border: 0.8px solid #0d11b3;
+  border-radius: 9999px;
+  background: transparent;
+  cursor: pointer;
+  overflow: hidden;
+  font: inherit;
+  line-height: 1;
+  vertical-align: middle;
+  -webkit-appearance: none;
+  appearance: none;
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.contact-submit__text {
+  grid-column: 1;
+  grid-row: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  height: 100%;
+  min-height: 52px;
+  min-width: 0;
+  padding: 0 0.5rem 0 0;
+  margin: 0;
+  text-align: center;
+  color: #f56300;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.contact-submit__icon {
+  grid-column: 2;
+  grid-row: 1;
+  justify-self: end;
+  align-self: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #0d11b3;
+  color: #fff;
+  transition:
+    background 0.3s ease,
+    color 0.3s ease;
+
+  i {
+    font-size: 1.15rem;
+    line-height: 1;
+  }
+}
+
+.contact-submit:hover {
+  background: #0d11b3;
+
+  .contact-submit__text {
+    color: #fff;
+  }
+
+  .contact-submit__icon {
+    background: #fff;
+    color: #0d11b3;
+  }
 }
 
 
