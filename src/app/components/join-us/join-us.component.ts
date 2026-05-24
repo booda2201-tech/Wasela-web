@@ -10,6 +10,10 @@ import { Meta, Title } from '@angular/platform-browser';
 import gsap from 'gsap';
 import { catchError, forkJoin, of } from 'rxjs';
 
+import {
+  MerchantApplicationRequest,
+  MerchantApplicationsService,
+} from '../../services/merchant-applications.service';
 import { CmsPage, CmsPageSection, PagesService } from '../../services/pages.service';
 import { SiteSettingsService } from '../../services/site-settings.service';
 
@@ -26,6 +30,7 @@ export class JoinUsComponent implements OnInit, AfterViewInit, OnDestroy {
     private readonly host: ElementRef<HTMLElement>,
     private readonly pagesService: PagesService,
     private readonly siteSettingsService: SiteSettingsService,
+    private readonly merchantApplicationsService: MerchantApplicationsService,
     private readonly title: Title,
     private readonly meta: Meta
   ) {}
@@ -77,6 +82,11 @@ export class JoinUsComponent implements OnInit, AfterViewInit, OnDestroy {
   ];
 
   openDropdown: 'commercial' | 'governorate' | null = null;
+
+  submitting = false;
+  submitSuccess = '';
+  submitError = '';
+  formError = '';
 
   form = {
     hasCommercialRegister: '',
@@ -131,6 +141,28 @@ export class JoinUsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   onSubmit(event: Event): void {
     event.preventDefault();
+    this.submitSuccess = '';
+    this.submitError = '';
+    this.formError = '';
+
+    const payload = this.buildPayload();
+    if (!payload) {
+      return;
+    }
+
+    this.submitting = true;
+    this.merchantApplicationsService.submit(payload).subscribe({
+      next: (result) => {
+        this.submitting = false;
+        this.submitSuccess =
+          result.message || 'Your application was submitted successfully. We will contact you soon.';
+        this.resetForm();
+      },
+      error: (err: unknown) => {
+        this.submitting = false;
+        this.submitError = this.resolveSubmitErrorMessage(err);
+      },
+    });
   }
 
   @HostListener('document:click', ['$event'])
@@ -193,6 +225,106 @@ export class JoinUsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   phoneHref(): string {
     return this.contactPhone ? `tel:${this.contactPhone}` : 'javascript:void(0)';
+  }
+
+  private buildPayload(): MerchantApplicationRequest | null {
+    if (!this.form.hasCommercialRegister) {
+      this.formError = 'Please select whether you have a Commercial Register and Tax Card ID.';
+      return null;
+    }
+    if (!this.form.companyName.trim()) {
+      this.formError = 'Please enter your company or organization name.';
+      return null;
+    }
+    if (!this.form.contactPersonName.trim()) {
+      this.formError = 'Please enter the contact person name.';
+      return null;
+    }
+    if (!this.form.contactPersonPhone.trim()) {
+      this.formError = 'Please enter the contact person phone number.';
+      return null;
+    }
+    if (!this.form.category.trim()) {
+      this.formError = 'Please enter a category.';
+      return null;
+    }
+    if (!this.form.governorate) {
+      this.formError = 'Please select a governorate.';
+      return null;
+    }
+
+    const branches = this.parsePositiveNumber(this.form.numberOfBranches);
+    if (branches === null) {
+      this.formError = 'Please enter a valid number of branches.';
+      return null;
+    }
+
+    const sales = this.parsePositiveNumber(this.form.averageMonthlySales);
+    if (sales === null) {
+      this.formError = 'Please enter a valid average monthly sales amount.';
+      return null;
+    }
+
+    const governorateLabel =
+      this.governorateOptions.find((o) => o.value === this.form.governorate)?.label ??
+      this.form.governorate;
+
+    return {
+      hasCommercialRegisterAndTaxCard:
+        this.form.hasCommercialRegister === 'yes' ? 'Yes' : 'No',
+      companyName: this.form.companyName.trim(),
+      contactPersonName: this.form.contactPersonName.trim(),
+      contactPersonPhoneNumber: this.form.contactPersonPhone.trim(),
+      category: this.form.category.trim(),
+      websiteOrFacebookLink: this.form.websiteLink.trim(),
+      governorate: governorateLabel,
+      numberOfBranches: branches,
+      averageMonthlySales: sales,
+    };
+  }
+
+  private parsePositiveNumber(value: string): number | null {
+    const cleaned = value.replace(/,/g, '').trim();
+    if (!cleaned) {
+      return null;
+    }
+    const n = Number(cleaned);
+    if (!Number.isFinite(n) || n < 0) {
+      return null;
+    }
+    return n;
+  }
+
+  private resolveSubmitErrorMessage(err: unknown): string {
+    if (err instanceof Error && err.message) {
+      return err.message;
+    }
+    if (err && typeof err === 'object') {
+      const body = (err as { error?: unknown }).error;
+      if (body && typeof body === 'object') {
+        const r = body as Record<string, unknown>;
+        const msg = r['message'] ?? r['Message'];
+        if (typeof msg === 'string' && msg.trim()) {
+          return msg;
+        }
+      }
+    }
+    return 'Could not submit your application. Please try again.';
+  }
+
+  private resetForm(): void {
+    this.form = {
+      hasCommercialRegister: '',
+      companyName: '',
+      contactPersonName: '',
+      contactPersonPhone: '',
+      category: '',
+      websiteLink: '',
+      governorate: '',
+      numberOfBranches: '',
+      averageMonthlySales: '',
+    };
+    this.openDropdown = null;
   }
 
   private joinSection(): CmsPageSection | null {
