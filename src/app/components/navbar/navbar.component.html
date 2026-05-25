@@ -58,7 +58,7 @@
     </div>
 
     <div class="hidden lg:flex items-center">
-      <button class="download-btn group" type="button">
+      <button class="download-btn group" type="button" (click)="onDownloadClick()">
         <span class="download-btn__label">Download now</span>
         <span class="icon-circle">
           <i class="bi bi-arrow-up-right"></i>
@@ -89,7 +89,7 @@
     <a routerLink="/categories" routerLinkActive #categoriesMobileLink="routerLinkActive" [style.color]="categoriesMobileLink.isActive ? '#1D1DDB' : null" [class.font-bold]="categoriesMobileLink.isActive" (click)="closeMobileMenu()">Categories</a>
     <a routerLink="/about-us" routerLinkActive #aboutMobileLink="routerLinkActive" [style.color]="aboutMobileLink.isActive ? '#1D1DDB' : null" [class.font-bold]="aboutMobileLink.isActive" (click)="closeMobileMenu()">About Us</a>
     <a routerLink="/contact-us" routerLinkActive #contactMobileLink="routerLinkActive" [style.color]="contactMobileLink.isActive ? '#1D1DDB' : null" [class.font-bold]="contactMobileLink.isActive" (click)="closeMobileMenu()">Contact Us</a>
-    <button type="button" class="mobile-download-btn" (click)="closeMobileMenu()">
+    <button type="button" class="mobile-download-btn" (click)="onDownloadClick()">
       <span class="download-btn__label">Download now</span>
       <span class="icon-circle">
         <i class="bi bi-arrow-up-right"></i>
