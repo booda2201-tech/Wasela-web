@@ -134,7 +134,12 @@ export class MerchantsComponent implements OnInit, AfterViewInit {
       speed: 520,
       centeredSlides: true,
       grabCursor: true,
-      // pagination: { clickable: true },
+      pagination:
+        this.merchantItemsList.length > 1
+          ? {
+              clickable: true,
+            }
+          : false,
       breakpoints: {
         480: {
           slidesPerView: 1.18,

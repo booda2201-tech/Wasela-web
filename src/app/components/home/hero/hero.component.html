@@ -16,7 +16,8 @@
 
   <div class="hero-gif-wrap" aria-hidden="true">
     <img
-      src="../../../../assets/gif/header-screen-v2 2.gif"
+      #desktopHeroGif
+      [src]="heroGifSrc"
       alt=""
       class="hero-gif"
       loading="eager"
@@ -27,7 +28,9 @@
     <a class="explore-btn" href="#">
       <span class="explore-label">Explore Now</span>
       <span class="arrow-circle" aria-hidden="true">
-        <i class="bi bi-arrow-up-right"></i>
+        <svg class="explore-btn__arrow" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4 12L12 4M12 4H6.5M12 4V9.5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
       </span>
     </a>
     <div class="store-buttons">
@@ -94,7 +97,8 @@
     <div class="hero-mobile-blue-circle"></div>
     <div class="hero-mobile-orange-circle"></div>
     <img
-      src="../../../../assets/gif/header-screen-v2 2.gif"
+      #mobileHeroGif
+      [src]="heroGifSrc"
       alt=""
       class="hero-mobile-gif"
       loading="eager"

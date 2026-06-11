@@ -5,41 +5,56 @@
 .job-desc-panel {
   will-change: height;
 }
-.faq-header {
+
+.careers-page {
   isolation: isolate;
 }
 
-.faq-header__visual {
-  z-index: 0;
+.careers-hero {
+  position: relative;
+  z-index: 1;
 }
 
-.faq-header__img {
+.careers-hero__glow {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image: url('../../../assets/images/Slide 16_9 - 5 3.png');
-  width: min(110vw, 100rem);
-  height: min(70vw, 33rem);
-  background-size: cover;
-  background-position: center 50%;
-  background-repeat: no-repeat;
-  opacity: 10;
-  filter: saturate(1.05) blur(0.5px);
+  left: 50%;
+  top: 3.25rem;
+  z-index: 0;
+  width: min(115vw, 68rem);
+  height: clamp(18rem, 52vw, 34rem);
+  transform: translateX(-50%);
+  pointer-events: none;
 }
 
-.faq-header__wash {
+.careers-hero__glow-img {
   position: absolute;
   inset: 0;
-  background:
-    radial-gradient(
-      ellipse 85% 75% at 50% 42%,
-      rgba(224, 231, 255, 0.45) 0%,
-      rgba(255, 255, 255, 0.72) 45%,
-      #ffffff 78%
-    ),
-    linear-gradient(180deg, rgba(248, 250, 255, 0.5) 0%, #ffffff 100%);
+  background-image: url('../../../assets/images/merchants-glow.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.25;
+  filter: blur(14px);
+  -webkit-mask-image: radial-gradient(
+    ellipse 84% 80% at 50% 48%,
+    #000 16%,
+    rgb(0 0 0 / 65%) 44%,
+    transparent 74%
+  );
+  mask-image: radial-gradient(
+    ellipse 84% 80% at 50% 48%,
+    #000 16%,
+    rgb(0 0 0 / 65%) 44%,
+    transparent 74%
+  );
+}
+
+@media (max-width: 1023px) {
+  .careers-hero__glow {
+    top: 2.75rem;
+    width: min(130vw, 26rem);
+    height: clamp(15rem, 48vw, 24rem);
+  }
 }
 
 /* Decorative shapes behind accordion cards only */
@@ -53,6 +68,105 @@
   pointer-events: none;
   overflow: hidden;
   z-index: 0;
+}
+
+.careers-jobs-list {
+  max-width: 52rem;
+  margin-inline: auto;
+}
+
+.job-card {
+  background: #fff;
+  border: 1px solid #f3f4f6;
+  border-radius: 1.25rem;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+  padding: 0.875rem 1rem;
+
+  @media (min-width: 768px) {
+    border-radius: 1.5rem;
+    padding: 1.25rem 1.5rem;
+  }
+}
+
+.job-card__badge {
+  display: inline-block;
+  background: #baeaff;
+  color: #1d1ddb;
+  border-radius: 9999px;
+  padding: 0.2rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+.job-card__title {
+  margin: 0.35rem 0 0;
+  color: #1d1ddb;
+  font-weight: 500;
+  font-size: 1rem;
+  line-height: 1.35;
+
+  @media (min-width: 768px) {
+    font-size: 1.125rem;
+  }
+}
+
+.job-card__meta {
+  margin-top: 0.5rem;
+  color: #737373;
+  font-size: 0.75rem;
+  font-weight: 500;
+
+  @media (min-width: 768px) {
+    font-size: 0.8125rem;
+  }
+}
+
+.job-card__toggle {
+  width: 2.25rem;
+  height: 2.25rem;
+
+  @media (min-width: 768px) {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  i {
+    font-size: 0.9rem;
+  }
+}
+
+.job-card__desc-inner {
+  padding-top: 0.875rem;
+  margin-top: 0.875rem;
+  border-top: 1px solid #f3f4f6;
+
+  @media (min-width: 768px) {
+    padding-top: 1rem;
+    margin-top: 1rem;
+  }
+}
+
+.job-card__desc-title {
+  margin: 0 0 0.5rem;
+  color: #1d1ddb;
+  font-weight: 500;
+  font-size: 0.9375rem;
+
+  @media (min-width: 768px) {
+    font-size: 1rem;
+  }
+}
+
+.job-card__desc-body {
+  color: #4b5563;
+  font-size: 0.8125rem;
+  font-weight: 400;
+  line-height: 1.6;
+
+  @media (min-width: 768px) {
+    font-size: 0.875rem;
+  }
 }
 
 .careers-preline {
@@ -81,87 +195,47 @@
   vertical-align: middle;
 }
 
-/* زر إرسال الطلب — نفس فكرة contact-submit: الدائرة ملاصقة حدود الكبسولة */
-.careers-apply-submit {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0;
-  padding-inline-start: 1.125rem;
-  min-height: 40px;
-  border: 1px solid #1d1ddb;
-  border-radius: 9999px;
-  background: #fff;
-  cursor: pointer;
-  overflow: hidden;
-  transition:
-    background 0.3s ease,
-    border-color 0.3s ease,
-    box-shadow 0.3s ease;
+.job-card__actions .contact-submit {
+  grid-template-columns: minmax(0, 1fr) 44px;
+  grid-template-rows: 44px;
+  min-width: 8.75rem;
+  padding-left: 0.875rem;
 
-  @media (min-width: 768px) {
-    gap: 1rem;
-    padding-inline-start: 1.75rem;
-    min-height: 52px;
+  .contact-submit__text {
+    min-height: 44px;
+    font-size: 0.8125rem;
+    white-space: nowrap;
   }
 
-  &:hover {
-    background: #1d1ddb;
-    box-shadow: 0 4px 14px rgba(29, 29, 219, 0.18);
-  }
-}
+  .contact-submit__icon {
+    width: 44px;
+    height: 44px;
 
-.careers-apply-submit__text {
-  color: #ff7a00;
-  font-weight: 800;
-  font-size: 0.875rem;
-  line-height: 1.45;
-  letter-spacing: -0.02em;
-  white-space: nowrap;
-
-  @media (min-width: 768px) {
-    font-size: 1.125rem;
-  }
-}
-
-.careers-apply-submit:hover .careers-apply-submit__text {
-  color: #fff;
-}
-
-.careers-apply-submit__icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: #1d1ddb;
-  color: #fff;
-  transition:
-    background 0.3s ease,
-    color 0.3s ease,
-    transform 0.3s ease;
-
-  @media (min-width: 768px) {
-    width: 52px;
-    height: 52px;
-  }
-
-  i {
-    font-size: 1rem;
-    line-height: 1;
-
-    @media (min-width: 768px) {
-      font-size: 1.35rem;
+    i {
+      font-size: 1rem;
     }
   }
-}
 
-.careers-apply-submit:hover .careers-apply-submit__icon {
-  background: #fff;
-  color: #1d1ddb;
-  transform: scale(1.05);
+  @media (max-width: 767px) {
+    grid-template-columns: minmax(0, 1fr) 40px;
+    grid-template-rows: 40px;
+    min-width: 8.25rem;
+    padding-left: 0.75rem;
+
+    .contact-submit__text {
+      min-height: 40px;
+      font-size: 0.75rem;
+    }
+
+    .contact-submit__icon {
+      width: 40px;
+      height: 40px;
+
+      i {
+        font-size: 0.9rem;
+      }
+    }
+  }
 }
 
 @media (max-width: 767px) {

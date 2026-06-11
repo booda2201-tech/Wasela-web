@@ -4,6 +4,25 @@
   }
 }
 
+.navbar-logo {
+  display: block;
+  width: auto;
+  height: 20px;
+
+  @media (min-width: 1024px) {
+    height: 22px;
+  }
+}
+
+.navbar-links {
+  gap: 2rem;
+}
+
+.navbar-link {
+  font-size: 1.0625rem;
+  line-height: 1.2;
+}
+
 .mobile-menu-btn {
   display: inline-flex;
   align-items: center;
@@ -47,15 +66,25 @@
   padding: 0.55rem 0.8rem 0.55rem;
 }
 
-/* زر التحميل — نفس Figma: كبسولة بيضا، نص برتقالي متوسّط، دايرة زرقا بارتفاع الزر */
+/* زر التحميل — حجم وسط + نفس محاذاة partners-cta-btn */
+.download-btn,
+.mobile-download-btn {
+  font-family: 'Inter', system-ui, sans-serif;
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+
 .download-btn {
+  --dl-btn-h: 46px;
   display: inline-grid;
-  grid-template-columns: minmax(0, 1fr) 52px;
-  grid-template-rows: 52px;
-  align-items: center;
+  grid-template-columns: minmax(0, 1fr) var(--dl-btn-h);
+  grid-template-rows: var(--dl-btn-h);
+  align-items: stretch;
   box-sizing: border-box;
-  min-width: 245px;
-  padding: 0 0 0 1.25rem;
+  min-width: 13.75rem;
+  padding: 0;
+  padding-inline-start: 1.05rem;
   border: 1px solid #1d1ddb;
   border-radius: 9999px;
   background: #fff;
@@ -63,7 +92,6 @@
   text-decoration: none;
   color: inherit;
   cursor: pointer;
-  font: inherit;
   transition: background-color 0.25s ease;
   flex: 0 0 auto;
 
@@ -73,22 +101,26 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    align-self: stretch;
+    margin: 0;
+    padding: 0 0.5rem 0 0;
+    box-sizing: border-box;
     text-align: center;
     color: #ff6b00;
     font-weight: 700;
-    font-size: 1rem;
+    font-size: 0.9375rem;
     line-height: 1;
     letter-spacing: 0.01em;
     min-width: 0;
-    padding-bottom: 0.35rem;
   }
 
   .icon-circle {
     grid-column: 2;
     grid-row: 1;
+    align-self: center;
     justify-self: end;
-    width: 52px;
-    height: 52px;
+    width: var(--dl-btn-h);
+    height: var(--dl-btn-h);
     flex-shrink: 0;
     background-color: #1d1ddb;
     color: #fff;
@@ -99,7 +131,7 @@
     transition: background-color 0.25s ease, color 0.25s ease;
 
     i {
-      font-size: 1.15rem;
+      font-size: 1.05rem;
       line-height: 1;
     }
   }
@@ -176,21 +208,22 @@
   }
 
   .mobile-download-btn {
+    --dl-btn-h: 48px;
     margin-top: 0.35rem;
     width: 100%;
     max-width: 100%;
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 52px;
-    grid-template-rows: 52px;
-    align-items: center;
+    grid-template-columns: minmax(0, 1fr) var(--dl-btn-h);
+    grid-template-rows: var(--dl-btn-h);
+    align-items: stretch;
     box-sizing: border-box;
-    padding: 0 0 0 1rem;
+    padding: 0;
+    padding-inline-start: 1rem;
     border: 1px solid #1d1ddb;
     border-radius: 9999px;
     background: #fff;
     overflow: hidden;
     cursor: pointer;
-    font: inherit;
     transition: transform 0.18s ease, opacity 0.18s ease;
 
     .download-btn__label {
@@ -199,22 +232,26 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      align-self: stretch;
+      margin: 0;
+      padding: 0 0.5rem 0 0;
+      box-sizing: border-box;
       text-align: center;
       color: #ff6b00;
       font-weight: 700;
-      font-size: clamp(0.82rem, 3.5vw, 1rem);
+      font-size: clamp(0.84rem, 3.4vw, 0.9375rem);
       line-height: 1;
       letter-spacing: 0.01em;
       min-width: 0;
-      padding-bottom: 0.35rem;
     }
 
     .icon-circle {
       grid-column: 2;
       grid-row: 1;
+      align-self: center;
       justify-self: end;
-      width: 52px;
-      height: 52px;
+      width: var(--dl-btn-h);
+      height: var(--dl-btn-h);
       flex-shrink: 0;
       border-radius: 50%;
       background: #1d1ddb;

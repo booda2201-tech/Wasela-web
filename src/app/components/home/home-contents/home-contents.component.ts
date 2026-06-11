@@ -387,6 +387,12 @@ export class HomeContentsComponent implements OnInit, OnDestroy, AfterViewInit, 
         1200: {
           slidesPerView: 3,
           slidesPerGroup: 3,
+          spaceBetween: 20,
+          centeredSlides: false,
+        },
+        1440: {
+          slidesPerView: 3,
+          slidesPerGroup: 3,
           spaceBetween: 24,
           centeredSlides: false,
         },
@@ -431,7 +437,13 @@ export class HomeContentsComponent implements OnInit, OnDestroy, AfterViewInit, 
       slidesPerGroup: 1,
       loop: this.categories.length > 2,
       speed: 500,
-      spaceBetween: 18,
+      spaceBetween: 12,
+      pagination:
+        this.categories.length > 1
+          ? {
+              clickable: true,
+            }
+          : false,
       coverflowEffect: {
         rotate: 26,
         stretch: 0,
@@ -441,15 +453,15 @@ export class HomeContentsComponent implements OnInit, OnDestroy, AfterViewInit, 
       },
       breakpoints: {
         768: {
-          slidesPerView: 2,
+          slidesPerView: 1,
           slidesPerGroup: 1,
-          spaceBetween: 150,
+          spaceBetween: 28,
           centeredSlides: true,
           coverflowEffect: {
-            rotate: 16,
+            rotate: 0,
             stretch: 0,
-            depth: 90,
-            modifier: 0.9,
+            depth: 0,
+            modifier: 1,
             slideShadows: false,
           },
         },

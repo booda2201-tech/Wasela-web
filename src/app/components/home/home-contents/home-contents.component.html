@@ -1,13 +1,13 @@
 <section *ngIf="financeSection() as fin" class="categories-section py-4 bg-white text-center">
-  <div class="container mx-auto px-3">
-    <h2 *ngIf="fin.title" class="text-3xl md:text-4xl font-[900] text-[#1D1DDB] mb-4">{{ fin.title }}</h2>
-    <p *ngIf="fin.description" class="text-gray-500 max-w-1xl mx-auto mb-10 font-medium cms-preline">
+  <div class="w-full px-0">
+    <h2 *ngIf="fin.title" class="categories-title text-3xl md:text-4xl font-[900] text-[#1D1DDB]">{{ fin.title }}</h2>
+    <p *ngIf="fin.description" class="categories-subtitle mx-auto font-medium cms-preline">
       {{ fin.description }}
     </p>
 
     <a
       *ngIf="fin.buttonText && fin.buttonUrl && isExternalUrl(fin.buttonUrl)"
-      class="categories-cta-btn categories-cta-btn--desktop-only mb-4 mx-auto inline-flex no-underline"
+      class="categories-cta-btn categories-cta-btn--desktop-only mb-3 mx-auto inline-flex no-underline"
       [href]="fin.buttonUrl"
       rel="noopener noreferrer"
     >
@@ -18,7 +18,7 @@
     </a>
     <a
       *ngIf="fin.buttonText && fin.buttonUrl && !isExternalUrl(fin.buttonUrl)"
-      class="categories-cta-btn categories-cta-btn--desktop-only mb-4 mx-auto inline-flex no-underline"
+      class="categories-cta-btn categories-cta-btn--desktop-only mb-3 mx-auto inline-flex no-underline"
       [routerLink]="fin.buttonUrl"
     >
       <span class="categories-cta-btn__label">{{ fin.buttonText }}</span>
@@ -53,7 +53,7 @@
 
     <div
       *ngIf="categories.length"
-      class="category-grid hidden lg:grid lg:grid-cols-4 gap-x-3 gap-y-4 p-3 items-stretch"
+      class="category-grid hidden lg:grid lg:grid-cols-4 items-stretch"
     >
       <div *ngFor="let cat of categories" class="category-card w-full flex justify-center">
         <div class="relative shape-wrapper w-full">
@@ -67,7 +67,7 @@
 
     <a
       *ngIf="fin.buttonText && fin.buttonUrl && isExternalUrl(fin.buttonUrl)"
-      class="categories-cta-btn categories-cta-btn--mobile-only mt-6 mb-4 mx-auto inline-flex no-underline"
+      class="categories-cta-btn categories-cta-btn--mobile-only mt-4 mb-3 mx-auto inline-flex no-underline"
       [href]="fin.buttonUrl"
       rel="noopener noreferrer"
     >
@@ -78,7 +78,7 @@
     </a>
     <a
       *ngIf="fin.buttonText && fin.buttonUrl && !isExternalUrl(fin.buttonUrl)"
-      class="categories-cta-btn categories-cta-btn--mobile-only mt-6 mb-4 mx-auto inline-flex no-underline"
+      class="categories-cta-btn categories-cta-btn--mobile-only mt-4 mb-3 mx-auto inline-flex no-underline"
       [routerLink]="fin.buttonUrl"
     >
       <span class="categories-cta-btn__label">{{ fin.buttonText }}</span>
@@ -94,15 +94,15 @@
   class="partners-section py-3 bg-white"
   [class.is-swapping]="partnersSwapping"
 >
-  <div class="container mx-auto px-3 text-center">
-    <h2 *ngIf="part.title" class="partners-title text-3xl md:text-4xl font-black text-[#1D1DDB] mb-5">{{ part.title }}</h2>
-    <p *ngIf="part.description" class="partners-subtitle text-gray-500 max-w-1xl mx-auto mb-10 leading-relaxed font-medium cms-preline">
+  <div class="w-full px-0 text-center">
+    <h2 *ngIf="part.title" class="partners-title text-3xl md:text-4xl font-black text-[#1D1DDB]">{{ part.title }}</h2>
+    <p *ngIf="part.description" class="partners-subtitle mx-auto font-medium cms-preline">
       {{ part.description }}
     </p>
 
     <a
       *ngIf="part.buttonText && part.buttonUrl && isExternalUrl(part.buttonUrl)"
-      class="categories-cta-btn-2 mb-4 mx-auto inline-flex no-underline"
+      class="categories-cta-btn-2 partners-cta-btn mx-auto no-underline"
       [href]="part.buttonUrl"
       rel="noopener noreferrer"
     >
@@ -113,7 +113,7 @@
     </a>
     <a
       *ngIf="part.buttonText && part.buttonUrl && !isExternalUrl(part.buttonUrl)"
-      class="categories-cta-btn-2 mb-4 mx-auto inline-flex no-underline"
+      class="categories-cta-btn-2 partners-cta-btn mx-auto no-underline"
       [routerLink]="part.buttonUrl"
     >
       <span class="categories-cta-btn__label">{{ part.buttonText }}</span>
@@ -141,7 +141,7 @@
       </swiper-container>
     </div>
 
-    <div *ngIf="partnerColumns.length" class="hidden md:grid md:grid-cols-3 gap-7 md:gap-8 text-center">
+    <div *ngIf="partnerColumns.length" class="partners-grid hidden md:grid md:grid-cols-3 text-center">
       <div *ngFor="let col of partnerColumns" class="partner-column">
         <h3 class="partner-heading">{{ col.title }}</h3>
         <div class="logo-grid">
@@ -161,7 +161,7 @@
 <section *ngIf="homeMerchantsSection() as hm" class="merchants-showcase-section py-3 bg-white">
   <div class="container mx-auto px-3">
     <div class="merchants-showcase-header text-center mb-4 lg:mb-16">
-      <h1 *ngIf="hm.title" class="text-3xl md:text-4xl font-black text-[#1D1DDB] mb-4">{{ hm.title }}</h1>
+      <h1 *ngIf="hm.title" class="merchants-title text-3xl md:text-4xl font-black text-[#1D1DDB]">{{ hm.title }}</h1>
       <p
         *ngIf="hm.description"
         class="text-gray-500 font-medium mb-0 lg:mb-10 max-w-md mx-auto text-[15px] leading-snug lg:text-base lg:leading-normal lg:max-w-none cms-preline"
@@ -171,7 +171,7 @@
 
       <a
         *ngIf="hm.buttonText && merchantsHomeCtaExternalHref(hm)"
-        class="categories-cta-btn-2 merchants-cta--desktop mb-2 mx-auto mt-3 lg:mt-0 inline-flex no-underline"
+        class="categories-cta-btn-2 merchants-cta-btn merchants-cta--desktop mb-2 mx-auto mt-3 lg:mt-0 no-underline"
         [href]="merchantsHomeCtaExternalHref(hm)!"
         rel="noopener noreferrer"
       >
@@ -182,7 +182,7 @@
       </a>
       <a
         *ngIf="hm.buttonText && !merchantsHomeCtaExternalHref(hm)"
-        class="categories-cta-btn-2 merchants-cta--desktop mb-2 mx-auto mt-3 lg:mt-0 inline-flex no-underline"
+        class="categories-cta-btn-2 merchants-cta-btn merchants-cta--desktop mb-2 mx-auto mt-3 lg:mt-0 no-underline"
         [routerLink]="merchantsHomeCtaRouterPath(hm)"
       >
         <span class="categories-cta-btn__label">{{ hm.buttonText }}</span>
@@ -236,7 +236,7 @@
     <div class="merchants-cta-mobile-row">
       <a
         *ngIf="hm.buttonText && merchantsHomeCtaExternalHref(hm)"
-        class="categories-cta-btn-2 merchants-cta--mobile inline-flex no-underline"
+        class="categories-cta-btn-2 merchants-cta-btn merchants-cta--mobile no-underline"
         [href]="merchantsHomeCtaExternalHref(hm)!"
         rel="noopener noreferrer"
       >
@@ -247,7 +247,7 @@
       </a>
       <a
         *ngIf="hm.buttonText && !merchantsHomeCtaExternalHref(hm)"
-        class="categories-cta-btn-2 merchants-cta--mobile inline-flex no-underline"
+        class="categories-cta-btn-2 merchants-cta-btn merchants-cta--mobile no-underline"
         [routerLink]="merchantsHomeCtaRouterPath(hm)"
       >
         <span class="categories-cta-btn__label">{{ hm.buttonText }}</span>
@@ -268,8 +268,9 @@
 </ng-container>
 
 <section *ngIf="downloadSection() as dl" class="download-section py-3 md:py-6" aria-labelledby="download-heading">
-  <div class="container mx-auto px-3 lg:px-0">
+  <div class="w-full px-0">
     <div class="download-layout">
+      <div class="download-mockup-backdrop" aria-hidden="true"></div>
       <div
         class="download-shell"
         [style.background-image]="downloadBackgroundUrl ? 'url(' + downloadBackgroundUrl + ')' : null"
@@ -332,14 +333,18 @@
 <ng-template #homeTestimonials>
   <ng-container *ngIf="testimonialsSection() as ts">
     <section *ngIf="testimonials.length" class="testimonials-section py-3 md:py-6 mt-3">
-      <div class="container mx-auto px-3 testimonials-section__inner">
+      <div class="w-full px-0 testimonials-section__inner">
         <h2 *ngIf="ts.title" class="text-3xl md:text-4xl font-black text-[#1D1DDB] mb-4 text-center">{{ ts.title }}</h2>
 
-        <div class="testimonials-swiper-wrap max-w-[1500px] mx-auto px-3 py-3 sm:px-3">
+        <div class="testimonials-swiper-wrap mx-auto px-3 py-3 sm:px-3">
           <swiper-container #testimonialSwiper init="false" class="testimonials-swiper">
             <swiper-slide *ngFor="let item of testimonials; let i = index" class="testimonial-slide">
               <div class="testimonial-wrapper" [class.testimonial-wrapper--featured]="item.featured">
-                <article class="testimonial-layered-card" [class.testimonial-layered-card--first]="i === 0">
+                <article
+                  class="testimonial-layered-card"
+                  [class.testimonial-layered-card--first]="i === 0"
+                  [class.testimonial-layered-card--side]="!item.featured"
+                >
                   <div class="testimonial-layered-card__bg" aria-hidden="true">
                     <img
                       *ngIf="item.backgroundSrc"

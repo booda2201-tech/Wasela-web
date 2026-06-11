@@ -2,49 +2,55 @@
   display: block;
 }
 
-.contact-hero {
+.contact-page {
   isolation: isolate;
 }
 
-.contact-hero__visual {
+.contact-hero {
+  position: relative;
+  z-index: 1;
+}
+
+.contact-hero__glow {
+  position: absolute;
+  left: 50%;
+  top: 3.25rem;
   z-index: 0;
+  width: min(115vw, 68rem);
+  height: clamp(18rem, 52vw, 34rem);
+  transform: translateX(-50%);
+  pointer-events: none;
 }
 
-.contact-hero__img {
+.contact-hero__glow-img {
   position: absolute;
   inset: 0;
-  background-image: url('../../../assets/images/Slide 16_9 - 5 3.png');
+  background-image: url('../../../assets/images/merchants-glow.png');
   background-size: cover;
-  background-position: center 100%;
+  background-position: center;
   background-repeat: no-repeat;
+  opacity: 0.25;
+  filter: blur(14px);
+  -webkit-mask-image: radial-gradient(
+    ellipse 84% 80% at 50% 48%,
+    #000 16%,
+    rgb(0 0 0 / 65%) 44%,
+    transparent 74%
+  );
+  mask-image: radial-gradient(
+    ellipse 84% 80% at 50% 48%,
+    #000 16%,
+    rgb(0 0 0 / 65%) 44%,
+    transparent 74%
+  );
 }
 
-.contact-hero__img--back {
-  opacity: 10;
-  width: min(110vw, 100rem);
-  height: min(70vw, 33rem);
-  transform: scale(1.02);
-  filter: saturate(1.05);
-}
-
-.contact-hero__img--front {
-  inset: 80% -80% -80% -80%;
-  opacity: 10;
-  transform: rotate(-0.15deg) scale(1.08);
-  filter: blur(0.5px) saturate(1.05);
-}
-
-.contact-hero__wash {
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(
-      ellipse 85% 75% at 50% 38%,
-      rgba(224, 231, 255, 0.45) 0%,
-      rgba(255, 255, 255, 0.78) 48%,
-      #ffffff 82%
-    ),
-    linear-gradient(180deg, rgba(248, 250, 255, 0.55) 0%, #ffffff 100%);
+@media (max-width: 1023px) {
+  .contact-hero__glow {
+    top: 2.75rem;
+    width: min(130vw, 26rem);
+    height: clamp(15rem, 48vw, 24rem);
+  }
 }
 
 .contact-body-inner {
@@ -52,16 +58,15 @@
 }
 
 .contact-form-card {
-  padding: 1rem;
+  padding: 1.25rem 1rem;
+
+  @media (min-width: 768px) {
+    padding: 2rem 2.25rem;
+  }
 
   @media (min-width: 1024px) {
-    padding: 4rem 3.5rem;
+    padding: 2.5rem 2.75rem;
   }
-
-  @media (max-width: 780px) {
-    padding: 2.5rem 1.5rem;
-  }
-
 }
 
 
@@ -109,11 +114,11 @@
 
 .contact-field__label {
   display: block;
-  font-size: 18px;
+  font-size: 1rem;
   line-height: 1.25;
   font-weight: 400;
-  color:  #f56300;
-  margin-bottom: 0.35rem;
+  color: #f56300;
+  margin-bottom: 0.55rem;
 }
 
 .contact-field__input,
@@ -143,17 +148,39 @@
 
 .contact-field__textarea {
   resize: vertical;
-  min-height: 4.5rem;
+  min-height: 3.75rem;
   line-height: 1.5;
   font-family: inherit;
+}
+
+.contact-form-actions .contact-submit {
+  grid-template-columns: minmax(0, 1fr) 46px;
+  grid-template-rows: 46px;
+  min-width: 9.25rem;
+  padding-left: 1rem;
+
+  .contact-submit__text {
+    min-height: 46px;
+    font-size: 0.9375rem;
+  }
+
+  .contact-submit__icon {
+    width: 46px;
+    height: 46px;
+  }
+}
+
+.contact-pills-row {
+  max-width: 52rem;
+  margin-inline: auto;
 }
 
 .contact-pill {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  min-height: 52px;
-  padding: 0 1rem 0 0;
+  gap: 0.65rem;
+  min-height: 48px;
+  padding: 0 0.85rem 0 0;
   border: 0.8px solid #0d11b3;
   border-radius: 9999px;
   background: #fff;
@@ -185,8 +212,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 52px;
-  height: 52px;
+  width: 48px;
+  height: 48px;
   margin: -0.8px 0 -0.8px -0.8px;
   border-radius: 50%;
   background: #0d11b3;
@@ -198,8 +225,11 @@
 }
 
 .contact-pill__text {
-  padding: 0.5rem 0.75rem 0.5rem 0;
-  font-size: 14px;
+  display: flex;
+  align-items: center;
+  min-height: 48px;
+  padding: 0.35rem 0.65rem 0.35rem 0;
+  font-size: 13px;
   font-weight: 600;
   color: #f56300;
   line-height: 1.35;

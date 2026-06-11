@@ -1,34 +1,32 @@
-<section class="faq-section relative bg-white overflow-hidden" *ngIf="!loading && !loadError">
-  <header class="faq-header relative overflow-hidden">
-    <div class="faq-header__visual absolute inset-0 pointer-events-none" aria-hidden="true">
-      <div class="faq-header__img"></div>
-      <div class="faq-header__wash"></div>
-    </div>
+<section class="faq-section relative bg-white overflow-hidden pt-20" *ngIf="!loading && !loadError">
+  <div class="faq-hero__glow" aria-hidden="true">
+    <div class="faq-hero__glow-img"></div>
+  </div>
 
-    <div class="relative z-10 container mx-auto px-4 md:px-6 py-24 md:py-36 text-center">
-      <div class="max-w-4xl mx-auto space-y-4">
-        <h1 class="text-4xl md:text-[50px] font-[900] text-[#1D1DDB] leading-[1.1]">
+  <header class="faq-header relative overflow-hidden">
+    <div class="relative z-10 container mx-auto px-4 md:px-6 py-8 md:py-10 text-center">
+      <div class="max-w-2xl mx-auto space-y-2 md:space-y-4">
+        <h1 class="text-[2rem] md:text-[42px] font-[900] text-[#1D1DDB] leading-[1.1]">
           {{ heroTitle() }}
         </h1>
-        <p class="text-gray-500 text-lg md:text-xl font-medium leading-relaxed faq-preline">
+        <p class="text-[#737373] text-sm md:text-[15px] font-medium leading-relaxed max-w-lg mx-auto faq-preline">
           {{ heroDescription() }}
         </p>
       </div>
     </div>
   </header>
 
-  <div class="faq-body relative px-4 md:px-6 pb-10 md:pb-20 pt-1 md:pt-2">
-    <div class="faq-decor" aria-hidden="true">
-      <img
-        src="assets/images/Group (7).png"
-        alt=""
-        class="faq-decor__img"
-        loading="lazy"
-      />
-    </div>
-
+  <div class="faq-body relative px-4 md:px-6 pt-0">
     <div class="faq-inner container mx-auto relative z-10">
-      <div class="mx-auto max-w-4xl space-y-3 md:space-y-4">
+      <div class="faq-list-shell relative mx-auto max-w-4xl space-y-3 md:space-y-4">
+        <div class="faq-decor" aria-hidden="true">
+          <img
+            src="assets/images/Group (7).png"
+            alt=""
+            class="faq-decor__img"
+            loading="lazy"
+          />
+        </div>
         <article
           #faqCard
           *ngFor="let item of faqs"

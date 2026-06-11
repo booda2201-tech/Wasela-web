@@ -3,6 +3,10 @@
     class="about-narrative-cluster"
     *ngIf="pickSection('who_we_are') || pickSection('our_foundation')"
   >
+    <div class="about-section-glow" aria-hidden="true" *ngIf="pickSection('who_we_are')">
+      <div class="about-section-glow__img"></div>
+    </div>
+
     <!-- Who We Are -->
     <section class="about-section about-section--surface about-section--narrative" *ngIf="pickSection('who_we_are') as who">
       <div class="about-shell about-shell--narrow about-shell--copy about-heading-stack">
@@ -15,7 +19,6 @@
         </div>
       </div>
     </section>
-
 
     <!-- Our Foundation -->
     <section class="about-section about-section--surface about-section--narrative" *ngIf="pickSection('our_foundation') as foundation">
@@ -128,10 +131,11 @@
 
   <!-- Our Story | Leadership & Governance -->
   <section
-    class="about-section about-section--surface"
+    class="about-section about-section--surface about-section--split-story"
     *ngIf="pickSection('our_story') || pickSection('leadership_governance')"
   >
-    <div data-about-reveal class="about-split-grid">
+    <div class="about-shell about-shell--split" data-about-reveal>
+    <div class="about-split-grid">
       <div class="about-split-col" *ngIf="pickSection('our_story') as story">
         <div class="about-split-title-wrap">
 
@@ -189,10 +193,15 @@
         </div>
       </div>
     </div>
+    </div>
   </section>
 
   <!-- Mission & Vision -->
-  <section class="about-section about-section--surface" *ngIf="pickSection('mission_vision') as mv">
+  <section class="about-section about-section--surface about-section--with-glow" *ngIf="pickSection('mission_vision') as mv">
+    <div class="about-section-glow" aria-hidden="true">
+      <div class="about-section-glow__img"></div>
+    </div>
+
     <div class="about-shell about-shell--narrow about-heading-stack">
       <div class="about-heading-blobs" aria-hidden="true">
         <img src="assets/images/Group (7).png" alt="" class="about-blob-image" />
@@ -231,6 +240,9 @@
           >
             <article data-team-card class="about-team-card">
               <div class="about-team-portrait">
+                <div class="about-team-portrait__glow" aria-hidden="true">
+                  <div class="about-team-portrait__glow-img"></div>
+                </div>
                 <img
                   *ngIf="teamPhotoSrc(member) as photo"
                   [src]="photo"

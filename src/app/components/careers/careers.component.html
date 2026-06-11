@@ -1,39 +1,37 @@
-<div class="container mx-auto px-4 md:px-6 py-10 md:py-20">
-  <header class="faq-header relative overflow-hidden">
-    <div class="faq-header__visual absolute inset-0 pointer-events-none" aria-hidden="true">
-      <div class="faq-header__img"></div>
-      <div class="faq-header__wash"></div>
-    </div>
+<section class="careers-page relative bg-white overflow-hidden pt-20 pb-10 md:pb-20">
+  <div class="careers-hero__glow" aria-hidden="true">
+    <div class="careers-hero__glow-img"></div>
+  </div>
 
-    <div class="relative z-10 container mx-auto px-4 md:px-6 py-12 md:py-20 text-center">
-      <div class="max-w-3xl mx-auto space-y-4">
-        <h1 class="text-[36px] md:text-[45px] font-[900] text-[#1D1DDB] leading-[1.1]">
+  <div class="container mx-auto px-4 md:px-6 relative z-10">
+  <header class="careers-hero relative overflow-hidden">
+    <div class="relative z-10 py-8 md:py-10 text-center">
+      <div class="max-w-2xl mx-auto space-y-2 md:space-y-4">
+        <h1 class="text-[2rem] md:text-[42px] font-[900] text-[#1D1DDB] leading-[1.1]">
             Careers
           </h1>
-          <p class="text-gray-500 text-sm md:text-lg font-medium leading-relaxed max-w-[92%] md:max-w-none mx-auto">
+          <p class="text-[#737373] text-sm md:text-[15px] font-medium leading-relaxed max-w-lg mx-auto">
             Join a team of innovators, designers, and engineers working together to shape the future of digital financial experiences.
           </p>
       </div>
     </div>
   </header>
 
-  <div class="space-y-4 md:space-y-6 mt-6 md:mt-0">
+  <div class="careers-jobs-list space-y-3 md:space-y-4 mt-4 md:mt-2">
     <article
       #jobCard
       *ngFor="let job of jobs"
-      class="job-card bg-white border border-gray-100 rounded-[24px] md:rounded-[32px] shadow-sm p-4 md:p-8 flex flex-col"
+      class="job-card flex flex-col"
     >
-      <div class="flex flex-col gap-3 md:gap-4 md:flex-row md:justify-between md:items-center">
-        <div class="min-w-0 space-y-2 text-left flex-1">
-          <span
-            class="inline-block bg-[#BAEAFF] text-[#1D1DDB] rounded-full px-4 py-1 text-sm font-[500] tracking-tight"
-          >
+      <div class="job-card__head flex flex-col gap-2.5 md:gap-3 md:flex-row md:justify-between md:items-center">
+        <div class="min-w-0 space-y-1.5 text-left flex-1">
+          <span class="job-card__badge">
             {{ job.roleLabel }}
           </span>
-          <h2 class="text-[#1D1DDB] font-[500] text-lg md:text-2xl leading-snug mt-2 mb-2">
+          <h2 class="job-card__title">
             {{ job.title }}
           </h2>
-          <p *ngIf="job.metaSegments.length" class="careers-job-meta text-gray-500 text-xs md:text-sm font-medium mt-3">
+          <p *ngIf="job.metaSegments.length" class="careers-job-meta job-card__meta">
             <ng-container *ngFor="let seg of job.metaSegments; let last = last">
               <span class="careers-job-meta__text">{{ seg }}</span>
               <span *ngIf="!last" class="careers-job-meta__dot" aria-hidden="true"></span>
@@ -41,11 +39,11 @@
           </p>
         </div>
 
-        <div class="flex items-center justify-between md:justify-end gap-2 md:gap-3 flex-shrink-0 w-full md:w-auto pt-1">
+        <div class="job-card__actions flex items-center justify-between md:justify-end gap-2 flex-shrink-0 w-full md:w-auto">
           <button
             type="button"
             (click)="toggle(job.id)"
-            class="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white border-[1px] border-[#1D1DDB] flex items-center 
+            class="job-card__toggle flex-shrink-0 rounded-full bg-white border border-[#1D1DDB] flex items-center 
             justify-center hover:bg-gray-50 transition-colors duration-300 focus:outline-none 
             focus-visible:ring-2 focus-visible:ring-[#1D1DDB] focus-visible:ring-offset-2"
             [attr.aria-expanded]="isExpanded(job.id)"
@@ -55,9 +53,9 @@
              <i class="bi bi-chevron-down text-orange-500" [class.rotate-180]="isExpanded(job.id)" aria-hidden="true"></i>
           </button>
 
-          <button type="button" class="careers-apply-submit group shrink-0">
-            <span class="careers-apply-submit__text">Submit Application</span>
-            <span class="careers-apply-submit__icon" aria-hidden="true">
+          <button type="button" class="contact-submit group shrink-0">
+            <span class="contact-submit__text">Submit Application</span>
+            <span class="contact-submit__icon" aria-hidden="true">
               <i class="bi bi-arrow-up-right"></i>
             </span>
           </button>
@@ -72,16 +70,17 @@
         [attr.aria-labelledby]="'job-toggle-' + job.id"
         [attr.aria-hidden]="!isExpanded(job.id)"
       >
-        <div class="pt-4 md:pt-6 mt-4 md:mt-6 border-t border-gray-100 text-left space-y-3 md:space-y-4">
-          <h3 class="text-[#1D1DDB] font-[500] text-base md:text-lg">Job Description</h3>
-          <div class="text-gray-600 text-sm md:text-base font-normal leading-relaxed space-y-4">
+        <div class="job-card__desc-inner text-left">
+          <h3 class="job-card__desc-title">Job Description</h3>
+          <div class="job-card__desc-body space-y-3">
             <p *ngFor="let paragraph of job.descriptionParagraphs" class="careers-preline">{{ paragraph }}</p>
           </div>
         </div>
       </div>
     </article>
   </div>
-</div>
+  </div>
+</section>
 
 <div class="py-20 text-center" *ngIf="loading">Loading...</div>
 <div class="py-20 text-center text-red-500" *ngIf="loadError">

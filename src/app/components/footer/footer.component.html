@@ -1,15 +1,15 @@
 <footer class="text-white pb-4 relative overflow-hidden">
 
-  <div class="left-0 w-full flex justify-start items-center pointer-events-none select-none px-3 z-0">
-    <img src="../../../../assets/images/Footer Logo.png" alt="Waseela" class="Waseela text-[40px] md:text-6xl font-black tracking-tight leading-none">
+  <div class="footer-watermark left-0 w-full pointer-events-none select-none z-0">
+    <img src="../../../../assets/images/Footer Logo.png" alt="" class="Waseela" aria-hidden="true" />
 
   </div>
 
-  <div class="main-container mx-auto relative z-20 mt-[3vw]">
-    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-8 mb-2">
+  <div class="main-container footer-main mx-auto relative z-20">
+    <div class="footer-grid grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6">
 
-      <div class="space-y-6">
-        <h5 class="font-bold text-xl tracking-wide">Main Pages</h5>
+      <div class="footer-col">
+        <h5 class="footer-col__title">Main Pages</h5>
         <ul class="footer-links">
           <li><a routerLink="/">Home</a></li>
           <li><a routerLink="/categories">Categories</a></li>
@@ -18,8 +18,8 @@
         </ul>
       </div>
 
-      <div class="space-y-6">
-        <h5 class="font-bold text-xl tracking-wide">Quick Links</h5>
+      <div class="footer-col">
+        <h5 class="footer-col__title">Quick Links</h5>
         <ul class="footer-links">
           <li><a routerLink="/blogs">Blogs</a></li>
           <li><a routerLink="/faq">FAQ'S</a></li>
@@ -28,8 +28,8 @@
         </ul>
       </div>
 
-      <div class="space-y-6">
-        <h5 class="font-bold text-xl tracking-wide">Learn more</h5>
+      <div class="footer-col">
+        <h5 class="footer-col__title">Learn more</h5>
         <ul class="footer-links">
           <li><a routerLink="/about-us">About Us</a></li>
           <li><a routerLink="/contact-us">Contact Us</a></li>
@@ -38,49 +38,49 @@
         </ul>
       </div>
 
-      <div class="space-y-6">
-        <div>
+      <div class="footer-col footer-legal">
+        <div class="footer-legal__item">
           <h5 class="info-label">Licensed by FRA</h5>
           <p class="info-value">#40</p>
         </div>
-        <div>
+        <div class="footer-legal__item">
           <h5 class="info-label">TRN Number</h5>
           <p class="info-value">724-133-259</p>
         </div>
-        <div>
+        <div class="footer-legal__item">
           <h5 class="info-label">CRN</h5>
           <p class="info-value">90420</p>
         </div>
       </div>
 
-      <div class="space-y-6">
-        <h5 class="font-bold text-xl">Follow Us</h5>
-        <div class="flex gap-4">
+      <div class="footer-col">
+        <h5 class="footer-col__title">Follow Us</h5>
+        <div class="footer-social">
           <a href="#" class="social-icon"><i class="bi bi-facebook"></i></a>
           <a href="#" class="social-icon"><i class="bi bi-linkedin"></i></a>
           <a href="#" class="social-icon"><i class="bi bi-instagram"></i></a>
         </div>
       </div>
 
-        <div class="flex flex-col items-center lg:items-start space-y-10">
-          <div class="space-y-6">
-            <h5 class="text-xl font-bold text-white text-center lg:text-left tracking-tight">Download the App</h5>
-            <div class="flex flex-row gap-2">
-              <a href="#" class="transition-transform hover:scale-105 active:scale-95">
-                <img src="assets/images/google-play.png" alt="Google Play" class="h-15 w-auto object-contain shadow-lg rounded-md">
+        <div class="footer-col footer-download">
+          <div class="footer-download__stores">
+            <h5 class="footer-col__title footer-col__title--center-lg">Download the App</h5>
+            <div class="footer-store-badges">
+              <a href="#" class="footer-store-badge">
+                <img src="assets/images/google-play.png" alt="Google Play" loading="lazy" />
               </a>
-              <a href="#" class="transition-transform hover:scale-105 active:scale-95">
-                <img src="assets/images/app-store.png" alt="App Store" class="h-15 w-auto object-contain shadow-lg rounded-md">
+              <a href="#" class="footer-store-badge">
+                <img src="assets/images/app-store.png" alt="App Store" loading="lazy" />
               </a>
             </div>
           </div>
 
-          <div class="space-y-3 pt-0">
-            <div class="flex justify-center lg:justify-start">
-              <img src="assets/images/aur-capital-logo.png"
-                    alt="AUR Capital"
-                    class="h-25 w-auto brightness-0 invert opacity-100 object-contain">
-            </div>
+          <div class="footer-aur-logo">
+            <img
+              src="assets/images/aur-capital-logo.png"
+              alt="AUR Capital"
+              loading="lazy"
+            />
           </div>
         </div>
 

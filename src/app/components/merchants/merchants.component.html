@@ -1,16 +1,20 @@
 <section
-  class="max-lg:py-10 max-lg:sm:py-12 max-lg:md:py-14 max-lg:bg-gradient-to-b max-lg:from-[#FAFBFF] max-lg:via-white max-lg:to-[#F2F4FF] lg:bg-white lg:py-12 lg:md:py-20"
+  class="merchants-page max-lg:py-10 max-lg:sm:py-12 max-lg:md:py-14 max-lg:bg-gradient-to-b max-lg:from-[#FAFBFF] max-lg:via-white max-lg:to-[#F2F4FF] lg:bg-white lg:py-12 lg:md:py-20"
   *ngIf="!loading && !loadError && page"
 >
   <div
     class="container mx-auto px-4 sm:px-6 max-lg:py-8 max-lg:md:py-10 lg:py-10 lg:md:py-16"
   >
+    <div class="merchants-page-stage">
+      <div class="merchants-glow-stage" aria-hidden="true">
+        <div class="merchants-glow-stage__img"></div>
+      </div>
     <div
       class="max-lg:mb-10 max-lg:rounded-[1.75rem] max-lg:border max-lg:border-white/70 max-lg:bg-white/80 max-lg:backdrop-blur-xl max-lg:shadow-[0_12px_48px_-18px_rgba(29,29,219,0.2)] max-lg:p-6 max-lg:sm:p-8 lg:contents"
       *ngIf="heroSection() as hero"
     >
       <div
-        class="text-center mb-12 px-2 md:px-4 max-lg:mb-0 lg:flex lg:flex-col lg:items-center lg:gap-2.5 lg:tracking-[0.2px]"
+        class="merchants-hero-content text-center mb-12 px-2 md:px-4 max-lg:mb-0 lg:flex lg:flex-col lg:items-center lg:gap-2.5 lg:tracking-[0.2px]"
       >
         <h2
           class="mb-4 lg:mt-2 md:mb-3 max-lg:mb-4 
@@ -36,16 +40,8 @@
           lg:px-0 lg:py-2 lg:shadow-none"
           *ngIf="merchantsCountSection() as countSection"
         >
-          <div
-            class="merchants-count-inner inline-flex justify-center max-lg:items-baseline lg:items-end"
-          >
-            <h1
-              class="merchants-count-title text-3xl font-black text-[#94A3FF] tracking-tight leading-none 
-            max-lg:text-[2.65rem] max-lg:sm:text-5xl max-lg:tracking-[-0.03em] 
-            max-lg:text-[#6B7CFF] max-lg:drop-shadow-[0_2px_24px_rgba(107,124,255,0.35)] 
-            lg:text-[4rem] lg:md:text-[3.4375rem] lg:leading-[3.5rem] lg:text-[#9598ff] 
-            lg:drop-shadow-none"
-            >
+          <div class="merchants-count-inner">
+            <h1 class="merchants-count-title font-black">
               {{ countSection.title }}
             </h1>
 
@@ -153,6 +149,7 @@
           ></ng-container>
         </ng-container>
       </div>
+    </div>
     </div>
   </div>
 </section>

@@ -418,6 +418,70 @@ $total: 3.5s;
   .hero-mobile {
     display: none;
   }
+
+  /* Banner UI edits — desktop only */
+  .hero-headline {
+    left: clamp(6%, 10vw, 12%);
+    max-width: min(360px, 34vw) !important;
+  }
+
+  .h-line {
+    font-size: clamp(1.65rem, 3.6vw, 3.75rem);
+    line-height: 1.15;
+  }
+
+  .line-enabling {
+    transform: translateX(0.55em);
+  }
+
+  .line-what {
+    transform: translateX(1.15em);
+  }
+
+  .line-matters {
+    transform: translateX(2.1em);
+  }
+
+  /* لابتوب ~1024–1499px: الـ CTA يمين شوية وبعيد عن الموبايل */
+  .hero-cta {
+    right: clamp(15%, 17vw, 21%);
+    bottom: 18%;
+    gap: 0.75rem;
+  }
+
+  @media (min-width: 1500px) {
+    .hero-cta {
+      right: clamp(20%, 24vw, 28%);
+    }
+  }
+
+  .explore-btn {
+    grid-template-columns: minmax(0, 1fr) 44px;
+    grid-template-rows: 44px;
+    min-width: 190px;
+    padding: 0 0 0 1.1rem;
+    font-size: clamp(0.72rem, 0.9vw, 0.875rem);
+
+    .arrow-circle {
+      width: 44px;
+      height: 44px;
+    }
+
+    .explore-btn__arrow {
+      display: block;
+      width: 0.9rem;
+      height: 0.9rem;
+    }
+  }
+
+  .store-badge img {
+    height: 36px;
+    max-width: 128px;
+  }
+
+  .store-buttons {
+    gap: 0.45rem;
+  }
 }
 
 /* هيرو موبايل: ≤1023px (موبايل + تابلت) | ديسكتوب الأنيميشن من 1024px */
@@ -586,12 +650,12 @@ $total: 3.5s;
 
   .hero-mobile-gif {
     position: relative;
-    width: min(150vw, 1850px) !important;
+    width: min(142vw, 1750px) !important;
     max-width: none !important;
     height: auto !important;
     object-fit: contain;
     // margin-top: 0.85rem;
-    transform: translateY(20px);
+    transform: translateY(20px) scale(0.97);
   }
 
   .line-matters {

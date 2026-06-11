@@ -1,4 +1,4 @@
-<div class="container mx-auto px-6 pt-16 space-y-24">
+<div class="w-full pt-16 space-y-24">
 
   <ng-container *ngIf="howSection() as how">
     <div
@@ -12,9 +12,9 @@
         />
       </div>
 
-      <div class="how-it-works-copy w-full lg:w-[52%] flex flex-col justify-start px-6 lg:px-12 py-10 lg:py-0 space-y-4 text-left">
+      <div class="how-it-works-copy w-full lg:w-[52%] flex flex-col justify-start px-6 lg:px-8 py-10 lg:py-0 space-y-2 text-left">
         <div class="how-it-works-inner max-w-[650px]">
-          <h2 class="how-it-works-title text-left text-[25px] lg:text-[40px] font-[900] text-[#1D1DDB] leading-[1.1] mb-4">
+          <h2 class="how-it-works-title text-left text-[25px] lg:text-[40px] font-[900] text-[#1D1DDB] leading-[1.1]">
             {{ how.title }}
           </h2>
           <p
@@ -106,11 +106,17 @@
 
   <section
     *ngIf="whySection() as why"
-    class="why-waseela-section mt-4 container mx-auto px-2 py-2 md:py-2 flex flex-col lg:flex-row items-stretch lg:items-center gap-5 lg:gap-10"
+    class="why-waseela-section mt-4 w-full py-2 flex flex-col lg:flex-row items-center lg:items-stretch gap-6 lg:gap-8"
   >
-    <div class="why-waseela-visual w-full lg:w-1/1 relative">
+    <div class="why-waseela-visual relative">
       <img
-        src="../../../../assets/images/Slide 16_9 - 5 3.png"
+        [src]="phoneFrameSrc"
+        class="why-waseela-aspect-ratio"
+        alt=""
+        aria-hidden="true"
+      />
+      <img
+        [src]="phoneFrameSrc"
         class="why-waseela-phone-base"
         alt="Waseela app preview"
       />
@@ -118,24 +124,23 @@
       <ng-container *ngFor="let feature of whyItems(); let i = index">
         <img
           [src]="whyOverlaySrc(i)"
-          [class.opacity-100]="activeCard === feature.id"
-          [class.opacity-0]="activeCard !== feature.id"
-          class="why-waseela-phone-overlay transition-opacity duration-500 ease-in-out w-[185%]"
+          [class.is-visible]="activeCard === feature.id"
+          class="why-waseela-phone-overlay"
+          [ngStyle]="whyOverlayStyle(i)"
           alt=""
         />
       </ng-container>
     </div>
 
-    <div class="w-full lg:w-1/1">
+    <div class="why-waseela-copy w-full min-w-0">
       <h2 class="why-waseela-title">{{ why.title }}</h2>
 
       <div class="why-waseela-content">
-        <div class="why-waseela-track block">
+        <div class="why-waseela-track" aria-hidden="true">
           <div
             class="blue-indicator"
             [style.height.%]="featureCount ? 100 / featureCount : 0"
             [style.top.%]="featureCount ? (activeIndex * 100) / featureCount : 0"
-            [style.opacity]="activeCard > 0 ? 1 : 0"
           ></div>
         </div>
 

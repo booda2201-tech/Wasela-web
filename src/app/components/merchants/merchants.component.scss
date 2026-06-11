@@ -1,3 +1,56 @@
+/* توهج خلف 1000+ Merchants — merchants-glow.png */
+.merchants-page {
+  position: relative;
+}
+
+.merchants-page-stage {
+  position: relative;
+  isolation: isolate;
+}
+
+.merchants-hero-content,
+.merchants-page-swiper-wrap,
+.merchants-desktop-grid {
+  position: relative;
+  z-index: 1;
+}
+
+.merchants-glow-stage {
+  position: absolute;
+  left: 50%;
+  z-index: 0;
+  width: min(115%, 57.97rem);
+  height: clamp(17.5rem, 41vw, 32.6rem);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.merchants-glow-stage__img {
+  position: absolute;
+  inset: 0;
+  background-image: url('../../../assets/images/merchants-glow.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.3;
+}
+
+@media (min-width: 1024px) {
+  .merchants-glow-stage {
+    top: -1.25rem;
+    width: 57.97rem;
+    height: 32.6rem;
+  }
+}
+
+@media (max-width: 1023px) {
+  .merchants-glow-stage {
+    top: clamp(1.75rem, 12vw, 4rem);
+    width: min(132vw, 26rem);
+    height: clamp(14rem, 44vw, 18rem);
+  }
+}
+
 .shape-wrapper {
   aspect-ratio: 1 / 1; // عشان يطلع مربع زي الفيجما
   filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.1));
@@ -42,50 +95,54 @@
   }
 }
 
-/* أيقونة التوجل — ديسكتوب ثابت | موبايل/تابلت بمقاسات منفصلة */
+/* أيقونة التوجل — مقاسات نسبية (em) تتناسب مع عنوان العدد على كل الشاشات */
 .merchants-count-inner {
   display: inline-flex;
   align-items: flex-end;
   justify-content: center;
-  gap: 0.4rem;
+  gap: 0.14em;
+  line-height: 1;
   overflow: visible;
+}
+
+.merchants-count-title {
+  margin: 0;
+  font-size: 1em;
+  line-height: 1;
+  letter-spacing: -0.03em;
 }
 
 .brand-icon {
   display: flex;
+  flex-shrink: 0;
   align-items: flex-end;
   align-self: flex-end;
-  flex-shrink: 0;
+  line-height: 0;
+  font-size: 0.318em;
+  margin-bottom: 0.05em;
   overflow: visible;
 }
 
 .merchants-count-toggle {
   --toggle-track: #6b7cff;
   --toggle-knob: #f56300;
-  --toggle-h: 0.66rem;
-  --toggle-w: 1.1rem;
-  --toggle-knob-size: 0.8rem;
-  --toggle-knob-overhang: 0.08rem;
-  --toggle-drop: 0.5rem;
-  --toggle-shift-y: 44%;
 
   position: relative;
   display: block;
+  width: 1.74em;
+  height: 1em;
   flex-shrink: 0;
-  width: calc(var(--toggle-w) + var(--toggle-knob-overhang));
-  height: var(--toggle-knob-size);
-  margin-bottom: calc(var(--toggle-drop) * -1);
   overflow: visible;
-  box-sizing: border-box;
-  translate: 0 var(--toggle-shift-y);
+  translate: 0 0.36em;
+  margin-bottom: -0.12em;
 
   &::before {
     content: '';
     position: absolute;
     left: 0;
-    bottom: 0;
-    width: calc(100% - var(--toggle-knob-size) * 0.4);
-    height: var(--toggle-h);
+    bottom: 0.14em;
+    width: 1.41em;
+    height: 0.84em;
     border-radius: 9999px;
     background: var(--toggle-track);
   }
@@ -93,10 +150,10 @@
   &::after {
     content: '';
     position: absolute;
-    right: calc(var(--toggle-knob-overhang) * -1);
-    bottom: -2%;
-    width: var(--toggle-knob-size);
-    height: var(--toggle-knob-size);
+    right: -0.17em;
+    bottom: 0;
+    width: 1em;
+    height: 1em;
     border-radius: 50%;
     background: var(--toggle-knob);
   }
@@ -107,16 +164,25 @@
   will-change: flex, flex-grow, flex-basis, transform;
 }
 
-/* ديسكتوب: الأيقونة كما في التصميم (بدون تغيير) */
 @media (min-width: 1024px) {
+  .merchants-count-inner {
+    font-size: clamp(3.4375rem, 4.2vw, 4rem);
+    gap: 0.1em;
+  }
+
+  .merchants-count-title {
+    color: #9598ff;
+    letter-spacing: -0.02em;
+  }
+
   .merchants-count-toggle {
     --toggle-track: #9598ff;
-    --toggle-h: 0.92rem;
-    --toggle-w: 1.55rem;
-    --toggle-knob-size: 1.1rem;
-    --toggle-knob-overhang: 0.19rem;
-    --toggle-drop: 0.5rem;
-    --toggle-shift-y: 38%;
+    translate: 0 0.38em;
+    margin-bottom: -0.125em;
+
+    &::after {
+      bottom: 0.1em;
+    }
   }
 }
 
@@ -163,49 +229,66 @@
   white-space: pre-line;
 }
 
-/* موبايل: الكلمة + الأيقونة على نفس المستوى */
-@media (max-width: 767px) {
+/* موبايل + تابلت — رفع الأيقونة، مسافة من النص، وتوسيط الدايرة على الكبسولة */
+@media (max-width: 1023px) {
   .merchants-count-inner {
-    display: flex !important;
-    width: 100%;
-    max-width: 100%;
-    justify-content: center !important;
-    align-items: baseline !important;
-    flex-wrap: nowrap;
-    gap: 0.28rem;
-  }
-
-  .merchants-count-box .merchants-count-title {
-    flex: 0 0 auto;
-    font-size: clamp(1.625rem, 6.2vw, 2.35rem);
-    line-height: 1;
-    letter-spacing: -0.035em;
-    margin: 0;
-    padding-bottom: 0.03em;
+    align-items: baseline;
+    gap: 0.26em;
   }
 
   .brand-icon {
-    display: flex;
-    flex: 0 0 auto;
-    align-items: flex-end;
+    font-size: 0.42em;
     align-self: baseline;
-    transform: translateY(0.1em);
+    margin-bottom: 0;
+    translate: 0 -0.08em;
   }
 
   .merchants-count-toggle {
-    --toggle-track: #6b7cff;
-    --toggle-h: 0.66rem;
-    --toggle-w: 1.1rem;
-    --toggle-knob-size: 0.8rem;
-    --toggle-knob-overhang: 0.08rem;
-    --toggle-drop: 0;
-    --toggle-shift-y: 0;
+    width: 1.85em;
+    height: 1.08em;
+    translate: 0 0.14em;
     margin-bottom: 0;
-    translate: 0 0;
+
+    &::before {
+      bottom: 0.18em;
+      width: 1.48em;
+      height: 0.86em;
+    }
+
+    &::after {
+      right: -0.1em;
+      bottom: 0.12em;
+      width: 1.08em;
+      height: 1.08em;
+    }
   }
 }
 
-/* تابلت: الكلمة + الأيقونة كتلة واحدة في منتصف المستطيل الملون */
+/* موبايل */
+@media (max-width: 767px) {
+  .merchants-count-inner {
+    font-size: clamp(1.65rem, 6.5vw, 2.35rem);
+  }
+
+  .merchants-count-title {
+    color: #6b7cff;
+    filter: drop-shadow(0 2px 24px rgba(107, 124, 255, 0.35));
+  }
+
+  .brand-icon {
+    translate: 0 0.02em;
+  }
+
+  .merchants-count-toggle {
+    translate: 0 0.2em;
+
+    &::after {
+      bottom: 0.07em;
+    }
+  }
+}
+
+/* تابلت */
 @media (min-width: 768px) and (max-width: 1023px) {
   div.merchants-count-box {
     display: flex !important;
@@ -218,48 +301,11 @@
   }
 
   .merchants-count-inner {
-    display: flex !important;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    align-items: baseline !important;
-    justify-content: center !important;
-    width: 100% !important;
-    max-width: 100%;
-    gap: 0.32rem;
-    margin: 0;
-    padding-inline: 0.13rem 0.26rem;
+    font-size: clamp(2.35rem, 5.2vw, 3rem);
   }
 
-  .merchants-count-box .merchants-count-title {
-    flex: 0 0 auto;
-    width: auto;
-    font-size: clamp(2.35rem, 5.2vw, 3rem) !important;
-    line-height: 1;
-    letter-spacing: -0.03em;
-    text-align: center;
-    margin: 0;
-    padding-bottom: 0.04em;
-  }
-
-  .brand-icon {
-    display: flex;
-    flex: 0 0 auto;
-    align-items: flex-end;
-    align-self: baseline;
-    transform: translateY(0.14em);
-  }
-
-  .merchants-count-toggle {
-    --toggle-track: #6b7cff;
-    --toggle-h: 0.84rem;
-    --toggle-w: 1.42rem;
-    --toggle-knob-size: 1.02rem;
-    --toggle-knob-overhang: 0.13rem;
-    --toggle-drop: 0;
-    --toggle-shift-y: 0;
-    margin-bottom: 0;
-    translate: 0 0;
-    vertical-align: baseline;
+  .merchants-count-title {
+    color: #6b7cff;
   }
 }
 
@@ -349,18 +395,40 @@
 
 .merchants-page-swiper-wrap {
   --merchants-swiper-slide-h: 500px;
+  --merchants-swiper-pagination-gap: 2.5rem;
   --swiper-pagination-color: #1d1ddb;
   --swiper-pagination-bullet-inactive-color: #c7c9e8;
   --swiper-pagination-bullet-inactive-opacity: 1;
-  --swiper-pagination-bullet-size: 8px;
-  --swiper-pagination-bullet-horizontal-gap: 6px;
+  --swiper-pagination-bullet-size: 7px;
+  --swiper-pagination-bullet-horizontal-gap: 5px;
+  --swiper-pagination-bottom: 0.15rem;
   width: 100%;
-  min-height: calc(var(--merchants-swiper-slide-h) + 2.75rem);
+  min-height: calc(var(--merchants-swiper-slide-h) + var(--merchants-swiper-pagination-gap));
   max-width: min(26rem, 100vw - 1rem);
   margin-left: auto;
   margin-right: auto;
-  padding: 0 0.25rem 2.5rem;
+  padding: 0 0.25rem 0.5rem;
   box-sizing: border-box;
+
+  .merchants-page-swiper::part(bullet) {
+    width: 7px;
+    height: 7px;
+    border-radius: 999px;
+    background: #c7c9e8;
+    opacity: 1;
+    transition:
+      width 0.28s ease,
+      background-color 0.28s ease,
+      transform 0.28s ease;
+  }
+
+  .merchants-page-swiper::part(bullet-active) {
+    width: 1.35rem;
+    height: 7px;
+    border-radius: 999px;
+    background: #1d1ddb;
+    transform: scale(1);
+  }
 
   @media (min-width: 640px) {
     --merchants-swiper-slide-h: 540px;
@@ -372,13 +440,13 @@
 }
 
 .merchants-page-swiper {
-  height: var(--merchants-swiper-slide-h) !important;
+  height: calc(var(--merchants-swiper-slide-h) + var(--merchants-swiper-pagination-gap)) !important;
   width: 100%;
   overflow: visible;
 }
 
 .merchants-page-swiper-slide {
-  height: 100% !important;
+  height: var(--merchants-swiper-slide-h) !important;
   box-sizing: border-box;
 }
 

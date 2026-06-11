@@ -1,11 +1,9 @@
 <section
-  class="blogs-page relative overflow-x-clip bg-white pb-12 pt-16 sm:pb-16 sm:pt-20 md:pb-24 md:pt-24"
+  class="blogs-page relative overflow-x-clip overflow-hidden bg-white pb-12 pt-24 sm:pb-16 md:pb-24"
   *ngIf="!loading && !loadError"
 >
-  <div class="blogs-page__bg" aria-hidden="true">
-    <div class="blogs-page__bg-slide blogs-page__bg-slide--back"></div>
-    <div class="blogs-page__bg-slide blogs-page__bg-slide--mid"></div>
-    <div class="blogs-page__bg-wash"></div>
+  <div class="blogs-page__glow" aria-hidden="true">
+    <div class="blogs-page__glow-img"></div>
   </div>
 
   <div class="blogs-page__inner relative z-[1] mx-auto max-w-[1280px] px-3 sm:px-5 lg:px-8">
@@ -19,36 +17,39 @@
       class="blogs-featured-wrap relative mx-auto mt-6 max-w-[1251px] sm:mt-10 md:mt-12"
       *ngIf="featuredItem() as fi"
     >
-      <div class="blogs-featured__decor" aria-hidden="true">
-        <img
-          src="assets/images/Group (7).png"
-          alt=""
-          class="blogs-featured__decor-img"
-          loading="lazy"
-        />
-      </div>
-
       <a
         data-blogs-featured
         class="blogs-featured"
         [routerLink]="['/blogs', fi.id]"
       >
         <div class="blogs-featured__media">
-          <img
-            *ngIf="featuredImageSrc() as featuredImg"
-            [src]="featuredImg"
-            alt=""
-            class="blogs-featured__img"
-            loading="lazy"
-          />
-          <!-- <p class="blogs-featured__headline">{{ featuredHeadline() }}</p> -->
+          <div class="blogs-featured__media-frame">
+            <img
+              *ngIf="featuredImageSrc() as featuredImg"
+              [src]="featuredImg"
+              alt=""
+              class="blogs-featured__img"
+              loading="lazy"
+            />
+            <p class="blogs-featured__headline" *ngIf="featuredHeadline() as headline">{{ headline }}</p>
+          </div>
+          <div class="blogs-featured__decor" aria-hidden="true">
+            <img
+              src="assets/images/Group (7).png"
+              alt=""
+              class="blogs-featured__decor-img"
+              loading="lazy"
+            />
+          </div>
         </div>
 
         <div class="blogs-featured__panel">
-          <span class="blogs-tag blogs-tag--panel">{{ fi.subTitle }}</span>
-          <div class="blogs-featured__meta">
-            <i class="bi bi-calendar3 blogs-featured__cal" aria-hidden="true"></i>
-            <span class="blogs-featured__date">{{ fi.extraDataJson }}</span>
+          <div class="blogs-featured__panel-top">
+            <span class="blogs-tag blogs-tag--panel">{{ fi.subTitle }}</span>
+            <div class="blogs-featured__meta">
+              <i class="bi bi-calendar3 blogs-featured__cal" aria-hidden="true"></i>
+              <span class="blogs-featured__date">{{ fi.extraDataJson }}</span>
+            </div>
           </div>
           <h2 class="blogs-featured__kicker">{{ fi.title }}</h2>
           <p class="blogs-featured__excerpt blogs-preline">{{ fi.description }}</p>

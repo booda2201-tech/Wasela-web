@@ -2,6 +2,35 @@
   white-space: pre-line;
 }
 
+/* Categories We Finance — عنوان، subtitle، شبكة، زر */
+.categories-section {
+  .categories-title {
+    margin: 0 0 1rem;
+    letter-spacing: -0.02em;
+  }
+
+  .categories-subtitle {
+    max-width: 36rem;
+    margin: 0 auto 1.25rem;
+    font-size: clamp(0.8125rem, 1.55vw, 0.9375rem);
+    line-height: 1.45;
+    color: #737373;
+    font-weight: 500;
+  }
+
+  .category-grid {
+    gap: 0.5rem 0.35rem;
+    padding: 0.15rem 0;
+  }
+
+  .categories-cta-btn {
+    .categories-cta-btn__label {
+      line-height: 1;
+      padding: 0 0.75rem 0.35rem 0;
+    }
+  }
+}
+
 /* مربع موحّد لكل البطاقات (زي شبكة المرجع) — المحتوى كله من ملف الصورة */
 .shape-wrapper {
   position: relative;
@@ -71,6 +100,12 @@
 @media (max-width: 1023px) {
   .categories-section {
     .category-tablet-swiper-wrap {
+      --swiper-pagination-color: #1d1ddb;
+      --swiper-pagination-bullet-inactive-color: #c7c9e8;
+      --swiper-pagination-bullet-inactive-opacity: 1;
+      --swiper-pagination-bullet-size: 6px;
+      --swiper-pagination-bullet-horizontal-gap: 5px;
+      --swiper-pagination-bottom: 0.15rem;
       width: 100%;
       margin: 0 auto;
       padding: 0.25rem 0 1.25rem;
@@ -84,6 +119,27 @@
       overflow: visible;
     }
 
+    /* نقاط حديثة: دائرة صغيرة + النشطة pill */
+    .categories-tablet-swiper::part(bullet) {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #c7c9e8;
+      opacity: 1;
+      transition:
+        width 0.28s ease,
+        background-color 0.28s ease,
+        transform 0.28s ease;
+    }
+
+    .categories-tablet-swiper::part(bullet-active) {
+      width: 1.4rem;
+      height: 6px;
+      border-radius: 999px;
+      background: #1d1ddb;
+      transform: scale(1);
+    }
+
     swiper-slide.categories-tablet-slide {
       display: flex;
       align-items: flex-end;
@@ -95,7 +151,7 @@
 
     .categories-tablet-slide .shape-wrapper {
       aspect-ratio: auto;
-      height: clamp(19rem, 50vw, 25rem);
+      height: clamp(20rem, 52vw, 26rem);
       width: 100%;
       max-width: 100%;
     }
@@ -116,13 +172,13 @@
 
     #category-img-health-care,
     #category-img-sports-clubs {
-      transform: scale(1.34) !important;
+      transform: scale(1.4) !important;
       transform-origin: center center;
     }
 
     #category-img-education,
     #category-img-green-limits {
-      transform: scale(1.48) !important;
+      transform: scale(1.54) !important;
       transform-origin: center center;
     }
   }
@@ -131,28 +187,92 @@
 /* موبايل — بطاقة واحدة في المنتصف */
 @media (max-width: 767px) {
   .categories-section {
+    .categories-subtitle {
+      margin-bottom: 0.85rem;
+    }
+
+    .category-tablet-swiper-wrap {
+      margin-top: -0.35rem;
+      padding-top: 0;
+    }
+
     .categories-tablet-swiper {
-      height: clamp(24rem, 68vw, 29rem);
+      height: clamp(26.5rem, 74vw, 32rem);
+      padding-top: 0.25rem;
     }
 
     .categories-tablet-slide .shape-wrapper {
-      height: clamp(17.5rem, 58vw, 21rem);
-      max-width: min(92vw, 20rem);
+      height: clamp(21.5rem, 70vw, 26.5rem);
+      max-width: min(96vw, 24.25rem);
       margin-inline: auto;
+    }
+
+    .categories-tablet-slide .category-card-title {
+      font-size: clamp(1.05rem, 5vw, 1.3rem);
+      bottom: 13%;
+      padding-inline: 0.5rem;
+    }
+
+    #category-img-health-care,
+    #category-img-sports-clubs {
+      transform: scale(1.48) !important;
+    }
+
+    #category-img-education,
+    #category-img-green-limits {
+      transform: scale(1.62) !important;
     }
   }
 }
 
-/* تابلت — بطاقتين مع بعض */
+/* تابلت — بطاقة واحدة في المنتصف + صورة أكبر */
 @media (min-width: 768px) and (max-width: 1023px) {
   .categories-section {
+    .categories-subtitle {
+      margin-bottom: 0.9rem;
+    }
+
+    .categories-cta-btn--desktop-only {
+      margin-bottom: 0.2rem !important;
+    }
+
+    .category-tablet-swiper-wrap {
+      margin-top: -0.85rem;
+      padding-top: 0;
+      overflow: hidden;
+    }
+
     .categories-tablet-swiper {
-      height: clamp(24rem, 58vw, 30rem);
+      height: clamp(29rem, 58vw, 35rem);
+      padding-top: 0.25rem;
+    }
+
+    swiper-slide.categories-tablet-slide {
+      width: 100% !important;
+      max-width: none;
     }
 
     .categories-tablet-slide .shape-wrapper {
-      height: clamp(16rem, 40vw, 21rem);
-      max-width: 100%;
+      height: clamp(25rem, 54vw, 31rem);
+      max-width: min(72vw, 29rem);
+      margin-inline: auto;
+      padding-inline: 0;
+    }
+
+    .categories-tablet-slide .category-card-title {
+      font-size: clamp(1.15rem, 3.2vw, 1.45rem);
+      bottom: 13%;
+      padding-inline: 0.55rem;
+    }
+
+    #category-img-health-care,
+    #category-img-sports-clubs {
+      transform: scale(1.52) !important;
+    }
+
+    #category-img-education,
+    #category-img-green-limits {
+      transform: scale(1.66) !important;
     }
   }
 }
@@ -308,7 +428,7 @@
 }
 
 
-/* قسم الشهادات — خلفية فاتحة مع وهج أزرق خفيف (مرجع Figma) */
+/* قسم الشهادات — Customers & Merchants */
 .testimonials-section {
   position: relative;
   background:
@@ -322,10 +442,43 @@
   --swiper-pagination-color: #1d1ddb;
   --swiper-pagination-bullet-inactive-color: #c7c9e8;
   --swiper-pagination-bullet-inactive-opacity: 1;
+  max-width: min(100%, 93.75rem);
   padding-bottom: 2.75rem;
 
   @media (max-width: 639px) {
     padding-bottom: 2rem;
+  }
+}
+
+/* ديسكتوب صغير — تضييق خفيف للسيكشن */
+@media (min-width: 1024px) and (max-width: 1439px) {
+  .testimonials-section {
+    .testimonials-section__inner {
+      max-width: min(96vw, 78rem);
+      margin-inline: auto;
+      padding-inline: clamp(1rem, 2.5vw, 1.75rem);
+    }
+
+    .testimonials-swiper-wrap {
+      max-width: min(100%, 68rem);
+      padding-inline: 0.75rem;
+    }
+
+    .testimonial-slide {
+      padding: 10px 6px;
+    }
+
+    .testimonial-wrapper {
+      max-width: min(100%, 23.5rem);
+    }
+
+    .testimonial-layered-card__panel {
+      width: min(100%, 16.75rem);
+    }
+
+    .testimonial-layered-card--side .testimonial-layered-card__text {
+      max-width: 14rem;
+    }
   }
 }
 
@@ -357,7 +510,6 @@
   max-width: min(100%, 24rem);
   margin-inline: auto;
   transition: transform 0.35s ease;
-  // box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
 
   @media (min-width: 640px) {
     max-width: min(100%, 26rem);
@@ -374,7 +526,6 @@
   place-items: center;
   padding: 0.75rem 0 1.25rem;
   box-sizing: border-box;
-  // box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
 }
 
 .testimonial-layered-card__bg {
@@ -388,7 +539,6 @@
   align-items: center;
   pointer-events: none;
   transform: translate(4%, 6%);
-  // box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
 
   @media (max-width: 639px) {
     transform: translate(2%, 4%);
@@ -401,7 +551,6 @@
   height: auto !important;
   display: block;
   object-fit: contain;
-  /* drop-shadow يتبع شكل الصورة (مش المستطيل) */
   filter: drop-shadow(0 12px 28px rgba(13, 17, 179, 0.14))
     drop-shadow(0 5px 14px rgba(15, 23, 42, 0.1));
 }
@@ -414,15 +563,13 @@
   margin: 0 auto;
   background: transparent;
   border-radius: 0;
-  // box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
-  padding: 
-  clamp(3.65rem, 5%, 8.15rem) 
-  clamp(0.85rem, 5.5%, 1.1rem) 
-  clamp(1.1rem, 5%, 1.35rem);
+  padding:
+    clamp(3.65rem, 5%, 8.15rem)
+    clamp(0.85rem, 5.5%, 1.1rem)
+    clamp(1.1rem, 5%, 1.35rem);
   box-sizing: border-box;
 }
 
-/* أول شريحة: إطار الصورة يميل لليسار — تقليل إزاحة الخلفية + padding متساوٍ يمركز النص في الكرت */
 .testimonial-layered-card--first {
   .testimonial-layered-card__bg {
     transform: translate(0.5%, 5.5%);
@@ -442,6 +589,96 @@
   .testimonial-layered-card__body {
     margin-inline: auto;
     max-width: 100%;
+  }
+}
+
+/* الكارت الأول والتالت (جنب) — بدون تداخل أفاتار/نص، ٤ أسطر، متوسّط */
+.testimonial-layered-card--side {
+  .testimonial-layered-card__bg {
+    transform: translate(2%, 5.5%);
+
+    @media (max-width: 639px) {
+      transform: translate(1%, 4%);
+    }
+  }
+
+  &.testimonial-layered-card--first .testimonial-layered-card__bg {
+    transform: translate(0.5%, 5.5%);
+
+    @media (max-width: 639px) {
+      transform: translate(0%, 4%);
+    }
+  }
+
+  .testimonial-layered-card__avatar-ring {
+    transform: translate(-50%, -54%);
+    width: clamp(3.15rem, 17.5vw, 4.2rem);
+    height: clamp(3.15rem, 17.5vw, 4.2rem);
+  }
+
+  .testimonial-layered-card__panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    margin-inline: auto;
+    padding:
+      clamp(3.15rem, 4.1%, 5.15rem)
+      clamp(0.85rem, 5.5%, 1.1rem)
+      clamp(1rem, 4.5%, 1.25rem);
+  }
+
+  &.testimonial-layered-card--first .testimonial-layered-card__panel {
+    padding:
+      clamp(3.15rem, 4.1%, 5.15rem)
+      clamp(0.85rem, 5.5%, 1.1rem)
+      clamp(1rem, 4.5%, 1.25rem);
+  }
+
+  .testimonial-layered-card__body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-inline: auto;
+    width: 100%;
+    max-width: 100%;
+    margin-top: 0;
+    padding-inline: 0.35rem;
+  }
+
+  .testimonial-layered-card__type {
+    margin: 0 auto;
+    padding-inline: 0.35rem;
+    text-align: center;
+    width: 100%;
+  }
+
+  .testimonial-layered-card__name {
+    margin: 0.25rem auto 0;
+    padding-inline: 0.35rem;
+    text-align: center;
+    width: 100%;
+  }
+
+  .testimonial-layered-card__quote {
+    margin: 0.35rem auto 0.1rem;
+    text-align: center;
+  }
+
+  .testimonial-layered-card__text {
+    text-align: center;
+    margin-inline: auto;
+    width: 100%;
+    max-width: 14.5rem;
+    max-height: none;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
+    padding-inline: 0.25rem;
   }
 }
 
@@ -565,7 +802,6 @@
   }
 
   .testimonial-layered-card__text {
-    // font-size: clamp(0.84rem, 2.4vw, 1.02rem);
     max-height: 12.5rem;
 
     @media (max-width: 639px) {
@@ -573,12 +809,47 @@
     }
   }
 
-  @media (min-width: 1200px) {
+  @media (min-width: 1200px) and (max-width: 1439px) {
+    transform: scale(1.04) translateY(-3%);
+  }
+
+  @media (min-width: 1440px) {
     transform: scale(1.06) translateY(-5%);
   }
 }
 
+/* Our Partners — عنوان، subtitle، زر، شبكة الشعارات */
 .partners-section {
+  .partners-title {
+    margin: 0 0 1rem;
+    letter-spacing: -0.02em;
+  }
+
+  .partners-subtitle {
+    max-width: 36rem;
+    margin: 0 auto 1.25rem;
+    font-size: clamp(0.8125rem, 1.55vw, 0.9375rem);
+    line-height: 1.45;
+    color: #737373;
+    font-weight: 500;
+  }
+
+  .partners-cta-btn {
+    margin-bottom: 1.25rem;
+
+    .categories-cta-btn__label {
+      line-height: 1;
+      padding: 0 0.75rem 0.35rem 0;
+    }
+  }
+
+  .partners-grid {
+    gap: 0.65rem 0.85rem;
+    max-width: min(100%, 68rem);
+    margin-inline: auto;
+    padding: 0.15rem 0;
+  }
+
   .partners-mobile-swiper-wrap {
     --swiper-pagination-color: #1d1ddb;
     --swiper-pagination-bullet-inactive-color: #c7c9e8;
@@ -614,14 +885,6 @@
     margin-right: auto;
   }
 
-  .partners-title {
-    letter-spacing: -0.02em;
-  }
-
-  .partners-subtitle {
-    max-width: 860px;
-  }
-
   // .partner-column {
   //   // background: #f8f9ff;
   //   // border: 1px solid #eceefc;
@@ -634,13 +897,13 @@
     line-height: 1.06;
     font-weight: 900;
     color: #1d1ddb;
-    margin-bottom: 1.2rem;
+    margin-bottom: 0.75rem;
   }
 
   .logo-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.8rem;
+    gap: 0.5rem;
   }
 
   .logo-cell {
@@ -648,8 +911,8 @@
     background: #fff;
     // border: 1px solid #edf0ff;
     border-radius: 14px;
-    min-height: 82px;
-    padding: 0.75rem;
+    min-height: 72px;
+    padding: 0.55rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -705,6 +968,26 @@
 
 /* Merchants — تحت lg: عمودان متدرّجان؛ زر تحت الشبكة صغير فقط، زر بعد النص كبير فقط (يتغلب على display بتاع الزر) */
 .merchants-showcase-section {
+  /* عرض كامل زي قبل home-below-hero */
+  width: 100vw;
+  max-width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+
+  .merchants-title {
+    margin: 0 0 1rem;
+    letter-spacing: -0.02em;
+    text-align: center;
+  }
+
+  /* نفس محاذاة نص زر Partners */
+  .merchants-cta-btn {
+    .categories-cta-btn__label {
+      line-height: 1;
+      padding: 0 0.75rem 0.35rem 0;
+    }
+  }
+
   /* نفس سلوك الـ pro على الموبايل والديسكتوب: مسرح بارتفاع ثابت + قصّ الزيادة من الهوفر */
   /* معاينة في الـ home: ارتفاع أقل + قصّ سفلي + تدرج يوحي إن في محتوى تحت */
   .merchants-grid-stage {
@@ -794,6 +1077,10 @@
 
 .download-section {
   overflow: visible;
+
+  .download-mockup-backdrop {
+    display: none;
+  }
 
   .download-layout {
     position: relative;
@@ -1191,31 +1478,43 @@
   }
 }
 
-/* هاتف فقط — Figma: خلفية بيضاء، نص وشارات متمركزة، نص فرعي طويل، شارات بإطار، ثم GIF مع W وراه */
+/* هاتف فقط — كارت واحد: Frame.png خلف النص والـ GIF معًا */
 @media (max-width: 767px) {
   .download-section {
     background: #fff;
     overflow-x: clip;
 
     .download-layout {
-      display: flex;
-      flex-direction: column;
-      align-items: stretch;
-      max-width: 100%;
+      position: relative;
+      display: block;
+      max-width: min(22.5rem, calc(100% - 0.5rem));
       margin-inline: auto;
-      padding-bottom: clamp(2rem, 9vw, 3.25rem);
-      gap: clamp(1.25rem, 6vw, 2rem);
+      padding: clamp(1.15rem, 4.8vw, 1.5rem) clamp(1rem, 4vw, 1.25rem)
+        clamp(16rem, 67vw, 20rem);
+      min-height: clamp(27.25rem, 111vw, 35.5rem);
+      border-radius: clamp(1.35rem, 4.5vw, 1.75rem);
+      overflow: hidden;
+      background-color: #f4f6fc;
+      background-image: url('../../../../assets/images/Frame.png');
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: cover;
+      box-sizing: border-box;
+    }
+
+    .download-mockup-backdrop {
+      display: none !important;
     }
 
     .download-shell {
+      position: relative;
+      z-index: 2;
       width: 100%;
-      max-width: 100%;
-      margin-inline: 0;
+      margin: 0;
       border-radius: 0;
       overflow: visible;
       background: transparent;
       min-height: 0;
-      order: 1;
     }
 
     .download-frame {
@@ -1231,11 +1530,11 @@
       bottom: auto;
       transform: none;
       width: 100%;
-      max-width: min(22.5rem, 100%);
+      max-width: min(19rem, 88%);
       margin-inline: 0;
       align-items: flex-start;
       text-align: left;
-      padding: 0.35rem 0 0;
+      padding: 0;
       font-family:
         'Inter',
         system-ui,
@@ -1246,10 +1545,10 @@
     .download-heading {
       align-items: flex-start;
       text-align: left;
-      margin: 0 0 0.75rem;
+      margin: 0 0 0.65rem;
       padding: 0;
       color: #1d1ddb;
-      font-size: clamp(1.2rem, 5.4vw, 1.55rem);
+      font-size: clamp(1.15rem, 5.2vw, 1.5rem);
       font-weight: 800;
       line-height: 1.18;
       letter-spacing: -0.03em;
@@ -1261,144 +1560,58 @@
     }
 
     .download-subtitle--mobile {
-      margin: 0 0 1.35rem;
+      margin: 0 0 1rem;
       padding: 0;
-      max-width: min(21rem, 100%);
+      max-width: min(18rem, 100%);
       text-align: left;
-      // font-size: clamp(0.9rem, 3.6vw, 1rem);
-      line-height: 1.55;
+      line-height: 1.5;
       font-weight: 500;
       color: #4a4a4a;
     }
 
     .store-badges {
       justify-content: flex-start;
-      align-items: stretch;
-      flex-wrap: nowrap;
-      gap: 0.75rem;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.65rem;
       width: 100%;
-      max-width: min(21.5rem, 100%);
+      max-width: min(19rem, 100%);
       margin-inline: 0;
     }
-
-    // .store-badge-slot {
-    //   display: flex;
-    //   flex: 1 1 0;
-    //   min-width: 0;
-    //   align-items: center;
-    //   justify-content: center;
-    //   padding: 0.45rem 0.55rem;
-    //   // background: #fff;
-    //   // border: 1px solid #e5e7eb;
-    //   border-radius: 10px;
-    //   box-sizing: border-box;
-    //   box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
-    // }
 
     .store-badges img {
       width: auto;
       height: auto;
-      max-height: 38px;
-      max-width: 100%;
+      max-height: 36px;
+      max-width: min(9.25rem, 48vw);
       object-fit: contain;
     }
 
-    /* Figma: بيضاوي لافندر ورا — كارت أبيض بزوايا كبيرة — الموباب فوق بميل خفيف */
     .download-mockup-wrap {
-      position: relative !important;
-      display: flex !important;
-      flex-direction: column;
-      justify-content: flex-end;
-      align-items: stretch;
+      position: absolute !important;
       left: auto !important;
-      right: auto !important;
-      bottom: auto !important;
-      width: 100%;
-      max-width: min(22.5rem, calc(100% - 0.5rem));
-      margin-inline: auto;
-      box-sizing: border-box;
-      padding: clamp(0.5rem, 3vw, 1rem) 0 clamp(0.25rem, 2vw, 0.75rem);
-      min-height: clamp(13rem, 52vw, 17rem);
-      order: 2;
-    }
-
-    .download-mockup-backdrop {
-      left: 50%;
-      right: auto;
-      bottom: 8%;
-      top: -6%;
-      transform: translateX(-50%);
-      width: 118%;
+      right: clamp(-2.35rem, -9.5vw, -0.85rem) !important;
+      bottom: clamp(1.15rem, 5vw, 1.9rem) !important;
+      width: min(124%, 28.75rem) !important;
       max-width: none;
-      height: 88%;
-      min-height: 11rem;
-      border-radius: 50%;
-      background:
-        radial-gradient(
-          ellipse 92% 78% at 50% 58%,
-          rgba(228, 232, 252, 0.85) 0%,
-          rgba(241, 244, 255, 0.45) 52%,
-          rgba(255, 255, 255, 0) 72%
-        ),
-        linear-gradient(175deg, #f8f9fe 0%, #e8ecf9 100%);
-      opacity: 0.95;
+      min-height: 0;
+      margin: 0;
+      padding: 0;
+      display: block !important;
+      z-index: 3;
+      pointer-events: none;
+      line-height: 0;
     }
 
-    .download-mockup-backdrop::before {
-      font-size: clamp(8rem, 54vw, 13rem);
-      bottom: 2%;
-      left: 50%;
-      transform: translateX(-50%);
-      color: rgba(13, 17, 179, 0.065);
-    }
-
-    .download-mockup-backdrop::after {
-      right: -8%;
-      bottom: 4%;
-      width: min(75%, 17rem);
-      filter: blur(28px);
-      background: radial-gradient(
-        circle at 40% 40%,
-        rgba(245, 240, 230, 0.5) 0%,
-        rgba(250, 251, 255, 0) 68%
-      );
-    }
-
-    .download-mockup-card {
-      position: relative;
-      z-index: -1;
-      display: block;
-      width: 120%;
-      right: 10%;      
-      margin-inline: auto;
-      // padding: clamp(1.15rem, 4.5vw, 1.65rem) clamp(0.65rem, 3.5vw, 1rem)
-      //   clamp(1.1rem, 4vw, 1.5rem);
-      background-image: url('../../../../assets/images/Frame.png');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      // border-radius: clamp(1.65rem, 5.5vw, 2.25rem);
-      // border: 1px solid rgba(226, 232, 240, 0.95);
-      // box-shadow:
-      //   0 1px 2px rgba(15, 23, 42, 0.04),
-      //   0 12px 32px rgba(13, 17, 179, 0.07);
-      box-sizing: border-box;
-    }
-
+    .download-mockup-card,
     .download-mockup-device {
       position: relative;
-      z-index: 2;
       width: 100%;
-      max-width: min(75rem, 99%);
-      right: -6%;
-      margin-left: auto;
-      margin-right: clamp(0.15rem, 2vw, -6rem);
-      margin-top: 0;
-      border-radius: 0;
-      overflow: visible;
-      line-height: 0;
+      margin: 0;
+      right: auto;
       background: transparent;
       box-shadow: none;
+      overflow: visible;
     }
 
     .download-mockup {
@@ -1408,14 +1621,13 @@
       top: auto !important;
       bottom: auto !important;
       display: block;
-      width: 100%;
+      width: 182%;
       height: auto;
-      max-height: none;
       margin: 0;
       object-fit: contain;
-      object-position: center center;
-      z-index: 2;
-      transform: rotate(5deg) translateX(4%);
+      object-position: right bottom;
+      z-index: 1;
+      transform: rotate(4deg) translateX(17%) translateY(-4%);
       -webkit-user-drag: none;
     }
   }

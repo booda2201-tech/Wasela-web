@@ -1,31 +1,5 @@
 /* padding الكارت: 1rem موبايل/تابلت، 2.5rem×3rem ديسكتوب (مكافئ px-4 py-4 / px-10 py-12) */
 
-// .contact-hero__img {
-//   position: absolute;
-//   inset: 0;
-//   background-image: url('../../../assets/images/Slide 16_9 - 5 3.png');
-//   background-size: cover;
-//   background-position: center 100%;
-//   background-repeat: no-repeat;
-// }
-
-.contact-hero__img--back {
-  opacity: 10;
-  width: min(110vw, 100rem);
-  height: min(70vw, 33rem);
-  transform: scale(1.02);
-  filter: saturate(1.05);
-}
-
-.contact-hero__img--front {
-  inset: 80% -80% -80% -80%;
-  opacity: 10;
-  transform: rotate(-0.15deg) scale(1.08);
-  filter: blur(0.5px) saturate(1.05);
-}
-
-
-
 .join-form-feedback {
   margin-top: 1rem;
   padding: 0.75rem 1rem;
@@ -49,19 +23,6 @@
   opacity: 0.65;
   cursor: not-allowed;
   pointer-events: none;
-}
-
-.contact-form-card {
-  padding: 1rem;
-
-  @media (min-width: 1024px) {
-    padding: 4rem 3.5rem;
-  }
-
-  @media (max-width: 780px) {
-    padding: 2.5rem 1.5rem;
-  }
-
 }
 
 /* قائمة مخصصة بدل الـ select التقليدي */

@@ -1,6 +1,52 @@
-
 $waseela-blue: #1D1DDB;
 
+/* توهج خلف صورة الكاتيجوري + الاسم + الوصف — opacity 20% زي الفيجما */
+.category-section-hero {
+  position: relative;
+  isolation: isolate;
+}
+
+.category-section-glow {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 0;
+  width: min(115vw, 72rem);
+  height: clamp(16rem, 52vw, 40.6rem);
+  transform: translate(-50%, -48%);
+  pointer-events: none;
+}
+
+.category-section-glow__img {
+  position: absolute;
+  inset: 0;
+  background-image: url('../../../assets/images/merchants-glow.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.12;
+}
+
+.category-section-hero__content {
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 1023px) {
+  .category-section-glow {
+    width: min(130vw, 28rem);
+    height: clamp(14rem, 58vw, 22rem);
+    transform: translate(-50%, -44%);
+  }
+}
+
+@media (max-width: 767px) {
+  .category-section-glow {
+    width: min(140vw, 22rem);
+    height: clamp(12rem, 62vw, 18rem);
+    transform: translate(-50%, -42%);
+  }
+}
 
 .category-blob-wrapper {
   width: 100%;

@@ -8,6 +8,8 @@
 
 <ng-container *ngIf="!loading && !loadError && homePage">
   <app-hero></app-hero>
-  <app-features [homePage]="homePage"></app-features>
-  <app-home-contents [homePage]="homePage" [merchantsPage]="merchantsPage"></app-home-contents>
+  <div class="home-below-hero w-full max-w-[1360px] mx-auto px-6 sm:px-8 md:px-12 lg:px-16 xl:px-20">
+    <app-features [homePage]="homePage"></app-features>
+    <app-home-contents [homePage]="homePage" [merchantsPage]="merchantsPage"></app-home-contents>
+  </div>
 </ng-container>

@@ -8,44 +8,53 @@ $terms-body: #374151;
 
 .terms-page {
   position: relative;
+  isolation: isolate;
 }
 
 .terms-page--surface {
   background: $terms-page-bg;
 }
 
-.terms-page__bg {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 4.5rem;
-  height: min(48vh, 30rem);
-  pointer-events: none;
-  z-index: 0;
-  overflow: hidden;
-}
-
-.terms-page__bg-slide {
+.terms-page__glow {
   position: absolute;
   left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%) rotate(180deg);
-  width: min(110vw, 100rem);
-  height: min(70vw, 33rem);
-  background-image: url('../../../assets/images/Slide 16_9 - 5 3.png');
-  background-size: cover;
-  background-position: center 50%;
-  opacity: 10;
+  top: 3.25rem;
+  z-index: 0;
+  width: min(115vw, 68rem);
+  height: clamp(18rem, 52vw, 34rem);
+  transform: translateX(-50%);
+  pointer-events: none;
 }
 
-.terms-page__bg-wash {
+.terms-page__glow-img {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    180deg,
-    rgba($terms-page-bg, 0.35) 0%,
-    $terms-page-bg 88%
+  background-image: url('../../../assets/images/merchants-glow.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.25;
+  filter: blur(14px);
+  -webkit-mask-image: radial-gradient(
+    ellipse 84% 80% at 50% 48%,
+    #000 16%,
+    rgb(0 0 0 / 65%) 44%,
+    transparent 74%
   );
+  mask-image: radial-gradient(
+    ellipse 84% 80% at 50% 48%,
+    #000 16%,
+    rgb(0 0 0 / 65%) 44%,
+    transparent 74%
+  );
+}
+
+@media (max-width: 1023px) {
+  .terms-page__glow {
+    top: 2.75rem;
+    width: min(130vw, 26rem);
+    height: clamp(15rem, 48vw, 24rem);
+  }
 }
 
 .terms-page__inner {

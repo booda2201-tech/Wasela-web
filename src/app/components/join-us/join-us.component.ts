@@ -44,14 +44,14 @@ export class JoinUsComponent implements OnInit, AfterViewInit, OnDestroy {
   contactAddress = '';
 
   readonly commercialRegisterOptions = [
-    { value: '', label: 'Select -' },
+    { value: '', label: 'Select an option' },
     { value: 'yes', label: 'Yes' },
     { value: 'no', label: 'No' }
   ];
 
   /** المحافظات المصرية (27) — قيم ثابتة */
   readonly governorateOptions = [
-    { value: '', label: 'Select -' },
+    { value: '', label: 'Select governorate' },
     { value: 'alexandria', label: 'Alexandria' },
     { value: 'aswan', label: 'Aswan' },
     { value: 'assiut', label: 'Assiut' },
@@ -194,13 +194,14 @@ export class JoinUsComponent implements OnInit, AfterViewInit, OnDestroy {
   commercialRegisterLabel(): string {
     return (
       this.commercialRegisterOptions.find((o) => o.value === this.form.hasCommercialRegister)
-        ?.label ?? 'Select -'
+        ?.label ?? 'Select an option'
     );
   }
 
   governorateLabel(): string {
     return (
-      this.governorateOptions.find((o) => o.value === this.form.governorate)?.label ?? 'Select -'
+      this.governorateOptions.find((o) => o.value === this.form.governorate)?.label ??
+        'Select governorate'
     );
   }
 

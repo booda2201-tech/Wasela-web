@@ -1,17 +1,15 @@
-<section class="contact-page relative bg-white overflow-hidden pt-24 pb-16 md:pb-24" *ngIf="!loading && !loadError">
-  <header class="contact-hero relative overflow-hidden">
-    <div class="contact-hero__visual absolute inset-0 pointer-events-none" aria-hidden="true">
-      <div class="contact-hero__img contact-hero__img--back"></div>
-      <div class="contact-hero__img contact-hero__img--front"></div>
-      <div class="contact-hero__wash"></div>
-    </div>
+<section class="contact-page relative bg-white overflow-hidden pt-20 pb-16 md:pb-24" *ngIf="!loading && !loadError">
+  <div class="contact-hero__glow" aria-hidden="true">
+    <div class="contact-hero__glow-img"></div>
+  </div>
 
-    <div class="relative z-10 container mx-auto px-6 text-center max-w-3xl py-12 md:py-16">
-      <h1 class="text-4xl md:text-[50px] font-black text-[#0d11b3] leading-tight tracking-wide">
+  <header class="contact-hero relative overflow-hidden">
+    <div class="relative z-10 container mx-auto px-6 text-center max-w-2xl py-8 md:py-10">
+      <h1 class="text-[2rem] md:text-[42px] font-black text-[#0d11b3] leading-tight tracking-wide">
         {{ headline() }}
       </h1>
       <p
-        class="mt-4 text-sm md:text-base text-[#737373] font-medium leading-relaxed max-w-xl mx-auto tracking-wide contact-preline"
+        class="mt-4 md:mt-3 text-sm md:text-[15px] text-[#737373] font-medium leading-relaxed max-w-lg mx-auto tracking-wide contact-preline"
       >
         {{ subtitle() }}
       </p>
@@ -19,7 +17,7 @@
   </header>
 
   <div class="relative px-6">
-    <div class="contact-body-inner container mx-auto max-w-6xl relative">
+    <div class="contact-body-inner container mx-auto max-w-4xl relative">
       <div class="contact-decor" aria-hidden="true">
         <img src="assets/images/Group (7).png" alt="" class="contact-decor__img" loading="lazy" />
       </div>
@@ -29,7 +27,7 @@
         class="contact-form-card relative z-10 bg-white rounded-[22px] shadow-[0_0_60px_20px_rgba(0,0,0,0.03)]"
         (ngSubmit)="onSubmit($event)"
       >
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-8 md:gap-y-10">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6 md:gap-y-7">
           <div class="contact-field">
             <span class="contact-field__label">Do you have a Commercial Register and Tax Card ID?</span>
             <div
@@ -75,7 +73,7 @@
               type="text"
               name="companyName"
               [(ngModel)]="form.companyName"
-              placeholder="Company / Organization Name"
+              placeholder="Enter company name"
               autocomplete="organization"
             />
           </label>
@@ -87,7 +85,7 @@
               type="text"
               name="contactPersonName"
               [(ngModel)]="form.contactPersonName"
-              placeholder="Contact Person Name"
+              placeholder="Enter contact person name"
               autocomplete="name"
             />
           </label>
@@ -99,7 +97,7 @@
               type="tel"
               name="contactPersonPhone"
               [(ngModel)]="form.contactPersonPhone"
-              placeholder="Contact Person Phone Number"
+              placeholder="+20 1XX XXX XXXX"
               autocomplete="tel"
             />
           </label>
@@ -191,7 +189,7 @@
         <p *ngIf="submitError" class="join-form-feedback join-form-feedback--error" role="alert">{{ submitError }}</p>
         <p *ngIf="submitSuccess" class="join-form-feedback join-form-feedback--success" role="status">{{ submitSuccess }}</p>
 
-        <div class="flex justify-end mt-10 md:mt-12">
+        <div class="contact-form-actions flex justify-end mt-8 md:mt-10">
           <button type="submit" class="contact-submit group" [disabled]="submitting">
             <span class="contact-submit__text">{{ submitting ? 'Submitting...' : submitLabel() }}</span>
             <span class="contact-submit__icon">
@@ -202,7 +200,7 @@
       </form>
 
       <div
-        class="mt-10 md:mt-14 flex flex-col lg:flex-row flex-wrap justify-center gap-4 lg:gap-6 items-stretch lg:items-center"
+        class="contact-pills-row mt-8 md:mt-10 flex flex-col lg:flex-row flex-wrap justify-center gap-3 lg:gap-5 items-stretch lg:items-center"
       >
         <a data-contact-pill class="contact-pill" [href]="emailHref()">
           <span class="contact-pill__icon" aria-hidden="true">
