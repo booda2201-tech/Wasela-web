@@ -164,4 +164,12 @@
 
 }
 
+/* ديسكتوب صغير — 1024px → 1439px */
+@media (min-width: 1024px) and (max-width: 1439px) {
+  .faq-decor__img {
+    right: -3.5rem;
+    bottom: 0.15rem;
+    width: 11.75rem;
+  }
+}
 

@@ -1,16 +1,63 @@
-.navbar-root {
-  @media (max-width: 767px) {
-    border-bottom: 2px solid #1d4dff !important;
+:host {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+}
+
+nav {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: clip;
+  box-sizing: border-box;
+}
+
+// موبايل + تابلت: منع الخط الأبيض عند إخفاء/إظهار شريط المتصفح
+@media (max-width: 1023px) {
+  nav.navbar-shell {
+    top: 0;
+    left: 0;
+    right: 0;
+    border-bottom: none !important;
+    box-shadow: 0 1px 0 0 #dbe3ff;
+    transform: translate3d(0, 0, 0);
+    -webkit-transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
   }
+}
+
+@media (min-width: 1024px) {
+  nav.navbar-shell {
+    border-bottom: 1px solid #f3f4f6;
+  }
+}
+
+.main-container {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.navbar-brand {
+  margin-left: -0.7rem;
 }
 
 .navbar-logo {
   display: block;
   width: auto;
-  height: 20px;
+  height: 46px; /* موبايل */
+  image-rendering: -webkit-optimize-contrast;
 
-  @media (min-width: 1024px) {
-    height: 22px;
+  @media (min-width: 768px) and (max-width: 1023px) {
+    height: 48px; /* تابلت */
+  }
+
+  @media (min-width: 1024px) and (max-width: 1439px) {
+    height: 50px; /* ديسكتوب صغير */
+  }
+
+  @media (min-width: 1440px) {
+    height: 54px; /* ديسكتوب كبير */
   }
 }
 
@@ -21,6 +68,35 @@
 .navbar-link {
   font-size: 1.0625rem;
   line-height: 1.2;
+}
+
+@media (min-width: 1024px) and (max-width: 1439px) {
+  nav {
+    padding-top: 0.625rem !important;
+    padding-bottom: 0.625rem !important;
+  }
+
+  .navbar-links {
+    gap: 1.65rem;
+  }
+
+  .navbar-link {
+    font-size: 1rem;
+  }
+
+  nav .download-btn {
+    --dl-btn-h: 42px;
+    min-width: 12.75rem;
+    padding-inline-start: 0.95rem;
+
+    .download-btn__label {
+      font-size: 0.9rem;
+    }
+
+    .icon-circle i {
+      font-size: 1rem;
+    }
+  }
 }
 
 .mobile-menu-btn {
@@ -66,95 +142,8 @@
   padding: 0.55rem 0.8rem 0.55rem;
 }
 
-/* زر التحميل — حجم وسط + نفس محاذاة partners-cta-btn */
-.download-btn,
-.mobile-download-btn {
-  font-family: 'Inter', system-ui, sans-serif;
-  -webkit-appearance: none;
-  appearance: none;
-  margin: 0;
-}
-
-.download-btn {
-  --dl-btn-h: 46px;
-  display: inline-grid;
-  grid-template-columns: minmax(0, 1fr) var(--dl-btn-h);
-  grid-template-rows: var(--dl-btn-h);
-  align-items: stretch;
-  box-sizing: border-box;
-  min-width: 13.75rem;
-  padding: 0;
-  padding-inline-start: 1.05rem;
-  border: 1px solid #1d1ddb;
-  border-radius: 9999px;
-  background: #fff;
-  overflow: hidden;
-  text-decoration: none;
-  color: inherit;
-  cursor: pointer;
-  transition: background-color 0.25s ease;
-  flex: 0 0 auto;
-
-  .download-btn__label {
-    grid-column: 1;
-    grid-row: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    align-self: stretch;
-    margin: 0;
-    padding: 0 0.5rem 0 0;
-    box-sizing: border-box;
-    text-align: center;
-    color: #ff6b00;
-    font-weight: 700;
-    font-size: 0.9375rem;
-    line-height: 1;
-    letter-spacing: 0.01em;
-    min-width: 0;
-  }
-
-  .icon-circle {
-    grid-column: 2;
-    grid-row: 1;
-    align-self: center;
-    justify-self: end;
-    width: var(--dl-btn-h);
-    height: var(--dl-btn-h);
-    flex-shrink: 0;
-    background-color: #1d1ddb;
-    color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    transition: background-color 0.25s ease, color 0.25s ease;
-
-    i {
-      font-size: 1.05rem;
-      line-height: 1;
-    }
-  }
-
-  &:hover {
-    background-color: #1d1ddb;
-
-    .download-btn__label {
-      color: #fff;
-    }
-
-    .icon-circle {
-      background-color: #fff;
-      color: #1d1ddb;
-    }
-  }
-}
-
+/* زر التحميل — mobile overrides في media query تحت */
 @media (max-width: 967px) {
-  .navbar-root {
-    border-bottom: 1px solid #dbe3ff !important;
-  }
-
   .mobile-menu-btn {
     width: 35px;
     height: 35px;
@@ -204,84 +193,6 @@
       opacity: 1;
       margin-top: 1.55rem;
       padding: 0.35rem 0.8rem 0.45rem;
-    }
-  }
-
-  .mobile-download-btn {
-    --dl-btn-h: 48px;
-    margin-top: 0.35rem;
-    width: 100%;
-    max-width: 100%;
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) var(--dl-btn-h);
-    grid-template-rows: var(--dl-btn-h);
-    align-items: stretch;
-    box-sizing: border-box;
-    padding: 0;
-    padding-inline-start: 1rem;
-    border: 1px solid #1d1ddb;
-    border-radius: 9999px;
-    background: #fff;
-    overflow: hidden;
-    cursor: pointer;
-    transition: transform 0.18s ease, opacity 0.18s ease;
-
-    .download-btn__label {
-      grid-column: 1;
-      grid-row: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      align-self: stretch;
-      margin: 0;
-      padding: 0 0.5rem 0 0;
-      box-sizing: border-box;
-      text-align: center;
-      color: #ff6b00;
-      font-weight: 700;
-      font-size: clamp(0.84rem, 3.4vw, 0.9375rem);
-      line-height: 1;
-      letter-spacing: 0.01em;
-      min-width: 0;
-    }
-
-    .icon-circle {
-      grid-column: 2;
-      grid-row: 1;
-      align-self: center;
-      justify-self: end;
-      width: var(--dl-btn-h);
-      height: var(--dl-btn-h);
-      flex-shrink: 0;
-      border-radius: 50%;
-      background: #1d1ddb;
-      color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      i {
-        font-size: 1.05rem;
-        line-height: 1;
-      }
-    }
-
-    &:hover {
-      background: #1d1ddb;
-
-      .download-btn__label {
-        color: #fff;
-      }
-
-      .icon-circle {
-        background: #fff;
-        color: #1d1ddb;
-      }
-    }
-
-    &:active {
-      transform: translateY(1px);
-      opacity: 0.92;
     }
   }
 }

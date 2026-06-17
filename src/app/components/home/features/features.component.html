@@ -44,13 +44,17 @@
           </div>
           <div class="step-card-badges flex flex-wrap gap-3 px-4 lg:px-8 mt-2">
             <img
-              src="../../../../assets/images/Mobile app store badge (2).png"
-              class="h-10 lg:h-11 cursor-pointer hover:scale-105 transition"
+              src="assets/images/app-store.svg"
+              class="store-badge-img cursor-pointer hover:scale-105 transition"
+              width="135"
+              height="40"
               alt="App Store"
             />
             <img
-              src="../../../../assets/images/Mobile app store badge (3).png"
-              class="h-10 lg:h-11 cursor-pointer hover:scale-105 transition"
+              src="assets/images/google-play.svg"
+              class="store-badge-img cursor-pointer hover:scale-105 transition"
+              width="135"
+              height="40"
               alt="Google Play"
             />
           </div>
@@ -106,7 +110,7 @@
 
   <section
     *ngIf="whySection() as why"
-    class="why-waseela-section mt-4 w-full py-2 flex flex-col lg:flex-row items-center lg:items-stretch gap-6 lg:gap-8"
+    class="why-waseela-section w-full flex flex-col lg:flex-row items-center lg:items-stretch gap-6 lg:gap-8"
   >
     <div class="why-waseela-visual relative">
       <img
@@ -144,21 +148,33 @@
           ></div>
         </div>
 
-        <div class="why-waseela-cards">
+        <div
+          class="why-waseela-cards"
+          role="tablist"
+          aria-label="Why Waseela features"
+        >
           <div
-            *ngFor="let feature of whyItems()"
+            *ngFor="let feature of whyItems(); let i = index"
             [attr.data-id]="feature.id"
             [attr.data-why-feature]="feature.id"
-            (click)="setActive(feature.id)"
+            (click)="onWhyTabClick(feature.id)"
             [class.active-card]="activeCard === feature.id"
             class="feature-card"
-            role="button"
-            tabindex="0"
-            (keydown.enter)="setActive(feature.id)"
-            (keydown.space)="$event.preventDefault(); setActive(feature.id)"
+            role="tab"
+            [attr.id]="'why-tab-' + feature.id"
+            [attr.aria-selected]="activeCard === feature.id"
+            [attr.tabindex]="activeCard === feature.id ? 0 : -1"
+            (keydown.enter)="onWhyTabClick(feature.id)"
+            (keydown.space)="$event.preventDefault(); onWhyTabClick(feature.id)"
+            (keydown.arrowdown)="onWhyTabKeydown($event, i, 1)"
+            (keydown.arrowup)="onWhyTabKeydown($event, i, -1)"
+            (keydown.home)="onWhyTabKeydown($event, i, -i)"
+            (keydown.end)="onWhyTabKeydown($event, i, whyItems().length - 1 - i)"
           >
             <h4>{{ feature.title }}</h4>
-            <p *ngIf="feature.description" class="cms-preline">{{ feature.description }}</p>
+            <p *ngIf="feature.description" class="cms-preline">
+              {{ feature.description }}
+            </p>
           </div>
         </div>
       </div>

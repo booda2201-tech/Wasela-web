@@ -13,6 +13,17 @@
     </nav>
 
     <div class="blog-detail__hero-wrap">
+      <div class="blog-detail__hero-media">
+        <div class="blog-detail__hero">
+          <img
+            [src]="heroImage"
+            alt=""
+            class="blog-detail__hero-img"
+            loading="lazy"
+          />
+        </div>
+      </div>
+
       <div class="blog-detail__decor" aria-hidden="true">
         <img
           src="assets/images/Group (7).png"
@@ -20,18 +31,6 @@
           class="blog-detail__decor-img"
           loading="lazy"
         />
-      </div>
-
-      <div class="blog-detail__hero">
-        <img
-          [src]="heroImage"
-          alt=""
-          class="blog-detail__hero-img"
-          loading="lazy"
-        />
-        <!-- <div class="blog-detail__hero-overlay">
-          <p class="blog-detail__hero-kicker">{{ demo.heroTitle }}</p>
-        </div> -->
       </div>
     </div>
 

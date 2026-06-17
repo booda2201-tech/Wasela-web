@@ -1,9 +1,9 @@
 <section
-  class="merchants-page max-lg:py-10 max-lg:sm:py-12 max-lg:md:py-14 max-lg:bg-gradient-to-b max-lg:from-[#FAFBFF] max-lg:via-white max-lg:to-[#F2F4FF] lg:bg-white lg:py-12 lg:md:py-20"
+  class="merchants-page max-lg:py-10 max-lg:sm:py-12 max-lg:md:py-14 max-lg:bg-gradient-to-b max-lg:from-[#FAFBFF] max-lg:via-white max-lg:to-[#F2F4FF] lg:bg-white"
   *ngIf="!loading && !loadError && page"
 >
   <div
-    class="container mx-auto px-4 sm:px-6 max-lg:py-8 max-lg:md:py-10 lg:py-10 lg:md:py-16"
+    class="container mx-auto px-4 sm:px-6 max-lg:py-8 max-lg:md:py-10"
   >
     <div class="merchants-page-stage">
       <div class="merchants-glow-stage" aria-hidden="true">
@@ -14,30 +14,25 @@
       *ngIf="heroSection() as hero"
     >
       <div
-        class="merchants-hero-content text-center mb-12 px-2 md:px-4 max-lg:mb-0 lg:flex lg:flex-col lg:items-center lg:gap-2.5 lg:tracking-[0.2px]"
+        class="merchants-hero-content text-center px-2 md:px-4 max-lg:mb-0"
       >
-        <h2
-          class="mb-4 lg:mt-2 md:mb-3 max-lg:mb-4 
-           max-lg:text-[2rem] max-lg:tracking-[-0.02em] 
-           text-3xl font-black text-[#1D1DDB] lg:mb-0 lg:bg-none lg:bg-clip-border lg:text-[2.5rem]"
-        >
+        <div class="merchants-hero-main">
+        <h2 class="merchants-hero-title max-lg:mb-4 max-lg:text-[2rem] max-lg:tracking-[-0.01em] max-lg:font-black max-lg:text-[#1D1DDB]">
           {{ hero.title }}
         </h2>
         <p
-          class="text-gray-500 font-medium max-w-3xl mx-auto mb-7 md:mb-10 leading-relaxed text-sm md:text-base 
-          merchants-preline max-lg:mb-6 max-lg:max-w-[30rem] max-lg:text-[.7rem] 
-          max-lg:leading-relaxed max-lg:text-slate-600 max-lg:sm:max-w-md sm:max-lg:text-[0.97rem] 
-          lg:mb-0 lg:max-w-[55.5rem] lg:text-sm lg:leading-5 lg:text-[#737373]"
+          class="merchants-hero-desc merchants-preline max-lg:mb-6 max-lg:mx-auto max-lg:max-w-[30rem] 
+          max-lg:text-[.7rem] max-lg:leading-relaxed max-lg:text-slate-600 
+          max-lg:sm:max-w-md max-lg:font-medium max-lg:text-gray-500 sm:max-lg:text-[0.97rem]"
         >
           {{ hero.description }}
         </p>
+        </div>
         <div
           class="merchants-count-box flex items-center justify-center max-lg:mb-0 max-lg:rounded-2xl 
           max-lg:border max-lg:border-[#E2E8FF] max-lg:bg-gradient-to-r max-lg:from-[#F8FAFF] 
           max-lg:to-[#EEF2FF] max-lg:px-0 max-lg:py-6 max-lg:sm:px-0 
-          max-lg:sm:py-0 max-lg:shadow-[inset_0_1px_0_rgba(255,255,255,0.9)] lg:mt-2 
-          lg:rounded-none lg:border-0 lg:bg-transparent lg:from-transparent lg:to-transparent 
-          lg:px-0 lg:py-2 lg:shadow-none"
+          max-lg:sm:py-0 max-lg:shadow-[inset_0_1px_0_rgba(255,255,255,0.9)]"
           *ngIf="merchantsCountSection() as countSection"
         >
           <div class="merchants-count-inner">
@@ -53,16 +48,16 @@
 
         <a
           routerLink="/join-us"
-          class="merchants-join-cta mx-auto mt-4 max-lg:mt-5 lg:mt-3 no-underline"
+          class="download-btn merchants-join-btn mx-auto max-lg:mt-5 no-underline"
         >
-          <span class="merchants-join-cta__label">
+          <span class="download-btn__label">
             {{
               merchantsCountSection()?.buttonText ||
                 hero.buttonText ||
                 'Join our merchant Network'
             }}
           </span>
-          <span class="merchants-join-cta__icon" aria-hidden="true">
+          <span class="icon-circle" aria-hidden="true">
             <i class="bi bi-arrow-up-right"></i>
           </span>
         </a>
@@ -85,7 +80,7 @@
         />
 
         <div
-          class="absolute inset-0 pointer-events-none transition-opacity duration-700 bg-gradient-to-b from-[#0d11b3]/50 to-[rgba(12,12,13,0.05)] max-lg:bg-gradient-to-t max-lg:from-black/60 max-lg:via-black/20 max-lg:to-transparent opacity-100 lg:group-hover:from-[#0d11b3]/60"
+          class="absolute inset-0 pointer-events-none transition-opacity duration-700 max-lg:bg-gradient-to-t max-lg:from-black/60 max-lg:via-black/20 max-lg:to-transparent max-lg:opacity-100 lg:hidden"
         ></div>
 
         <div class="absolute inset-0 flex items-center justify-center pointer-events-none">

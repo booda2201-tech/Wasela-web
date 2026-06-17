@@ -15,7 +15,7 @@
         </div>
         <div class="about-heading-content about-heading-content--tight" data-about-reveal>
           <h2 class="about-title">{{ who.title }}</h2>
-          <p class="about-lede about-text-preline">{{ who.description }}</p>
+          <p class="about-lede about-copy--narrative">{{ who.description }}</p>
         </div>
       </div>
     </section>
@@ -25,7 +25,7 @@
       <div class="about-shell about-shell--narrow about-shell--copy about-heading-stack">
         <div class="about-heading-content about-heading-content--tight" data-about-reveal>
           <h2 class="about-title">{{ foundation.title }}</h2>
-          <p class="about-lede about-text-preline">{{ foundation.description }}</p>
+          <p class="about-lede about-copy--narrative">{{ foundation.description }}</p>
           <div class="about-foundation-lockup">
             <!-- <p class="about-foundation-lockup__kicker">A subsidiary of</p> -->
             <img
@@ -45,7 +45,7 @@
     <div class="about-shell about-shell--narrow about-shell--copy about-heading-stack">
       <div class="about-heading-content about-heading-content--tight" data-about-reveal>
         <h2 class="about-title">{{ purpose.title }}</h2>
-        <p class="about-lede about-text-preline">{{ purpose.description }}</p>
+        <p class="about-lede about-copy--clamp-2">{{ purpose.description }}</p>
       </div>
     </div>
   </section>
@@ -104,7 +104,7 @@
     <div class="about-shell">
       <div class="about-compliance-head" data-about-reveal>
         <h2 class="about-title">{{ compliance.title }}</h2>
-        <p class="about-subtitle about-text-preline mt-4" *ngIf="compliance.description">
+        <p class="about-subtitle about-copy--clamp-1 mt-4" *ngIf="compliance.description">
           {{ compliance.description }}
         </p>
       </div>
@@ -121,7 +121,7 @@
                   loading="lazy"
                 />
               </div>
-              <h3 class="about-compliance-card__title">{{ c.title }}</h3>
+              <h3 class="about-compliance-card__title about-compliance-card__title--single-line">{{ formatAmpersandTitle(c.title) }}</h3>
             </div>
           </article>
         </div>
@@ -141,7 +141,7 @@
 
           <h2 class="about-split-title">{{ story.title }}</h2>
         </div>
-        <p class="about-split-body about-text-preline">{{ story.description }}</p>
+        <p class="about-split-body">{{ story.description }}</p>
         <div class="about-media-panel">
           <div class="about-media-wrapper">
   
@@ -169,7 +169,7 @@
         <div class="about-split-title-wrap">
           <h2 class="about-split-title">{{ gov.title }}</h2>
         </div>
-        <p class="about-split-body about-text-preline">{{ gov.description }}</p>
+        <p class="about-split-body">{{ gov.description }}</p>
 
         <div class="about-media-panel">
           <div class="about-media-wrapper">
@@ -219,11 +219,11 @@
   </section>
 
   <!-- Leadership -->
-  <section class="about-section about-section--surface" *ngIf="pickSection('leadership_team') as leaders">
+  <section class="about-section about-section--surface about-section--leadership-team" *ngIf="pickSection('leadership_team') as leaders">
     <div class="about-shell">
       <div class="about-heading-content--tight" data-about-reveal>
         <h2 class="about-title">{{ leaders.title }}</h2>
-        <p class="about-subtitle about-text-preline" *ngIf="leaders.description">
+        <p class="about-subtitle about-copy--clamp-2" *ngIf="leaders.description">
           {{ leaders.description }}
         </p>
       </div>

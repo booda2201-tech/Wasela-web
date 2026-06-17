@@ -32,14 +32,16 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  opacity: 0.3;
+  opacity: 0.15;
 }
 
 @media (min-width: 1024px) {
   .merchants-glow-stage {
-    top: -1.25rem;
+    /* منتصف منطقة الكلام: عنوان + وصف + 1000+ */
+    top: 5.55rem;
     width: 57.97rem;
     height: 32.6rem;
+    transform: translate(-50%, -50%);
   }
 }
 
@@ -165,14 +167,99 @@
 }
 
 @media (min-width: 1024px) {
+  .merchants-page {
+    /* نفس مسافة Contact Us: pt-20 + py-10 = 7.5rem */
+    padding-top: 7.5rem !important;
+    padding-bottom: 0 !important;
+  }
+
+  .merchants-page .container {
+    padding-top: 0;
+    padding-bottom: 4rem;
+  }
+
+  .merchants-hero-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    margin: 0 0 48px;
+    padding: 0;
+  }
+
+  /* Figma main-content: 668×107 — gap 10px — padding 0 */
+  .merchants-hero-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    width: 668px;
+    max-width: 100%;
+    margin: 0 0 18px;
+    padding: 0;
+  }
+
+  .merchants-hero-title {
+    margin-bottom: 15px !important;
+    width: 100%;
+    font-size: 42px;
+    line-height: 1.25;
+    font-weight: 900;
+    letter-spacing: 0.025em;
+    color: #1d1ddb;
+    text-align: center;
+  }
+
+  /* Figma: 14px / 20px / 0.2px — داخل main-content 668px */
+  .merchants-hero-desc {
+    margin: 0 !important;
+    width: 100%;
+    max-width: 668px;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 500;
+    color: #737373;
+    letter-spacing: 0.2px;
+    text-align: center;
+  }
+
+  .merchants-count-box {
+    margin: 0 0 32px !important;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  /* Figma: 461.74×57 — 55px / 57px / 0.2px */
   .merchants-count-inner {
-    font-size: clamp(3.4375rem, 4.2vw, 4rem);
+    font-size: 55px;
+    line-height: 57px;
+    width: fit-content;
+    max-width: 461.74px;
     gap: 0.1em;
   }
 
   .merchants-count-title {
+    margin: 0;
     color: #9598ff;
-    letter-spacing: -0.02em;
+    letter-spacing: 0.2px;
+    line-height: 57px;
+    font-weight: 900;
+    white-space: nowrap;
+  }
+
+  /* Figma: 333×52 — radius 44px */
+  .merchants-join-btn.download-btn {
+    --dl-btn-h: 52px;
+    margin: 0 !important;
+    width: 333px;
+    min-width: 333px;
+    max-width: 333px;
+    height: 52px;
+    border-radius: 44px;
+    padding-inline-start: 1.2rem;
   }
 
   .merchants-count-toggle {
@@ -310,84 +397,14 @@
 }
 
 /* سلايدر صفحة التجار — موبايل/تابلت فقط (ارتفاع متزامن مع cardMobileHeights في TS) */
-/* زر Join our merchant Network — نفس شكل الفيجما (كبسولة + دايرة كحلي) */
-.merchants-join-cta {
-  display: inline-grid !important;
-  grid-template-columns: minmax(0, 1fr) 52px;
-  grid-template-rows: 52px;
-  align-items: center;
-  box-sizing: border-box;
+/* زر Join our merchant Network */
+.merchants-join-btn {
   width: min(100%, 20.8125rem);
-  min-width: min(100%, 15rem);
-  padding: 0 0 0 1.25rem;
-  border: 0.8px solid #0d11b3;
-  border-radius: 44px;
-  background: #fff;
-  overflow: hidden;
-  cursor: pointer;
-  font: inherit;
-  color: inherit;
-  transition: box-shadow 0.25s ease;
 
-  &:hover {
-    box-shadow: 0 4px 14px rgba(13, 17, 179, 0.12);
-  }
-
-  &:focus-visible {
-    outline: 2px solid #0d11b3;
-    outline-offset: 2px;
-  }
-
-  .merchants-join-cta__label {
-    grid-column: 1;
-    grid-row: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    align-self: stretch;
-    height: 100%;
-    min-height: 52px;
-    min-width: 0;
-    margin: 0;
-    padding: 0 0.5rem 0 0;
-    text-align: center;
-    color: #f46200;
-    font-family: 'Inter', system-ui, sans-serif;
-    font-weight: 800;
-    font-size: 1rem;
-    line-height: 1;
-    letter-spacing: -0.02em;
-    white-space: nowrap;
-  }
-
-  .merchants-join-cta__icon {
-    grid-column: 2;
-    grid-row: 1;
-    justify-self: end;
-    align-self: center;
-    width: 52px;
-    height: 52px;
-    flex-shrink: 0;
-    background-color: #0d11b3;
-    color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-
-    i {
-      font-size: 1.15rem;
-      line-height: 1;
-    }
-  }
-}
-
-@media (max-width: 767px) {
-  .merchants-join-cta {
+  @media (max-width: 767px) {
     width: min(100%, 18.5rem);
 
-    .merchants-join-cta__label {
-      font-size: 0.875rem;
+    .download-btn__label {
       white-space: normal;
     }
   }

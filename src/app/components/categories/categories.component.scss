@@ -1,5 +1,98 @@
 $waseela-blue: #1D1DDB;
 
+.categories-page {
+  position: relative;
+}
+
+.categories-page-stage {
+  position: relative;
+  isolation: isolate;
+}
+
+.categories-page-glow {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .categories-page {
+    padding-top: 7.5rem !important;
+    padding-bottom: 0 !important;
+  }
+
+  .categories-page__container {
+    padding-top: 0;
+    padding-bottom: 4rem;
+  }
+
+  .categories-page-glow {
+    display: block;
+    position: absolute;
+    left: 50%;
+    top: 5.55rem;
+    z-index: 0;
+    width: 57.97rem;
+    height: 32.6rem;
+    max-width: 115vw;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+
+  // .categories-page-glow__img {
+  //   position: absolute;
+  //   inset: 0;
+  //   background-image: url('../../../assets/images/merchants-glow.png');
+  //   background-size: cover;
+  //   background-position: center;
+  //   background-repeat: no-repeat;
+  //   opacity: 0.15;
+  // }
+
+  .categories-page-hero {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 0 48px;
+    padding: 0;
+  }
+
+  .categories-page-hero-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 668px;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  .categories-page-hero-title {
+    margin: 0 0 15px !important;
+    width: 100%;
+    font-size: 42px;
+    line-height: 1.25;
+    font-weight: 900;
+    letter-spacing: 0.025em;
+    color: #1d1ddb;
+    text-align: center;
+  }
+
+  .categories-page-hero-desc {
+    margin: 0 !important;
+    width: 100%;
+    max-width: 668px;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 500;
+    color: #737373;
+    letter-spacing: 0.2px;
+    text-align: center;
+    text-wrap: balance;
+  }
+}
+
 /* توهج خلف صورة الكاتيجوري + الاسم + الوصف — opacity 20% زي الفيجما */
 .category-section-hero {
   position: relative;
@@ -24,7 +117,7 @@ $waseela-blue: #1D1DDB;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  opacity: 0.12;
+  opacity: 0.15;
 }
 
 .category-section-hero__content {
@@ -80,8 +173,18 @@ $waseela-blue: #1D1DDB;
       height: 100%;
       object-fit: contain;
       display: block;
-      transform: translate(-10%, 10%);
+      transform: translate(-10%, 6%);
     }
+  }
+}
+
+@media (min-width: 1024px) {
+  .category-section-hero__content > .relative.flex {
+    margin-top: -0.5rem;
+  }
+
+  .category-blob-wrapper .image-content-container img {
+    transform: translate(-10%, 4%);
   }
 }
 
@@ -90,7 +193,7 @@ $waseela-blue: #1D1DDB;
     max-width: 360px;
 
     .image-content-container img {
-      transform: translate(-6%, 7%);
+      transform: translate(-6%, 5%);
     }
   }
 }
@@ -102,7 +205,7 @@ $waseela-blue: #1D1DDB;
     .image-content-container img {
       width: 100%;
       height: 100%;
-      transform: translate(-3%, 5%);
+      transform: translate(-3%, 4%);
     }
   }
 }
@@ -111,8 +214,17 @@ h2 {
   letter-spacing: -0.03em;
 }
 
-h3 {
+.category-section-title {
+  font-size: 1.625rem;
   letter-spacing: -0.02em;
+
+  @media (min-width: 768px) {
+    font-size: 2rem;
+  }
+
+  @media (min-width: 1024px) {
+    font-size: 2.125rem;
+  }
 }
 
 /* بطاقة التصنيف الفرعي — أيقونة داخل دائرة فوق المربع (فيجما) */

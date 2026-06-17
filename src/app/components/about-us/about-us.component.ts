@@ -90,6 +90,18 @@ export class AboutUsComponent implements OnInit, OnDestroy {
     return item.id;
   }
 
+  /** Compliance cards: parentheses → & separator */
+  formatAmpersandTitle(title: string | null | undefined): string {
+    if (!title) {
+      return '';
+    }
+    return title
+      .replace(/\(/g, ' & ')
+      .replace(/\)/g, '')
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
+
   private tryInitTeamLeadershipSwiper(): void {
     if (this.teamLeadershipSwiperInited) {
       return;

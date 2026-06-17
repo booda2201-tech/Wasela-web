@@ -31,7 +31,6 @@
               class="blogs-featured__img"
               loading="lazy"
             />
-            <p class="blogs-featured__headline" *ngIf="featuredHeadline() as headline">{{ headline }}</p>
           </div>
           <div class="blogs-featured__decor" aria-hidden="true">
             <img
@@ -59,25 +58,10 @@
     </div>
 
     <!-- شبكة 3 بطاقات -->
-    <h2
-      *ngIf="gridTitle()"
-      class="blogs-grid-title text-center text-xl font-bold text-[#0d11b3] sm:text-2xl mt-3 sm:mt-4"
-    >
-      {{ gridTitle() }}
-    </h2>
-    <div
-      class="blogs-grid mx-auto mt-8 flex max-w-[1251px] flex-col flex-wrap justify-center gap-4 sm:mt-12 sm:gap-5 md:mt-16 md:flex-row md:gap-6"
-    >
-      <article
-        *ngFor="let post of gridPosts()"
-        data-blog-card
-        class="blogs-card mx-auto w-full max-w-[400px] shrink-0 overflow-hidden rounded-xl bg-white shadow-[9px_9px_15px_rgba(0,0,0,0.1)] sm:max-w-none sm:mx-0 md:w-[calc(50%-0.75rem)] md:max-w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)] lg:max-w-[399.914px]"
-      >
-        <a
-          class="blogs-card__link h-full min-h-full text-inherit no-underline outline-none focus-visible:ring-2 focus-visible:ring-[#0d11b3] focus-visible:ring-offset-2"
-          [routerLink]="['/blogs', post.id]"
-        >
-          <div class="blogs-card__thumb-wrap relative overflow-hidden rounded-t-[5px]">
+    <div class="blogs-grid" *ngIf="gridPosts().length">
+      <article *ngFor="let post of gridPosts()" data-blog-card class="blogs-card">
+        <a class="blogs-card__link" [routerLink]="['/blogs', post.id]">
+          <div class="blogs-card__thumb-wrap">
             <img
               *ngIf="post.imageSrc"
               [src]="post.imageSrc"
@@ -85,9 +69,9 @@
               class="blogs-card__thumb"
               loading="lazy"
             />
-            <span class="blogs-tag blogs-tag--float">{{ post.tag }}</span>
+            <span class="blogs-tag blogs-tag--float" *ngIf="post.tag">{{ post.tag }}</span>
           </div>
-          <div class="blogs-card__body px-4 pb-6 pt-6 sm:px-6 sm:pb-8 sm:pt-8 md:px-7">
+          <div class="blogs-card__body">
             <div class="blogs-card__meta">
               <i class="bi bi-calendar3 blogs-card__cal" aria-hidden="true"></i>
               <span class="blogs-card__date">{{ post.date }}</span>

@@ -40,7 +40,7 @@
             [attr.aria-controls]="'faq-answer-' + item.id"
             [attr.id]="'faq-q-' + item.id"
           >
-            <span class="font-bold text-[#1D1DDB] text-[15px] md:text-lg leading-snug pr-2">
+            <span class="text-[#1D1DDB] text-[15px] md:text-lg font-medium leading-snug pr-2">
               {{ item.question }}
             </span>
 
@@ -69,7 +69,7 @@
             [attr.aria-hidden]="!isExpanded(item.id)"
           >
             <div class="faq-answer-inner px-4 md:px-6 pb-4 md:pb-6 pt-0 border-t border-gray-100">
-              <p class="text-gray-600 text-[13px] md:text-base font-medium leading-relaxed pt-3 md:pt-4">
+              <p class="text-[#737373] text-[13px] md:text-base font-medium leading-relaxed pt-3 md:pt-4">
                 {{ item.answer }}
               </p>
             </div>

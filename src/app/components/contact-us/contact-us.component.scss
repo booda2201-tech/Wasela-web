@@ -29,7 +29,7 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  opacity: 0.25;
+  opacity: 0.15;
   filter: blur(14px);
   -webkit-mask-image: radial-gradient(
     ellipse 84% 80% at 50% 48%,
@@ -130,7 +130,7 @@
   padding: 0.35rem 0 0.65rem;
   font-size: 14px;
   font-weight: 500;
-  color: #0d11b3;
+  color: #1d1ddb;
   outline: none;
   transition: border-color 0.2s ease;
 }
@@ -153,21 +153,8 @@
   font-family: inherit;
 }
 
-.contact-form-actions .contact-submit {
-  grid-template-columns: minmax(0, 1fr) 46px;
-  grid-template-rows: 46px;
+.contact-form-actions .download-btn {
   min-width: 9.25rem;
-  padding-left: 1rem;
-
-  .contact-submit__text {
-    min-height: 46px;
-    font-size: 0.9375rem;
-  }
-
-  .contact-submit__icon {
-    width: 46px;
-    height: 46px;
-  }
 }
 
 .contact-pills-row {
@@ -216,7 +203,7 @@
   height: 48px;
   margin: -0.8px 0 -0.8px -0.8px;
   border-radius: 50%;
-  background: #0d11b3;
+  background: #1d1ddb;
   color: #fff;
 
   i {

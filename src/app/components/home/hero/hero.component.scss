@@ -1,3 +1,10 @@
+:host {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
+}
+
 // ألوان Figma (wsite)
 $blue-bg: #0d11b3;
 $blue-pill: #2928ff;
@@ -310,55 +317,54 @@ $total: 3.5s;
   }
 }
 
-/* نفس شكل زر الموبايل: كبسولة، نص أزرق متوسّط، دايرة برتقالي + سهم قطري */
-.explore-btn {
-  display: inline-grid;
-  grid-template-columns: minmax(0, 1fr) 52px;
-  grid-template-rows: 52px;
-  align-items: center;
-  box-sizing: border-box;
-  min-width: 220px;
-  padding: 0 0 0 1.35rem;
-  // border: 1px solid $blue-bg;
-  border-radius: 9999px;
-  background: $white;
-  color: $blue-bg;
-  text-decoration: none;
-  font-family: 'Inter', sans-serif;
-  font-weight: 700;
-  font-size: clamp(0.8rem, 1vw, 1rem);
-  line-height: 1;
-  overflow: hidden;
-  box-shadow: 0 6px 26px rgba(0, 0, 0, 0.14);
-  -webkit-tap-highlight-color: transparent;
+/* زر Explore Now — Figma: بيل أبيض + نص أزرق + دائرة برتقالية */
+.hero-cta .download-btn,
+.hero-mobile-cta .download-btn {
+  --dl-btn-h: 48px;
+  min-width: 200px;
+  padding: 0;
+  padding-inline-start: 1.05rem;
+  border: none;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.14);
+  grid-template-columns: minmax(0, 1fr) var(--dl-btn-h);
+  grid-template-rows: var(--dl-btn-h);
 
-  .explore-label {
-    grid-column: 1;
-    grid-row: 1;
-    display: flex;
-    align-items: center;
+  .download-btn__label {
+    color: #1d1ddb;
+    font-weight: 700;
     justify-content: center;
-    text-align: center;
-    min-width: 0;
-    padding-right: 0.35rem;
+    padding: 0 0.5rem 0 0;
   }
 
-  .arrow-circle {
+  .icon-circle {
     grid-column: 2;
     grid-row: 1;
-    justify-self: end;
-    width: 52px;
-    height: 52px;
+    align-self: stretch;
+    justify-self: stretch;
+    width: 100%;
+    height: 100%;
+    min-width: var(--dl-btn-h);
+    min-height: var(--dl-btn-h);
+    background-color: $orange;
+    color: $white;
     border-radius: 50%;
-    background: $orange;
-    color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 
     i {
-      font-size: 1.1rem;
-      line-height: 0;
+      font-size: 1.05rem;
+      font-weight: 700;
+    }
+  }
+
+  &:hover {
+    background-color: $white;
+
+    .download-btn__label {
+      color: #1d1ddb;
+    }
+
+    .icon-circle {
+      background-color: #e85a00;
+      color: $white;
     }
   }
 }
@@ -373,23 +379,20 @@ $total: 3.5s;
 .store-badge {
   display: block;
   line-height: 0;
-  border-radius: 12px;
-  overflow: hidden;
-  background: $white;
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12);
   text-decoration: none;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.2s ease;
 
   &:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
   }
 
-  img {
+  img,
+  .store-badge-img {
     display: block;
     height: 44px;
     width: auto;
-    max-width: 154px;
+    max-width: none;
+    aspect-ratio: 135 / 40;
     object-fit: contain;
   }
 }
@@ -455,28 +458,17 @@ $total: 3.5s;
     }
   }
 
-  .explore-btn {
-    grid-template-columns: minmax(0, 1fr) 44px;
-    grid-template-rows: 44px;
+  .hero-cta .download-btn {
+    --dl-btn-h: 44px;
     min-width: 190px;
-    padding: 0 0 0 1.1rem;
-    font-size: clamp(0.72rem, 0.9vw, 0.875rem);
 
-    .arrow-circle {
-      width: 44px;
-      height: 44px;
-    }
-
-    .explore-btn__arrow {
-      display: block;
-      width: 0.9rem;
-      height: 0.9rem;
+    .download-btn__label {
+      font-size: clamp(0.72rem, 0.9vw, 0.875rem);
     }
   }
 
-  .store-badge img {
+  .store-badge .store-badge-img {
     height: 36px;
-    max-width: 128px;
   }
 
   .store-buttons {
@@ -498,9 +490,10 @@ $total: 3.5s;
     justify-content: space-between;
     min-height: clamp(500px, 78svh, 680px);
     width: 100%;
+    margin-top: -2px;
     background: #1b1cc4;
-    overflow: hidden;
-    padding: 1.35rem 0.9rem 0.2rem;
+    overflow-x: clip;
+    padding: calc(1.35rem + 2px) 0.9rem 0.2rem;
   }
 
   .hero-mobile-content {
@@ -535,57 +528,9 @@ $total: 3.5s;
 
   }
 
-  .hero-mobile-explore {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) 52px;
-    grid-template-rows: 52px;
-    align-items: center;
-    box-sizing: border-box;
+  .hero-mobile-cta .download-btn {
     width: 100%;
     max-width: 200px;
-    padding: 0 0 0 1rem;
-    border: 1px solid $blue-bg;
-    border-radius: 9999px;
-    background: $white;
-    color: $blue-bg;
-    text-decoration: none;
-    font-family: 'Inter', sans-serif;
-    font-size: clamp(0.78rem, 3.2vw, 1rem);
-    font-weight: 800;
-    line-height: 1;
-    overflow: hidden;
-    box-shadow: 0 5px 14px rgba(0, 0, 0, 0.12);
-    -webkit-tap-highlight-color: transparent;
-
-    .hero-mobile-explore__label {
-      grid-column: 1;
-      grid-row: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      min-width: 0;
-      padding-right: 0.35rem;
-    }
-  }
-
-  .hero-mobile-arrow {
-    grid-column: 2;
-    grid-row: 1;
-    justify-self: end;
-    width: 52px;
-    height: 52px;
-    border-radius: 50%;
-    background: $orange;
-    color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    i {
-      font-size: 1.15rem;
-      line-height: 1;
-    }
   }
 
   .hero-mobile-stores {
@@ -598,16 +543,13 @@ $total: 3.5s;
   .hero-mobile-store-badge {
     display: block;
     line-height: 0;
-    border-radius: 6px;
-    overflow: hidden;
-    // box-shadow: 0 4px 12px rgba(0, 0, 0, 0.16);
-    // background: #fff;
 
-    img {
+    .store-badge-img {
       display: block;
       height: 45px;
       width: auto;
-      max-width: 130px;
+      max-width: none;
+      aspect-ratio: 135 / 40;
       object-fit: contain;
     }
   }
@@ -617,14 +559,15 @@ $total: 3.5s;
     left: auto;
     bottom: auto;
     width: 100%;
+    max-width: 100%;
     transform: none;
     display: flex;
     justify-content: center;
     align-items: flex-end;
     z-index: 1;
-    // margin-top: 0.65rem;
     flex: 1;
     min-height: 260px;
+    overflow: hidden;
   }
 
   .hero-mobile-blue-circle {
@@ -654,7 +597,6 @@ $total: 3.5s;
     max-width: none !important;
     height: auto !important;
     object-fit: contain;
-    // margin-top: 0.85rem;
     transform: translateY(20px) scale(0.97);
   }
 
@@ -694,7 +636,7 @@ $total: 3.5s;
     animation-delay: 2.5s;
   }
 
-  .explore-btn {
+  .hero-cta .download-btn {
     width: 100%;
     max-width: 280px;
   }
@@ -705,9 +647,8 @@ $total: 3.5s;
     gap: 0.5rem;
   }
 
-  .store-badge img {
+  .store-badge .store-badge-img {
     height: 38px;
-    max-width: 132px;
   }
 
   .powered-by {
@@ -736,18 +677,16 @@ $total: 3.5s;
       gap: 1.15rem;
     }
 
-    .hero-mobile-explore {
+    .hero-mobile-cta .download-btn {
       max-width: 248px;
-      font-size: 1rem;
     }
 
     .hero-mobile-stores {
       gap: 0.5rem;
     }
 
-    .hero-mobile-store-badge img {
+    .hero-mobile-store-badge .store-badge-img {
       height: 50px;
-      max-width: 154px;
     }
 
     .hero-mobile-visual {
@@ -787,29 +726,13 @@ $total: 3.5s;
     font-size: clamp(2.15rem, 11.4vw, 2.7rem);
   }
 
-  .hero-mobile-explore {
-    grid-template-columns: minmax(0, 1fr) 44px;
-    grid-template-rows: 44px;
-    padding: 0 0 0 0.85rem;
-    font-size: 0.7rem;
-
-    .hero-mobile-explore__label {
-      padding-right: 0.25rem;
-    }
+  .hero-mobile-cta .download-btn {
+    --dl-btn-h: 44px;
+    max-width: 200px;
   }
 
-  .hero-mobile-arrow {
-    width: 44px;
-    height: 44px;
-
-    i {
-      font-size: 1rem;
-    }
-  }
-
-  .hero-mobile-store-badge img {
-    height: 23px;
-    max-width: 84px;
+  .hero-mobile-store-badge .store-badge-img {
+    height: 28px;
   }
 
   .hero-mobile-orange-circle {

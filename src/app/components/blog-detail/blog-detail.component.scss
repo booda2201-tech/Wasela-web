@@ -2,7 +2,7 @@
   display: block;
 }
 
-$blog-blue: #0d11b3;
+$blog-blue: #1d1ddb;
 
 $gradient-text: linear-gradient(
   137deg,
@@ -104,20 +104,27 @@ $gradient-text: linear-gradient(
   max-width: 67.75rem;
   margin-left: auto;
   margin-right: auto;
+  overflow: visible;
+}
+
+.blog-detail__hero-media {
+  position: relative;
+  max-width: 100%;
+  margin-inline: auto;
+  overflow: visible;
 }
 
 .blog-detail__decor {
   position: absolute;
   z-index: 0;
-  left: 85%;
-  top: 80%;
-  bottom: auto;
-  width: min(38vw, 15rem);
   pointer-events: none;
 
-  @media (max-width: 767px) {
-    width: min(48vw, 11rem);
-    opacity: 0.55;
+  @media (min-width: 1024px) {
+    left: 85%;
+    top: 71%;
+    right: auto;
+    bottom: auto;
+    width: min(38vw, 15rem);
   }
 }
 
@@ -125,37 +132,46 @@ $gradient-text: linear-gradient(
   display: block;
   width: 100%;
   height: auto;
-  opacity: 0.55;
+  opacity: 0.8;
+
+  @media (max-width: 1023px) {
+    opacity: 0.95;
+  }
 }
 
 .blog-detail__hero {
   position: relative;
   z-index: 1;
+  width: 100%;
   border-radius: clamp(12px, 2.5vw, 22px);
   overflow: hidden;
-  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-  aspect-ratio: 1084 / 480;
-  min-height: clamp(11rem, 38vw, 15rem);
-  background: #e8ecf4;
+  background: #1a1f3a;
 
-  @media (max-width: 639px) {
-    aspect-ratio: 4 / 3;
-    min-height: 12rem;
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(180deg, rgb(0 0 0 / 8%) 0%, rgb(0 0 0 / 22%) 100%);
+    pointer-events: none;
   }
 
-  @media (min-width: 640px) and (max-width: 1023px) {
-    aspect-ratio: 16 / 9;
-    min-height: 14rem;
+  @media (min-width: 1024px) {
+    aspect-ratio: 1084 / 480;
+    min-height: clamp(11rem, 38vw, 15rem);
   }
 }
 
 .blog-detail__hero-img {
   position: absolute;
-  inset: 0;
+  left: 0;
+  right: 0;
+  top: -8%;
+  display: block;
   width: 100%;
-  height: 100%;
+  height: 110%;
   object-fit: cover;
-  object-position: center 35%;
+  object-position: center 34%;
 }
 
 .blog-detail__hero-overlay {
@@ -325,5 +341,123 @@ $gradient-text: linear-gradient(
   @media (min-width: 640px) {
     margin-bottom: 0.5rem;
     padding-left: 0.35rem;
+  }
+}
+
+/* موبايل + تابلت — هيرو التفاصيل (نفس هيكل Blogs) */
+@media (max-width: 1023px) {
+  .blog-detail__hero-wrap {
+    margin-top: 1rem;
+    max-width: min(94vw, 40rem);
+    padding-bottom: clamp(1.75rem, 5vw, 2.75rem);
+  }
+
+  .blog-detail__hero-media {
+    max-width: 100%;
+    margin-inline: auto;
+  }
+
+  .blog-detail__decor {
+    left: auto;
+    top: auto;
+    right: clamp(-1.5rem, -6.5vw, -0.75rem);
+    bottom: calc(clamp(1.75rem, 5vw, 2.75rem) + clamp(-1.15rem, -3vw, -0.55rem));
+    width: clamp(6.25rem, 24vw, 9rem);
+  }
+
+  .blog-detail__hero {
+    aspect-ratio: 16 / 9;
+    height: clamp(8.75rem, 34vw, 11.25rem);
+    min-height: 0;
+    max-height: 11.25rem;
+    border-radius: clamp(13px, 2.6vw, 16px);
+  }
+
+  .blog-detail__hero-img {
+    top: -4%;
+    height: 108%;
+    object-position: center 32%;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .blog-detail__hero-wrap {
+    max-width: min(92vw, 44rem);
+    padding-bottom: 2.75rem;
+  }
+
+  .blog-detail__decor {
+    right: clamp(-2.5rem, -5vw, -1.65rem);
+    bottom: calc(2.75rem + clamp(-1.65rem, -3.2vw, -1rem));
+    width: clamp(7.75rem, 14vw, 10.5rem);
+  }
+
+  .blog-detail__hero {
+    height: clamp(10.5rem, 24vw, 13.5rem);
+    max-height: 13.5rem;
+    border-radius: 17px;
+  }
+
+  .blog-detail__hero-img {
+    top: -6%;
+    height: 112%;
+    object-position: center 34%;
+  }
+}
+
+@media (max-width: 479px) {
+  .blog-detail__hero-wrap {
+    max-width: min(92vw, 22rem);
+  }
+
+  .blog-detail__hero {
+    height: clamp(8rem, 36vw, 10rem);
+    max-height: 10rem;
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 1439px) {
+  .blog-detail__inner {
+    max-width: 72rem;
+    padding-top: 5.5rem;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+
+  .blog-detail__hero-wrap,
+  .blog-detail__article {
+    max-width: 62rem;
+  }
+
+  .blog-detail__hero-wrap {
+    margin-top: 1rem;
+    padding-bottom: 3.8rem;
+  }
+
+  .blog-detail__hero {
+    aspect-ratio: 1251 / 420;
+    min-height: clamp(9.75rem, 28vw, 17.85rem);
+    max-height: none;
+    border-radius: 17px;
+  }
+
+  .blog-detail__hero-img {
+    inset: auto;
+    top: -8%;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 110%;
+    object-fit: cover;
+    object-position: center 34%;
+  }
+
+  .blog-detail__article {
+    margin-top: 2rem;
+  }
+
+  .blog-detail__article-sheet::before {
+    width: 115%;
+    height: min(52vw, 28rem);
   }
 }

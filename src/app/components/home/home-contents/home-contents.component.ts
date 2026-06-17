@@ -171,6 +171,23 @@ export class HomeContentsComponent implements OnInit, OnDestroy, AfterViewInit, 
     return !!url && /^https?:\/\//i.test(url);
   }
 
+  /** يقسّم وصف الشركاء لسطرين متساويين عند نهاية الجملة الأولى */
+  partnersSubtitleLines(description: string | null | undefined): string[] {
+    const text = (description ?? '').trim();
+    if (!text) {
+      return [];
+    }
+
+    const sentenceEnd = text.search(/\.\s+/);
+    if (sentenceEnd === -1) {
+      return [text];
+    }
+
+    const first = text.slice(0, sentenceEnd + 1).trim();
+    const second = text.slice(sentenceEnd + 1).trim();
+    return second ? [first, second] : [first];
+  }
+
   /** مسار الـ router لزر التجّار في الـ home؛ الافتراضي `/merchants` */
   merchantsHomeCtaRouterPath(section: CmsPageSection): string {
     const raw = section.buttonUrl?.trim();
@@ -384,10 +401,22 @@ export class HomeContentsComponent implements OnInit, OnDestroy, AfterViewInit, 
           spaceBetween: 20,
           centeredSlides: false,
         },
+        1024: {
+          slidesPerView: 2,
+          slidesPerGroup: 2,
+          spaceBetween: 18,
+          centeredSlides: true,
+        },
         1200: {
           slidesPerView: 3,
           slidesPerGroup: 3,
-          spaceBetween: 20,
+          spaceBetween: 10,
+          centeredSlides: false,
+        },
+        1360: {
+          slidesPerView: 3,
+          slidesPerGroup: 3,
+          spaceBetween: 18,
           centeredSlides: false,
         },
         1440: {

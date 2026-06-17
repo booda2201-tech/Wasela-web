@@ -33,7 +33,7 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  opacity: 0.25;
+  opacity: 0.15;
   filter: blur(14px);
   -webkit-mask-image: radial-gradient(
     ellipse 84% 80% at 50% 48%,
@@ -195,45 +195,31 @@
   vertical-align: middle;
 }
 
-.job-card__actions .contact-submit {
-  grid-template-columns: minmax(0, 1fr) 44px;
-  grid-template-rows: 44px;
+.job-card__actions .download-btn {
+  --dl-btn-h: 44px;
   min-width: 8.75rem;
-  padding-left: 0.875rem;
+  padding-inline-start: 0.875rem;
 
-  .contact-submit__text {
-    min-height: 44px;
+  .download-btn__label {
     font-size: 0.8125rem;
     white-space: nowrap;
   }
 
-  .contact-submit__icon {
-    width: 44px;
-    height: 44px;
-
-    i {
-      font-size: 1rem;
-    }
+  .icon-circle i {
+    font-size: 1rem;
   }
 
   @media (max-width: 767px) {
-    grid-template-columns: minmax(0, 1fr) 40px;
-    grid-template-rows: 40px;
+    --dl-btn-h: 40px;
     min-width: 8.25rem;
-    padding-left: 0.75rem;
+    padding-inline-start: 0.75rem;
 
-    .contact-submit__text {
-      min-height: 40px;
+    .download-btn__label {
       font-size: 0.75rem;
     }
 
-    .contact-submit__icon {
-      width: 40px;
-      height: 40px;
-
-      i {
-        font-size: 0.9rem;
-      }
+    .icon-circle i {
+      font-size: 0.9rem;
     }
   }
 }

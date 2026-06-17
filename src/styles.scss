@@ -77,6 +77,8 @@ $waseela-orange: #ff6b00;
 html,
 body {
   font-family: 'Diodrum Arabic', system-ui, sans-serif;
+  max-width: 100%;
+  overflow-x: clip;
 }
 
 .text-waseela-blue { color: $waseela-blue; }
@@ -88,6 +90,16 @@ body {
 .z-index-2 { z-index: 2; }
 .z-index-3 { z-index: 3; }
 
+/* App Store / Google Play — SVG 135×40 */
+.store-badge-img {
+  display: block;
+  width: auto;
+  height: 40px;
+  max-width: 135px;
+  aspect-ratio: 135 / 40;
+  object-fit: contain;
+}
+
 .mt-n5 { margin-top: -5rem; } // عشان السكشن يدخل في الـ Hero
 
 // Custom Hover
@@ -98,89 +110,113 @@ body {
   color: $waseela-blue !important;
 }
 
-/* زر Submit / Explore — مشترك (Contact, Join Us, …) */
-.contact-submit {
-  display: inline-grid !important;
-  grid-template-columns: minmax(0, 1fr) 52px;
-  grid-template-rows: 52px;
-  align-items: center;
-  box-sizing: border-box;
-  min-width: 10.5rem;
-  margin: 0;
-  padding: 0 0 0 1.25rem;
-  border: 0.8px solid #0d11b3;
-  border-radius: 9999px;
-  background: transparent;
-  cursor: pointer;
-  overflow: hidden;
-  font: inherit;
-  line-height: 1;
-  vertical-align: middle;
+/* زر Download now — مشترك (Navbar, Categories, …) */
+.download-btn,
+.download-btn--full {
+  font-family: 'Inter', system-ui, sans-serif;
   -webkit-appearance: none;
   appearance: none;
-  transition:
-    background 0.3s ease,
-    border-color 0.3s ease;
-}
-
-.contact-submit__text {
-  grid-column: 1;
-  grid-row: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  align-self: stretch;
-  height: 100%;
-  min-height: 52px;
-  min-width: 0;
-  padding: 0 0.5rem 0 0;
   margin: 0;
-  text-align: center;
-  color: #f56300;
-  font-family: 'Inter', system-ui, sans-serif;
-  font-weight: 700;
-  font-size: 1rem;
-  line-height: 1;
-  letter-spacing: -0.02em;
 }
 
-.contact-submit__icon {
-  grid-column: 2;
-  grid-row: 1;
-  justify-self: end;
-  align-self: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  background: #0d11b3;
-  color: #fff;
-  transition:
-    background 0.3s ease,
-    color 0.3s ease;
+.download-btn {
+  --dl-btn-h: 46px;
+  display: inline-grid;
+  grid-template-columns: minmax(0, 1fr) var(--dl-btn-h);
+  grid-template-rows: var(--dl-btn-h);
+  align-items: stretch;
+  box-sizing: border-box;
+  min-width: 13.75rem;
+  padding: 0;
+  padding-inline-start: 1.05rem;
+  border: 1px solid #1d1ddb;
+  border-radius: 9999px;
+  background: #fff;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: background-color 0.25s ease;
+  flex: 0 0 auto;
 
-  i {
-    font-size: 1.15rem;
+  .download-btn__label {
+    grid-column: 1;
+    grid-row: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: stretch;
+    margin: 0;
+    padding: 0 0.5rem 0 0;
+    box-sizing: border-box;
+    text-align: center;
+    color: #ff6b00;
+    font-weight: 700;
+    font-size: 0.9375rem;
     line-height: 1;
+    letter-spacing: 0.01em;
+    min-width: 0;
   }
-}
 
-.contact-submit:hover {
-  background: #0d11b3;
-
-  .contact-submit__text {
+  .icon-circle {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: center;
+    justify-self: end;
+    width: var(--dl-btn-h);
+    height: var(--dl-btn-h);
+    flex-shrink: 0;
+    background-color: #1d1ddb;
     color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background-color 0.25s ease, color 0.25s ease;
+
+    i {
+      font-size: 1.05rem;
+      line-height: 1;
+    }
   }
 
-  .contact-submit__icon {
-    background: #fff;
-    color: #0d11b3;
+  &:hover {
+    background-color: #1d1ddb;
+
+    .download-btn__label {
+      color: #fff;
+    }
+
+    .icon-circle {
+      background-color: #fff;
+      color: #1d1ddb;
+    }
+  }
+
+  &:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+    pointer-events: none;
   }
 }
 
+/* عرض كامل — قائمة الموبايل في الـ navbar */
+.download-btn--full {
+  --dl-btn-h: 48px;
+  width: 100%;
+  max-width: 100%;
+  margin-top: 0.35rem;
+  transition: transform 0.18s ease, opacity 0.18s ease, background-color 0.25s ease;
+
+  .download-btn__label {
+    font-size: clamp(0.84rem, 3.4vw, 0.9375rem);
+  }
+
+  &:active {
+    transform: translateY(1px);
+    opacity: 0.92;
+  }
+}
 
 // .contact-pill {
 //   display: flex;

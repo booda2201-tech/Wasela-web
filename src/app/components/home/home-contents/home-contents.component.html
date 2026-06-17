@@ -7,22 +7,22 @@
 
     <a
       *ngIf="fin.buttonText && fin.buttonUrl && isExternalUrl(fin.buttonUrl)"
-      class="categories-cta-btn categories-cta-btn--desktop-only mb-3 mx-auto inline-flex no-underline"
+      class="download-btn download-btn--desktop-only mb-3 mx-auto no-underline"
       [href]="fin.buttonUrl"
       rel="noopener noreferrer"
     >
-      <span class="categories-cta-btn__label">{{ fin.buttonText }}</span>
-      <span class="categories-cta-btn__icon" aria-hidden="true">
+      <span class="download-btn__label">{{ fin.buttonText }}</span>
+      <span class="icon-circle" aria-hidden="true">
         <i class="bi bi-arrow-up-right"></i>
       </span>
     </a>
     <a
       *ngIf="fin.buttonText && fin.buttonUrl && !isExternalUrl(fin.buttonUrl)"
-      class="categories-cta-btn categories-cta-btn--desktop-only mb-3 mx-auto inline-flex no-underline"
+      class="download-btn download-btn--desktop-only mb-3 mx-auto no-underline"
       [routerLink]="fin.buttonUrl"
     >
-      <span class="categories-cta-btn__label">{{ fin.buttonText }}</span>
-      <span class="categories-cta-btn__icon" aria-hidden="true">
+      <span class="download-btn__label">{{ fin.buttonText }}</span>
+      <span class="icon-circle" aria-hidden="true">
         <i class="bi bi-arrow-up-right"></i>
       </span>
     </a>
@@ -67,22 +67,22 @@
 
     <a
       *ngIf="fin.buttonText && fin.buttonUrl && isExternalUrl(fin.buttonUrl)"
-      class="categories-cta-btn categories-cta-btn--mobile-only mt-4 mb-3 mx-auto inline-flex no-underline"
+      class="download-btn download-btn--mobile-only mt-4 mb-3 mx-auto no-underline"
       [href]="fin.buttonUrl"
       rel="noopener noreferrer"
     >
-      <span class="categories-cta-btn__label">{{ fin.buttonText }}</span>
-      <span class="categories-cta-btn__icon" aria-hidden="true">
+      <span class="download-btn__label">{{ fin.buttonText }}</span>
+      <span class="icon-circle" aria-hidden="true">
         <i class="bi bi-arrow-up-right"></i>
       </span>
     </a>
     <a
       *ngIf="fin.buttonText && fin.buttonUrl && !isExternalUrl(fin.buttonUrl)"
-      class="categories-cta-btn categories-cta-btn--mobile-only mt-4 mb-3 mx-auto inline-flex no-underline"
+      class="download-btn download-btn--mobile-only mt-4 mb-3 mx-auto no-underline"
       [routerLink]="fin.buttonUrl"
     >
-      <span class="categories-cta-btn__label">{{ fin.buttonText }}</span>
-      <span class="categories-cta-btn__icon" aria-hidden="true">
+      <span class="download-btn__label">{{ fin.buttonText }}</span>
+      <span class="icon-circle" aria-hidden="true">
         <i class="bi bi-arrow-up-right"></i>
       </span>
     </a>
@@ -94,33 +94,16 @@
   class="partners-section py-3 bg-white"
   [class.is-swapping]="partnersSwapping"
 >
-  <div class="w-full px-0 text-center">
-    <h2 *ngIf="part.title" class="partners-title text-3xl md:text-4xl font-black text-[#1D1DDB]">{{ part.title }}</h2>
-    <p *ngIf="part.description" class="partners-subtitle mx-auto font-medium cms-preline">
-      {{ part.description }}
-    </p>
-
-    <a
-      *ngIf="part.buttonText && part.buttonUrl && isExternalUrl(part.buttonUrl)"
-      class="categories-cta-btn-2 partners-cta-btn mx-auto no-underline"
-      [href]="part.buttonUrl"
-      rel="noopener noreferrer"
-    >
-      <span class="categories-cta-btn__label">{{ part.buttonText }}</span>
-      <span class="categories-cta-btn__icon" aria-hidden="true">
-        <i class="bi bi-arrow-up-right"></i>
-      </span>
-    </a>
-    <a
-      *ngIf="part.buttonText && part.buttonUrl && !isExternalUrl(part.buttonUrl)"
-      class="categories-cta-btn-2 partners-cta-btn mx-auto no-underline"
-      [routerLink]="part.buttonUrl"
-    >
-      <span class="categories-cta-btn__label">{{ part.buttonText }}</span>
-      <span class="categories-cta-btn__icon" aria-hidden="true">
-        <i class="bi bi-arrow-up-right"></i>
-      </span>
-    </a>
+  <div class="w-full px-0">
+    <div class="partners-header text-center">
+      <h2 *ngIf="part.title" class="partners-title text-3xl md:text-4xl font-black text-[#1D1DDB]">{{ part.title }}</h2>
+      <ng-container *ngIf="part.description && partnersSubtitleLines(part.description) as lines">
+        <p class="partners-subtitle mx-auto font-medium">
+          <span class="partners-subtitle__line">{{ lines[0] }}</span>
+          <span class="partners-subtitle__line" *ngIf="lines[1]">{{ lines[1] }}</span>
+        </p>
+      </ng-container>
+    </div>
 
     <div *ngIf="partnerColumns.length" class="partners-mobile-swiper-wrap md:hidden">
       <swiper-container #partnersSwiperMobile init="false" class="partners-swiper">
@@ -164,29 +147,29 @@
       <h1 *ngIf="hm.title" class="merchants-title text-3xl md:text-4xl font-black text-[#1D1DDB]">{{ hm.title }}</h1>
       <p
         *ngIf="hm.description"
-        class="text-gray-500 font-medium mb-0 lg:mb-10 max-w-md mx-auto text-[15px] leading-snug lg:text-base lg:leading-normal lg:max-w-none cms-preline"
+        class="merchants-showcase-desc text-gray-500 font-medium max-w-md mx-auto text-[15px] leading-snug lg:text-base lg:leading-normal lg:max-w-none cms-preline"
       >
         {{ hm.description }}
       </p>
 
       <a
         *ngIf="hm.buttonText && merchantsHomeCtaExternalHref(hm)"
-        class="categories-cta-btn-2 merchants-cta-btn merchants-cta--desktop mb-2 mx-auto mt-3 lg:mt-0 no-underline"
+        class="download-btn merchants-cta--desktop mx-auto no-underline"
         [href]="merchantsHomeCtaExternalHref(hm)!"
         rel="noopener noreferrer"
       >
-        <span class="categories-cta-btn__label">{{ hm.buttonText }}</span>
-        <span class="categories-cta-btn__icon" aria-hidden="true">
+        <span class="download-btn__label">{{ hm.buttonText }}</span>
+        <span class="icon-circle" aria-hidden="true">
           <i class="bi bi-arrow-up-right"></i>
         </span>
       </a>
       <a
         *ngIf="hm.buttonText && !merchantsHomeCtaExternalHref(hm)"
-        class="categories-cta-btn-2 merchants-cta-btn merchants-cta--desktop mb-2 mx-auto mt-3 lg:mt-0 no-underline"
+        class="download-btn merchants-cta--desktop mx-auto no-underline"
         [routerLink]="merchantsHomeCtaRouterPath(hm)"
       >
-        <span class="categories-cta-btn__label">{{ hm.buttonText }}</span>
-        <span class="categories-cta-btn__icon" aria-hidden="true">
+        <span class="download-btn__label">{{ hm.buttonText }}</span>
+        <span class="icon-circle" aria-hidden="true">
           <i class="bi bi-arrow-up-right"></i>
         </span>
       </a>
@@ -201,13 +184,13 @@
         >
           <div
             *ngFor="let merchant of col"
-            class="merchant-card group relative overflow-hidden rounded-[1.35rem] lg:rounded-[2rem] cursor-pointer w-full shadow-none transition-all duration-700 smooth-accordion flex-shrink min-h-[120px] lg:min-h-[150px]"
+            class="merchant-card group relative overflow-hidden rounded-[1.35rem] lg:rounded-[2rem] cursor-pointer w-full transition-all duration-700 smooth-accordion flex-shrink min-h-[120px] lg:min-h-[150px]"
             [ngClass]="merchant.classes"
           >
             <div class="merchant-card-image-clip">
               <img
                 [src]="merchant.bg"
-                class="merchant-card-bg w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 will-change-transform"
+                class="merchant-card-bg w-full h-full object-cover transition-transform duration-1000 will-change-transform"
                 alt=""
                 loading="lazy"
                 decoding="async"
@@ -219,7 +202,7 @@
 
             <div class="absolute inset-0 z-[2] flex items-center justify-center p-2 lg:p-0 pointer-events-none">
               <div
-                class="merchant-card-logo-ring flex items-center justify-center rounded-full shadow-none ring-2 ring-white/80 w-[10.25rem] h-[10.25rem] sm:w-16 sm:h-16 lg:bg-transparent lg:ring-0 lg:rounded-none lg:w-auto lg:h-auto"
+                class="merchant-card-logo-ring flex items-center justify-center rounded-full w-[10.25rem] h-[10.25rem] sm:w-16 sm:h-16 lg:bg-transparent lg:rounded-none lg:w-auto lg:h-auto"
               >
                 <img
                   [src]="merchant.logo"
@@ -236,22 +219,22 @@
     <div class="merchants-cta-mobile-row">
       <a
         *ngIf="hm.buttonText && merchantsHomeCtaExternalHref(hm)"
-        class="categories-cta-btn-2 merchants-cta-btn merchants-cta--mobile no-underline"
+        class="download-btn merchants-cta--mobile no-underline"
         [href]="merchantsHomeCtaExternalHref(hm)!"
         rel="noopener noreferrer"
       >
-        <span class="categories-cta-btn__label">{{ hm.buttonText }}</span>
-        <span class="categories-cta-btn__icon" aria-hidden="true">
+        <span class="download-btn__label">{{ hm.buttonText }}</span>
+        <span class="icon-circle" aria-hidden="true">
           <i class="bi bi-arrow-up-right"></i>
         </span>
       </a>
       <a
         *ngIf="hm.buttonText && !merchantsHomeCtaExternalHref(hm)"
-        class="categories-cta-btn-2 merchants-cta-btn merchants-cta--mobile no-underline"
+        class="download-btn merchants-cta--mobile no-underline"
         [routerLink]="merchantsHomeCtaRouterPath(hm)"
       >
-        <span class="categories-cta-btn__label">{{ hm.buttonText }}</span>
-        <span class="categories-cta-btn__icon" aria-hidden="true">
+        <span class="download-btn__label">{{ hm.buttonText }}</span>
+        <span class="icon-circle" aria-hidden="true">
           <i class="bi bi-arrow-up-right"></i>
         </span>
       </a>
@@ -267,7 +250,7 @@
   <ng-container *ngTemplateOutlet="homeTestimonials"></ng-container>
 </ng-container>
 
-<section *ngIf="downloadSection() as dl" class="download-section py-3 md:py-6" aria-labelledby="download-heading">
+<section *ngIf="downloadSection() as dl" class="download-section py-3 md:pb-4" aria-labelledby="download-heading">
   <div class="w-full px-0">
     <div class="download-layout">
       <div class="download-mockup-backdrop" aria-hidden="true"></div>
@@ -293,19 +276,41 @@
           <div class="store-badges">
             <div class="store-badge-slot">
               <a *ngIf="appStoreUrl" [href]="appStoreUrl" rel="noopener noreferrer">
-                <img src="../../../../assets/images/app-store.png" alt="Download on the App Store" />
+                <img
+                  src="assets/images/app-store.svg"
+                  alt="Download on the App Store"
+                  class="store-badge-img"
+                  width="135"
+                  height="40"
+                />
               </a>
               <img
                 *ngIf="!appStoreUrl"
-                src="../../../../assets/images/app-store.png"
+                src="assets/images/app-store.svg"
                 alt="Download on the App Store"
+                class="store-badge-img"
+                width="135"
+                height="40"
               />
             </div>
             <div class="store-badge-slot">
               <a *ngIf="googlePlayUrl" [href]="googlePlayUrl" rel="noopener noreferrer">
-                <img src="../../../../assets/images/google-play.png" alt="Get it on Google Play" />
+                <img
+                  src="assets/images/google-play.svg"
+                  alt="Get it on Google Play"
+                  class="store-badge-img"
+                  width="135"
+                  height="40"
+                />
               </a>
-              <img *ngIf="!googlePlayUrl" src="../../../../assets/images/google-play.png" alt="Get it on Google Play" />
+              <img
+                *ngIf="!googlePlayUrl"
+                src="assets/images/google-play.svg"
+                alt="Get it on Google Play"
+                class="store-badge-img"
+                width="135"
+                height="40"
+              />
             </div>
           </div>
         </div>

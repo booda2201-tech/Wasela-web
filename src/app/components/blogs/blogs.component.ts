@@ -104,54 +104,22 @@ export class BlogsComponent implements OnInit, AfterViewInit, OnDestroy {
       .sort((a, b) => a.sortOrder - b.sortOrder)[0] ?? null;
   }
 
-  /**
-   * عناصر الشبكة: `blogs_grid` أولًا ثم `blogs_header` (بدون تكرار id).
-   * لو الاتنين فاضيين نعرض بطاقات احتياطية عشان التنقل لصفحة التفاصيل يفضل شغال.
-   */
+  /** كروت الشبكة من عناصر الداشبورد (`blogs_header` + `blogs_grid` إن وُجد) */
   gridPosts(): BlogPost[] {
-    const fromCms = this.collectGridItemsFromCms();
-    return fromCms.length > 0 ? fromCms : this.fallbackGridPosts;
+    return this.collectGridItemsFromCms();
   }
 
-  private readonly fallbackGridPosts: BlogPost[] = [
-    {
-      id: 1,
-      title: 'HOW TO INCREASE SALES',
-      excerpt:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-      tag: 'INSIGHTS',
-      date: 'SEPTEMBER 28, 2024',
-      imageSrc: 'assets/images/Slide 16_9 - 5 3.png'
-    },
-    {
-      id: 2,
-      title: 'FINTECH VS. TECHFIN',
-      excerpt:
-        "Explore the difference between fintech and techfin in today's market and what it means for your business.",
-      tag: 'NEWS',
-      date: 'OCTOBER 5, 2024',
-      imageSrc: 'assets/images/Slide 16_9 - 5 3.png'
-    },
-    {
-      id: 3,
-      title: 'DIGITAL PAYMENTS GROWTH',
-      excerpt:
-        'Key trends shaping digital payments across the region and how teams can prepare for the next wave.',
-      tag: 'TRENDS',
-      date: 'OCTOBER 12, 2024',
-      imageSrc: 'assets/images/Slide 16_9 - 5 3.png'
-    }
-  ];
-
   private collectGridItemsFromCms(): BlogPost[] {
-    const keys = ['blogs_grid', 'blogs_header'] as const;
+    const keys = ['blogs_header', 'blogs_grid'] as const;
     const seen = new Set<number>();
     const out: BlogPost[] = [];
+
     for (const key of keys) {
       const section = this.pickSection(key);
       if (!section?.items?.length) {
         continue;
       }
+
       for (const item of [...section.items]
         .filter((i) => i.isActive)
         .sort((a, b) => a.sortOrder - b.sortOrder)) {
@@ -159,17 +127,22 @@ export class BlogsComponent implements OnInit, AfterViewInit, OnDestroy {
           continue;
         }
         seen.add(item.id);
-        out.push({
-          id: item.id,
-          title: item.title || '',
-          excerpt: item.description || '',
-          tag: item.subTitle || '',
-          date: item.extraDataJson || '',
-          imageSrc: this.mediaUrl(item.imageMediaFileUrl || item.imageUrl) || ''
-        });
+        out.push(this.mapSectionItemToPost(item));
       }
     }
+
     return out;
+  }
+
+  private mapSectionItemToPost(item: CmsPageSectionItem): BlogPost {
+    return {
+      id: item.id,
+      title: item.title || '',
+      excerpt: item.description || '',
+      tag: item.subTitle || '',
+      date: item.extraDataJson || '',
+      imageSrc: this.mediaUrl(item.imageMediaFileUrl || item.imageUrl) || ''
+    };
   }
 
   gridTitle(): string {

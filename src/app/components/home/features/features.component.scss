@@ -1,22 +1,31 @@
 /* How Waseela Works — ديسكتوب: تقريب النص من الصورة */
+.how-it-works-desc {
+  text-wrap: balance;
+}
+
 @media (min-width: 1024px) {
   .how-it-works-copy {
-    padding-left: 1.25rem !important;
+    padding-left: 0.25rem !important;
     padding-right: 2rem !important;
-    margin-left: -2.5rem;
+    margin-left: -5.25rem;
     justify-content: center;
   }
 
   .how-it-works-inner {
-    max-width: 34rem;
+    max-width: 30rem;
+    margin-left: -1rem;
   }
 
   .how-it-works-title {
     margin-bottom: 1.5rem !important;
+    max-width: 30rem;
   }
 
   .how-it-works-desc {
     margin-top: 0;
+    max-width: 30rem;
+    line-height: 1.45;
+    text-wrap: balance;
   }
 }
 
@@ -173,9 +182,12 @@
     gap: 0.35rem !important;
     margin-top: 0.25rem !important;
 
-    img {
+    .store-badge-img {
       height: 1.85rem !important;
       width: auto;
+      max-width: none;
+      aspect-ratio: 135 / 40;
+      object-fit: contain;
     }
   }
 
@@ -209,6 +221,97 @@
     left: 50% !important;
     transform: translateX(-50%) !important;
     bottom: -0.2rem !important;
+  }
+}
+
+/* بطاقات الخطوات — ديسكتوب صغير (1024–1439px): مساحة مريحة بدون تزاحم */
+@media (min-width: 1024px) and (max-width: 1439px) {
+  .step-cards-grid {
+    gap: clamp(0.8rem, 1.5vw, 1.1rem);
+    margin-top: 1.25rem;
+  }
+
+  .step-card {
+    min-height: clamp(24rem, 37vw, 31rem) !important;
+    border-radius: 14px;
+  }
+
+  .step-card--blue {
+    min-height: clamp(22rem, 34vw, 28rem) !important;
+  }
+
+  .step-card--orange,
+  .step-card--navy {
+    min-height: clamp(26rem, 39vw, 33rem) !important;
+  }
+
+  .step-card > .space-y-4 {
+    padding: clamp(1.4rem, 2.4vw, 1.85rem) clamp(1.2rem, 2vw, 1.6rem) 0.55rem !important;
+    gap: 0.7rem;
+  }
+
+  .step-card h3 {
+    font-size: clamp(1.22rem, 2.2vw, 1.7rem) !important;
+    line-height: 1.1;
+  }
+
+  .step-card p {
+    font-size: clamp(0.76rem, 1.3vw, 0.9rem) !important;
+    line-height: 1.5;
+    margin-top: 1rem !important;
+    max-width: 100% !important;
+  }
+
+  .step-card--blue p {
+    max-width: 100% !important;
+  }
+
+  .step-card-badges {
+    padding-inline: clamp(1.05rem, 1.7vw, 1.4rem) !important;
+    gap: 0.55rem !important;
+    margin-top: 0.4rem !important;
+
+    .store-badge-img {
+      height: clamp(2.05rem, 3.1vw, 2.4rem) !important;
+      width: auto;
+      max-width: none;
+      aspect-ratio: 135 / 40;
+      object-fit: contain;
+    }
+  }
+
+  .step-card-visual {
+    overflow: hidden;
+    min-height: clamp(13.25rem, 23vw, 16.5rem);
+    flex: 1 1 auto;
+    margin-top: 0.65rem;
+  }
+
+  .step-card--orange .step-card-visual,
+  .step-card--navy .step-card-visual {
+    min-height: clamp(14.5rem, 25vw, 18rem);
+    margin-top: 0.85rem;
+  }
+
+  .step-card-img--blue {
+    width: 140% !important;
+    left: 50% !important;
+    transform: translateX(-40%) !important;
+    bottom: -1.15rem !important;
+  }
+
+  .step-card-img--orange {
+    width: 194% !important;
+    left: 50% !important;
+    transform: translateX(-50%) translateY(0.4rem) !important;
+    bottom: -2.35rem !important;
+  }
+
+  .step-card-img--navy {
+    width: 134% !important;
+    left: 40% !important;
+    transform: translateX(-50%) !important;
+    bottom: -0.95rem !important;
   }
 }
 
@@ -287,7 +390,9 @@
 }
 
 .why-waseela-section {
-  $why-gap: 0.65rem;
+  margin-top: clamp(2rem, 4vw, 3rem);
+  margin-bottom: clamp(2.5rem, 5vw, 3.5rem);
+  $why-gap: 0.9rem;
 
   .why-waseela-visual {
     position: relative;
@@ -387,9 +492,15 @@
     background: #fff;
     border: 1px solid #e8e8f0;
     border-radius: 20px;
-    padding: 10px 18px;
+    padding: 12px 18px;
     cursor: pointer;
     transition: all 0.25s ease;
+    text-align: left;
+
+    &:focus-visible {
+      outline: 2px solid #1d1ddb;
+      outline-offset: 2px;
+    }
 
     h4 {
       font-size: clamp(1rem, 1.5vw, 1.08rem);
@@ -421,11 +532,14 @@
     max-width: min(100%, 70rem);
     margin-inline: auto;
     gap: 1.75rem;
+    box-sizing: border-box;
+    overflow: visible;
 
     .why-waseela-visual {
       flex: 0 0 46%;
       max-width: 46%;
       width: 100%;
+      overflow: visible;
     }
 
     .why-waseela-phone-base {
@@ -446,20 +560,33 @@
   }
 }
 
-/* ديسكتوب صغير — تضييق خفيف */
+/* ديسكتوب صغير — إبعاد السيكشن عن حافة الشاشة بدون قص الـ GIF */
 @media (min-width: 1024px) and (max-width: 1439px) {
   .why-waseela-section {
     max-width: min(100%, 66rem);
-    gap: 1.5rem;
+    gap: 1.35rem;
+    margin-left: clamp(0.85rem, 2.4vw, 1.75rem);
+    margin-right: auto;
+    overflow: visible;
 
     .why-waseela-visual {
-      flex-basis: 44%;
-      max-width: 44%;
+      flex: 0 0 43%;
+      max-width: 43%;
+      overflow: visible;
+      padding-left: clamp(0.65rem, 1.8vw, 1.35rem);
+      padding-right: 0.15rem;
+      box-sizing: content-box;
+
+      .why-waseela-phone-overlay {
+        width: calc(var(--why-overlay-width, 185%) * 0.9);
+      }
     }
 
     .why-waseela-copy {
-      flex-basis: 56%;
-      margin-left: -0.85rem;
+      flex: 1 1 57%;
+      min-width: 0;
+      margin-left: 0;
+      padding-left: 0.35rem;
     }
   }
 }

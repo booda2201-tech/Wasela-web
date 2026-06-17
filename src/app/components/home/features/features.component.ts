@@ -1,17 +1,11 @@
 import {
-
   Component,
-
   ElementRef,
-
   Input,
-
   OnChanges,
-
+  OnDestroy,
   OnInit,
-
   SimpleChanges,
-
 } from '@angular/core';
 
 
@@ -80,13 +74,13 @@ const WHY_STATIC_DEFAULTS: ReadonlyArray<{ title: string; description: string }>
 
 })
 
-export class FeaturesComponent implements OnInit, OnChanges {
-
+export class FeaturesComponent implements OnInit, OnChanges, OnDestroy {
   @Input() homePage: CmsPage | null = null;
 
-
-
   activeCard = 0;
+
+  private whyAutoSwitchTimer: ReturnType<typeof setInterval> | null = null;
+  private readonly whyAutoSwitchMs = 10_000;
 
 
 
@@ -154,39 +148,31 @@ export class FeaturesComponent implements OnInit, OnChanges {
 
 
   ngOnInit(): void {
-
     if (!this.homePage) {
-
       this.pagesService.getPageBySlug('home').subscribe({
-
         next: (page) => {
-
           this.homePage = page;
-
           this.resetActiveWhyCard();
-
+          this.startWhyAutoSwitch();
         },
-
       });
-
     } else {
-
       this.resetActiveWhyCard();
-
+      this.startWhyAutoSwitch();
     }
+  }
 
+  ngOnDestroy(): void {
+    this.stopWhyAutoSwitch();
   }
 
 
 
   ngOnChanges(changes: SimpleChanges): void {
-
     if (changes['homePage'] && this.homePage) {
-
       this.resetActiveWhyCard();
-
+      this.startWhyAutoSwitch();
     }
-
   }
 
 
@@ -327,18 +313,54 @@ export class FeaturesComponent implements OnInit, OnChanges {
 
 
 
-  setActive(id: number): void {
-
+  setActive(id: number, userInitiated = true): void {
     this.activeCard = id;
 
-    requestAnimationFrame(() => {
+    if (userInitiated) {
+      this.startWhyAutoSwitch();
+      requestAnimationFrame(() => {
+        const card = this.host.nativeElement.querySelector(`[data-why-feature="${id}"]`);
+        card?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      });
+    }
+  }
 
-      const card = this.host.nativeElement.querySelector(`[data-why-feature="${id}"]`);
+  onWhyTabClick(id: number): void {
+    this.setActive(id, true);
+  }
 
-      card?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+  onWhyTabKeydown(event: Event, index: number, delta: number): void {
+    const keyboardEvent = event as KeyboardEvent;
+    const items = this.whyItems();
+    if (!items.length) {
+      return;
+    }
 
-    });
+    keyboardEvent.preventDefault();
+    const nextIndex = Math.max(0, Math.min(items.length - 1, index + delta));
+    this.onWhyTabClick(items[nextIndex].id);
+  }
 
+  private startWhyAutoSwitch(): void {
+    this.stopWhyAutoSwitch();
+    this.whyAutoSwitchTimer = setInterval(() => this.advanceWhyCard(), this.whyAutoSwitchMs);
+  }
+
+  private stopWhyAutoSwitch(): void {
+    if (this.whyAutoSwitchTimer) {
+      clearInterval(this.whyAutoSwitchTimer);
+      this.whyAutoSwitchTimer = null;
+    }
+  }
+
+  private advanceWhyCard(): void {
+    const items = this.whyItems();
+    if (items.length < 2) {
+      return;
+    }
+
+    const nextIndex = (this.activeIndex + 1) % items.length;
+    this.setActive(items[nextIndex].id, false);
   }
 
 

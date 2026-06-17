@@ -2,7 +2,7 @@
     display: block;
   }
   
-  $terms-blue: #0d11b3;
+  $terms-blue: #1d1ddb;
   $terms-page-bg: #ffffff;
   $terms-body: #374151;
   
@@ -216,7 +216,7 @@
   }
   
   .terms-link {
-    color: #000096;
+    color: #1d1ddb;
     font-weight: 500;
     text-decoration: underline;
     text-underline-offset: 3px;
@@ -245,7 +245,7 @@
   }
 
   .terms-accent-alt {
-    color: #000096;
+    color:#1d1ddb;
   }
 
   /* عناوين الأقسام المرقّمة كما في فيجما */
@@ -255,7 +255,7 @@
     font-weight: 600;
     line-height: 1.5;
     letter-spacing: 0.02em;
-    color: #000096;
+    color: #1d1ddb;
 
     &:first-of-type {
       margin-top: 1.25rem;
@@ -268,7 +268,7 @@
     font-weight: 600;
     line-height: 1.5;
     letter-spacing: 0.02em;
-    color: #000096;
+    color: #1d1ddb;
   }
 
   .terms-list {
@@ -287,7 +287,7 @@
   }
 
   .terms-note {
-    color: #000096;
+    color: #1d1ddb;
     font-weight: 400;
   }
 

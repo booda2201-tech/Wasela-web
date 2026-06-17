@@ -7,9 +7,11 @@
 </div>
 
 <ng-container *ngIf="!loading && !loadError && homePage">
+  <div class="home-page overflow-x-clip max-w-full">
   <app-hero></app-hero>
   <div class="home-below-hero w-full max-w-[1360px] mx-auto px-6 sm:px-8 md:px-12 lg:px-16 xl:px-20">
     <app-features [homePage]="homePage"></app-features>
     <app-home-contents [homePage]="homePage" [merchantsPage]="merchantsPage"></app-home-contents>
+  </div>
   </div>
 </ng-container>
