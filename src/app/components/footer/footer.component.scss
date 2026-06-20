@@ -4,6 +4,22 @@ footer {
   font-family: 'Inter', sans-serif;
   background-color: #1616ad;
 
+  @media (min-width: 1000px) and (max-width: 1400px) {
+    padding-top: clamp(0.85rem, 1.75vw, 1.35rem);
+
+    .footer-watermark {
+      margin-top: 0;
+    }
+  }
+
+  @media (min-width: 1401px) {
+    padding-top: clamp(1rem, 1.5vw, 1.5rem);
+
+    .footer-watermark {
+      margin-top: 0;
+    }
+  }
+
   /* قيم وسط بين التصميم القديم والتصغير الأخير */
   .main-container {
     max-width: min(100%, 90rem);
@@ -52,12 +68,17 @@ footer {
   .footer-watermark {
     width: 100%;
     max-width: 100vw;
-    margin-top: -1.35rem;
+    margin-top: -2rem;
     line-height: 0;
     overflow: visible;
 
     @media (max-width: 767px) {
       margin-top: -0.45rem;
+    }
+
+    /* تابلت فقط — نزّل كلمة Waseela شوية */
+    @media (min-width: 768px) and (max-width: 999px) {
+      margin-top: -1rem;
     }
   }
 
@@ -71,6 +92,10 @@ footer {
 
     @media (max-width: 767px) {
       transform: translateY(0.35rem);
+    }
+
+    @media (min-width: 768px) and (max-width: 999px) {
+      transform: translateY(0.6rem);
     }
   }
 
@@ -105,9 +130,10 @@ footer {
 
   .info-value {
     margin: 0.2rem 0 0;
-    font-size: 0.875rem;
-    line-height: 1.4;
-    color: rgba(255, 255, 255, 0.85);
+  }
+
+  .footer-copyright {
+    text-align: center;
   }
 
   .footer-social {
@@ -160,10 +186,12 @@ footer {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    align-items: center;
     gap: 0.65rem;
 
-    @media (min-width: 1024px) {
+    @media (min-width: 1000px) {
       justify-content: flex-start;
+      align-items: flex-start;
     }
   }
 
@@ -175,10 +203,11 @@ footer {
     .store-badge-img {
       display: block;
       height: 3.125rem;
-      width: auto;
+      width: calc(3.125rem * 135 / 40);
       max-width: none;
       aspect-ratio: 135 / 40;
       object-fit: contain;
+      object-position: center;
     }
 
     &:hover {
@@ -211,5 +240,31 @@ footer {
   .border-t {
     margin-top: 1rem;
     padding-top: 0.875rem !important;
+  }
+
+  /* ديسكتوب صغير — تصغير Download the App والبادجات فقط */
+  @media (min-width: 1000px) and (max-width: 1400px) {
+    .footer-download {
+      gap: 1.35rem;
+    }
+
+    .footer-download__stores {
+      gap: 0.85rem;
+    }
+
+    .footer-download .footer-col__title {
+      font-size: 1rem;
+    }
+
+    .footer-store-badges {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+
+    .footer-store-badge .store-badge-img {
+      height: 2.65rem;
+      width: calc(2.65rem * 135 / 40);
+    }
   }
 }

@@ -404,7 +404,6 @@ $total: 3.5s;
   margin: 0;
   z-index: 4;
   color: rgba(255, 255, 255, 0.8);
-  font-family: 'Inter', sans-serif;
   font-size: clamp(0.64rem, 0.85vw, 0.88rem);
   animation: fadeIn 0.5s ease-out 2.85s both;
 }
@@ -413,7 +412,7 @@ $total: 3.5s;
   display: none;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 1000px) {
   .hero-desktop {
     display: block;
   }
@@ -476,8 +475,8 @@ $total: 3.5s;
   }
 }
 
-/* هيرو موبايل: ≤1023px (موبايل + تابلت) | ديسكتوب الأنيميشن من 1024px */
-@media (max-width: 1023px) {
+/* هيرو موبايل: ≤999px (موبايل + تابلت) | ديسكتوب الأنيميشن من 1000px */
+@media (max-width: 999px) {
   .hero-desktop {
     display: none;
   }
@@ -656,7 +655,7 @@ $total: 3.5s;
     right: 1rem;
   }
 
-  /* تابلت فقط: نفس تخطيط الموبايل مع مقاسات أكبر (641–1023px) */
+  /* تابلت فقط: نفس تخطيط الموبايل مع مقاسات أكبر (641–999px) */
   @media (min-width: 641px) {
     .hero-mobile {
       min-height: clamp(620px, 88svh, 700px);

@@ -1,7 +1,7 @@
-<section *ngIf="financeSection() as fin" class="categories-section py-4 bg-white text-center">
+<section *ngIf="financeSection() as fin" class="categories-section py-5 bg-white text-center">
   <div class="w-full px-0">
     <h2 *ngIf="fin.title" class="categories-title text-3xl md:text-4xl font-[900] text-[#1D1DDB]">{{ fin.title }}</h2>
-    <p *ngIf="fin.description" class="categories-subtitle mx-auto font-medium cms-preline">
+    <p *ngIf="fin.description" class="categories-subtitle mx-auto cms-preline">
       {{ fin.description }}
     </p>
 
@@ -98,7 +98,7 @@
     <div class="partners-header text-center">
       <h2 *ngIf="part.title" class="partners-title text-3xl md:text-4xl font-black text-[#1D1DDB]">{{ part.title }}</h2>
       <ng-container *ngIf="part.description && partnersSubtitleLines(part.description) as lines">
-        <p class="partners-subtitle mx-auto font-medium">
+        <p class="partners-subtitle mx-auto">
           <span class="partners-subtitle__line">{{ lines[0] }}</span>
           <span class="partners-subtitle__line" *ngIf="lines[1]">{{ lines[1] }}</span>
         </p>
@@ -147,7 +147,7 @@
       <h1 *ngIf="hm.title" class="merchants-title text-3xl md:text-4xl font-black text-[#1D1DDB]">{{ hm.title }}</h1>
       <p
         *ngIf="hm.description"
-        class="merchants-showcase-desc text-gray-500 font-medium max-w-md mx-auto text-[15px] leading-snug lg:text-base lg:leading-normal lg:max-w-none cms-preline"
+        class="merchants-showcase-desc max-w-md mx-auto cms-preline lg:max-w-none"
       >
         {{ hm.description }}
       </p>
@@ -250,7 +250,7 @@
   <ng-container *ngTemplateOutlet="homeTestimonials"></ng-container>
 </ng-container>
 
-<section *ngIf="downloadSection() as dl" class="download-section py-3 md:pb-4" aria-labelledby="download-heading">
+<section *ngIf="downloadSection() as dl" class="download-section md:pb-4" aria-labelledby="download-heading">
   <div class="w-full px-0">
     <div class="download-layout">
       <div class="download-mockup-backdrop" aria-hidden="true"></div>
@@ -337,7 +337,7 @@
 
 <ng-template #homeTestimonials>
   <ng-container *ngIf="testimonialsSection() as ts">
-    <section *ngIf="testimonials.length" class="testimonials-section py-3 md:py-6 mt-3">
+    <section *ngIf="testimonials.length" class="testimonials-section py-3 md:py-6 mt-5">
       <div class="w-full px-0 testimonials-section__inner">
         <h2 *ngIf="ts.title" class="text-3xl md:text-4xl font-black text-[#1D1DDB] mb-4 text-center">{{ ts.title }}</h2>
 

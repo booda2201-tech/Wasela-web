@@ -1,0 +1,32 @@
+// ديسكتوب صغير: 11"–14" (~1000–1400px)
+$bp-sm-desktop-min: 1000px;
+$bp-sm-desktop-max: 1400px;
+$bp-lg-desktop-min: 1401px;
+
+// تابلت فقط (تحت الديسكتوب الصغير)
+$bp-tablet-min: 768px;
+$bp-tablet-max: 999px;
+
+@mixin sm-desktop {
+  @media (min-width: $bp-sm-desktop-min) and (max-width: $bp-sm-desktop-max) {
+    @content;
+  }
+}
+
+@mixin lg-desktop {
+  @media (min-width: $bp-lg-desktop-min) {
+    @content;
+  }
+}
+
+@mixin tablet-only {
+  @media (min-width: $bp-tablet-min) and (max-width: $bp-tablet-max) {
+    @content;
+  }
+}
+
+@mixin below-sm-desktop {
+  @media (max-width: $bp-tablet-max) {
+    @content;
+  }
+}

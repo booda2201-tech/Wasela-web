@@ -4,7 +4,7 @@
   
   $terms-blue: #1d1ddb;
   $terms-page-bg: #ffffff;
-  $terms-body: #374151;
+  $terms-body: #737373;
   
   .terms-page {
     position: relative;
@@ -49,18 +49,55 @@
     );
   }
   
-  @media (max-width: 1023px) {
+  @media (max-width: 999px) {
     .terms-page__glow {
       top: 2.75rem;
       width: min(130vw, 26rem);
       height: clamp(15rem, 48vw, 24rem);
     }
   }
+
+  .terms-page__subtitle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.15rem;
+    width: 100%;
+    max-width: min(44rem, 92vw);
+  }
+
+  .terms-page__subtitle-line {
+    display: block;
+    width: 100%;
+    text-wrap: balance;
+
+    @media (min-width: 768px) {
+      white-space: nowrap;
+    }
+  }
   
   .terms-page__inner {
     padding-bottom: 2rem;
   }
-  
+
+  @media (min-width: 1000px) and (max-width: 1400px) {
+    .terms-page__inner {
+      width: 100%;
+      max-width: min(71.25rem, 87.5vw) !important;
+      margin-inline: auto;
+      padding-left: clamp(1.5rem, 4vw, 2.5rem) !important;
+      padding-right: clamp(1.5rem, 4vw, 2.5rem) !important;
+      box-sizing: border-box;
+    }
+
+    .terms-card-shell {
+      width: 100%;
+      max-width: 100% !important;
+      padding-inline: clamp(0.75rem, 2.5vw, 1.5rem) !important;
+      box-sizing: border-box;
+    }
+  }
+
   /* حاوية الكارت + الديكور */
   .terms-card-shell {
     position: relative;
@@ -79,7 +116,7 @@
   .terms-card-shell__under-art {
     position: absolute;
     right: -5%; 
-    top: -1%;
+    top: -2%;
     z-index: 0;
     width: min(50vw, 15rem);
     pointer-events: none;
@@ -171,10 +208,10 @@
   }
   
   .terms-prose {
-    font-weight: 400;
-    font-size: clamp(0.9375rem, 1.6vw, 1rem);
-    line-height: 1.65;
-    letter-spacing: 0.02em;
+    font-weight: 500;
+    font-size: 0.9375rem;
+    line-height: calc(21 / 15);
+    letter-spacing: 0.2px;
     color: $terms-body;
   }
   

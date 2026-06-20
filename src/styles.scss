@@ -1,12 +1,25 @@
-/* ─── Diodrum Arabic Bold (Figma: DiodrumArabicBold) ───
- * الملف في المشروع: src/assets/fonts/alfont_com_AlFont_com_DiodrumArabic-Bold-1.ttf
- * لو غيّرت الاسم، حدّث الـ url تحت.
+/* ─── Diodrum (Figma: Cyrillic Medium للنص، Arabic Bold للعناوين) ───
+ * Medium: src/assets/fonts/DiodrumCyrillic-Medium.ttf
+ * Bold:   src/assets/fonts/alfont_com_AlFont_com_DiodrumArabic-Bold-1.ttf
  */
 @mixin diodrum-regular-src {
   src:
+    url('/assets/fonts/DiodrumCyrillic-Medium.ttf') format('truetype'),
+    local('Diodrum Cyrillic Medium'),
+    local('Diodrum Cyrillic'),
     local('Diodrum Arabic'),
     local('DiodrumArabic-Regular'),
     local('DiodrumArabic');
+}
+
+@mixin diodrum-medium-src {
+  src:
+    url('/assets/fonts/DiodrumCyrillic-Medium.ttf') format('truetype'),
+    local('Diodrum Cyrillic Medium'),
+    local('DiodrumCyrillic-Medium'),
+    local('Diodrum Cyrillic'),
+    local('Diodrum Arabic Medium'),
+    local('DiodrumArabic-Medium');
 }
 
 @mixin diodrum-bold-src {
@@ -19,9 +32,33 @@
 
 /* Figma أحياناً يعرض Weight 400 مع نمط Bold — نعرّف 400 و700 لنفس الملف */
 @font-face {
+  font-family: 'Diodrum Cyrillic';
+  @include diodrum-medium-src;
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Diodrum Cyrillic';
+  @include diodrum-medium-src;
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
   font-family: 'Diodrum Arabic';
   @include diodrum-regular-src;
   font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Diodrum Arabic';
+  @include diodrum-medium-src;
+  font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
@@ -62,6 +99,9 @@ $font-family-sans-serif:
   sans-serif;
 $headings-font-family: 'Diodrum Arabic', system-ui, sans-serif;
 
+// Breakpoints: src/styles/_breakpoints.scss
+// ديسكتوب صغير 1000–1400px | ديسكتوب كبير 1401px+ | تابلت ≤999px
+
 @import 'bootstrap/scss/bootstrap';
 @import 'bootstrap-icons/font/bootstrap-icons.css';
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap');
@@ -76,7 +116,8 @@ $waseela-orange: #ff6b00;
 
 html,
 body {
-  font-family: 'Diodrum Arabic', system-ui, sans-serif;
+  font-family: 'Diodrum Cyrillic', 'Diodrum Arabic', system-ui, sans-serif;
+  font-weight: 400;
   max-width: 100%;
   overflow-x: clip;
 }
@@ -276,3 +317,5 @@ body {
 //   text-align: left;
 //   overflow-wrap: anywhere;
 // }
+
+@import './styles/typography';

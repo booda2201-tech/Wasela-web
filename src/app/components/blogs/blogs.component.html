@@ -1,5 +1,5 @@
 <section
-  class="blogs-page relative overflow-x-clip overflow-hidden bg-white pb-12 pt-24 sm:pb-16 md:pb-24"
+  class="blogs-page relative overflow-x-clip bg-white pb-16 pt-24 sm:pb-20 md:pb-28"
   *ngIf="!loading && !loadError"
 >
   <div class="blogs-page__glow" aria-hidden="true">
@@ -44,7 +44,7 @@
 
         <div class="blogs-featured__panel">
           <div class="blogs-featured__panel-top">
-            <span class="blogs-tag blogs-tag--panel">{{ fi.subTitle }}</span>
+            <span class="blogs-tag blogs-tag--panel"><span class="blogs-tag__text">{{ fi.subTitle }}</span></span>
             <div class="blogs-featured__meta">
               <i class="bi bi-calendar3 blogs-featured__cal" aria-hidden="true"></i>
               <span class="blogs-featured__date">{{ fi.extraDataJson }}</span>
@@ -57,10 +57,15 @@
       </a>
     </div>
 
-    <!-- شبكة 3 بطاقات -->
-    <div class="blogs-grid" *ngIf="gridPosts().length">
-      <article *ngFor="let post of gridPosts()" data-blog-card class="blogs-card">
-        <a class="blogs-card__link" [routerLink]="['/blogs', post.id]">
+    <!-- شبكة 3 خانات — فاضية = ستicker -->
+    <div class="blogs-grid">
+      <article
+        *ngFor="let slot of gridSlots()"
+        data-blog-card
+        class="blogs-card"
+        [class.blogs-card--empty]="!slot"
+      >
+        <a *ngIf="slot as post" class="blogs-card__link" [routerLink]="['/blogs', post.id]">
           <div class="blogs-card__thumb-wrap">
             <img
               *ngIf="post.imageSrc"
@@ -69,7 +74,7 @@
               class="blogs-card__thumb"
               loading="lazy"
             />
-            <span class="blogs-tag blogs-tag--float" *ngIf="post.tag">{{ post.tag }}</span>
+            <span class="blogs-tag blogs-tag--float" *ngIf="post.tag"><span class="blogs-tag__text">{{ post.tag }}</span></span>
           </div>
           <div class="blogs-card__body">
             <div class="blogs-card__meta">
@@ -80,15 +85,27 @@
             <p class="blogs-card__excerpt">{{ post.excerpt }}</p>
           </div>
         </a>
+
+        <div *ngIf="!slot" class="blogs-card__placeholder" aria-hidden="true">
+          <div class="blogs-card__placeholder-art">
+            <img
+              [src]="emptySlotStickerSrc"
+              alt=""
+              class="blogs-card__sticker"
+              loading="lazy"
+              (error)="$any($event.target).hidden = true"
+            />
+          </div>
+        </div>
       </article>
     </div>
 
     <!-- ترقيم الصفحات -->
     <nav
-      class="blogs-pagination mx-auto mt-10 flex max-w-full flex-wrap items-center justify-center gap-1 px-1 sm:mt-14 md:mt-16"
+      class="blogs-pagination mx-auto mt-10 flex max-w-full flex-wrap items-center justify-center gap-1 px-1 pb-2 sm:mt-14 md:mt-16"
       aria-label="Blog pagination"
     >
-      <ng-container *ngFor="let p of paginationPages">
+      <ng-container *ngFor="let p of paginationPages()">
         <span
           *ngIf="p === 'ellipsis'"
           class="blogs-pagination__item blogs-pagination__item--muted"
@@ -101,6 +118,7 @@
           class="blogs-pagination__btn"
           [class.blogs-pagination__btn--active]="p === currentPage"
           [attr.aria-current]="p === currentPage ? 'page' : null"
+          (click)="goToPage(p)"
         >
           {{ p }}
         </button>

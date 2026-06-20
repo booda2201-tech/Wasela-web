@@ -10,7 +10,7 @@
           <h2 class="categories-page-hero-title max-lg:text-3xl max-lg:md:text-4xl max-lg:font-[900] max-lg:mb-3 max-lg:md:mb-4 max-lg:text-[#1D1DDB]">
             {{ hero.title }}
           </h2>
-          <p class="categories-page-hero-desc max-lg:text-gray-400 max-lg:text-sm max-lg:md:text-base max-lg:max-w-2xl max-lg:mx-auto max-lg:mb-10 max-lg:md:mb-16 max-lg:lg:mb-8 max-lg:font-medium">
+          <p class="categories-page-hero-desc max-lg:max-w-2xl max-lg:mx-auto max-lg:mb-10 max-lg:md:mb-16 max-lg:lg:mb-8">
             {{ hero.description }}
           </p>
         </div>
@@ -46,12 +46,12 @@
           </div>
 
           <h3 class="category-section-title text-[#1D1DDB] font-black mb-4 md:mb-3">{{ cat.title }}</h3>
-          <p class="text-gray-400 text-sm md:text-base font-medium mb-8 md:mb-12 mx-auto">{{ cat.description }}</p>
+          <p class="mb-8 md:mb-12 mx-auto">{{ cat.description }}</p>
         </div>
       </div>
 
       <ng-container *ngIf="activeItems(cat) as subs">
-        <div [ngClass]="subcategoryGridClass(subs.length)">
+        <div class="category-sub-grid" [ngClass]="subcategoryGridClass(subs.length)">
           <div
             *ngFor="let sub of subs; let i = index"
             [ngClass]="[

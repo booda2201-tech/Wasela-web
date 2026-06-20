@@ -13,11 +13,12 @@
       >
       {{ introSection()?.title || page?.name }}
       </h1>
-      <p
-        class="terms-page__subtitle mx-auto mt-3 md:mt-4 max-w-[472px] text-center text-[12px] md:text-[14px] font-medium leading-5 tracking-[0.2px] text-[#737373]"
-      >
-        {{ introSection()?.description }}
-      </p>
+      <ng-container *ngIf="introSection()?.description && introSubtitleLines(introSection()!.description) as lines">
+        <p class="terms-page__subtitle mx-auto mt-3 md:mt-4 text-center">
+          <span class="terms-page__subtitle-line">{{ lines[0] }}</span>
+          <span class="terms-page__subtitle-line" *ngIf="lines[1]">{{ lines[1] }}</span>
+        </p>
+      </ng-container>
     </header>
 
     <div class="terms-card-shell relative mx-auto max-w-[1249px] px-0">

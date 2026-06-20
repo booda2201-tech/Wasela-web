@@ -92,7 +92,7 @@
 
 
 
-@media (max-width: 1023px) {
+@media (max-width: 999px) {
 
   .faq-hero__glow {
 
@@ -115,6 +115,9 @@
 
 .faq-list-shell {
   position: relative;
+  width: 100%;
+  max-width: 52rem;
+  margin-inline: auto;
 }
 
 .faq-decor {
@@ -164,8 +167,8 @@
 
 }
 
-/* ديسكتوب صغير — 1024px → 1439px */
-@media (min-width: 1024px) and (max-width: 1439px) {
+/* ديسكتوب صغير — 1000px → 1400px */
+@media (min-width: 1000px) and (max-width: 1400px) {
   .faq-decor__img {
     right: -3.5rem;
     bottom: 0.15rem;

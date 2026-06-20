@@ -45,7 +45,7 @@
   }
 }
 
-@media (max-width: 1023px) {
+@media (max-width: 999px) {
   .merchants-glow-stage {
     top: clamp(1.75rem, 12vw, 4rem);
     width: min(132vw, 26rem);
@@ -211,16 +211,10 @@
     text-align: center;
   }
 
-  /* Figma: 14px / 20px / 0.2px — داخل main-content 668px */
   .merchants-hero-desc {
     margin: 0 !important;
     width: 100%;
     max-width: 668px;
-    font-size: 14px;
-    line-height: 20px;
-    font-weight: 500;
-    color: #737373;
-    letter-spacing: 0.2px;
     text-align: center;
   }
 
@@ -273,6 +267,21 @@
   }
 }
 
+/* ديسكتوب صغير: عرض متناسب مع الشاشة عشان الشبكة ما تبانش عريضة لما العرض يقل شوية */
+@media (min-width: 1000px) and (max-width: 1400px) {
+  .merchants-page .container {
+    max-width: min(71.25rem, 87.5vw);
+    width: 100%;
+    margin-inline: auto;
+    box-sizing: border-box;
+  }
+
+  .merchants-desktop-col {
+    height: min(1150px, calc(87.5vw * 1.02));
+    max-height: min(1150px, calc(87.5vw * 1.02));
+  }
+}
+
 /* ديسكتوب: عمود بارتفاع ثابت + توزيع flex؛ عند الهوير الكرت يكبر والباقي في العمود يصغرو */
 @media (min-width: 1024px) {
   .merchants-desktop-col {
@@ -317,7 +326,7 @@
 }
 
 /* موبايل + تابلت — رفع الأيقونة، مسافة من النص، وتوسيط الدايرة على الكبسولة */
-@media (max-width: 1023px) {
+@media (max-width: 999px) {
   .merchants-count-inner {
     align-items: baseline;
     gap: 0.26em;
@@ -376,7 +385,7 @@
 }
 
 /* تابلت */
-@media (min-width: 768px) and (max-width: 1023px) {
+@media (min-width: 768px) and (max-width: 999px) {
   div.merchants-count-box {
     display: flex !important;
     align-items: center !important;
@@ -479,7 +488,7 @@ swiper-slide.merchants-page-swiper-slide {
   min-height: var(--merchants-swiper-slide-h);
 }
 
-@media (max-width: 1023px) {
+@media (max-width: 999px) {
   .merchants-section {
     padding-top: 2.5rem;
     padding-bottom: 3.5rem;
@@ -503,8 +512,6 @@ swiper-slide.merchants-page-swiper-slide {
 
     .merchants-header p {
       margin-bottom: 1.1rem;
-      font-size: 0.92rem;
-      line-height: 1.55;
     }
 
     .merchants-header h1 {
@@ -551,7 +558,6 @@ swiper-slide.merchants-page-swiper-slide {
     }
 
     .merchants-header p {
-      font-size: 0.88rem;
       max-width: 95%;
     }
 

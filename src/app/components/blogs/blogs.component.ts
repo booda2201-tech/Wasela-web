@@ -25,6 +25,8 @@ export interface BlogPost {
   imageSrc: string;
 }
 
+export type BlogGridSlot = BlogPost | null;
+
 @Component({
   selector: 'app-blogs',
   templateUrl: './blogs.component.html',
@@ -42,17 +44,16 @@ export class BlogsComponent implements OnInit, AfterViewInit, OnDestroy {
   loadError = false;
   page: CmsPage | null = null;
 
-  readonly paginationPages: (number | 'ellipsis')[] = [
-    1,
-    2,
-    3,
-    'ellipsis',
-    8,
-    9,
-    10
-  ];
+  /** صف واحد على الديسكتوب (3 أعمدة) */
+  readonly pageSize = 3;
 
-  readonly currentPage = 1;
+  /** عدد صفحات الترقيم — زي Figma */
+  readonly totalPageCount = 10;
+
+  /** ستicker الخانة الفاضية — حطّ الملف هنا لما يوصل */
+  readonly emptySlotStickerSrc = 'assets/images/blogs-empty-sticker.png';
+
+  currentPage = 1;
 
   private ctx?: gsap.Context;
   private viewReady = false;
@@ -61,6 +62,7 @@ export class BlogsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.pagesService.getPageBySlug('blogs').subscribe({
       next: (page) => {
         this.page = page;
+        this.currentPage = 1;
         this.applySeo(page);
         this.loading = false;
         this.trySetupAnimations();
@@ -104,13 +106,39 @@ export class BlogsComponent implements OnInit, AfterViewInit, OnDestroy {
       .sort((a, b) => a.sortOrder - b.sortOrder)[0] ?? null;
   }
 
-  /** كروت الشبكة من عناصر الداشبورد (`blogs_header` + `blogs_grid` إن وُجد) */
-  gridPosts(): BlogPost[] {
+  /** كل كروت الشبكة من عناصر الداشبورد */
+  allGridPosts(): BlogPost[] {
     return this.collectGridItemsFromCms();
   }
 
+  /** 3 خانات للصفحة الحالية — null = ستicker فاضي */
+  gridSlots(): BlogGridSlot[] {
+    const all = this.allGridPosts();
+    const start = (this.currentPage - 1) * this.pageSize;
+
+    return Array.from({ length: this.pageSize }, (_, i) => all[start + i] ?? null);
+  }
+
+  totalPages(): number {
+    return this.totalPageCount;
+  }
+
+  paginationPages(): (number | 'ellipsis')[] {
+    return this.buildPaginationPages(this.currentPage, this.totalPages());
+  }
+
+  goToPage(page: number): void {
+    const total = this.totalPages();
+    if (page < 1 || page > total || page === this.currentPage) {
+      return;
+    }
+    this.currentPage = page;
+    this.scrollToGrid();
+  }
+
   private collectGridItemsFromCms(): BlogPost[] {
-    const keys = ['blogs_header', 'blogs_grid'] as const;
+    const featuredId = this.featuredItem()?.id;
+    const keys = ['blogs_grid', 'blogs_header', 'featured_blog'] as const;
     const seen = new Set<number>();
     const out: BlogPost[] = [];
 
@@ -123,7 +151,7 @@ export class BlogsComponent implements OnInit, AfterViewInit, OnDestroy {
       for (const item of [...section.items]
         .filter((i) => i.isActive)
         .sort((a, b) => a.sortOrder - b.sortOrder)) {
-        if (seen.has(item.id)) {
+        if (seen.has(item.id) || item.id === featuredId) {
           continue;
         }
         seen.add(item.id);
@@ -186,6 +214,34 @@ export class BlogsComponent implements OnInit, AfterViewInit, OnDestroy {
   private pickSection(key: string): CmsPageSection | null {
     const section = this.page?.sections?.find((s) => s.sectionKey === key);
     return section?.isActive ? section : null;
+  }
+
+  private buildPaginationPages(
+    current: number,
+    total: number
+  ): (number | 'ellipsis')[] {
+    if (total <= 1) {
+      return [1];
+    }
+
+    if (total <= 7) {
+      return Array.from({ length: total }, (_, i) => i + 1);
+    }
+
+    if (current <= 3) {
+      return [1, 2, 3, 'ellipsis', total - 2, total - 1, total];
+    }
+
+    if (current >= total - 2) {
+      return [1, 2, 3, 'ellipsis', total - 2, total - 1, total];
+    }
+
+    return [1, 'ellipsis', current - 1, current, current + 1, 'ellipsis', total];
+  }
+
+  private scrollToGrid(): void {
+    const grid = this.host.nativeElement.querySelector<HTMLElement>('.blogs-grid');
+    grid?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
   private applySeo(page: CmsPage): void {

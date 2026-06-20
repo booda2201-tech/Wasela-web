@@ -4,6 +4,11 @@
 
 $blog-blue: #1d1ddb;
 
+$detail-font: 'Diodrum Cyrillic', 'Diodrum Arabic', system-ui, sans-serif;
+$detail-body-size: 0.9375rem; /* 15px — نفس الموقع */
+$detail-body-lh: calc(21 / 15);
+$detail-body-tracking: 0.2px;
+
 $gradient-text: linear-gradient(
   137deg,
   #525252 4.94%,
@@ -15,6 +20,7 @@ $gradient-text: linear-gradient(
   overflow-x: clip;
   background: #fff;
   min-height: 50vh;
+  font-family: $detail-font;
 }
 
 .blog-detail__inner {
@@ -83,8 +89,11 @@ $gradient-text: linear-gradient(
   border: none;
   background: none;
   cursor: pointer;
-  font-size: clamp(0.875rem, 2.5vw, 0.9375rem);
+  font-family: $detail-font;
+  font-size: $detail-body-size;
   font-weight: 600;
+  line-height: $detail-body-lh;
+  letter-spacing: $detail-body-tracking;
   color: $blog-blue;
   transition: opacity 0.2s ease;
 
@@ -93,7 +102,7 @@ $gradient-text: linear-gradient(
   }
 
   i {
-    font-size: 1.1rem;
+    font-size: 1rem;
   }
 }
 
@@ -134,7 +143,7 @@ $gradient-text: linear-gradient(
   height: auto;
   opacity: 0.8;
 
-  @media (max-width: 1023px) {
+  @media (max-width: 999px) {
     opacity: 0.95;
   }
 }
@@ -271,17 +280,21 @@ $gradient-text: linear-gradient(
 
 .blog-detail__quote-lead {
   margin: 0;
-  font-size: clamp(1rem, 2.8vw, 1.5rem);
+  font-family: $detail-font;
+  font-size: clamp(1.125rem, 2.15vw, 1.5rem); /* 18–24px */
   font-weight: 600;
-  line-height: 1.45;
+  line-height: 1.42;
+  letter-spacing: 0.01em;
   color: $blog-blue;
 }
 
 .blog-detail__quote-by {
   margin: 0.65rem 0 0;
-  font-size: clamp(0.875rem, 2.2vw, 1rem);
-  font-weight: 400;
-  line-height: 1.5;
+  font-family: $detail-font;
+  font-size: $detail-body-size;
+  font-weight: 500;
+  line-height: $detail-body-lh;
+  letter-spacing: $detail-body-tracking;
   background-image: $gradient-text;
   background-clip: text;
   -webkit-background-clip: text;
@@ -295,9 +308,11 @@ $gradient-text: linear-gradient(
 
 .blog-detail__gradient-body {
   margin: 0 0 clamp(1rem, 2.5vw, 1.25rem);
-  font-size: clamp(0.9375rem, 2.4vw, 1.125rem);
+  font-family: $detail-font;
+  font-size: $detail-body-size;
   font-weight: 500;
-  line-height: 1.58;
+  line-height: $detail-body-lh;
+  letter-spacing: $detail-body-tracking;
   overflow-wrap: anywhere;
   background-image: $gradient-text;
   background-clip: text;
@@ -312,9 +327,11 @@ $gradient-text: linear-gradient(
 
 .blog-detail__h2 {
   margin: 0 0 0.65rem;
-  font-size: clamp(1.25rem, 3.2vw, 1.875rem);
+  font-family: $detail-font;
+  font-size: clamp(1.25rem, 2vw, 1.5rem); /* 20–24px */
   font-weight: 600;
-  line-height: 1.27;
+  line-height: 1.33;
+  letter-spacing: 0.01em;
   color: $blog-blue;
   overflow-wrap: anywhere;
 
@@ -327,9 +344,11 @@ $gradient-text: linear-gradient(
   margin: 0.75rem 0 0;
   padding-left: clamp(1.25rem, 4vw, 1.65rem);
   list-style: decimal;
-  font-size: clamp(0.9375rem, 2.3vw, 1.125rem);
+  font-family: $detail-font;
+  font-size: $detail-body-size;
   font-weight: 500;
-  line-height: 1.62;
+  line-height: $detail-body-lh;
+  letter-spacing: $detail-body-tracking;
   color: #3a3a3a;
   overflow-wrap: anywhere;
 }
@@ -345,7 +364,7 @@ $gradient-text: linear-gradient(
 }
 
 /* موبايل + تابلت — هيرو التفاصيل (نفس هيكل Blogs) */
-@media (max-width: 1023px) {
+@media (max-width: 999px) {
   .blog-detail__hero-wrap {
     margin-top: 1rem;
     max-width: min(94vw, 40rem);
@@ -380,7 +399,7 @@ $gradient-text: linear-gradient(
   }
 }
 
-@media (min-width: 768px) and (max-width: 1023px) {
+@media (min-width: 768px) and (max-width: 999px) {
   .blog-detail__hero-wrap {
     max-width: min(92vw, 44rem);
     padding-bottom: 2.75rem;
@@ -416,7 +435,7 @@ $gradient-text: linear-gradient(
   }
 }
 
-@media (min-width: 1024px) and (max-width: 1439px) {
+@media (min-width: 1000px) and (max-width: 1400px) {
   .blog-detail__inner {
     max-width: 72rem;
     padding-top: 5.5rem;
@@ -459,5 +478,70 @@ $gradient-text: linear-gradient(
   .blog-detail__article-sheet::before {
     width: 115%;
     height: min(52vw, 28rem);
+  }
+
+  .blog-detail__quote-lead {
+    font-size: 1.375rem; /* 22px */
+    line-height: 1.4;
+  }
+
+  .blog-detail__h2 {
+    font-size: 1.4375rem; /* 23px */
+  }
+
+  .blog-detail__decor {
+    left: auto;
+    right: clamp(-3.65rem, -3vw, -3.25rem);
+    top: auto;
+    bottom: clamp(2.65rem, 3.9vw, 3.85rem);
+    width: 13.25rem;
+    transform: translateY(34%);
+  }
+}
+
+@media (min-width: 1401px) {
+  .blog-detail__hero-wrap,
+  .blog-detail__article {
+    max-width: 78.1875rem; /* 1251px — أوسع من 1084px */
+  }
+
+  .blog-detail__hero-wrap {
+    margin-top: 1.25rem;
+    padding-bottom: clamp(3.75rem, 5vw, 5rem);
+  }
+
+  .blog-detail__hero {
+    aspect-ratio: 1251 / 420;
+    min-height: clamp(13rem, 22vw, 23.5rem);
+    max-height: none;
+    border-radius: 20px;
+  }
+
+  .blog-detail__hero-img {
+    top: -8%;
+    height: 110%;
+    object-position: center 34%;
+  }
+
+  /* الدائرة: نصها ورا الهيرو ونصها برّا */
+  .blog-detail__decor {
+    left: auto;
+    right: clamp(-4.5rem, -3.4vw, -3.75rem);
+    top: auto;
+    bottom: clamp(3rem, 4.2vw, 4.5rem);
+    width: clamp(16rem, 14vw, 18.75rem);
+    transform: translateY(30%);
+  }
+
+  .blog-detail__article {
+    margin-top: clamp(2.25rem, 3.5vw, 3rem);
+  }
+
+  .blog-detail__quote-lead {
+    font-size: 1.5rem; /* 24px */
+  }
+
+  .blog-detail__h2 {
+    font-size: 1.5rem; /* 24px */
   }
 }

@@ -5,8 +5,8 @@ module.exports = {
     extend: {
       fontFamily: {
         sans: [
+          '"Diodrum Cyrillic"',
           '"Diodrum Arabic"',
-          '"DiodrumArabicBold"',
           'system-ui',
           '-apple-system',
           'Segoe UI',

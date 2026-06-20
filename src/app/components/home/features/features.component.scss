@@ -3,7 +3,7 @@
   text-wrap: balance;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 1401px) {
   .how-it-works-copy {
     padding-left: 0.25rem !important;
     padding-right: 2rem !important;
@@ -26,6 +26,61 @@
     max-width: 30rem;
     line-height: 1.45;
     text-wrap: balance;
+  }
+}
+
+/* How Waseela Works — ديسكتوب صغير (1000–1400px): نزول GIF الموبايل */
+@media (min-width: 1000px) and (max-width: 1400px) {
+  .how-it-works-main {
+    width: min(97%, 63rem);
+    max-width: 63rem;
+    margin-inline: auto;
+    height: auto !important;
+    min-height: clamp(18.5rem, 25vw, 19.5rem) !important;
+    max-height: clamp(19rem, 27vw, 21rem) !important;
+    border-radius: 20px !important;
+  }
+
+  .how-it-works-visual {
+    width: 56% !important;
+    flex: 0 0 56%;
+    min-height: clamp(13.5rem, 22vw, 17rem) !important;
+    max-height: 100% !important;
+    overflow: hidden;
+  }
+
+  .how-it-works-copy {
+    width: 44% !important;
+    flex: 0 0 44%;
+    padding: 1.15rem 1.35rem 1.15rem 0.65rem !important;
+    margin-left: -3rem;
+  }
+
+  .how-it-works-inner {
+    max-width: 100%;
+    margin-left: -2rem;
+  }
+
+  .how-it-works-title {
+    font-size: clamp(1.8rem, 2.35vw, 2rem) !important;
+    margin-bottom: 0.75rem !important;
+    max-width: 100%;
+  }
+
+  .how-it-works-desc {
+    font-size: clamp(0.76rem, 1.2vw, 0.86rem) !important;
+    line-height: 1.45;
+    max-width: 100%;
+  }
+
+  .how-it-works-gif {
+    top: auto !important;
+    bottom: -28% !important;
+    left: 36% !important;
+    transform: translateX(-50%) translateY(0.35rem) !important;
+    width: min(132%, 940px) !important;
+    max-width: none;
+    object-position: bottom center;
   }
 }
 
@@ -83,8 +138,8 @@
   }
 }
 
-/* How Waseela Works — تابلت فقط (768–1023px) */
-@media (min-width: 768px) and (max-width: 1023px) {
+/* How Waseela Works — تابلت فقط (768–999px) */
+@media (min-width: 768px) and (max-width: 999px) {
   .how-it-works-main {
     flex-direction: row !important;
     align-items: center !important;
@@ -138,8 +193,8 @@
   }
 }
 
-/* بطاقات الخطوات — تابلت فقط (768–1023px)؛ الموبايل والديسكتوب (lg+) بدون تغيير */
-@media (min-width: 768px) and (max-width: 1023px) {
+/* بطاقات الخطوات — تابلت فقط (768–999px)؛ الموبايل والديسكتوب الكبير بدون تغيير */
+@media (min-width: 768px) and (max-width: 999px) {
   .step-cards-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -224,9 +279,37 @@
   }
 }
 
-/* بطاقات الخطوات — ديسكتوب صغير (1024–1439px): مساحة مريحة بدون تزاحم */
-@media (min-width: 1024px) and (max-width: 1439px) {
+/* ديسكتوب — عناوين البطاقات بسطرين زي Figma */
+.step-card-title__sm {
+  display: none;
+}
+
+@media (min-width: 1000px) {
+  .step-card-title__lg {
+    display: none !important;
+  }
+
+  .step-card-title__sm {
+    display: block;
+  }
+
+  .step-card-title {
+    max-width: 100%;
+    line-height: 1.12 !important;
+    letter-spacing: -0.01em;
+    text-align: left;
+    white-space: pre-line;
+    text-wrap: unset;
+    font-weight: 900 !important;
+  }
+}
+
+/* بطاقات الخطوات — ديسكتوب صغير (1000–1400px): مساحة مريحة بدون تزاحم */
+@media (min-width: 1000px) and (max-width: 1400px) {
   .step-cards-grid {
+    width: min(97%, 63rem);
+    max-width: 63rem;
+    margin-inline: auto;
     gap: clamp(0.8rem, 1.5vw, 1.1rem);
     margin-top: 1.25rem;
   }
@@ -246,13 +329,12 @@
   }
 
   .step-card > .space-y-4 {
-    padding: clamp(1.4rem, 2.4vw, 1.85rem) clamp(1.2rem, 2vw, 1.6rem) 0.55rem !important;
-    gap: 0.7rem;
+    padding: clamp(1.35rem, 2.2vw, 1.75rem) clamp(1rem, 1.65vw, 1.35rem) 0.5rem !important;
+    gap: 0.65rem;
   }
 
-  .step-card h3 {
-    font-size: clamp(1.22rem, 2.2vw, 1.7rem) !important;
-    line-height: 1.1;
+  .step-card-title {
+    font-size: clamp(1.2rem, 1.95vw, 1.55rem) !important;
   }
 
   .step-card p {
@@ -303,8 +385,8 @@
   .step-card-img--orange {
     width: 194% !important;
     left: 50% !important;
-    transform: translateX(-50%) translateY(0.4rem) !important;
-    bottom: -2.35rem !important;
+    transform: translateX(-50%) translateY(0.85rem) !important;
+    bottom: -2.85rem !important;
   }
 
   .step-card-img--navy {
@@ -312,6 +394,12 @@
     left: 40% !important;
     transform: translateX(-50%) !important;
     bottom: -0.95rem !important;
+  }
+}
+
+@media (min-width: 1401px) {
+  .step-card-title {
+    font-size: clamp(1.35rem, 1.55vw, 1.875rem) !important;
   }
 }
 
@@ -380,13 +468,20 @@
   }
 
   p {
-    @apply text-gray-500 font-medium text-sm md:text-base;
+    @apply mb-0;
   }
 }
 
-// تأكد من استخدام خط Inter أو نفس الخط اللي في الفيجما
 :host {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Diodrum Cyrillic', 'Diodrum Arabic', system-ui, sans-serif;
+}
+
+.how-it-works-desc {
+  text-align: left;
+}
+
+.step-card--blue p {
+  max-width: 350px;
 }
 
 .why-waseela-section {
@@ -512,10 +607,6 @@
 
     p {
       margin: 0;
-      color: #4b5563;
-      font-size: clamp(0.8rem, 1.2vw, 0.85rem);
-      line-height: 1.45;
-      font-weight: 500;
     }
 
     &.active-card {
@@ -527,7 +618,7 @@
 }
 
 /* Why Waseela — ديسكتوب (§4: عرض أضيق + تقريب النص من الصورة) */
-@media (min-width: 1024px) {
+@media (min-width: 1401px) {
   .why-waseela-section {
     max-width: min(100%, 70rem);
     margin-inline: auto;
@@ -561,7 +652,7 @@
 }
 
 /* ديسكتوب صغير — إبعاد السيكشن عن حافة الشاشة بدون قص الـ GIF */
-@media (min-width: 1024px) and (max-width: 1439px) {
+@media (min-width: 1000px) and (max-width: 1400px) {
   .why-waseela-section {
     max-width: min(100%, 66rem);
     gap: 1.35rem;
@@ -591,7 +682,7 @@
   }
 }
 
-@media (max-width: 1023px) {
+@media (max-width: 999px) {
   .why-waseela-section {
     overflow: visible;
 
@@ -618,7 +709,7 @@
 }
 
 /* Why Waseela — تابلت فقط: تكبير مربع الموبايل / الـ GIF */
-@media (min-width: 768px) and (max-width: 1023px) {
+@media (min-width: 768px) and (max-width: 999px) {
   .why-waseela-section {
     gap: 1.5rem;
     padding-inline: 0.75rem;

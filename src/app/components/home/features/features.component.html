@@ -19,7 +19,7 @@
           </h2>
           <p
             *ngIf="how.description"
-            class="how-it-works-desc text-left text-[#252525] text-[15px] max-sm:text-[13px] font-medium leading-[1.5] cms-preline"
+            class="how-it-works-desc cms-preline"
           >
             {{ how.description }}
           </p>
@@ -34,10 +34,13 @@
           class="step-card step-card--blue bg-[#b9e6ff] rounded-[15px] flex flex-col lg:min-h-[500px] overflow-hidden"
         >
           <div class="space-y-4 p-6 lg:p-10 pb-4">
-            <h3 class="text-[22px] lg:text-[30px] leading-[1.08] font-black text-[#1D1DDB]">{{ step.title }}</h3>
+            <h3 class="step-card-title text-[22px] lg:text-[30px] leading-[1.08] font-black text-[#1D1DDB]">
+              <span class="step-card-title__lg">{{ step.title }}</span>
+              <span class="step-card-title__sm cms-preline">{{ formatStepTitle(step.title) }}</span>
+            </h3>
             <p
               *ngIf="step.description"
-              class="text-[#0f2f55] text-[12px] lg:text-[15px] leading-[1.5] font-medium mt-4 max-w-[350px] lg:max-w-[350px] cms-preline"
+              class="mt-4 max-w-[350px] lg:max-w-[350px] cms-preline"
             >
               {{ step.description }}
             </p>
@@ -72,8 +75,11 @@
           class="step-card step-card--orange bg-[#f87300] rounded-[14px] flex flex-col lg:min-h-[600px] text-white overflow-hidden"
         >
           <div class="space-y-4 p-6 lg:p-10 pb-4">
-            <h3 class="text-[22px] lg:text-[30px] leading-[1.08] font-black cms-preline">{{ step.title }}</h3>
-            <p *ngIf="step.description" class="opacity-95 font-medium text-[12px] lg:text-[15px] leading-[1.5] mt-4 cms-preline">
+            <h3 class="step-card-title text-[22px] lg:text-[30px] leading-[1.08] font-black">
+              <span class="step-card-title__lg cms-preline">{{ step.title }}</span>
+              <span class="step-card-title__sm cms-preline">{{ formatStepTitle(step.title) }}</span>
+            </h3>
+            <p *ngIf="step.description" class="mt-4 cms-preline">
               {{ step.description }}
             </p>
           </div>
@@ -91,8 +97,11 @@
           class="step-card step-card--navy bg-[#0000ad] rounded-[14px] flex flex-col lg:min-h-[600px] text-white overflow-hidden"
         >
           <div class="space-y-4 p-6 lg:p-10 pb-4">
-            <h3 class="text-[22px] lg:text-[30px] leading-[1.08] font-black cms-preline">{{ step.title }}</h3>
-            <p *ngIf="step.description" class="opacity-95 font-medium text-[12px] lg:text-[15px] leading-[1.5] mt-4 cms-preline">
+            <h3 class="step-card-title text-[22px] lg:text-[30px] leading-[1.08] font-black">
+              <span class="step-card-title__lg cms-preline">{{ step.title }}</span>
+              <span class="step-card-title__sm cms-preline">{{ formatStepTitle(step.title) }}</span>
+            </h3>
+            <p *ngIf="step.description" class="mt-4 cms-preline">
               {{ step.description }}
             </p>
           </div>

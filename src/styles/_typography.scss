@@ -1,0 +1,69 @@
+$brand-paragraph-color: #737373;
+$brand-font-family: 'Diodrum Cyrillic', 'Diodrum Arabic', system-ui, sans-serif;
+$brand-paragraph-size: 0.9375rem; /* 15px — أكبر شوية من Figma 14px */
+$brand-paragraph-lh: calc(21 / 15);
+
+@mixin brand-paragraph {
+  font-family: $brand-font-family;
+  font-weight: 500;
+  font-size: $brand-paragraph-size;
+  line-height: $brand-paragraph-lh;
+  letter-spacing: 0.2px;
+  color: $brand-paragraph-color;
+}
+
+p {
+  @include brand-paragraph;
+}
+
+footer,
+footer p {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-weight: 400;
+}
+
+footer .info-value {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+footer .footer-copyright {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: rgba(209, 213, 219, 1);
+}
+
+.powered-by {
+  font-family: $brand-font-family;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.step-card--orange p,
+.step-card--navy p {
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.blogs-featured__panel p {
+  color: #fff;
+}
+
+.join-form-feedback--error {
+  color: #dc2626;
+}
+
+.join-form-feedback--success {
+  color: #16a34a;
+}
+
+.blog-detail__gradient-body {
+  font-family: $brand-font-family;
+  font-weight: 500;
+  font-size: $brand-paragraph-size;
+  line-height: $brand-paragraph-lh;
+  letter-spacing: 0.2px;
+}
+
+.blog-detail__quote-lead,
+.blog-detail__quote-by {
+  font-family: $brand-font-family;
+}

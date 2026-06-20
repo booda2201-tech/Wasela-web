@@ -4,7 +4,7 @@
 
 $blogs-blue: #1d1ddb;
 $blogs-orange: #f76400;
-$blogs-text: #231f20;
+$blogs-text: #737373;
 
 .blogs-page {
   position: relative;
@@ -45,7 +45,7 @@ $blogs-text: #231f20;
   );
 }
 
-@media (max-width: 1023px) {
+@media (max-width: 999px) {
   .blogs-page__glow {
     top: 2.75rem;
     width: min(130vw, 26rem);
@@ -84,11 +84,7 @@ $blogs-text: #231f20;
 .blogs-header__subtitle {
   margin: 2rem auto 0;
   max-width: 38.5rem;
-  font-size: clamp(13px, 3.2vw, 14px);
-  font-weight: 500;
-  line-height: 1.45;
-  letter-spacing: 0.2px;
-  color: #737373;
+  text-align: center;
 }
 
 /* ديكور (مثلاً Link.png) خلف الزاوية السفلية اليمنى للبطاقة المميزة */
@@ -110,19 +106,19 @@ $blogs-text: #231f20;
     width: clamp(6.25rem, 24vw, 9rem);
   }
 
-  @media (min-width: 768px) and (max-width: 1023px) {
+  @media (min-width: 768px) and (max-width: 999px) {
     right: clamp(-2.5rem, -5vw, -1.65rem);
     bottom: clamp(-1.65rem, -3.2vw, -1rem);
     width: clamp(7.75rem, 14vw, 10.5rem);
   }
 
-  @media (min-width: 1024px) and (max-width: 1439px) {
+  @media (min-width: 1000px) and (max-width: 1400px) {
     right: -3.65rem;
     bottom: -2.45rem;
     width: 13.25rem;
   }
 
-  @media (min-width: 1440px) {
+  @media (min-width: 1401px) {
     right: -4.25rem;
     bottom: -2.95rem;
     width: 15.75rem;
@@ -233,16 +229,23 @@ $blogs-text: #231f20;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 22.8px;
-  padding: 0.25rem 0.9rem;
+  box-sizing: border-box;
+  height: 1.625rem;
+  padding-inline: 0.9rem;
   border-radius: 9999px;
   background: $blogs-orange;
-  font-size: 12.8px;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 12px;
   font-weight: 700;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: #fff;
-  line-height: 1.2;
+}
+
+.blogs-tag__text {
+  display: block;
+  line-height: 1;
+  translate: 0 0.5px;
 }
 
 .blogs-tag--float {
@@ -252,15 +255,20 @@ $blogs-text: #231f20;
   z-index: 2;
   max-width: calc(100% - 2rem);
   overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+
+  .blogs-tag__text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
+    max-width: 100%;
+  }
 }
 
 .blogs-tag--panel {
   margin: 0;
-  min-height: 1.5rem;
-  padding: 0.25rem 0.85rem;
-  line-height: 1;
+  height: 1.5rem;
+  padding-inline: 0.85rem;
 }
 
 .blogs-featured__meta {
@@ -291,11 +299,8 @@ $blogs-text: #231f20;
 
 .blogs-featured__excerpt {
   margin: 0;
-  font-size: clamp(13px, 3.2vw, 14px);
-  font-weight: 500;
-  line-height: 1.5;
-  letter-spacing: 0.5px;
   max-width: 61rem;
+  color: #fff;
 }
 
 .blogs-featured__more {
@@ -353,6 +358,40 @@ $blogs-text: #231f20;
     transform: translateY(-4px);
     box-shadow: 12px 14px 22px rgba(0, 0, 0, 0.12);
   }
+}
+
+.blogs-card--empty {
+  min-height: 100%;
+
+  &:hover {
+    transform: none;
+    box-shadow: 9px 9px 15px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.blogs-card__placeholder {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 100%;
+}
+
+.blogs-card__placeholder-art {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  min-height: clamp(14rem, 38vw, 18.5rem);
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  background: linear-gradient(165deg, #f6f8fc 0%, #eef1f8 55%, #e8ecf4 100%);
+}
+
+.blogs-card__sticker {
+  width: min(68%, 11rem);
+  max-height: min(72%, 12rem);
+  object-fit: contain;
+  object-position: center;
+  display: block;
 }
 
 .blogs-card__link {
@@ -430,10 +469,6 @@ $blogs-text: #231f20;
 
 .blogs-card__excerpt {
   margin: 0;
-  font-size: clamp(14px, 3.2vw, 16px);
-  font-weight: 500;
-  line-height: 1.5;
-  color: $blogs-text;
   text-align: left;
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -441,6 +476,11 @@ $blogs-text: #231f20;
   line-clamp: 3;
   overflow: hidden;
   word-break: break-word;
+}
+
+.blogs-pagination {
+  position: relative;
+  z-index: 2;
 }
 
 .blogs-pagination__btn {
@@ -494,7 +534,7 @@ $blogs-text: #231f20;
 }
 
 /* موبايل + تابلت فقط — البطاقة المميزة كاملة */
-@media (max-width: 1023px) {
+@media (max-width: 999px) {
   .blogs-featured-wrap {
     margin-top: 1.5rem !important;
     max-width: min(94vw, 40rem) !important;
@@ -534,8 +574,8 @@ $blogs-text: #231f20;
   }
 
   .blogs-tag--panel {
-    min-height: 1.3rem;
-    padding: 0.18rem 0.65rem;
+    height: 1.3rem;
+    padding-inline: 0.65rem;
     font-size: 11px;
   }
 
@@ -568,7 +608,7 @@ $blogs-text: #231f20;
   }
 }
 
-@media (min-width: 768px) and (max-width: 1023px) {
+@media (min-width: 768px) and (max-width: 999px) {
   .blogs-featured-wrap {
     margin-top: 2rem !important;
     max-width: min(92vw, 44rem) !important;
@@ -597,8 +637,8 @@ $blogs-text: #231f20;
   }
 
   .blogs-tag--panel {
-    min-height: 1.35rem;
-    padding: 0.2rem 0.72rem;
+    height: 1.35rem;
+    padding-inline: 0.72rem;
     font-size: 11.5px;
   }
 
@@ -638,8 +678,8 @@ $blogs-text: #231f20;
   }
 }
 
-/* ديسكتوب صغير — 1024px → 1439px */
-@media (min-width: 1024px) and (max-width: 1439px) {
+/* ديسكتوب صغير — 1000px → 1400px */
+@media (min-width: 1000px) and (max-width: 1400px) {
   .blogs-page {
     padding-top: 5.5rem !important;
     padding-bottom: 3rem !important;

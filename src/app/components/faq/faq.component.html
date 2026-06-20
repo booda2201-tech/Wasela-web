@@ -9,7 +9,7 @@
         <h1 class="text-[2rem] md:text-[42px] font-[900] text-[#1D1DDB] leading-[1.1]">
           {{ heroTitle() }}
         </h1>
-        <p class="text-[#737373] text-sm md:text-[15px] font-medium leading-relaxed max-w-lg mx-auto faq-preline">
+        <p class="max-w-lg mx-auto faq-preline">
           {{ heroDescription() }}
         </p>
       </div>
@@ -18,7 +18,7 @@
 
   <div class="faq-body relative px-4 md:px-6 pt-0">
     <div class="faq-inner container mx-auto relative z-10">
-      <div class="faq-list-shell relative mx-auto max-w-4xl space-y-3 md:space-y-4">
+      <div class="faq-list-shell relative mx-auto space-y-3 md:space-y-4">
         <div class="faq-decor" aria-hidden="true">
           <img
             src="assets/images/Group (7).png"
@@ -69,7 +69,7 @@
             [attr.aria-hidden]="!isExpanded(item.id)"
           >
             <div class="faq-answer-inner px-4 md:px-6 pb-4 md:pb-6 pt-0 border-t border-gray-100">
-              <p class="text-[#737373] text-[13px] md:text-base font-medium leading-relaxed pt-3 md:pt-4">
+              <p class="pt-3 md:pt-4">
                 {{ item.answer }}
               </p>
             </div>

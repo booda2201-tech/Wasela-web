@@ -291,6 +291,38 @@ export class FeaturesComponent implements OnInit, OnChanges, OnDestroy {
 
   }
 
+  formatStepTitle(title: string | null | undefined): string {
+    if (!title) {
+      return '';
+    }
+
+    const normalized = title.trim();
+    if (normalized.includes('\n')) {
+      return normalized;
+    }
+
+    const instantMatch = normalized.match(
+      /^(\d+\.\s*Instant,)\s+(AI-Driven\s+Approval)$/i
+    );
+    if (instantMatch) {
+      return `${instantMatch[1]}\n${instantMatch[2]}`;
+    }
+
+    const limitMatch = normalized.match(
+      /^(\d+\.\s*Use Your Limit)\s+(Where It Matters)$/i
+    );
+    if (limitMatch) {
+      return `${limitMatch[1]}\n${limitMatch[2]}`;
+    }
+
+    const commaMatch = normalized.match(/^(\d+\.\s*[^,]+,)\s+(.+)$/i);
+    if (commaMatch) {
+      return `${commaMatch[1]}\n${commaMatch[2]}`;
+    }
+
+    return normalized;
+  }
+
 
 
   get featureCount(): number {

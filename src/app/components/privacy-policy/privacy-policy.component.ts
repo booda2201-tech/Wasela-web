@@ -82,6 +82,34 @@ export class PrivacyPolicyComponent implements OnInit, AfterViewInit, OnDestroy 
     return this.pickSection('Privacy_Policy');
   }
 
+  /** يقسّم الوصف لسطرين متساويين — زي Terms وباقي الصفحات */
+  introSubtitleLines(description: string | null | undefined): string[] {
+    const text = (description ?? '').trim();
+    if (!text) {
+      return [];
+    }
+
+    const sentenceEnd = text.search(/\.\s+/);
+    if (sentenceEnd !== -1) {
+      const first = text.slice(0, sentenceEnd + 1).trim();
+      const second = text.slice(sentenceEnd + 1).trim();
+      return second ? [first, second] : [first];
+    }
+
+    const commaIndexes = [...text.matchAll(/,/g)].map((match) => match.index ?? -1).filter((i) => i >= 0);
+    if (commaIndexes.length) {
+      const mid = text.length / 2;
+      const breakIdx = commaIndexes.reduce((best, idx) =>
+        Math.abs(idx - mid) < Math.abs(best - mid) ? idx : best
+      );
+      const first = text.slice(0, breakIdx + 1).trim();
+      const second = text.slice(breakIdx + 1).trim();
+      return second ? [first, second] : [first];
+    }
+
+    return [text];
+  }
+
   headerSection(): CmsPageSection | null {
     return this.pickSection('Header');
   }
