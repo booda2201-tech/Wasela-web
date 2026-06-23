@@ -147,7 +147,7 @@
   </div>
 </section>
 
-<div class="py-20 text-center" *ngIf="loading">Loading...</div>
+<app-page-loader *ngIf="loading"></app-page-loader>
 <div class="py-20 text-center text-red-500" *ngIf="loadError">
   فشل في تحميل صفحة Merchants.
 </div>

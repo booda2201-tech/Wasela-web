@@ -14,8 +14,8 @@
 
 export const environment = {
   production: false,
-  apiBaseUrl: '/api',
-  apiOrigin: 'https://waseela.somee.com', // رجّع اللينك هنا للصور
+  apiBaseUrl: 'https://waseela.somee.com/api',
+  apiOrigin: 'https://waseela.somee.com',
   appStoreUrl: '',
   googlePlayUrl: ''
 };

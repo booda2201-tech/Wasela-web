@@ -54,7 +54,7 @@
   </div>
 </article>
 
-<div class="terms-page terms-page--surface py-20 text-center" *ngIf="loading">Loading...</div>
+<app-page-loader *ngIf="loading"></app-page-loader>
 <div class="terms-page terms-page--surface py-20 text-center text-red-500" *ngIf="loadError">
   تعذر تحميل صفحة الشروط والأحكام.
 </div>

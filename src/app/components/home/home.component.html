@@ -1,6 +1,4 @@
-<div *ngIf="loading" class="home-page-state container mx-auto px-6 py-20 text-center text-gray-600">
-  Loading…
-</div>
+<app-page-loader *ngIf="loading"></app-page-loader>
 
 <div *ngIf="loadError" class="home-page-state container mx-auto px-6 py-20 text-center text-red-600">
   We could not load the home page. Please try again later.

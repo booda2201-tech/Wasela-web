@@ -264,9 +264,7 @@
 </div>
 
 <div class="about-page about-page--state" *ngIf="loading">
-  <div class="about-shell about-shell--narrow">
-    <p class="about-state-msg">Loading…</p>
-  </div>
+  <app-page-loader></app-page-loader>
 </div>
 
 <div class="about-page about-page--state" *ngIf="loadError">

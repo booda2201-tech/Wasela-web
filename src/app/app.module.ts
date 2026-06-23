@@ -22,6 +22,7 @@ import { TermsConditionsComponent } from './components/terms-conditions/terms-co
 import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy.component';
 import { BlogsComponent } from './components/blogs/blogs.component';
 import { BlogDetailComponent } from './components/blog-detail/blog-detail.component';
+import { PageLoaderComponent } from './components/page-loader/page-loader.component';
 
 
 
@@ -45,6 +46,7 @@ import { BlogDetailComponent } from './components/blog-detail/blog-detail.compon
     PrivacyPolicyComponent,
     BlogsComponent,
     BlogDetailComponent,
+    PageLoaderComponent,
 
   ],
   imports: [
