@@ -319,3 +319,10 @@ body {
 // }
 
 @import './styles/typography';
+
+/* موبايل: إخفاء الفوتر أثناء تحميل الصفحة (كان بيظهر الشريط الأزرق تحت النافبار) */
+@media (max-width: 767px) {
+  .app-shell:has(app-page-loader) > app-footer {
+    display: none;
+  }
+}

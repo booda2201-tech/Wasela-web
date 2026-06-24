@@ -442,3 +442,14 @@ h2 {
     padding-top: 0.35rem;
   }
 }
+
+/* ديسكتوب كبير — 1401px+ : أول كاتيجوري */
+@media (min-width: 1401px) {
+  .categories-page-stage + .category-section .category-section-hero__content > .relative.flex {
+    margin-top: 0.35rem;
+  }
+
+  .categories-page-stage + .category-section .category-blob-wrapper .image-content-container img {
+    transform: translate(-10%, 6.5%);
+  }
+}

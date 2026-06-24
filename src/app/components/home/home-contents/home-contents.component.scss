@@ -998,10 +998,51 @@
   }
 
   .merchants-showcase-desc {
-    margin: 0 0 1.35rem;
+    margin: 0 auto 1.35rem;
+    max-width: min(36rem, 100%);
+    text-align: center;
 
     @media (min-width: 1000px) {
       margin-bottom: 1.65rem;
+      max-width: none;
+    }
+  }
+
+  .merchants-showcase-desc__mobile {
+    display: none;
+  }
+
+  @media (max-width: 767px) {
+    .merchants-showcase-desc {
+      width: 100%;
+      max-width: min(18.5rem, 88vw) !important;
+      margin: 0.85rem auto 1.5rem !important;
+      padding-inline: 0.65rem;
+      box-sizing: border-box;
+      color: #767e94;
+      font-size: clamp(0.8125rem, 3.4vw, 0.9375rem);
+      line-height: 1.55;
+    }
+
+    .merchants-showcase-desc__desktop {
+      display: none !important;
+    }
+
+    .merchants-showcase-desc__mobile {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.25rem;
+      width: 100%;
+      text-align: center;
+    }
+
+    .merchants-showcase-desc__line {
+      display: block;
+      width: 100%;
+      text-align: center;
+      overflow-wrap: break-word;
+      word-wrap: break-word;
     }
   }
 
@@ -1680,6 +1721,8 @@
     background: #fff;
     overflow-x: clip;
     margin-top: 0;
+    margin-bottom: clamp(2.5rem, 11vw, 3.75rem);
+    padding-bottom: clamp(0.75rem, 3.5vw, 1.25rem);
 
     .download-layout {
       position: relative;
@@ -1786,8 +1829,8 @@
       position: absolute !important;
       left: auto !important;
       right: clamp(-2.35rem, -9.5vw, -0.85rem) !important;
-      bottom: clamp(1.15rem, 5vw, 1.9rem) !important;
-      width: min(124%, 28.75rem) !important;
+      bottom: clamp(0.1rem, 0.75vw, 0.45rem) !important;
+      width: min(132%, 31.5rem) !important;
       max-width: none;
       min-height: 0;
       margin: 0;
@@ -1816,13 +1859,13 @@
       top: auto !important;
       bottom: auto !important;
       display: block;
-      width: 182%;
+      width: 196%;
       height: auto;
       margin: 0;
       object-fit: contain;
       object-position: right bottom;
       z-index: 1;
-      transform: rotate(4deg) translateX(17%) translateY(-4%);
+      transform: rotate(4deg) translateX(17%) translateY(5%);
       -webkit-user-drag: none;
     }
   }

@@ -145,11 +145,15 @@
   <div class="container mx-auto px-3">
     <div class="merchants-showcase-header text-center mb-4 lg:mb-16">
       <h1 *ngIf="hm.title" class="merchants-title text-3xl md:text-4xl font-black text-[#1D1DDB]">{{ hm.title }}</h1>
-      <p
-        *ngIf="hm.description"
-        class="merchants-showcase-desc max-w-md mx-auto cms-preline lg:max-w-none"
-      >
-        {{ hm.description }}
+      <p *ngIf="hm.description" class="merchants-showcase-desc">
+        <span class="merchants-showcase-desc__desktop cms-preline">{{ hm.description }}</span>
+        <span
+          class="merchants-showcase-desc__mobile"
+          *ngIf="merchantsShowcaseSubtitleLines(hm.description) as lines"
+        >
+          <span class="merchants-showcase-desc__line">{{ lines[0] }}</span>
+          <span class="merchants-showcase-desc__line" *ngIf="lines[1]">{{ lines[1] }}</span>
+        </span>
       </p>
 
       <a
