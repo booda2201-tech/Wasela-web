@@ -88,18 +88,27 @@
     opacity: 0.8;
   }
 
-  // --- تظبيط الشاشات الصغيرة (Mobile) ---
+  // --- تابلت: 769px → 999px ---
+  @media (min-width: 769px) and (max-width: 999px) {
+    top: -4rem;
+    right: -1.25rem;
+    width: 9.25rem;
+    height: 9.25rem;
+    opacity: 0.85;
+  }
+
+  // --- موبايل: حتى 768px ---
   @media (max-width: 768px) {
-    top: -3.5rem;   // تقليل البروز العلوي
-    right: -1rem;  // تقليل البروز الجانبي عشان ميعملش سكرول بالعرض
-    width: 8rem;   // حجم أصغر ومناسب للموبايل
+    top: -4.75rem;
+    right: -1rem;
+    width: 8rem;
     height: 8rem;
     opacity: 1;
   }
 
   // لشاشات الموبايل الصغيرة جداً
   @media (max-width: 480px) {
-    top: -2rem;
+    top: -3.35rem;
     right: -0.5rem;
     width: 6rem;
     opacity: 1;

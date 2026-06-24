@@ -120,6 +120,80 @@ $waseela-blue: #1D1DDB;
   z-index: 1;
 }
 
+.category-section-desc__mobile {
+  display: none;
+}
+
+.category-section-desc {
+  margin-inline: auto;
+  text-align: center;
+}
+
+@media (min-width: 1000px) {
+  .category-section-desc__mobile {
+    display: none !important;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 999px) {
+  .category-section-desc {
+    width: 100%;
+    max-width: min(100%, 36rem);
+    margin-inline: auto;
+    padding-inline: 0.5rem;
+    box-sizing: border-box;
+    color: #767e94;
+    font-size: 0.8125rem;
+    line-height: 1.45;
+    text-align: center;
+    text-wrap: balance;
+  }
+
+  .category-section-desc__desktop {
+    display: block !important;
+  }
+
+  .category-section-desc__mobile {
+    display: none !important;
+  }
+}
+
+/* موبايل فقط — سطرين */
+@media (max-width: 767px) {
+  .category-section-desc {
+    width: 100%;
+    max-width: 100% !important;
+    padding-inline: 0.5rem;
+    box-sizing: border-box;
+    color: #767e94;
+    font-size: clamp(0.8125rem, 3.4vw, 0.9375rem);
+    line-height: 1.55;
+    text-align: center;
+  }
+
+  .category-section-desc__desktop {
+    display: none !important;
+  }
+
+  .category-section-desc__mobile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    width: 100%;
+    text-align: center;
+  }
+
+  .category-section-desc__line {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    text-align: center;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  }
+}
+
 @media (max-width: 999px) {
   .category-section-glow {
     width: min(130vw, 28rem);
@@ -266,6 +340,8 @@ h2 {
   .categories-page-hero-desc {
     max-width: min(100%, 40rem);
     margin-bottom: 0 !important;
+    font-size: 0.8125rem;
+    line-height: 1.45;
   }
 
   .category-section {
@@ -293,14 +369,24 @@ h2 {
     transform: translate(-9%, 4%);
   }
 
+  .categories-page-stage + .category-section .category-section-hero__content > .relative.flex {
+    margin-top: 0.2rem !important;
+  }
+
+  .categories-page-stage + .category-section .category-blob-wrapper .image-content-container img {
+    transform: translate(-9%, 6%);
+  }
+
   .category-section-title {
     font-size: 1.875rem;
     margin-bottom: 0.85rem !important;
   }
 
-  .category-section-hero__content > p {
+  .category-section-hero__content > .category-section-desc {
     max-width: min(100%, 36rem);
     margin-bottom: 2.25rem !important;
+    font-size: 0.8125rem;
+    line-height: 1.45;
   }
 
   .category-sub-grid {

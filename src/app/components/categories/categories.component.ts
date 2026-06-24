@@ -60,6 +60,94 @@ export class CategoriesComponent implements OnInit {
       .sort((a, b) => a.sortOrder - b.sortOrder);
   }
 
+  /** يقسّم وصف القسم لسطرين متوازنين — موبايل وتابلت */
+  sectionSubtitleLines(description: string | null | undefined): string[] {
+    const text = (description ?? '').trim();
+    if (!text) {
+      return [];
+    }
+
+    if (text.length < 30) {
+      return [text];
+    }
+
+    const candidates: [string, string][] = [];
+
+    const sentenceEnd = text.search(/\.\s+/);
+    if (sentenceEnd !== -1 && sentenceEnd < text.length - 10) {
+      candidates.push([
+        text.slice(0, sentenceEnd + 1).trim(),
+        text.slice(sentenceEnd + 1).trim()
+      ]);
+    }
+
+    for (const match of text.matchAll(/,/g)) {
+      const idx = match.index ?? -1;
+      if (idx < 0) {
+        continue;
+      }
+      const first = text.slice(0, idx + 1).trim();
+      const second = text.slice(idx + 1).trim();
+      if (first && second) {
+        candidates.push([first, second]);
+      }
+    }
+
+    const wordSplit = this.balanceSectionByWords(text);
+    if (wordSplit.length === 2) {
+      candidates.push([wordSplit[0], wordSplit[1]]);
+    }
+
+    const valid = candidates.filter(([first, second]) => first.length > 0 && second.length > 0);
+    if (!valid.length) {
+      return [text];
+    }
+
+    const lineScore = ([first, second]: [string, string]): number => {
+      const maxLen = Math.max(first.length, second.length);
+      const balance = Math.abs(first.length - second.length);
+      const w1 = first.split(/\s+/).filter(Boolean).length;
+      const w2 = second.split(/\s+/).filter(Boolean).length;
+      const wordBalance = Math.abs(w1 - w2);
+      const lengthOverflow = Math.max(0, maxLen - 46) * 18;
+      const orphanPenalty =
+        w1 === 1 || w2 === 1 ? 80 : w2 === 2 && w1 > w2 + 2 ? 20 : 0;
+      return maxLen * 8 + balance + wordBalance * 12 + lengthOverflow + orphanPenalty;
+    };
+
+    valid.sort((a, b) => lineScore(a) - lineScore(b));
+    return valid[0];
+  }
+
+  private balanceSectionByWords(text: string): string[] {
+    const words = text.split(/\s+/).filter(Boolean);
+    if (words.length < 4) {
+      return [text];
+    }
+
+    let bestBreak = 1;
+    let bestScore = Infinity;
+
+    for (let i = 1; i < words.length; i++) {
+      const first = words.slice(0, i).join(' ');
+      const second = words.slice(i).join(' ');
+      const maxLen = Math.max(first.length, second.length);
+      const balance = Math.abs(first.length - second.length);
+      const wordBalance = Math.abs(i - (words.length - i));
+      const lengthOverflow = Math.max(0, maxLen - 46) * 18;
+      const orphanPenalty = words.length - i === 1 || i === 1 ? 80 : 0;
+      const score = maxLen * 8 + balance + wordBalance * 12 + lengthOverflow + orphanPenalty;
+      if (score < bestScore) {
+        bestScore = score;
+        bestBreak = i;
+      }
+    }
+
+    const first = words.slice(0, bestBreak).join(' ');
+    const second = words.slice(bestBreak).join(' ');
+    return second ? [first, second] : [first];
+  }
+
   /**
    * شبكة فرعية على lg+ حسب العدد: 4→2×2، 6→3+3، 5→صف 3 وصف 2 في النص، إلخ.
    */

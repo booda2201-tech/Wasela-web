@@ -17,13 +17,18 @@
         class="merchants-hero-content text-center px-2 md:px-4 max-lg:mb-0"
       >
         <div class="merchants-hero-main">
-        <h2 class="merchants-hero-title max-lg:mb-4 max-lg:text-[2rem] max-lg:tracking-[-0.01em] max-lg:font-black max-lg:text-[#1D1DDB]">
+        <h2 class="merchants-hero-title max-lg:mb-0 max-lg:text-[2rem] max-lg:tracking-[-0.01em] max-lg:font-black max-lg:text-[#1D1DDB]">
           {{ hero.title }}
         </h2>
-        <p
-          class="merchants-hero-desc merchants-preline max-lg:mb-6 max-lg:mx-auto max-lg:max-w-[30rem] max-lg:sm:max-w-md"
-        >
-          {{ hero.description }}
+        <p class="merchants-hero-desc">
+          <span class="merchants-hero-desc__desktop merchants-preline">{{ hero.description }}</span>
+          <span
+            class="merchants-hero-desc__mobile"
+            *ngIf="heroSubtitleLines(hero.description) as lines"
+          >
+            <span class="merchants-hero-desc__line">{{ lines[0] }}</span>
+            <span class="merchants-hero-desc__line" *ngIf="lines[1]">{{ lines[1] }}</span>
+          </span>
         </p>
         </div>
         <div

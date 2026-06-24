@@ -43,25 +43,33 @@ nav {
 }
 
 .navbar-brand {
-  margin-left: -0.7rem;
+  margin-left: -0.25rem;
+  flex-shrink: 0;
+  min-width: 0;
 }
 
 .navbar-logo {
   display: block;
   width: auto;
-  height: 46px; /* موبايل */
+  height: 1.375rem; /* 22px — موبايل */
+  max-width: min(9.25rem, 48vw);
+  object-fit: contain;
+  object-position: left center;
   image-rendering: -webkit-optimize-contrast;
 
   @media (min-width: 768px) and (max-width: 999px) {
-    height: 48px; /* تابلت */
+    height: 1.5rem; /* 24px — تابلت */
+    max-width: 10rem;
   }
 
   @media (min-width: 1000px) and (max-width: 1400px) {
-    height: 50px; /* ديسكتوب صغير */
+    height: 1.5rem; /* 24px — ديسكتوب صغير */
+    max-width: 10rem;
   }
 
   @media (min-width: 1401px) {
-    height: 54px; /* ديسكتوب كبير */
+    height: 1.75rem; /* 28px — ديسكتوب كبير */
+    max-width: 11.25rem;
   }
 }
 
@@ -97,7 +105,7 @@ nav {
   }
 
   .navbar-link {
-    font-size: 1rem;
+    font-size: 0.9375rem;
   }
 
   nav .download-btn {

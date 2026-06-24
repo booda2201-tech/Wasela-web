@@ -543,7 +543,7 @@
     line-height: 1.06;
     font-weight: 600;
     color: #1d1ddb;
-    margin-bottom: 1.25rem;
+    margin-bottom: 2rem;
     letter-spacing: -0.02em;
   }
 
@@ -587,7 +587,7 @@
     background: #fff;
     border: 1px solid #e8e8f0;
     border-radius: 20px;
-    padding: 12px 18px;
+    padding: 0.875rem 1.125rem;
     cursor: pointer;
     transition: all 0.25s ease;
     text-align: left;
@@ -597,16 +597,20 @@
       outline-offset: 2px;
     }
 
-    h4 {
+    .feature-card__title {
+      margin: 0;
       font-size: clamp(1rem, 1.5vw, 1.08rem);
-      line-height: 1.18;
+      line-height: 1.15;
       font-weight: 900;
       color: #111827;
-      margin: 0 0 0.35rem;
     }
 
-    p {
-      margin: 0;
+    .feature-card__desc {
+      margin: 0.625rem 0 0;
+      font-size: 0.875rem;
+      line-height: 1.35;
+      letter-spacing: 0.01em;
+      color: #737373;
     }
 
     &.active-card {
@@ -646,7 +650,7 @@
     }
 
     .why-waseela-title {
-      margin-bottom: 1.5rem;
+      margin-bottom: 2.5rem;
     }
   }
 }

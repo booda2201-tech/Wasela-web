@@ -263,9 +263,7 @@
   </section>
 </div>
 
-<div class="about-page about-page--state" *ngIf="loading">
-  <app-page-loader></app-page-loader>
-</div>
+<app-page-loader *ngIf="loading"></app-page-loader>
 
 <div class="about-page about-page--state" *ngIf="loadError">
   <div class="about-shell about-shell--narrow about-state-stack">

@@ -1,21 +1,19 @@
 .page-loader {
+  position: fixed;
+  z-index: 40;
+  inset: clamp(4.25rem, 11vh, 5.75rem) 0 0 0;
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
-  min-height: clamp(10rem, 28vh, 16rem);
-  padding: clamp(3rem, 8vw, 5rem) 1.5rem;
+  background: #fff;
   box-sizing: border-box;
-}
-
-.page-loader--compact {
-  min-height: clamp(8rem, 22vh, 12rem);
-  padding: clamp(2rem, 6vw, 3.5rem) 1.5rem;
+  padding: 1.5rem;
 }
 
 .page-loader__gif {
   display: block;
-  width: min(7.5rem, 34vw);
+  width: clamp(10rem, 28vw, 13rem);
   height: auto;
   object-fit: contain;
 }

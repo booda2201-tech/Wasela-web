@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-page-loader',
@@ -6,7 +6,5 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./page-loader.component.scss']
 })
 export class PageLoaderComponent {
-  @Input() compact = false;
-
   readonly gifSrc = 'assets/gif/waseela loading gif v5 transparent.gif';
 }

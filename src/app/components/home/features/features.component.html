@@ -180,8 +180,8 @@
             (keydown.home)="onWhyTabKeydown($event, i, -i)"
             (keydown.end)="onWhyTabKeydown($event, i, whyItems().length - 1 - i)"
           >
-            <h4>{{ feature.title }}</h4>
-            <p *ngIf="feature.description" class="cms-preline">
+            <h4 class="feature-card__title">{{ feature.title }}</h4>
+            <p *ngIf="feature.description" class="feature-card__desc cms-preline">
               {{ feature.description }}
             </p>
           </div>

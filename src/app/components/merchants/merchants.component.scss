@@ -325,6 +325,72 @@
   white-space: pre-line;
 }
 
+.merchants-hero-desc__mobile {
+  display: none;
+}
+
+.merchants-hero-desc {
+  margin-inline: auto;
+  text-align: center;
+}
+
+@media (min-width: 1000px) {
+  .merchants-hero-desc {
+    max-width: 41.75rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .merchants-hero-desc__mobile {
+    display: none !important;
+  }
+}
+
+/* موبايل + تابلت — سطرين متوازيين بدون قص */
+@media (max-width: 999px) {
+  .merchants-hero-desc {
+    width: 100%;
+    max-width: 100% !important;
+    margin-top: 1rem !important;
+    margin-bottom: 1.75rem !important;
+    margin-inline: auto !important;
+    padding-inline: 0.5rem !important;
+    box-sizing: border-box;
+    color: #767e94;
+    font-size: clamp(0.8125rem, 3.4vw, 0.9375rem);
+    line-height: 1.55;
+  }
+
+  .merchants-hero-desc__desktop {
+    display: none !important;
+  }
+
+  .merchants-hero-desc__mobile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    width: 100%;
+    text-align: center;
+  }
+
+  .merchants-hero-desc__line {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    text-align: center;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  }
+}
+
+@media (max-width: 767px) {
+  .merchants-hero-desc {
+    margin-top: 1.25rem !important;
+    margin-bottom: 2.25rem !important;
+    padding-inline: 0.65rem !important;
+  }
+}
+
 /* موبايل + تابلت — رفع الأيقونة، مسافة من النص، وتوسيط الدايرة على الكبسولة */
 @media (max-width: 999px) {
   .merchants-count-inner {

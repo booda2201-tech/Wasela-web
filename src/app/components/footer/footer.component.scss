@@ -242,29 +242,35 @@ footer {
     padding-top: 0.875rem !important;
   }
 
-  /* ديسكتوب صغير — تصغير Download the App والبادجات فقط */
+  /* ديسكتوب صغير — تصغير Download the App والبادجات والـ AUR logo */
   @media (min-width: 1000px) and (max-width: 1400px) {
     .footer-download {
-      gap: 1.35rem;
+      gap: 1rem;
     }
 
     .footer-download__stores {
-      gap: 0.85rem;
+      gap: 0.65rem;
     }
 
     .footer-download .footer-col__title {
-      font-size: 1rem;
+      font-size: 0.9375rem;
+      line-height: 1.25;
     }
 
     .footer-store-badges {
       flex-direction: column;
       align-items: flex-start;
-      gap: 0.5rem;
+      gap: 0.4rem;
     }
 
     .footer-store-badge .store-badge-img {
-      height: 2.65rem;
-      width: calc(2.65rem * 135 / 40);
+      height: 2.25rem;
+      width: calc(2.25rem * 135 / 40);
+    }
+
+    .footer-aur-logo img {
+      height: 3.25rem;
+      max-width: 8.25rem;
     }
   }
 }

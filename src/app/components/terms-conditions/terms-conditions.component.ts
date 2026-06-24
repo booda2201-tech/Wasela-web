@@ -89,25 +89,76 @@ export class TermsConditionsComponent implements OnInit, AfterViewInit, OnDestro
       return [];
     }
 
+    if (text.length < 55) {
+      return [text];
+    }
+
+    const candidates: [string, string][] = [];
+
     const sentenceEnd = text.search(/\.\s+/);
-    if (sentenceEnd !== -1) {
-      const first = text.slice(0, sentenceEnd + 1).trim();
-      const second = text.slice(sentenceEnd + 1).trim();
-      return second ? [first, second] : [first];
+    if (sentenceEnd !== -1 && sentenceEnd < text.length - 10) {
+      candidates.push([
+        text.slice(0, sentenceEnd + 1).trim(),
+        text.slice(sentenceEnd + 1).trim()
+      ]);
     }
 
-    const commaIndexes = [...text.matchAll(/,/g)].map((match) => match.index ?? -1).filter((i) => i >= 0);
-    if (commaIndexes.length) {
-      const mid = text.length / 2;
-      const breakIdx = commaIndexes.reduce((best, idx) =>
-        Math.abs(idx - mid) < Math.abs(best - mid) ? idx : best
-      );
-      const first = text.slice(0, breakIdx + 1).trim();
-      const second = text.slice(breakIdx + 1).trim();
-      return second ? [first, second] : [first];
+    for (const match of text.matchAll(/,/g)) {
+      const idx = match.index ?? -1;
+      if (idx < 0) {
+        continue;
+      }
+      const first = text.slice(0, idx + 1).trim();
+      const second = text.slice(idx + 1).trim();
+      if (first && second) {
+        candidates.push([first, second]);
+      }
     }
 
-    return [text];
+    const wordSplit = this.balanceIntroByWords(text);
+    if (wordSplit.length === 2) {
+      candidates.push([wordSplit[0], wordSplit[1]]);
+    }
+
+    const valid = candidates.filter(([first, second]) => first.length > 0 && second.length > 0);
+    if (!valid.length) {
+      return [text];
+    }
+
+    valid.sort((a, b) => {
+      const maxA = Math.max(a[0].length, a[1].length);
+      const maxB = Math.max(b[0].length, b[1].length);
+      if (maxA !== maxB) {
+        return maxA - maxB;
+      }
+      return Math.abs(a[0].length - a[1].length) - Math.abs(b[0].length - b[1].length);
+    });
+
+    return valid[0];
+  }
+
+  private balanceIntroByWords(text: string): string[] {
+    const words = text.split(/\s+/).filter(Boolean);
+    if (words.length < 4) {
+      return [text];
+    }
+
+    let bestBreak = 1;
+    let bestDiff = Infinity;
+
+    for (let i = 1; i < words.length; i++) {
+      const first = words.slice(0, i).join(' ');
+      const second = words.slice(i).join(' ');
+      const diff = Math.abs(first.length - second.length);
+      if (diff < bestDiff) {
+        bestDiff = diff;
+        bestBreak = i;
+      }
+    }
+
+    const first = words.slice(0, bestBreak).join(' ');
+    const second = words.slice(bestBreak).join(' ');
+    return second ? [first, second] : [first];
   }
 
   headerSection(): CmsPageSection | null {
