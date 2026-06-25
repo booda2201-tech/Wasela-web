@@ -37,10 +37,9 @@
 
 @media (min-width: 1024px) {
   .merchants-glow-stage {
-    /* منتصف منطقة الكلام: عنوان + وصف + 1000+ */
-    top: 5.55rem;
-    width: 57.97rem;
-    height: 32.6rem;
+    top: clamp(4.25rem, 8vh, 5.55rem);
+    width: min(52rem, 90vw);
+    height: clamp(22rem, 30vh, 32.6rem);
     transform: translate(-50%, -50%);
   }
 }
@@ -168,14 +167,14 @@
 
 @media (min-width: 1024px) {
   .merchants-page {
-    /* نفس مسافة Contact Us: pt-20 + py-10 = 7.5rem */
-    padding-top: 7.5rem !important;
+    padding-top: 6.25rem !important;
     padding-bottom: 0 !important;
   }
 
   .merchants-page .container {
     padding-top: 0;
-    padding-bottom: 4rem;
+    padding-bottom: 2.75rem;
+    max-width: min(76rem, 94vw);
   }
 
   .merchants-hero-content {
@@ -183,28 +182,27 @@
     flex-direction: column;
     align-items: center;
     gap: 0;
-    margin: 0 0 48px;
+    margin: 0 0 2rem;
     padding: 0;
   }
 
-  /* Figma main-content: 668×107 — gap 10px — padding 0 */
   .merchants-hero-main {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    gap: 10px;
+    gap: 8px;
     width: 668px;
     max-width: 100%;
-    margin: 0 0 18px;
+    margin: 0 0 0.75rem;
     padding: 0;
   }
 
   .merchants-hero-title {
-    margin-bottom: 15px !important;
+    margin-bottom: 0.65rem !important;
     width: 100%;
-    font-size: 42px;
-    line-height: 1.25;
+    font-size: clamp(2rem, 2.15vw, 2.625rem);
+    line-height: 1.2;
     font-weight: 900;
     letter-spacing: 0.025em;
     color: #1d1ddb;
@@ -219,39 +217,37 @@
   }
 
   .merchants-count-box {
-    margin: 0 0 32px !important;
+    margin: 0 0 1.25rem !important;
     padding: 0;
     border: 0;
     background: transparent;
     box-shadow: none;
   }
 
-  /* Figma: 461.74×57 — 55px / 57px / 0.2px */
   .merchants-count-inner {
-    font-size: 55px;
-    line-height: 57px;
+    font-size: clamp(2.75rem, 3.1vw, 3.4375rem);
+    line-height: 1.08;
     width: fit-content;
     max-width: 461.74px;
-    gap: 0.1em;
+    gap: 0.09em;
   }
 
   .merchants-count-title {
     margin: 0;
     color: #9598ff;
     letter-spacing: 0.2px;
-    line-height: 57px;
+    line-height: 1.08;
     font-weight: 900;
     white-space: nowrap;
   }
 
-  /* Figma: 333×52 — radius 44px */
   .merchants-join-btn.download-btn {
-    --dl-btn-h: 52px;
+    --dl-btn-h: 48px;
     margin: 0 !important;
-    width: 333px;
-    min-width: 333px;
-    max-width: 333px;
-    height: 52px;
+    width: 20.8125rem;
+    min-width: 20.8125rem;
+    max-width: 20.8125rem;
+    height: 48px;
     border-radius: 44px;
     padding-inline-start: 1.2rem;
   }
@@ -267,36 +263,21 @@
   }
 }
 
-/* ديسكتوب صغير: عرض متناسب مع الشاشة عشان الشبكة ما تبانش عريضة لما العرض يقل شوية */
-@media (min-width: 1000px) and (max-width: 1400px) {
-  .merchants-page .container {
-    max-width: min(71.25rem, 87.5vw);
-    width: 100%;
-    margin-inline: auto;
-    box-sizing: border-box;
-  }
-
-  .merchants-desktop-col {
-    height: min(1150px, calc(87.5vw * 1.02));
-    max-height: min(1150px, calc(87.5vw * 1.02));
-  }
-}
-
 /* ديسكتوب: عمود بارتفاع ثابت + توزيع flex؛ عند الهوير الكرت يكبر والباقي في العمود يصغرو */
 @media (min-width: 1024px) {
   .merchants-desktop-col {
     display: flex;
     flex-direction: column;
-    gap: 1.125rem;
-    height: 1150px;
-    max-height: 1150px;
+    gap: 1rem;
+    height: min(1480px, calc(100vh - 1.5rem));
+    max-height: min(1480px, calc(100vh - 1.5rem));
     min-height: 0;
     overflow: hidden;
   }
 
   .merchants-desktop-col .merchant-col__card {
     flex: var(--card-flex, 1) 1 0;
-    min-height: 120px;
+    min-height: 210px;
     transition:
       flex 0.8s cubic-bezier(0.4, 0, 0.2, 1),
       box-shadow 0.45s ease,
@@ -318,77 +299,50 @@
       flex 0.8s cubic-bezier(0.4, 0, 0.2, 1),
       box-shadow 0.45s ease,
       z-index 0s;
+
+    .merchant-col__card-bg {
+      transform: scale(1.1);
+    }
+
+    .merchant-col__card-overlay {
+      opacity: 1;
+      background: rgb(0 0 0 / 20%);
+    }
+
+    .merchant-col__card-logo {
+      transform: scale(1.05);
+    }
+  }
+
+  .merchant-col__card-bg {
+    z-index: 0;
+    transform: scale(1);
+    transform-origin: center center;
+  }
+
+  .merchant-col__card-overlay {
+    z-index: 1;
+    opacity: 0;
+  }
+
+  .merchant-col__card-logo-wrap {
+    z-index: 2;
+  }
+
+  .merchant-col__card-logo {
+    --logo-size: calc(46% + var(--card-flex, 1.5) * 7%);
+    max-width: min(var(--logo-size), 10rem);
+    max-height: min(var(--logo-size), 10rem);
+    width: auto;
+    height: auto;
+    transform: scale(1);
+    transform-origin: center center;
+    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
 
 .merchants-preline {
   white-space: pre-line;
-}
-
-.merchants-hero-desc__mobile {
-  display: none;
-}
-
-.merchants-hero-desc {
-  margin-inline: auto;
-  text-align: center;
-}
-
-@media (min-width: 1000px) {
-  .merchants-hero-desc {
-    max-width: 41.75rem;
-    margin-bottom: 1.5rem;
-  }
-
-  .merchants-hero-desc__mobile {
-    display: none !important;
-  }
-}
-
-/* موبايل + تابلت — سطرين متوازيين بدون قص */
-@media (max-width: 999px) {
-  .merchants-hero-desc {
-    width: 100%;
-    max-width: 100% !important;
-    margin-top: 1rem !important;
-    margin-bottom: 1.75rem !important;
-    margin-inline: auto !important;
-    padding-inline: 0.5rem !important;
-    box-sizing: border-box;
-    color: #767e94;
-    font-size: clamp(0.8125rem, 3.4vw, 0.9375rem);
-    line-height: 1.55;
-  }
-
-  .merchants-hero-desc__desktop {
-    display: none !important;
-  }
-
-  .merchants-hero-desc__mobile {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.25rem;
-    width: 100%;
-    text-align: center;
-  }
-
-  .merchants-hero-desc__line {
-    display: block;
-    width: 100%;
-    max-width: 100%;
-    text-align: center;
-    overflow-wrap: break-word;
-    word-wrap: break-word;
-  }
-}
-
-@media (max-width: 767px) {
-  .merchants-hero-desc {
-    margin-top: 1.25rem !important;
-    margin-bottom: 2.25rem !important;
-    padding-inline: 0.65rem !important;
-  }
 }
 
 /* موبايل + تابلت — رفع الأيقونة، مسافة من النص، وتوسيط الدايرة على الكبسولة */
@@ -632,6 +586,63 @@ swiper-slide.merchants-page-swiper-slide {
       height: 170px !important;
       border-radius: 1rem;
     }
+  }
+}
+
+/* شاشات كبيرة وطويلة — مقاسات الفيجما الكاملة */
+@media (min-width: 1024px) and (min-height: 1101px) {
+  .merchants-page {
+    padding-top: 7.5rem !important;
+  }
+
+  .merchants-page .container {
+    padding-bottom: 4rem;
+  }
+
+  .merchants-hero-content {
+    margin-bottom: 3rem;
+  }
+
+  .merchants-hero-main {
+    gap: 10px;
+    margin-bottom: 1.125rem;
+  }
+
+  .merchants-hero-title {
+    font-size: 42px;
+    line-height: 1.25;
+    margin-bottom: 0.9375rem !important;
+  }
+
+  .merchants-count-box {
+    margin-bottom: 2rem !important;
+  }
+
+  .merchants-count-inner {
+    font-size: 55px;
+    line-height: 57px;
+  }
+
+  .merchants-count-title {
+    line-height: 57px;
+  }
+
+  .merchants-join-btn.download-btn {
+    --dl-btn-h: 52px;
+    width: 20.8125rem;
+    height: 52px;
+  }
+
+  .merchants-glow-stage {
+    top: 5.55rem;
+    width: 57.97rem;
+    height: 32.6rem;
+  }
+
+  .merchants-desktop-col {
+    gap: 1.125rem;
+    height: 1150px;
+    max-height: 1150px;
   }
 }
 

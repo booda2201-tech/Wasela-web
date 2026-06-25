@@ -120,29 +120,6 @@
   margin-inline: auto;
 }
 
-.faq-decor {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  overflow: visible;
-  z-index: 0;
-}
-
-.faq-decor__img {
-  position: absolute;
-  right: clamp(-2rem, -4vw, -1rem);
-  bottom: clamp(-2.15rem, -4.5vh, -0.1rem);
-  width: clamp(7.5rem, 16vw, 12.5rem);
-  height: auto;
-  object-fit: contain;
-  object-position: right bottom;
-  opacity: 0.8;
-  filter: saturate(1.06);
-  user-select: none;
-}
-
-
-
 .faq-inner {
 
   position: relative;
@@ -200,10 +177,5 @@
     line-height: 1.45;
   }
 
-  .faq-decor__img {
-    right: -3.15rem;
-    bottom: 1.75rem;
-    width: 11.5rem;
-  }
 }
 

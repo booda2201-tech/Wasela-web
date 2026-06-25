@@ -45,7 +45,9 @@ export class HomeContentsComponent implements OnInit, OnDestroy, AfterViewInit, 
     styleBase: number;
   }> = [];
 
-  merchantColumns: Array<Array<{ bg: string; logo: string; classes: string }>> = [[], [], [], []];
+  merchantColumns: Array<
+    Array<{ bg: string; logo: string; mobileHeight: string; flexWeight: number }>
+  > = [[], [], [], []];
 
   get hasMerchantCards(): boolean {
     return this.merchantColumns.some((col) => col.length > 0);
@@ -72,19 +74,20 @@ export class HomeContentsComponent implements OnInit, OnDestroy, AfterViewInit, 
   private partnersSwapTimeout?: ReturnType<typeof setTimeout>;
   partnersSwapping = false;
 
-  readonly cardHeightClasses = [
-    'h-[380px] hover:h-[500px]',
-    'h-[300px] hover:h-[420px]',
-    'h-[220px] hover:h-[340px]',
-    'h-[400px] hover:h-[520px]',
-    'h-[280px] hover:h-[400px]',
-    'h-[220px] hover:h-[340px]',
-    'h-[240px] hover:h-[360px]',
-    'h-[320px] hover:h-[440px]',
-    'h-[340px] hover:h-[460px]',
-    'h-[300px] hover:h-[420px]',
-    'h-[350px] hover:h-[470px]',
-    'h-[250px] hover:h-[370px]',
+  /** أوزان flex — توزيع masonry متدرج (كل عمود نمط مختلف) */
+  readonly homeMerchantFlexByColumn: number[][] = [
+    [3.35, 1.1],
+    [1.85, 3.45],
+    [1.1, 3.25],
+    [3.15, 1.15],
+  ];
+
+  /** ارتفاعات متفاوتة على الموبايل/التابلت */
+  readonly homeMerchantMobileHeightsByColumn: string[][] = [
+    ['420px', '240px'],
+    ['260px', '460px'],
+    ['240px', '450px'],
+    ['430px', '250px'],
   ];
 
   constructor(private readonly pagesService: PagesService) {}
@@ -188,94 +191,6 @@ export class HomeContentsComponent implements OnInit, OnDestroy, AfterViewInit, 
     return second ? [first, second] : [first];
   }
 
-  /** يقسّم وصف قسم التجّار لسطرين متوازنين — موبايل */
-  merchantsShowcaseSubtitleLines(description: string | null | undefined): string[] {
-    const text = (description ?? '').trim();
-    if (!text) {
-      return [];
-    }
-
-    if (text.length < 30) {
-      return [text];
-    }
-
-    const candidates: [string, string][] = [];
-
-    const sentenceEnd = text.search(/\.\s+/);
-    if (sentenceEnd !== -1 && sentenceEnd < text.length - 10) {
-      candidates.push([
-        text.slice(0, sentenceEnd + 1).trim(),
-        text.slice(sentenceEnd + 1).trim()
-      ]);
-    }
-
-    for (const match of text.matchAll(/,/g)) {
-      const idx = match.index ?? -1;
-      if (idx < 0) {
-        continue;
-      }
-      const first = text.slice(0, idx + 1).trim();
-      const second = text.slice(idx + 1).trim();
-      if (first && second) {
-        candidates.push([first, second]);
-      }
-    }
-
-    const wordSplit = this.balanceShowcaseByWords(text);
-    if (wordSplit.length === 2) {
-      candidates.push([wordSplit[0], wordSplit[1]]);
-    }
-
-    const valid = candidates.filter(([first, second]) => first.length > 0 && second.length > 0);
-    if (!valid.length) {
-      return [text];
-    }
-
-    const lineScore = ([first, second]: [string, string]): number => {
-      const maxLen = Math.max(first.length, second.length);
-      const balance = Math.abs(first.length - second.length);
-      const w1 = first.split(/\s+/).filter(Boolean).length;
-      const w2 = second.split(/\s+/).filter(Boolean).length;
-      const wordBalance = Math.abs(w1 - w2);
-      const lengthOverflow = Math.max(0, maxLen - 46) * 18;
-      const orphanPenalty =
-        w1 === 1 || w2 === 1 ? 80 : w2 === 2 && w1 > w2 + 2 ? 20 : 0;
-      return maxLen * 8 + balance + wordBalance * 12 + lengthOverflow + orphanPenalty;
-    };
-
-    valid.sort((a, b) => lineScore(a) - lineScore(b));
-    return valid[0];
-  }
-
-  private balanceShowcaseByWords(text: string): string[] {
-    const words = text.split(/\s+/).filter(Boolean);
-    if (words.length < 4) {
-      return [text];
-    }
-
-    let bestBreak = 1;
-    let bestScore = Infinity;
-
-    for (let i = 1; i < words.length; i++) {
-      const first = words.slice(0, i).join(' ');
-      const second = words.slice(i).join(' ');
-      const maxLen = Math.max(first.length, second.length);
-      const balance = Math.abs(first.length - second.length);
-      const wordBalance = Math.abs(i - (words.length - i));
-      const lengthOverflow = Math.max(0, maxLen - 46) * 18;
-      const orphanPenalty = words.length - i === 1 || i === 1 ? 80 : 0;
-      const score = maxLen * 8 + balance + wordBalance * 12 + lengthOverflow + orphanPenalty;
-      if (score < bestScore) {
-        bestScore = score;
-        bestBreak = i;
-      }
-    }
-
-    const first = words.slice(0, bestBreak).join(' ');
-    const second = words.slice(bestBreak).join(' ');
-    return second ? [first, second] : [first];
-  }
-
   /** مسار الـ router لزر التجّار في الـ home؛ الافتراضي `/merchants` */
   merchantsHomeCtaRouterPath(section: CmsPageSection): string {
     const raw = section.buttonUrl?.trim();
@@ -297,11 +212,6 @@ export class HomeContentsComponent implements OnInit, OnDestroy, AfterViewInit, 
 
   merchantBgSrc(item: CmsPageSectionItem): string | null {
     return this.asset(item.backgroundImageMediaFileUrl || item.backgroundImageUrl);
-  }
-
-  merchantCardClass(indexInColumn: number, columnIndex: number): string {
-    const idx = (columnIndex * 3 + indexInColumn) % this.cardHeightClasses.length;
-    return this.cardHeightClasses[idx];
   }
 
   private applyCmsData(): void {
@@ -367,7 +277,8 @@ export class HomeContentsComponent implements OnInit, OnDestroy, AfterViewInit, 
     }
     const source = [...section.items]
       .filter((item) => item.isActive)
-      .sort((a, b) => a.sortOrder - b.sortOrder || a.id - b.id);
+      .sort((a, b) => a.sortOrder - b.sortOrder || a.id - b.id)
+      .slice(0, 8);
     const cols: CmsPageSectionItem[][] = [[], [], [], []];
     source.forEach((item, index) => {
       cols[index % 4].push(item);
@@ -379,7 +290,9 @@ export class HomeContentsComponent implements OnInit, OnDestroy, AfterViewInit, 
         return {
           bg,
           logo,
-          classes: this.merchantCardClass(indexInColumn, columnIndex),
+          mobileHeight:
+            this.homeMerchantMobileHeightsByColumn[columnIndex]?.[indexInColumn] ?? '260px',
+          flexWeight: this.homeMerchantFlexByColumn[columnIndex]?.[indexInColumn] ?? 1,
         };
       })
     );

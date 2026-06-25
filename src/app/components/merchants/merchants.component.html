@@ -17,18 +17,13 @@
         class="merchants-hero-content text-center px-2 md:px-4 max-lg:mb-0"
       >
         <div class="merchants-hero-main">
-        <h2 class="merchants-hero-title max-lg:mb-0 max-lg:text-[2rem] max-lg:tracking-[-0.01em] max-lg:font-black max-lg:text-[#1D1DDB]">
+        <h2 class="merchants-hero-title max-lg:mb-4 max-lg:text-[2rem] max-lg:tracking-[-0.01em] max-lg:font-black max-lg:text-[#1D1DDB]">
           {{ hero.title }}
         </h2>
-        <p class="merchants-hero-desc">
-          <span class="merchants-hero-desc__desktop merchants-preline">{{ hero.description }}</span>
-          <span
-            class="merchants-hero-desc__mobile"
-            *ngIf="heroSubtitleLines(hero.description) as lines"
-          >
-            <span class="merchants-hero-desc__line">{{ lines[0] }}</span>
-            <span class="merchants-hero-desc__line" *ngIf="lines[1]">{{ lines[1] }}</span>
-          </span>
+        <p
+          class="merchants-hero-desc merchants-preline max-lg:mb-6 max-lg:mx-auto max-lg:max-w-[30rem] max-lg:sm:max-w-md"
+        >
+          {{ hero.description }}
         </p>
         </div>
         <div
@@ -69,28 +64,28 @@
 
     <ng-template #merchantCard let-m="merchant" let-cls="cls" let-lgFlex="lgFlex">
       <div
-        class="merchant-col__card relative overflow-hidden rounded-[1.25rem] sm:rounded-2xl group cursor-pointer w-full shadow-md transition-all duration-700 smooth-accordion flex-shrink max-lg:shadow-[0_28px_56px_-32px_rgba(15,23,42,0.55)] max-lg:ring-1 max-lg:ring-white/40 max-lg:active:scale-[0.985] max-lg:duration-300 lg:rounded-[2rem] lg:shadow-md lg:ring-0 lg:active:scale-100 min-h-0"
+        class="merchant-col__card group relative overflow-hidden rounded-[1.25rem] sm:rounded-2xl cursor-pointer w-full shadow-md transition-all duration-700 smooth-accordion min-h-0 max-lg:shadow-[0_28px_56px_-32px_rgba(15,23,42,0.55)] max-lg:ring-1 max-lg:ring-white/40 max-lg:active:scale-[0.985] max-lg:duration-300 lg:rounded-[2rem] lg:shadow-md lg:ring-0 lg:active:scale-100"
         [ngClass]="cls"
         [ngStyle]="lgFlex != null ? { '--card-flex': lgFlex } : {}"
       >
         <img
           *ngIf="backgroundSrc(m) as bg"
           [src]="bg"
-          class="absolute inset-0 size-full object-cover transition-transform duration-1000 will-change-transform max-lg:scale-[1.04] max-lg:group-hover:scale-[1.06] max-lg:group-active:scale-[1.02] group-hover:scale-110 lg:scale-100 lg:group-hover:scale-110"
+          class="merchant-col__card-bg absolute inset-0 size-full object-cover transition-transform duration-1000 will-change-transform max-lg:scale-[1.04] max-lg:group-hover:scale-[1.06] max-lg:group-active:scale-[1.02]"
           [alt]="m.title || 'Merchant background'"
           loading="lazy"
           decoding="async"
         />
 
         <div
-          class="absolute inset-0 pointer-events-none transition-opacity duration-700 max-lg:bg-gradient-to-t max-lg:from-black/60 max-lg:via-black/20 max-lg:to-transparent max-lg:opacity-100 lg:hidden"
+          class="merchant-col__card-overlay absolute inset-0 pointer-events-none transition-opacity duration-700 max-lg:bg-gradient-to-t max-lg:from-black/60 max-lg:via-black/20 max-lg:to-transparent max-lg:opacity-100"
         ></div>
 
-        <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <div class="merchant-col__card-logo-wrap absolute inset-0 flex items-center justify-center pointer-events-none">
           <img
             *ngIf="logoSrc(m) as logo"
             [src]="logo"
-            class="max-w-[90%] max-h-[90%] sm:max-w-[92%] sm:max-h-[92%] object-contain md:max-w-full md:max-h-full max-lg:drop-shadow-[0_10px_28px_rgba(0,0,0,0.45)] lg:drop-shadow-none"
+            class="merchant-col__card-logo object-contain max-lg:max-w-[92%] max-lg:max-h-[92%] max-lg:drop-shadow-[0_10px_28px_rgba(0,0,0,0.45)]"
             [alt]="m.title || 'Merchant logo'"
             loading="lazy"
             decoding="async"
@@ -125,7 +120,7 @@
 
     <!-- ديسكتوب: 4 أعمدة — هوفر يكبّر الكرت ويصغّر اللي فوقه وتحته (نفس سلوك الفيجما) -->
     <div
-      class="merchants-desktop-grid hidden lg:grid lg:grid-cols-4 lg:gap-[18px]"
+      class="merchants-desktop-grid hidden lg:grid lg:grid-cols-4 lg:gap-6"
       *ngIf="merchantItemsList.length"
     >
       <div
@@ -152,7 +147,7 @@
   </div>
 </section>
 
-<app-page-loader *ngIf="loading"></app-page-loader>
+<div class="py-20 text-center" *ngIf="loading">Loading...</div>
 <div class="py-20 text-center text-red-500" *ngIf="loadError">
   فشل في تحميل صفحة Merchants.
 </div>

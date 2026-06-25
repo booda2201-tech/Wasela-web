@@ -141,19 +141,15 @@
   </div>
 </section>
 
-<section *ngIf="homeMerchantsSection() as hm" class="merchants-showcase-section py-3 bg-white">
+<section *ngIf="homeMerchantsSection() as hm" class="merchants-showcase-section bg-white">
   <div class="container mx-auto px-3">
-    <div class="merchants-showcase-header text-center mb-4 lg:mb-16">
+    <div class="merchants-showcase-header text-center mb-4 lg:mb-6">
       <h1 *ngIf="hm.title" class="merchants-title text-3xl md:text-4xl font-black text-[#1D1DDB]">{{ hm.title }}</h1>
-      <p *ngIf="hm.description" class="merchants-showcase-desc">
-        <span class="merchants-showcase-desc__desktop cms-preline">{{ hm.description }}</span>
-        <span
-          class="merchants-showcase-desc__mobile"
-          *ngIf="merchantsShowcaseSubtitleLines(hm.description) as lines"
-        >
-          <span class="merchants-showcase-desc__line">{{ lines[0] }}</span>
-          <span class="merchants-showcase-desc__line" *ngIf="lines[1]">{{ lines[1] }}</span>
-        </span>
+      <p
+        *ngIf="hm.description"
+        class="merchants-showcase-desc max-w-md mx-auto cms-preline lg:max-w-none"
+      >
+        {{ hm.description }}
       </p>
 
       <a
@@ -180,21 +176,23 @@
     </div>
 
     <div *ngIf="hasMerchantCards" class="merchants-grid-stage">
-      <div class="merchants-grid grid h-full grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
+      <div class="merchants-grid grid grid-cols-2 lg:grid-cols-4 items-start gap-3 sm:gap-4 lg:gap-5">
         <div
           *ngFor="let col of merchantColumns; let colIndex = index"
-          class="merchants-col h-[950px] max-h-[950px] min-h-0 overflow-hidden gap-3 sm:gap-4 lg:gap-6"
-          [ngClass]="colIndex >= 2 ? 'hidden lg:flex flex-col' : 'flex flex-col'"
+          class="merchants-col flex flex-col gap-3 sm:gap-4 lg:gap-5"
         >
           <div
             *ngFor="let merchant of col"
-            class="merchant-card group relative overflow-hidden rounded-[1.35rem] lg:rounded-[2rem] cursor-pointer w-full transition-all duration-700 smooth-accordion flex-shrink min-h-[120px] lg:min-h-[150px]"
-            [ngClass]="merchant.classes"
+            class="merchant-card group relative overflow-hidden rounded-[1.35rem] lg:rounded-[2rem] cursor-pointer w-full transition-all duration-700 smooth-accordion min-h-0"
+            [ngStyle]="{
+              '--card-mobile-h': merchant.mobileHeight,
+              '--card-flex': merchant.flexWeight
+            }"
           >
             <div class="merchant-card-image-clip">
               <img
                 [src]="merchant.bg"
-                class="merchant-card-bg w-full h-full object-cover transition-transform duration-1000 will-change-transform"
+                class="merchant-card-bg w-full h-full object-cover transition-transform duration-1000 will-change-transform group-hover:scale-110"
                 alt=""
                 loading="lazy"
                 decoding="async"
@@ -210,7 +208,7 @@
               >
                 <img
                   [src]="merchant.logo"
-                  class="max-w-[50%] max-h-[50%] lg:max-w-full lg:max-h-full object-contain"
+                  class="merchant-card-logo max-w-[50%] max-h-[50%] object-contain"
                   alt=""
                 />
               </div>
@@ -244,10 +242,11 @@
       </a>
     </div>
   </div>
-
-  <!-- الشهادات داخل نفس سكشن التجار (في آخر القسم) -->
-  <ng-container *ngTemplateOutlet="homeTestimonials"></ng-container>
 </section>
+
+<ng-container *ngIf="homeMerchantsSection()">
+  <ng-container *ngTemplateOutlet="homeTestimonials"></ng-container>
+</ng-container>
 
 <!-- لو تم تعطيل سكشن التجار من الـ CMS، اعرض الشهادات لوحدها -->
 <ng-container  *ngIf="!homeMerchantsSection()">
