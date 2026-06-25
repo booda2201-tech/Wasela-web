@@ -183,35 +183,45 @@
         >
           <div
             *ngFor="let merchant of col"
-            class="merchant-card group relative overflow-hidden rounded-[1.35rem] lg:rounded-[2rem] cursor-pointer w-full transition-all duration-700 smooth-accordion min-h-0"
+            class="merchant-card group relative overflow-hidden rounded-[1.35rem] lg:rounded-[2rem] cursor-pointer w-full shadow-md max-lg:transition-all max-lg:duration-700 smooth-accordion min-h-0 max-lg:shadow-[0_28px_56px_-32px_rgba(15,23,42,0.55)] max-lg:ring-1 max-lg:ring-white/40"
+            [ngClass]="homeMerchantCardClass(merchant.flexWeight)"
             [ngStyle]="{
               '--card-mobile-h': merchant.mobileHeight,
-              '--card-flex': merchant.flexWeight
+              '--card-flex': merchant.flexWeight,
+              '--card-hover-flex': homeMerchantHoverFlex(merchant.flexWeight)
             }"
           >
-            <div class="merchant-card-image-clip">
+            <img
+              [src]="merchant.bg"
+              class="merchant-card-bg absolute inset-0 size-full object-cover max-lg:transition-transform max-lg:duration-1000 will-change-transform max-lg:scale-[1.04] max-lg:group-hover:scale-[1.06]"
+              alt=""
+              loading="lazy"
+              decoding="async"
+            />
+
+            <div
+              class="merchant-card-overlay absolute inset-0 pointer-events-none transition-opacity duration-700 max-lg:bg-gradient-to-t max-lg:from-black/60 max-lg:via-black/20 max-lg:to-transparent max-lg:opacity-100"
+            ></div>
+
+            <div class="merchant-card-logo-wrap absolute inset-0 flex items-center justify-center pointer-events-none">
+              <div
+                class="merchant-card-logo-ring flex items-center justify-center rounded-full w-[10.25rem] h-[10.25rem] sm:w-16 sm:h-16 lg:hidden"
+              >
+                <img
+                  [src]="merchant.logo"
+                  class="merchant-card-logo object-contain max-w-[50%] max-h-[50%] lg:max-w-none lg:max-h-none"
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
               <img
-                [src]="merchant.bg"
-                class="merchant-card-bg w-full h-full object-cover transition-transform duration-1000 will-change-transform group-hover:scale-110"
+                [src]="merchant.logo"
+                class="merchant-card-logo hidden lg:block object-contain"
                 alt=""
                 loading="lazy"
                 decoding="async"
               />
-            </div>
-            <div
-              class="absolute inset-0 bg-black/20 opacity-0 transition-opacity duration-700 group-hover:opacity-100 pointer-events-none z-[1]"
-            ></div>
-
-            <div class="absolute inset-0 z-[2] flex items-center justify-center p-2 lg:p-0 pointer-events-none">
-              <div
-                class="merchant-card-logo-ring flex items-center justify-center rounded-full w-[10.25rem] h-[10.25rem] sm:w-16 sm:h-16 lg:bg-transparent lg:rounded-none lg:w-auto lg:h-auto"
-              >
-                <img
-                  [src]="merchant.logo"
-                  class="merchant-card-logo max-w-[50%] max-h-[50%] object-contain"
-                  alt=""
-                />
-              </div>
             </div>
           </div>
         </div>

@@ -74,20 +74,23 @@ export class HomeContentsComponent implements OnInit, OnDestroy, AfterViewInit, 
   private partnersSwapTimeout?: ReturnType<typeof setTimeout>;
   partnersSwapping = false;
 
+  /** عدد كروت التجار في الـ home — 4 أعمدة × 2 صفوف */
+  readonly homeMerchantMaxCount = 8;
+
   /** أوزان flex — توزيع masonry متدرج (كل عمود نمط مختلف) */
   readonly homeMerchantFlexByColumn: number[][] = [
-    [3.35, 1.1],
-    [1.85, 3.45],
-    [1.1, 3.25],
-    [3.15, 1.15],
+    [2.55, 1.05],
+    [1.85, 2.65],
+    [1.1, 2.5],
+    [2.45, 1.15],
   ];
 
   /** ارتفاعات متفاوتة على الموبايل/التابلت */
   readonly homeMerchantMobileHeightsByColumn: string[][] = [
-    ['420px', '240px'],
-    ['260px', '460px'],
-    ['240px', '450px'],
-    ['430px', '250px'],
+    ['350px', '240px'],
+    ['260px', '400px'],
+    ['240px', '385px'],
+    ['355px', '250px'],
   ];
 
   constructor(private readonly pagesService: PagesService) {}
@@ -206,6 +209,14 @@ export class HomeContentsComponent implements OnInit, OnDestroy, AfterViewInit, 
     return raw && this.isExternalUrl(raw) ? raw : null;
   }
 
+  homeMerchantCardClass(flexWeight: number): string {
+    return flexWeight >= 2.2 ? 'merchant-card--tall' : 'merchant-card--short';
+  }
+
+  homeMerchantHoverFlex(flexWeight: number): number {
+    return flexWeight >= 2.2 ? flexWeight + 0.85 : 1.85;
+  }
+
   merchantLogoSrc(item: CmsPageSectionItem): string | null {
     return this.asset(item.imageMediaFileUrl || item.imageUrl);
   }
@@ -278,7 +289,7 @@ export class HomeContentsComponent implements OnInit, OnDestroy, AfterViewInit, 
     const source = [...section.items]
       .filter((item) => item.isActive)
       .sort((a, b) => a.sortOrder - b.sortOrder || a.id - b.id)
-      .slice(0, 8);
+      .slice(0, this.homeMerchantMaxCount);
     const cols: CmsPageSectionItem[][] = [[], [], [], []];
     source.forEach((item, index) => {
       cols[index % 4].push(item);

@@ -42,10 +42,10 @@ export class MerchantsComponent implements OnInit, AfterViewInit {
    * كل عمود نمط مختلف + الصفوف مش متساوية عرضياً
    */
   readonly cardFlexByIndex = [
-    3.35, 1.05, 1.75,
-    1.85, 3.45, 1.1,
-    1.1, 1.95, 3.25,
-    3.15, 1.15, 1.65,
+    2.75, 1.05, 1.75,
+    1.85, 2.85, 1.1,
+    1.1, 1.95, 2.65,
+    2.55, 1.15, 1.65,
   ];
 
   constructor(
@@ -112,13 +112,22 @@ export class MerchantsComponent implements OnInit, AfterViewInit {
     return (columnIndex * 3 + rowIndex) % this.cardFlexByIndex.length;
   }
 
-  /** Classes للكرت: ارتفاعات الموبايل فقط؛ الديسكتوب يعتمد على flex + SCSS */
-  cardClass(_rowIndex: number, _columnIndex: number): string {
-    return this.cardMobileHeights;
+  /** Classes للكرت: ارتفاعات الموبايل + تمييز طويل/قصير على الديسكتوب */
+  cardClass(rowIndex: number, columnIndex: number): string {
+    const flex = this.cardFlexWeight(rowIndex, columnIndex);
+    const size =
+      flex >= 2.2 ? 'merchant-col__card--tall' : 'merchant-col__card--short';
+    return `${this.cardMobileHeights} ${size}`;
   }
 
   cardFlexWeight(rowIndex: number, columnIndex: number): number {
     return this.cardFlexByIndex[this.cardPatternIndex(rowIndex, columnIndex)];
+  }
+
+  /** flex عند الهوفر — القصير ثابت، الطويل يتمد حسب حجمه */
+  cardHoverFlexWeight(rowIndex: number, columnIndex: number): number {
+    const flex = this.cardFlexWeight(rowIndex, columnIndex);
+    return flex >= 2.2 ? flex + 0.95 : 1.85;
   }
 
   cardClassForMerchantIndex(_flatIndex: number): string {

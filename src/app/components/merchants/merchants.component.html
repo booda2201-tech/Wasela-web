@@ -62,16 +62,20 @@
       </div>
     </div>
 
-    <ng-template #merchantCard let-m="merchant" let-cls="cls" let-lgFlex="lgFlex">
+    <ng-template #merchantCard let-m="merchant" let-cls="cls" let-lgFlex="lgFlex" let-lgHoverFlex="lgHoverFlex">
       <div
-        class="merchant-col__card group relative overflow-hidden rounded-[1.25rem] sm:rounded-2xl cursor-pointer w-full shadow-md transition-all duration-700 smooth-accordion min-h-0 max-lg:shadow-[0_28px_56px_-32px_rgba(15,23,42,0.55)] max-lg:ring-1 max-lg:ring-white/40 max-lg:active:scale-[0.985] max-lg:duration-300 lg:rounded-[2rem] lg:shadow-md lg:ring-0 lg:active:scale-100"
+        class="merchant-col__card group relative overflow-hidden rounded-[1.25rem] sm:rounded-2xl cursor-pointer w-full shadow-md max-lg:transition-all max-lg:duration-700 smooth-accordion min-h-0 max-lg:shadow-[0_28px_56px_-32px_rgba(15,23,42,0.55)] max-lg:ring-1 max-lg:ring-white/40 max-lg:active:scale-[0.985] max-lg:duration-300 lg:rounded-[2rem] lg:shadow-md lg:ring-0 lg:active:scale-100"
         [ngClass]="cls"
-        [ngStyle]="lgFlex != null ? { '--card-flex': lgFlex } : {}"
+        [ngStyle]="
+          lgFlex != null
+            ? { '--card-flex': lgFlex, '--card-hover-flex': lgHoverFlex }
+            : {}
+        "
       >
         <img
           *ngIf="backgroundSrc(m) as bg"
           [src]="bg"
-          class="merchant-col__card-bg absolute inset-0 size-full object-cover transition-transform duration-1000 will-change-transform max-lg:scale-[1.04] max-lg:group-hover:scale-[1.06] max-lg:group-active:scale-[1.02]"
+          class="merchant-col__card-bg absolute inset-0 size-full object-cover max-lg:transition-transform max-lg:duration-1000 will-change-transform max-lg:scale-[1.04] max-lg:group-hover:scale-[1.06] max-lg:group-active:scale-[1.02]"
           [alt]="m.title || 'Merchant background'"
           loading="lazy"
           decoding="async"
@@ -85,7 +89,7 @@
           <img
             *ngIf="logoSrc(m) as logo"
             [src]="logo"
-            class="merchant-col__card-logo object-contain max-lg:max-w-[92%] max-lg:max-h-[92%] max-lg:drop-shadow-[0_10px_28px_rgba(0,0,0,0.45)]"
+            class="merchant-col__card-logo object-contain max-lg:drop-shadow-[0_10px_28px_rgba(0,0,0,0.45)]"
             [alt]="m.title || 'Merchant logo'"
             loading="lazy"
             decoding="async"
@@ -136,7 +140,8 @@
               context: {
                 merchant: merchant,
                 cls: cardClass(rowIndex, colIndex),
-                lgFlex: cardFlexWeight(rowIndex, colIndex)
+                lgFlex: cardFlexWeight(rowIndex, colIndex),
+                lgHoverFlex: cardHoverFlexWeight(rowIndex, colIndex)
               }
             "
           ></ng-container>

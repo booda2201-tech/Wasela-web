@@ -168,7 +168,7 @@ footer {
 
   .footer-download {
     align-items: center;
-    gap: 1.75rem;
+    gap: 1.5rem;
 
     @media (min-width: 1024px) {
       align-items: flex-start;
@@ -178,7 +178,7 @@ footer {
   .footer-download__stores {
     display: flex;
     flex-direction: column;
-    gap: 1.125rem;
+    gap: 1rem;
     width: 100%;
   }
 
@@ -242,10 +242,10 @@ footer {
     padding-top: 0.875rem !important;
   }
 
-  /* ديسكتوب صغير — تصغير Download the App والبادجات والـ AUR logo */
-  @media (min-width: 1000px) and (max-width: 1400px) {
+  /* ديسكتوب — تصغير Download the App والبادجات وشعار AUR */
+  @media (min-width: 1000px) {
     .footer-download {
-      gap: 1rem;
+      gap: 1.15rem;
     }
 
     .footer-download__stores {
@@ -264,13 +264,37 @@ footer {
     }
 
     .footer-store-badge .store-badge-img {
-      height: 2.25rem;
-      width: calc(2.25rem * 135 / 40);
+      height: 2.35rem;
+      width: calc(2.35rem * 135 / 40);
     }
 
     .footer-aur-logo img {
-      height: 3.25rem;
-      max-width: 8.25rem;
+      height: 3.15rem;
+      max-width: 8rem;
+    }
+  }
+
+  @media (min-width: 1401px) {
+    .footer-download {
+      gap: 1.25rem;
+    }
+
+    .footer-download__stores {
+      gap: 0.7rem;
+    }
+
+    .footer-download .footer-col__title {
+      font-size: 1rem;
+    }
+
+    .footer-store-badge .store-badge-img {
+      height: 2.5rem;
+      width: calc(2.5rem * 135 / 40);
+    }
+
+    .footer-aur-logo img {
+      height: 3.35rem;
+      max-width: 8.5rem;
     }
   }
 }
