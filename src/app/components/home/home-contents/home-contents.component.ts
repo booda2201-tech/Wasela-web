@@ -85,12 +85,12 @@ export class HomeContentsComponent implements OnInit, OnDestroy, AfterViewInit, 
     [2.45, 1.15],
   ];
 
-  /** ارتفاعات متفاوتة على الموبايل/التابلت */
+  /** ارتفاعات متفاوتة على الموبايل/التابلت — مجموع كل عمود متساوي لتجنب الفراغات */
   readonly homeMerchantMobileHeightsByColumn: string[][] = [
-    ['350px', '240px'],
-    ['260px', '400px'],
-    ['240px', '385px'],
-    ['355px', '250px'],
+    ['280px', '230px'],
+    ['230px', '280px'],
+    ['250px', '260px'],
+    ['260px', '250px'],
   ];
 
   constructor(private readonly pagesService: PagesService) {}
@@ -403,16 +403,10 @@ export class HomeContentsComponent implements OnInit, OnDestroy, AfterViewInit, 
     Object.assign(el, {
       slidesPerView: 1,
       slidesPerGroup: 1,
-      spaceBetween: 10,
+      spaceBetween: 0,
       speed: 450,
       centeredSlides: true,
       breakpoints: {
-        640: {
-          slidesPerView: 1,
-          slidesPerGroup: 1,
-          spaceBetween: 20,
-          centeredSlides: false,
-        },
         1024: {
           slidesPerView: 2,
           slidesPerGroup: 2,
