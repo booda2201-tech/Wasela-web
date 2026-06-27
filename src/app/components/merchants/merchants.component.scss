@@ -6,6 +6,7 @@
 .merchants-page-stage {
   position: relative;
   isolation: isolate;
+  overflow: visible;
 }
 
 .merchants-hero-content,
@@ -168,17 +169,19 @@
 @media (min-width: 1024px) {
   .merchants-page {
     padding-top: 6.25rem !important;
-    padding-bottom: clamp(3rem, 5vw, 4.5rem) !important;
+    padding-bottom: clamp(2rem, 3.5vw, 3rem) !important;
   }
 
   .merchants-page .container {
     padding-top: 0;
-    padding-bottom: clamp(3.5rem, 5vw, 5rem);
+    padding-bottom: clamp(2.25rem, 3.5vw, 3.25rem);
     max-width: min(76rem, 94vw);
   }
 
   .merchants-desktop-grid {
-    padding-bottom: 1.5rem;
+    padding-bottom: clamp(1.25rem, 2.5vw, 2rem);
+    margin-bottom: clamp(0.5rem, 1vw, 0.75rem);
+    overflow: visible;
   }
 
   .merchants-hero-content {
@@ -273,10 +276,16 @@
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    height: min(1480px, calc(100vh - 1.5rem));
-    max-height: min(1480px, calc(100vh - 1.5rem));
+    height: min(1450px, calc(100vh - 3rem));
+    max-height: min(1450px, calc(100vh - 3rem));
     min-height: 0;
-    overflow: hidden;
+    padding-bottom: 0.75rem;
+    box-sizing: border-box;
+    overflow: visible;
+  }
+
+  .merchants-desktop-col .merchant-col__card:last-child {
+    margin-bottom: 0.25rem;
   }
 
   .merchants-desktop-col .merchant-col__card {
@@ -357,7 +366,7 @@
   .merchant-col__card-bg {
     z-index: 0;
     transform: scale(1);
-    transform-origin: center center;
+    transform-origin: center bottom;
     transition: transform 1.4s cubic-bezier(0.4, 0, 0.2, 1) 0.05s;
   }
 
@@ -396,8 +405,9 @@
 
   .merchants-desktop-col {
     gap: 1.125rem;
-    height: min(1320px, calc(100vh - 0.25rem));
-    max-height: min(1320px, calc(100vh - 0.25rem));
+    height: min(1290px, calc(100vh - 2.75rem));
+    max-height: min(1290px, calc(100vh - 2.75rem));
+    padding-bottom: 0.75rem;
   }
 
   .merchant-col__card-logo {
@@ -417,6 +427,22 @@
 
 .merchants-preline {
   white-space: pre-line;
+}
+
+.merchant-col__card-bg {
+  object-fit: cover;
+  object-position: center bottom;
+  transform-origin: center bottom;
+}
+
+@media (min-width: 1024px) {
+  .merchant-col__card--short .merchant-col__card-bg {
+    object-position: center 62%;
+  }
+
+  .merchant-col__card--tall .merchant-col__card-bg {
+    object-position: center 48%;
+  }
 }
 
 /* موبايل/تابلت — أيقونات بنفس المقاس */
@@ -680,7 +706,7 @@ swiper-slide.merchants-page-swiper-slide {
   }
 
   .merchants-page .container {
-    padding-bottom: clamp(4rem, 5vw, 5.5rem);
+    padding-bottom: clamp(2.75rem, 4vw, 3.5rem);
   }
 
   .merchants-hero-content {
@@ -725,8 +751,9 @@ swiper-slide.merchants-page-swiper-slide {
 
   .merchants-desktop-col {
     gap: 1.125rem;
-    height: 1150px;
-    max-height: 1150px;
+    height: 1100px;
+    max-height: 1100px;
+    padding-bottom: 1rem;
   }
 }
 
