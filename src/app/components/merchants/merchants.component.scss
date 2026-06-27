@@ -168,13 +168,17 @@
 @media (min-width: 1024px) {
   .merchants-page {
     padding-top: 6.25rem !important;
-    padding-bottom: 0 !important;
+    padding-bottom: clamp(3rem, 5vw, 4.5rem) !important;
   }
 
   .merchants-page .container {
     padding-top: 0;
-    padding-bottom: 2.75rem;
+    padding-bottom: clamp(3.5rem, 5vw, 5rem);
     max-width: min(76rem, 94vw);
+  }
+
+  .merchants-desktop-grid {
+    padding-bottom: 1.5rem;
   }
 
   .merchants-hero-content {
@@ -533,7 +537,7 @@
   max-width: min(26rem, 100vw - 1rem);
   margin-left: auto;
   margin-right: auto;
-  padding: 0 0.25rem 0.5rem;
+  padding: 0 0.25rem 1.25rem;
   box-sizing: border-box;
 
   .merchants-page-swiper::part(bullet) {
@@ -676,7 +680,7 @@ swiper-slide.merchants-page-swiper-slide {
   }
 
   .merchants-page .container {
-    padding-bottom: 4rem;
+    padding-bottom: clamp(4rem, 5vw, 5.5rem);
   }
 
   .merchants-hero-content {
