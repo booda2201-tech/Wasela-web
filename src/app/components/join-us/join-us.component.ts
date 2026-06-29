@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import gsap from 'gsap';
-import { catchError, forkJoin, of } from 'rxjs';
+import { catchError, combineLatest, of } from 'rxjs';
 
 import {
   MerchantApplicationRequest,
@@ -104,7 +104,7 @@ export class JoinUsComponent implements OnInit, AfterViewInit, OnDestroy {
   private viewReady = false;
 
   ngOnInit(): void {
-    forkJoin({
+    combineLatest({
       page: this.pagesService.getPageBySlug('join-us').pipe(catchError(() => of(null))),
       contactSettings: this.siteSettingsService
         .getSettingsMapByGroup(3)

@@ -122,6 +122,25 @@ body {
   overflow-x: clip;
 }
 
+html[dir='rtl'] body {
+  font-family: 'Diodrum Arabic', 'Diodrum Cyrillic', system-ui, sans-serif;
+}
+
+html[dir='rtl'] {
+  .navbar-brand {
+    margin-left: 0;
+    margin-right: -0.25rem;
+  }
+
+  .navbar-logo {
+    object-position: right center;
+  }
+
+  .mobile-nav-menu a:active {
+    transform: translateX(-2px);
+  }
+}
+
 .text-waseela-blue { color: $waseela-blue; }
 .bg-waseela-blue { background-color: $waseela-blue; }
 .text-waseela-orange { color: $waseela-orange; }

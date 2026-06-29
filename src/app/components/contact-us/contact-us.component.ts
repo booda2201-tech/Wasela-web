@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import gsap from 'gsap';
-import { forkJoin } from 'rxjs';
+import { combineLatest } from 'rxjs';
 
 import { CmsPage, CmsPageSection, PagesService } from '../../services/pages.service';
 import { SiteSettingsService } from '../../services/site-settings.service';
@@ -46,7 +46,7 @@ export class ContactUsComponent implements OnInit, AfterViewInit, OnDestroy {
   private viewReady = false;
 
   ngOnInit(): void {
-    forkJoin({
+    combineLatest({
       page: this.pagesService.getPageBySlug('contact-us'),
       contactSettings: this.siteSettingsService.getSettingsMapByGroup(3)
     }).subscribe({

@@ -9,7 +9,7 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
-import { catchError, forkJoin, of } from 'rxjs';
+import { catchError, combineLatest, of } from 'rxjs';
 
 import { environment } from '../../../../environments/environment';
 import {
@@ -97,7 +97,7 @@ export class HomeContentsComponent implements OnInit, OnDestroy, AfterViewInit, 
 
   ngOnInit(): void {
     if (!this.homePage) {
-      forkJoin({
+      combineLatest({
         home: this.pagesService.getPageBySlug('home'),
         merchants: this.pagesService.getPageBySlug('merchants').pipe(catchError(() => of(null))),
       }).subscribe({

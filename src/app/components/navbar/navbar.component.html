@@ -1,13 +1,6 @@
-
-
 <nav class="navbar-shell bg-white py-3 md:py-3 fixed top-0 w-full z-50">
-
   <div class="main-container mx-auto px-3 md:px-4 flex justify-between items-center">
-
-
-
     <div class="flex items-center navbar-brand" routerLink="/">
-
       <img
         src="assets/images/logo2.svg"
         alt="Waseela"
@@ -16,157 +9,91 @@
         height="26"
         decoding="async"
       >
-
     </div>
-
-
 
     <div class="hidden lg:flex items-center navbar-links">
-
       <a
-
         routerLink="/"
-
         routerLinkActive="navbar-link--active"
-
         [routerLinkActiveOptions]="{ exact: true }"
-
         class="navbar-link pb-1 transition-colors hover:text-[#1D1DDB]"
-
-        >Home</a
-
-      >
-
+      >{{ language.label('home') }}</a>
       <a
-
         routerLink="/merchants"
-
         routerLinkActive="navbar-link--active"
-
         class="navbar-link pb-1 transition-colors hover:text-[#1D1DDB]"
-
-        >Merchants</a
-
-      >
-
+      >{{ language.label('merchants') }}</a>
       <a
-
         routerLink="/categories"
-
         routerLinkActive="navbar-link--active"
-
         class="navbar-link pb-1 transition-colors hover:text-[#1D1DDB]"
-
-        >Categories</a
-
-      >
-
+      >{{ language.label('categories') }}</a>
       <a
-
         routerLink="/about-us"
-
         routerLinkActive="navbar-link--active"
-
         class="navbar-link pb-1 transition-colors hover:text-[#1D1DDB]"
-
-        >About Us</a
-
-      >
-
+      >{{ language.label('aboutUs') }}</a>
       <a
-
         routerLink="/contact-us"
-
         routerLinkActive="navbar-link--active"
-
         class="navbar-link pb-1 transition-colors hover:text-[#1D1DDB]"
+      >{{ language.label('contactUs') }}</a>
+    </div>
 
-        >Contact Us</a
-
+    <div class="hidden lg:flex items-center navbar-actions">
+      <button
+        type="button"
+        class="lang-toggle"
+        (click)="language.toggleLanguage()"
+        [attr.aria-label]="language.label('language')"
       >
-
-    </div>
-
-
-
-    <div class="hidden lg:flex items-center">
-
-      <button class="download-btn" type="button" (click)="onDownloadClick()">
-
-        <span class="download-btn__label">Download now</span>
-
-        <span class="icon-circle">
-
-          <i class="bi bi-arrow-up-right"></i>
-
-        </span>
-
+        {{ language.label('language') }}
       </button>
-
+      <button class="download-btn" type="button" (click)="onDownloadClick()">
+        <span class="download-btn__label">{{ language.label('downloadNow') }}</span>
+        <span class="icon-circle">
+          <i class="bi bi-arrow-up-right"></i>
+        </span>
+      </button>
     </div>
 
-
-
-    <button
-
-      type="button"
-
-      class="mobile-menu-btn lg:hidden"
-
-      (click)="toggleMobileMenu()"
-
-      [attr.aria-expanded]="isMobileMenuOpen"
-
-      aria-controls="mobile-nav-menu"
-
-      aria-label="Toggle menu"
-
-    >
-
-      <i class="bi" [ngClass]="isMobileMenuOpen ? 'bi-x-lg' : 'bi-list'"></i>
-
-    </button>
-
-
-
+    <div class="flex items-center gap-2 lg:hidden navbar-mobile-actions">
+      <button
+        type="button"
+        class="lang-toggle lang-toggle--compact"
+        (click)="language.toggleLanguage()"
+        [attr.aria-label]="language.label('language')"
+      >
+        {{ language.label('language') }}
+      </button>
+      <button
+        type="button"
+        class="mobile-menu-btn"
+        (click)="toggleMobileMenu()"
+        [attr.aria-expanded]="isMobileMenuOpen"
+        aria-controls="mobile-nav-menu"
+        aria-label="Toggle menu"
+      >
+        <i class="bi" [ngClass]="isMobileMenuOpen ? 'bi-x-lg' : 'bi-list'"></i>
+      </button>
+    </div>
   </div>
-
-
 
   <div
-
     id="mobile-nav-menu"
-
     class="mobile-nav-menu lg:hidden"
-
     [class.open]="isMobileMenuOpen"
-
   >
-
-    <a routerLink="/" routerLinkActive="navbar-link--active" [routerLinkActiveOptions]="{ exact: true }" (click)="closeMobileMenu()">Home</a>
-
-    <a routerLink="/merchants" routerLinkActive="navbar-link--active" (click)="closeMobileMenu()">Merchants</a>
-
-    <a routerLink="/categories" routerLinkActive="navbar-link--active" (click)="closeMobileMenu()">Categories</a>
-
-    <a routerLink="/about-us" routerLinkActive="navbar-link--active" (click)="closeMobileMenu()">About Us</a>
-
-    <a routerLink="/contact-us" routerLinkActive="navbar-link--active" (click)="closeMobileMenu()">Contact Us</a>
-
+    <a routerLink="/" routerLinkActive="navbar-link--active" [routerLinkActiveOptions]="{ exact: true }" (click)="closeMobileMenu()">{{ language.label('home') }}</a>
+    <a routerLink="/merchants" routerLinkActive="navbar-link--active" (click)="closeMobileMenu()">{{ language.label('merchants') }}</a>
+    <a routerLink="/categories" routerLinkActive="navbar-link--active" (click)="closeMobileMenu()">{{ language.label('categories') }}</a>
+    <a routerLink="/about-us" routerLinkActive="navbar-link--active" (click)="closeMobileMenu()">{{ language.label('aboutUs') }}</a>
+    <a routerLink="/contact-us" routerLinkActive="navbar-link--active" (click)="closeMobileMenu()">{{ language.label('contactUs') }}</a>
     <button type="button" class="download-btn download-btn--full" (click)="onDownloadClick()">
-
-      <span class="download-btn__label">Download now</span>
-
+      <span class="download-btn__label">{{ language.label('downloadNow') }}</span>
       <span class="icon-circle">
-
         <i class="bi bi-arrow-up-right"></i>
-
       </span>
-
     </button>
-
   </div>
-
 </nav>
-
-

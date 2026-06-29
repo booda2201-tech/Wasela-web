@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
-import { catchError, forkJoin, of } from 'rxjs';
+import { catchError, combineLatest, of } from 'rxjs';
 
 import { CmsPage, PagesService } from '../../services/pages.service';
 
@@ -22,7 +22,7 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    forkJoin({
+    combineLatest({
       home: this.pagesService.getPageBySlug('home'),
       merchants: this.pagesService.getPageBySlug('merchants').pipe(catchError(() => of(null))),
     }).subscribe({

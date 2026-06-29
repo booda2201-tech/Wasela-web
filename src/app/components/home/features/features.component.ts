@@ -424,37 +424,29 @@ export class FeaturesComponent implements OnInit, OnChanges, OnDestroy {
 
 
     return {
-
       id: -(index + 1),
-
       pageSectionId,
-
+      titleEn: fallback.title,
+      titleAr: null,
       title: fallback.title,
-
+      subTitleEn: null,
+      subTitleAr: null,
       subTitle: null,
-
+      descriptionEn: fallback.description,
+      descriptionAr: null,
       description: fallback.description,
-
+      buttonTextEn: null,
+      buttonTextAr: null,
       imageUrl: null,
-
       imageMediaFileUrl: null,
-
       backgroundImageUrl: null,
-
       backgroundImageMediaFileUrl: null,
-
       extraDataJson: null,
-
       buttonText: null,
-
       buttonUrl: null,
-
       galleryMedia: [],
-
       sortOrder: index,
-
       isActive: true,
-
     };
 
   }
