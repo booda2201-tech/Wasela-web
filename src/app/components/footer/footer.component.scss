@@ -119,6 +119,9 @@ footer {
 
   .footer-legal__item {
     margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
   }
 
   .info-label {
@@ -129,7 +132,7 @@ footer {
   }
 
   .info-value {
-    margin: 0.2rem 0 0;
+    margin: 0;
   }
 
   .footer-copyright {
@@ -296,5 +299,17 @@ footer {
       height: 3.35rem;
       max-width: 8.5rem;
     }
+  }
+}
+
+html[dir='rtl'] footer {
+  .footer-col__title--center-lg {
+    @media (min-width: 1024px) {
+      text-align: right;
+    }
+  }
+
+  .Waseela {
+    object-position: right bottom;
   }
 }

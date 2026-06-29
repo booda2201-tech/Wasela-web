@@ -11,6 +11,7 @@ import { Meta, Title } from '@angular/platform-browser';
 import gsap from 'gsap';
 import { Subscription } from 'rxjs';
 import { CmsPage, PagesService } from '../../services/pages.service';
+import { LanguageService } from '../../services/language.service';
 
 export interface CareerJob {
   id: number;
@@ -45,7 +46,8 @@ export class CareersComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     private readonly pagesService: PagesService,
     private readonly title: Title,
-    private readonly meta: Meta
+    private readonly meta: Meta,
+    readonly language: LanguageService
   ) {}
 
   ngOnInit(): void {
@@ -73,6 +75,13 @@ export class CareersComponent implements OnInit, AfterViewInit, OnDestroy {
 
   isExpanded(jobId: number): boolean {
     return this.expandedJobIds.has(jobId);
+  }
+
+  metaSegmentsFor(job: CareerJob): string[] {
+    if (!this.language.isArabic) {
+      return job.metaSegments;
+    }
+    return [...job.metaSegments].reverse();
   }
 
   toggle(jobId: number): void {

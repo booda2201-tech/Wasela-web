@@ -2,106 +2,104 @@
 
   <div class="footer-watermark left-0 w-full pointer-events-none select-none z-0">
     <img src="assets/images/footer-watermark.svg" alt="" class="Waseela" aria-hidden="true" />
-
   </div>
 
   <div class="main-container footer-main mx-auto relative z-20">
     <div class="footer-grid grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6">
 
       <div class="footer-col">
-        <h5 class="footer-col__title">Main Pages</h5>
+        <h5 class="footer-col__title">{{ language.label('mainPages') }}</h5>
         <ul class="footer-links">
-          <li><a routerLink="/">Home</a></li>
-          <li><a routerLink="/categories">Categories</a></li>
-          <li><a routerLink="/merchants">Merchants</a></li>
-          <li><a routerLink="/careers">Careers</a></li>
+          <li><a routerLink="/">{{ language.label('home') }}</a></li>
+          <li><a routerLink="/categories">{{ language.label('categories') }}</a></li>
+          <li><a routerLink="/merchants">{{ language.label('merchants') }}</a></li>
+          <li><a routerLink="/careers">{{ language.label('careers') }}</a></li>
         </ul>
       </div>
 
       <div class="footer-col">
-        <h5 class="footer-col__title">Quick Links</h5>
+        <h5 class="footer-col__title">{{ language.label('quickLinks') }}</h5>
         <ul class="footer-links">
-          <li><a routerLink="/blogs">Blogs</a></li>
-          <li><a routerLink="/faq">FAQ'S</a></li>
-          <li><a routerLink="/privacy-policy">Privacy Policy</a></li>
-          <li><a routerLink="/terms-conditions">Terms & Conditions</a></li>
+          <li><a routerLink="/blogs">{{ language.label('blogs') }}</a></li>
+          <li><a routerLink="/faq">{{ language.label('faq') }}</a></li>
+          <li><a routerLink="/privacy-policy">{{ language.label('privacyPolicy') }}</a></li>
+          <li><a routerLink="/terms-conditions">{{ language.label('termsConditions') }}</a></li>
         </ul>
       </div>
 
       <div class="footer-col">
-        <h5 class="footer-col__title">Learn more</h5>
+        <h5 class="footer-col__title">{{ language.label('learnMore') }}</h5>
         <ul class="footer-links">
-          <li><a routerLink="/about-us">About Us</a></li>
-          <li><a routerLink="/contact-us">Contact Us</a></li>
-          <li><a routerLink="/join-us" routerLinkActive="active">Join Us</a></li>
-          
+          <li><a routerLink="/about-us">{{ language.label('aboutUs') }}</a></li>
+          <li><a routerLink="/contact-us">{{ language.label('contactUs') }}</a></li>
+          <li><a routerLink="/join-us" routerLinkActive="active">{{ language.label('joinUs') }}</a></li>
         </ul>
       </div>
 
       <div class="footer-col footer-legal">
         <div class="footer-legal__item">
-          <h5 class="info-label">Licensed by FRA</h5>
+          <h5 class="info-label">{{ language.label('licensedByFra') }}</h5>
           <p class="info-value">#40</p>
         </div>
         <div class="footer-legal__item">
-          <h5 class="info-label">TRN Number</h5>
+          <h5 class="info-label">{{ language.label('trnNumber') }}</h5>
           <p class="info-value">724-133-259</p>
         </div>
         <div class="footer-legal__item">
-          <h5 class="info-label">CRN</h5>
+          <h5 class="info-label">{{ language.label('crn') }}</h5>
           <p class="info-value">90420</p>
         </div>
       </div>
 
       <div class="footer-col">
-        <h5 class="footer-col__title">Follow Us</h5>
+        <h5 class="footer-col__title">{{ language.label('followUs') }}</h5>
         <div class="footer-social">
-          <a href="#" class="social-icon"><i class="bi bi-facebook"></i></a>
-          <a href="#" class="social-icon"><i class="bi bi-linkedin"></i></a>
-          <a href="#" class="social-icon"><i class="bi bi-instagram"></i></a>
+          <a href="#" class="social-icon" [attr.aria-label]="language.label('followUs') + ' Facebook'"><i class="bi bi-facebook"></i></a>
+          <a href="#" class="social-icon" [attr.aria-label]="language.label('followUs') + ' LinkedIn'"><i class="bi bi-linkedin"></i></a>
+          <a href="#" class="social-icon" [attr.aria-label]="language.label('followUs') + ' Instagram'"><i class="bi bi-instagram"></i></a>
         </div>
       </div>
 
-        <div class="footer-col footer-download">
-          <div class="footer-download__stores">
-            <h5 class="footer-col__title footer-col__title--center-lg">Download the App</h5>
-            <div class="footer-store-badges">
-              <a href="#" class="footer-store-badge">
-                <img
-                  src="assets/images/google-play.svg"
-                  alt="Google Play"
-                  class="store-badge-img"
-                  width="135"
-                  height="40"
-                  loading="lazy"
-                />
-              </a>
-              <a href="#" class="footer-store-badge">
-                <img
-                  src="assets/images/app-store.svg"
-                  alt="App Store"
-                  class="store-badge-img"
-                  width="135"
-                  height="40"
-                  loading="lazy"
-                />
-              </a>
-            </div>
-          </div>
-
-          <div class="footer-aur-logo">
-            <img
-              src="assets/images/aur-capital-logo.png"
-              alt="AUR Capital"
-              loading="lazy"
-            />
+      <div class="footer-col footer-download">
+        <div class="footer-download__stores">
+          <h5 class="footer-col__title footer-col__title--center-lg">{{ language.label('downloadTheApp') }}</h5>
+          <div class="footer-store-badges">
+            <a href="#" class="footer-store-badge">
+              <img
+                src="assets/images/google-play.svg"
+                [alt]="language.label('googlePlay')"
+                class="store-badge-img"
+                width="135"
+                height="40"
+                loading="lazy"
+              />
+            </a>
+            <a href="#" class="footer-store-badge">
+              <img
+                src="assets/images/app-store.svg"
+                [alt]="language.label('appStore')"
+                class="store-badge-img"
+                width="135"
+                height="40"
+                loading="lazy"
+              />
+            </a>
           </div>
         </div>
+
+        <div class="footer-aur-logo">
+          <img
+            src="assets/images/aur-capital-logo.png"
+            [alt]="language.label('aurCapital')"
+            loading="lazy"
+          />
+        </div>
+      </div>
 
     </div>
 
     <div class="border-t border-white border-opacity-10 pt-3 flex flex-col md:flex-row justify-center items-center gap-4">
-      <p class="footer-copyright">©2026 Waseela | Powered by AUR Capital</p>
+      <p class="footer-copyright">{{ language.label('copyright') }}</p>
     </div>
   </div>
 </footer>

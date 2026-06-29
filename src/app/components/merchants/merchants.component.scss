@@ -757,3 +757,40 @@ swiper-slide.merchants-page-swiper-slide {
   }
 }
 
+/* Merchants count — عربي: ترتيب وعرض النص العربي */
+.merchants-count-inner--ar {
+  direction: rtl;
+  flex-direction: row;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.22em;
+  max-width: min(100%, 38rem);
+
+  .merchants-count-title {
+    direction: rtl;
+    unicode-bidi: plaintext;
+    text-align: right;
+    white-space: normal;
+    font-family:
+      'Diodrum Arabic',
+      'Diodrum Cyrillic',
+      system-ui,
+      -apple-system,
+      sans-serif;
+    letter-spacing: 0;
+  }
+
+  .brand-icon,
+  .merchants-count-toggle {
+    direction: ltr;
+    align-self: baseline;
+  }
+
+  @media (min-width: 1024px) {
+    max-width: 32rem;
+
+    .merchants-count-title {
+      white-space: nowrap;
+    }
+  }
+}

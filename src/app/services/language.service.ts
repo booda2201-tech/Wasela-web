@@ -61,8 +61,8 @@ export class LanguageService {
     return pickLocalized(this.current, en, ar);
   }
 
-  label(key: NavLabelKey): string {
-    return NAV_LABELS[key][this.current];
+  label(key: AppLabelKey): string {
+    return APP_LABELS[key][this.current];
   }
 
   private readStored(): AppLanguage {
@@ -92,7 +92,29 @@ export type NavLabelKey =
   | 'downloadNow'
   | 'language';
 
-const NAV_LABELS: Record<NavLabelKey, Record<AppLanguage, string>> = {
+export type FooterLabelKey =
+  | 'mainPages'
+  | 'quickLinks'
+  | 'learnMore'
+  | 'careers'
+  | 'blogs'
+  | 'faq'
+  | 'privacyPolicy'
+  | 'termsConditions'
+  | 'joinUs'
+  | 'licensedByFra'
+  | 'trnNumber'
+  | 'crn'
+  | 'followUs'
+  | 'downloadTheApp'
+  | 'googlePlay'
+  | 'appStore'
+  | 'aurCapital'
+  | 'copyright';
+
+export type AppLabelKey = NavLabelKey | FooterLabelKey;
+
+const APP_LABELS: Record<AppLabelKey, Record<AppLanguage, string>> = {
   home: { en: 'Home', ar: 'الرئيسية' },
   merchants: { en: 'Merchants', ar: 'التجار' },
   categories: { en: 'Categories', ar: 'الفئات' },
@@ -100,4 +122,25 @@ const NAV_LABELS: Record<NavLabelKey, Record<AppLanguage, string>> = {
   contactUs: { en: 'Contact Us', ar: 'تواصل معنا' },
   downloadNow: { en: 'Download now', ar: 'حمّل التطبيق' },
   language: { en: 'العربية', ar: 'English' },
+  mainPages: { en: 'Main Pages', ar: 'الصفحات الرئيسية' },
+  quickLinks: { en: 'Quick Links', ar: 'روابط سريعة' },
+  learnMore: { en: 'Learn more', ar: 'اعرف المزيد' },
+  careers: { en: 'Careers', ar: 'الوظائف' },
+  blogs: { en: 'Blogs', ar: 'المدونة' },
+  faq: { en: "FAQ'S", ar: 'الأسئلة الشائعة' },
+  privacyPolicy: { en: 'Privacy Policy', ar: 'سياسة الخصوصية' },
+  termsConditions: { en: 'Terms & Conditions', ar: 'الشروط والأحكام' },
+  joinUs: { en: 'Join Us', ar: 'انضم إلينا' },
+  licensedByFra: { en: 'Licensed by FRA', ar: 'مرخّص من الهيئة العامة للرقابة المالية' },
+  trnNumber: { en: 'TRN Number', ar: 'الرقم الضريبي' },
+  crn: { en: 'CRN', ar: 'السجل التجاري' },
+  followUs: { en: 'Follow Us', ar: 'تابعنا' },
+  downloadTheApp: { en: 'Download the App', ar: 'حمّل التطبيق' },
+  googlePlay: { en: 'Google Play', ar: 'Google Play' },
+  appStore: { en: 'App Store', ar: 'App Store' },
+  aurCapital: { en: 'AUR Capital', ar: 'AUR Capital' },
+  copyright: {
+    en: '©2026 Waseela | Powered by AUR Capital',
+    ar: '©2026 وصيلة | بدعم من AUR Capital',
+  },
 };

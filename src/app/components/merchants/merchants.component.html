@@ -33,8 +33,15 @@
           max-lg:sm:py-0 max-lg:shadow-[inset_0_1px_0_rgba(255,255,255,0.9)]"
           *ngIf="merchantsCountSection() as countSection"
         >
-          <div class="merchants-count-inner">
-            <h1 class="merchants-count-title font-black">
+          <div
+            class="merchants-count-inner"
+            [class.merchants-count-inner--ar]="language.isArabic"
+            [attr.dir]="language.isArabic ? 'rtl' : 'ltr'"
+          >
+            <h1
+              class="merchants-count-title font-black"
+              [attr.dir]="language.isArabic ? 'rtl' : 'ltr'"
+            >
               {{ countSection.title }}
             </h1>
 

@@ -9,6 +9,7 @@ import {
   PagesService,
   resolveCmsAssetUrl
 } from '../../services/pages.service';
+import { LanguageService } from '../../services/language.service';
 
 type SwiperContainerEl = HTMLElement & { initialize: () => void };
 
@@ -51,7 +52,8 @@ export class MerchantsComponent implements OnInit, AfterViewInit {
   constructor(
     private readonly pagesService: PagesService,
     private readonly title: Title,
-    private readonly meta: Meta
+    private readonly meta: Meta,
+    readonly language: LanguageService
   ) {}
 
   ngAfterViewInit(): void {

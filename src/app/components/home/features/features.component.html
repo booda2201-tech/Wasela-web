@@ -12,14 +12,21 @@
         />
       </div>
 
-      <div class="how-it-works-copy w-full lg:w-[52%] flex flex-col justify-start px-6 lg:px-8 py-10 lg:py-0 space-y-2 text-left">
+      <div
+        class="how-it-works-copy w-full lg:w-[52%] flex flex-col justify-start px-6 lg:px-8 py-10 lg:py-0 space-y-2 text-left"
+        [class.how-it-works-copy--ar]="language.isArabic"
+      >
         <div class="how-it-works-inner max-w-[650px]">
-          <h2 class="how-it-works-title text-left text-[25px] lg:text-[40px] font-[900] text-[#1D1DDB] leading-[1.1]">
+          <h2
+            class="how-it-works-title text-left text-[25px] lg:text-[40px] font-[900] text-[#1D1DDB] leading-[1.1]"
+            [attr.dir]="language.isArabic ? 'auto' : null"
+          >
             {{ how.title }}
           </h2>
           <p
             *ngIf="how.description"
             class="how-it-works-desc cms-preline"
+            [attr.dir]="language.isArabic ? 'auto' : null"
           >
             {{ how.description }}
           </p>
@@ -27,20 +34,27 @@
       </div>
     </div>
 
-    <div class="step-cards-grid grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-3 mt-5">
+    <div
+      class="step-cards-grid grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-3 mt-5"
+      [class.step-cards-grid--ar]="language.isArabic"
+    >
       <ng-container *ngFor="let step of howSteps(); let idx = index">
         <div
           *ngIf="idx === 0"
           class="step-card step-card--blue bg-[#b9e6ff] rounded-[15px] flex flex-col lg:min-h-[500px] overflow-hidden"
         >
           <div class="space-y-4 p-6 lg:p-10 pb-4">
-            <h3 class="step-card-title text-[22px] lg:text-[30px] leading-[1.08] font-black text-[#1D1DDB]">
+            <h3
+              class="step-card-title text-[22px] lg:text-[30px] leading-[1.08] font-black text-[#1D1DDB]"
+              [attr.dir]="language.isArabic ? 'auto' : null"
+            >
               <span class="step-card-title__lg">{{ step.title }}</span>
               <span class="step-card-title__sm cms-preline">{{ formatStepTitle(step.title) }}</span>
             </h3>
             <p
               *ngIf="step.description"
-              class="mt-4 max-w-[350px] lg:max-w-[350px] cms-preline"
+              class="mt-4 cms-preline step-card-desc"
+              [attr.dir]="language.isArabic ? 'auto' : null"
             >
               {{ step.description }}
             </p>
@@ -75,11 +89,14 @@
           class="step-card step-card--orange bg-[#f87300] rounded-[14px] flex flex-col lg:min-h-[600px] text-white overflow-hidden"
         >
           <div class="space-y-4 p-6 lg:p-10 pb-4">
-            <h3 class="step-card-title text-[22px] lg:text-[30px] leading-[1.08] font-black">
+            <h3
+              class="step-card-title text-[22px] lg:text-[30px] leading-[1.08] font-black"
+              [attr.dir]="language.isArabic ? 'auto' : null"
+            >
               <span class="step-card-title__lg cms-preline">{{ step.title }}</span>
               <span class="step-card-title__sm cms-preline">{{ formatStepTitle(step.title) }}</span>
             </h3>
-            <p *ngIf="step.description" class="mt-4 cms-preline">
+            <p *ngIf="step.description" class="mt-4 cms-preline" [attr.dir]="language.isArabic ? 'auto' : null">
               {{ step.description }}
             </p>
           </div>
@@ -95,13 +112,17 @@
         <div
           *ngIf="idx === 2"
           class="step-card step-card--navy bg-[#0000ad] rounded-[14px] flex flex-col lg:min-h-[600px] text-white overflow-hidden"
+          [class.step-card--navy--ar]="language.isArabic"
         >
           <div class="space-y-4 p-6 lg:p-10 pb-4">
-            <h3 class="step-card-title text-[22px] lg:text-[30px] leading-[1.08] font-black">
+            <h3
+              class="step-card-title text-[22px] lg:text-[30px] leading-[1.08] font-black"
+              [attr.dir]="language.isArabic ? 'auto' : null"
+            >
               <span class="step-card-title__lg cms-preline">{{ step.title }}</span>
               <span class="step-card-title__sm cms-preline">{{ formatStepTitle(step.title) }}</span>
             </h3>
-            <p *ngIf="step.description" class="mt-4 cms-preline">
+            <p *ngIf="step.description" class="mt-4 cms-preline" [attr.dir]="language.isArabic ? 'auto' : null">
               {{ step.description }}
             </p>
           </div>
@@ -120,6 +141,7 @@
   <section
     *ngIf="whySection() as why"
     class="why-waseela-section w-full flex flex-col lg:flex-row items-center lg:items-stretch gap-6 lg:gap-8"
+    [class.why-waseela-section--ar]="language.isArabic"
   >
     <div class="why-waseela-visual relative">
       <img
@@ -139,6 +161,7 @@
           [src]="whyOverlaySrc(i)"
           [class.is-visible]="activeCard === feature.id"
           class="why-waseela-phone-overlay"
+          [attr.data-why-overlay-index]="i"
           [ngStyle]="whyOverlayStyle(i)"
           alt=""
         />
@@ -146,7 +169,10 @@
     </div>
 
     <div class="why-waseela-copy w-full min-w-0">
-      <h2 class="why-waseela-title">{{ why.title }}</h2>
+      <h2
+        class="why-waseela-title"
+        [attr.dir]="language.isArabic ? 'auto' : null"
+      >{{ why.title }}</h2>
 
       <div class="why-waseela-content">
         <div class="why-waseela-track" aria-hidden="true">
@@ -180,8 +206,14 @@
             (keydown.home)="onWhyTabKeydown($event, i, -i)"
             (keydown.end)="onWhyTabKeydown($event, i, whyItems().length - 1 - i)"
           >
-            <h4 class="feature-card__title">{{ feature.title }}</h4>
-            <p *ngIf="feature.description" class="feature-card__desc cms-preline">
+            <h4 class="feature-card__title" [attr.dir]="language.isArabic ? 'auto' : null">
+              {{ feature.title }}
+            </h4>
+            <p
+              *ngIf="feature.description"
+              class="feature-card__desc cms-preline"
+              [attr.dir]="language.isArabic ? 'auto' : null"
+            >
               {{ feature.description }}
             </p>
           </div>

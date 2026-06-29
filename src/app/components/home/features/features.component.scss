@@ -7,13 +7,13 @@
   .how-it-works-copy {
     padding-left: 0.25rem !important;
     padding-right: 2rem !important;
-    margin-left: -5.25rem;
+    margin-left: -6rem;
     justify-content: center;
   }
 
   .how-it-works-inner {
     max-width: 30rem;
-    margin-left: -1rem;
+    margin-left: -1.35rem;
   }
 
   .how-it-works-title {
@@ -26,6 +26,11 @@
     max-width: 30rem;
     line-height: 1.45;
     text-wrap: balance;
+  }
+
+  .how-it-works-gif {
+    left: 45% !important;
+    width: 146% !important;
   }
 }
 
@@ -52,13 +57,13 @@
   .how-it-works-copy {
     width: 44% !important;
     flex: 0 0 44%;
-    padding: 1.15rem 1.35rem 1.15rem 0.65rem !important;
-    margin-left: -3rem;
+    padding: 1.15rem 1.35rem 1.15rem 0.35rem !important;
+    margin-left: -4rem;
   }
 
   .how-it-works-inner {
     max-width: 100%;
-    margin-left: -2rem;
+    margin-left: -2.75rem;
   }
 
   .how-it-works-title {
@@ -76,9 +81,9 @@
   .how-it-works-gif {
     top: auto !important;
     bottom: -28% !important;
-    left: 36% !important;
+    left: 43% !important;
     transform: translateX(-50%) translateY(0.35rem) !important;
-    width: min(132%, 940px) !important;
+    width: min(138%, 980px) !important;
     max-width: none;
     object-position: bottom center;
   }
@@ -160,9 +165,9 @@
   .how-it-works-gif {
     top: auto !important;
     bottom: -20% !important;
-    left: 35% !important;
+    left: 42% !important;
     transform: translateX(-50%) !important;
-    width: min(72vw, 550px) !important;
+    width: min(78vw, 585px) !important;
     max-width: none;
     object-position: bottom center;
   }
@@ -171,12 +176,13 @@
     width: 42% !important;
     flex: 0 0 42%;
     justify-content: center;
-    padding: 1.5rem 1.25rem 1.5rem 0.75rem !important;
+    padding: 1.5rem 1.25rem 1.5rem 0.35rem !important;
+    margin-left: -1.25rem;
   }
 
   .how-it-works-inner {
     max-width: 100%;
-    margin: 0;
+    margin-left: -0.5rem;
   }
 
   .how-it-works-title {
@@ -193,39 +199,158 @@
   }
 }
 
-/* بطاقات الخطوات — تابلت فقط (768–999px)؛ الموبايل والديسكتوب الكبير بدون تغيير */
+/* بطاقات الخطوات — تابلت (768–999px): ميكس — 2 جنب بعض + 1 بعرض كامل */
 @media (min-width: 768px) and (max-width: 999px) {
   .step-cards-grid {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 0.65rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.85rem;
     margin-top: 1.25rem;
+    max-width: min(56rem, 96vw);
+    margin-inline: auto;
   }
 
   .step-card {
-    min-height: clamp(21rem, 38vw, 26.5rem) !important;
-    border-radius: 13px;
+    min-height: unset !important;
+    border-radius: 14px;
   }
 
-  .step-card--blue {
-    min-height: clamp(19.5rem, 36vw, 24.5rem) !important;
+  .step-card--blue,
+  .step-card--orange,
+  .step-card--navy {
+    min-height: unset !important;
+  }
+
+  .step-card:nth-child(3) {
+    grid-column: 1 / -1;
+    display: flex !important;
+    flex-direction: row !important;
+    direction: ltr;
+    align-items: stretch;
+    min-height: clamp(17.5rem, 40vw, 21.5rem);
+    overflow: hidden;
+    gap: 0;
+  }
+
+  /* إنجليزي — كلام شمال / GIF يمين */
+  .step-cards-grid:not(.step-cards-grid--ar) .step-card:nth-child(3) {
+    flex-direction: row !important;
+  }
+
+  /* عربي — GIF شمال / كلام يمين (عكس السكشن بالكامل) */
+  .step-cards-grid--ar .step-card:nth-child(3),
+  .step-card:nth-child(3).step-card--navy--ar {
+    flex-direction: row-reverse !important;
+  }
+
+  .step-card:nth-child(3) > .space-y-4 {
+    flex: 1 1 50%;
+    width: 50%;
+    max-width: 50%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 1.35rem 1.15rem 1.35rem 1.45rem !important;
+    gap: 0.55rem;
+    margin: 0;
+    text-align: start;
+  }
+
+  .step-cards-grid--ar .step-card:nth-child(3) > .space-y-4,
+  .step-card:nth-child(3).step-card--navy--ar > .space-y-4 {
+    align-items: flex-end;
+    text-align: end !important;
+    padding: 1.35rem 1.45rem 1.35rem 1.15rem !important;
+  }
+
+  .step-card:nth-child(3) .step-card-title,
+  .step-card:nth-child(3) h3,
+  .step-card:nth-child(3) p {
+    text-align: start;
+    width: 100%;
+    max-width: none !important;
+  }
+
+  .step-cards-grid--ar .step-card:nth-child(3) .step-card-title,
+  .step-cards-grid--ar .step-card:nth-child(3) h3,
+  .step-cards-grid--ar .step-card:nth-child(3) .step-card-desc,
+  .step-cards-grid--ar .step-card:nth-child(3) p,
+  .step-card:nth-child(3).step-card--navy--ar .step-card-title,
+  .step-card:nth-child(3).step-card--navy--ar h3,
+  .step-card:nth-child(3).step-card--navy--ar .step-card-desc,
+  .step-card:nth-child(3).step-card--navy--ar p {
+    text-align: end !important;
+  }
+
+  .step-card:nth-child(3) .step-card-title,
+  .step-card:nth-child(3) h3 {
+    font-size: clamp(1rem, 2.15vw, 1.25rem) !important;
+    line-height: 1.12 !important;
+  }
+
+  .step-card:nth-child(3) p {
+    font-size: clamp(0.72rem, 1.45vw, 0.82rem) !important;
+    line-height: 1.45 !important;
+    margin-top: 0.75rem !important;
+    opacity: 1;
+  }
+
+  .step-card:nth-child(3) .step-card-visual {
+    flex: 1 1 50%;
+    width: 50%;
+    min-height: clamp(14rem, 32vw, 17.5rem);
+    height: auto;
+    margin-top: 0 !important;
+    align-self: stretch;
+    align-items: flex-end;
+    justify-content: center;
+    padding-inline: 0.5rem 1rem;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  .step-cards-grid--ar .step-card:nth-child(3) .step-card-visual,
+  .step-card:nth-child(3).step-card--navy--ar .step-card-visual {
+    padding-inline: 1rem 0.5rem;
+  }
+
+  .step-cards-grid:not(.step-cards-grid--ar) .step-card:nth-child(3) .step-card-img--navy {
+    left: 46% !important;
+  }
+
+  .step-card:nth-child(3) .step-card-img--navy {
+    width: 146% !important;
+    max-width: none;
+    left: 54% !important;
+    transform: translateX(-50%) !important;
+    bottom: -1.65rem !important;
+    object-position: bottom center;
+  }
+
+  .step-cards-grid--ar .step-card:nth-child(3) .step-card-img--navy,
+  .step-card:nth-child(3).step-card--navy--ar .step-card-img--navy {
+    left: 52% !important;
+    transform: translateX(-50%) scaleX(-1) !important;
   }
 
   .step-card > .space-y-4 {
-    padding: 1.1rem 0.75rem 0.35rem !important;
-    gap: 0.5rem;
+    padding: 1.1rem 0.9rem 0.45rem !important;
+    gap: 0.55rem;
   }
 
+  .step-card-title,
   .step-card h3 {
-    font-size: clamp(0.95rem, 2.1vw, 1.25rem) !important;
-    line-height: 1.1;
+    font-size: clamp(1rem, 2.15vw, 1.25rem) !important;
+    line-height: 1.12;
   }
 
   .step-card p {
-    font-size: clamp(0.68rem, 1.45vw, 0.8rem) !important;
-    margin-top: 0.5rem !important;
+    font-size: clamp(0.72rem, 1.45vw, 0.82rem) !important;
+    line-height: 1.45;
+    margin-top: 0.75rem !important;
     max-width: none !important;
-    margin-top: 1.5rem !important;
   }
 
   .step-card--blue p {
@@ -233,49 +358,95 @@
   }
 
   .step-card-badges {
-    padding-inline: 0.65rem !important;
-    gap: 0.35rem !important;
-    margin-top: 0.25rem !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: center;
+    align-self: stretch;
+    width: 100%;
+    box-sizing: border-box;
+    padding-inline: 0.9rem !important;
+    gap: 0.3rem !important;
+    margin-top: 0.3rem !important;
 
     .store-badge-img {
-      height: 1.85rem !important;
+      height: 1.65rem !important;
       width: auto;
       max-width: none;
+      flex: 0 0 auto;
       aspect-ratio: 135 / 40;
       object-fit: contain;
     }
   }
 
+  .step-card:nth-child(3) .step-card-badges {
+    display: none;
+  }
+
   .step-card-visual {
+    position: relative;
     overflow: hidden;
-    min-height: clamp(10rem, 23vw, 12.5rem);
+    flex: 0 0 auto;
+    margin-top: 0.35rem;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+  }
+
+  .step-card:nth-child(1) .step-card-visual,
+  .step-card:nth-child(2) .step-card-visual {
+    min-height: clamp(10.5rem, 24vw, 12.75rem);
+    margin-top: 0.25rem;
+  }
+
+  .step-card-img {
+    position: absolute;
+    left: 50% !important;
+    height: auto;
+    max-width: none;
+    object-fit: contain;
+    object-position: bottom center;
+    pointer-events: none;
+  }
+
+  .step-card:nth-child(1) .step-card-img--blue {
+    width: 120% !important;
+    transform: translateX(-50%) translateY(0.45rem) !important;
+    bottom: -1.2rem !important;
+  }
+
+  .step-card:nth-child(2) .step-card-visual {
     flex: 1 1 auto;
+    min-height: clamp(11.5rem, 27vw, 14rem);
     margin-top: 0.15rem;
+    align-items: flex-start;
   }
 
-  .step-card--orange .step-card-visual {
-    min-height: clamp(11.75rem, 27vw, 14.25rem);
-  }
-
-  .step-card-img--blue {
-    width: 132% !important;
-    left: 50% !important;
-    transform: translateX(-48%) !important;
-    bottom: -0.65rem !important;
-  }
-
-  .step-card-img--orange {
-    width: 198% !important;
-    left: 50% !important;
-    transform: translateX(-50%) translateY(0.35rem) !important;
-    bottom: -1.15rem !important;
-  }
-
-  .step-card-img--navy {
-    width: 128% !important;
-    left: 50% !important;
+  .step-card:nth-child(2) .step-card-img--orange {
+    top: 0 !important;
+    bottom: auto !important;
+    width: 168% !important;
     transform: translateX(-50%) !important;
-    bottom: -0.2rem !important;
+    object-position: center top !important;
+  }
+}
+
+/* Orange step — تابلت/موبايل/ديسكتوب صغير: الـ GIF يبدأ من أول منطقة الصور */
+@media (max-width: 1400px) {
+  .step-card--orange .step-card-visual {
+    overflow: hidden;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex: 1 1 auto;
+    margin-top: 0.15rem !important;
+  }
+
+  .step-card--orange .step-card-img--orange {
+    object-fit: contain !important;
+    object-position: center top !important;
+    top: 0 !important;
+    bottom: auto !important;
+    clip-path: none !important;
   }
 }
 
@@ -349,14 +520,18 @@
   }
 
   .step-card-badges {
+    flex-wrap: nowrap !important;
+    flex-direction: row !important;
+    align-items: center;
     padding-inline: clamp(1.05rem, 1.7vw, 1.4rem) !important;
-    gap: 0.55rem !important;
+    gap: 0.45rem !important;
     margin-top: 0.4rem !important;
 
     .store-badge-img {
-      height: clamp(2.05rem, 3.1vw, 2.4rem) !important;
+      height: clamp(1.9rem, 2.85vw, 2.2rem) !important;
       width: auto;
       max-width: none;
+      flex: 0 0 auto;
       aspect-ratio: 135 / 40;
       object-fit: contain;
     }
@@ -383,10 +558,12 @@
   }
 
   .step-card-img--orange {
-    width: 194% !important;
+    top: 0 !important;
+    bottom: auto !important;
+    width: 188% !important;
     left: 50% !important;
-    transform: translateX(-50%) translateY(0.85rem) !important;
-    bottom: -2.85rem !important;
+    transform: translateX(-50%) !important;
+    object-position: center top !important;
   }
 
   .step-card-img--navy {
@@ -400,6 +577,29 @@
 @media (min-width: 1401px) {
   .step-card-title {
     font-size: clamp(1.35rem, 1.55vw, 1.875rem) !important;
+  }
+
+  .step-card--orange .step-card-visual {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    flex: 1 1 auto;
+    margin-top: 0.25rem !important;
+  }
+
+  .step-card--orange .step-card-img--orange {
+    top: auto !important;
+    bottom: -2.5rem !important;
+    left: 50% !important;
+    width: 175% !important;
+    height: auto;
+    max-width: none;
+    transform: translateX(-50%) !important;
+    object-fit: contain !important;
+    object-position: center bottom !important;
+    clip-path: none !important;
   }
 }
 
@@ -428,11 +628,19 @@
     bottom: -1.25rem !important;
   }
 
+  .step-card--orange .step-card-visual {
+    min-height: clamp(12rem, 50vw, 16.5rem);
+    flex: 1 1 auto;
+    margin-top: 0.15rem !important;
+  }
+
   .step-card-img--orange {
-    width: 150% !important;
-    bottom: -4.6rem !important;
+    top: 0 !important;
+    bottom: auto !important;
+    width: 148% !important;
     left: 50% !important;
     transform: translateX(-50%) !important;
+    object-position: center top !important;
   }
 
   .step-card-img--navy {
@@ -481,6 +689,10 @@
 }
 
 .step-card--blue p {
+  max-width: 350px;
+}
+
+.step-card--blue .step-card-desc {
   max-width: 350px;
 }
 
@@ -590,7 +802,7 @@
     padding: 0.875rem 1.125rem;
     cursor: pointer;
     transition: all 0.25s ease;
-    text-align: left;
+    text-align: start;
 
     &:focus-visible {
       outline: 2px solid #1d1ddb;
@@ -631,8 +843,8 @@
     overflow: visible;
 
     .why-waseela-visual {
-      flex: 0 0 46%;
-      max-width: 46%;
+      flex: 0 0 49%;
+      max-width: 49%;
       width: 100%;
       overflow: visible;
     }
@@ -643,7 +855,7 @@
     }
 
     .why-waseela-copy {
-      flex: 1 1 54%;
+      flex: 1 1 51%;
       min-width: 0;
       margin-left: -1.25rem;
       padding-left: 0.25rem;
@@ -665,8 +877,8 @@
     overflow: visible;
 
     .why-waseela-visual {
-      flex: 0 0 43%;
-      max-width: 43%;
+      flex: 0 0 46%;
+      max-width: 46%;
       overflow: visible;
       padding-left: clamp(0.65rem, 1.8vw, 1.35rem);
       padding-right: 0.15rem;
@@ -678,7 +890,7 @@
     }
 
     .why-waseela-copy {
-      flex: 1 1 57%;
+      flex: 1 1 54%;
       min-width: 0;
       margin-left: 0;
       padding-left: 0.35rem;
@@ -692,8 +904,8 @@
 
     .why-waseela-visual {
       flex: 0 0 auto;
-      width: min(100%, 22rem);
-      max-width: min(100%, 22rem);
+      width: min(100%, 26rem);
+      max-width: min(100%, 26rem);
       margin-inline: auto;
       align-self: center;
     }
@@ -709,6 +921,18 @@
       padding-inline: 0.65rem;
       box-sizing: content-box;
     }
+
+    .why-waseela-phone-overlay {
+      width: calc(var(--why-overlay-width, 185%) * 1.1) !important;
+    }
+
+    .why-waseela-phone-overlay[data-why-overlay-index='0'] {
+      width: calc(176% * 1.12) !important;
+    }
+
+    .why-waseela-phone-overlay[data-why-overlay-index='2'] {
+      width: calc(185% * 1.12) !important;
+    }
   }
 }
 
@@ -719,8 +943,8 @@
     padding-inline: 0.75rem;
 
     .why-waseela-visual {
-      width: min(88vw, 34rem);
-      max-width: min(88vw, 34rem);
+      width: min(92vw, 38rem);
+      max-width: min(92vw, 38rem);
       min-height: clamp(19rem, 40vw, 26rem);
       margin-inline: auto;
       align-self: center;
@@ -742,8 +966,8 @@
 
     .why-waseela-visual {
       flex: 0 0 auto;
-      width: min(92vw, 26rem);
-      max-width: min(92vw, 26rem);
+      width: min(96vw, 30rem);
+      max-width: min(96vw, 30rem);
       min-height: clamp(17rem, 74vw, 23rem);
       margin-inline: auto;
       align-self: center;
@@ -773,4 +997,387 @@
 
 .cms-preline {
   white-space: pre-line;
+}
+
+/* Why Waseela — عربي موبايل: نفس مواضع الإنجليزي (تجاوز تأثير RTL) */
+@media (max-width: 767px) {
+  .why-waseela-section--ar {
+    .why-waseela-visual {
+      direction: ltr;
+    }
+
+    .why-waseela-phone-overlay {
+      left: 50% !important;
+      right: auto !important;
+      transform: translateX(calc(-50% + var(--why-overlay-shift, 0%))) !important;
+      object-position: var(--why-overlay-object-x, 50%) center !important;
+    }
+
+    .why-waseela-phone-overlay[data-why-overlay-index='0'] {
+      --why-overlay-shift: 10% !important;
+      --why-overlay-object-x: 57% !important;
+    }
+
+    .why-waseela-phone-overlay[data-why-overlay-index='1'] {
+      --why-overlay-shift: 2% !important;
+      --why-overlay-object-x: 53% !important;
+    }
+
+    .why-waseela-phone-overlay[data-why-overlay-index='2'] {
+      --why-overlay-shift: 17% !important;
+      --why-overlay-object-x: 59% !important;
+    }
+
+    .why-waseela-phone-overlay[data-why-overlay-index='3'] {
+      --why-overlay-shift: 1% !important;
+      --why-overlay-object-x: 51% !important;
+    }
+
+    .why-waseela-phone-overlay[data-why-overlay-index='4'] {
+      --why-overlay-shift: 2.5% !important;
+      --why-overlay-object-x: 54% !important;
+    }
+  }
+}
+
+/* How Waseela Works — عربي فقط (لا يؤثر على الإنجليزي) */
+:host-context(html[dir='rtl']) {
+  .how-it-works-copy--ar,
+  .how-it-works-copy--ar .how-it-works-title,
+  .how-it-works-copy--ar .how-it-works-desc {
+    text-align: right !important;
+  }
+
+  .how-it-works-copy--ar {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    margin-inline-start: -2.75rem !important;
+    padding-inline-start: 0 !important;
+    padding-inline-end: clamp(1.5rem, 3.5vw, 2.25rem) !important;
+  }
+
+  .how-it-works-inner {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    margin-inline-start: -1rem !important;
+    max-width: min(34rem, 100%);
+  }
+
+  .how-it-works-title {
+    margin-bottom: 1rem !important;
+    line-height: 1.25 !important;
+    letter-spacing: 0;
+    unicode-bidi: plaintext;
+  }
+
+  .how-it-works-desc {
+    line-height: 1.65 !important;
+    margin-top: 0.35rem;
+    unicode-bidi: plaintext;
+  }
+
+  .how-it-works-gif {
+    left: auto !important;
+    right: 36%;
+    transform: translateX(50%) !important;
+  }
+
+  .step-cards-grid {
+    margin-top: 1.35rem;
+    gap: 0.85rem;
+  }
+
+  .step-cards-grid--ar {
+    direction: rtl;
+  }
+
+  .step-card > .space-y-4 {
+    gap: 0.85rem;
+    padding-inline: clamp(1.25rem, 2.5vw, 2.5rem) !important;
+    padding-block-start: clamp(1.35rem, 2.5vw, 2.5rem) !important;
+    padding-block-end: 0.75rem !important;
+  }
+
+  .step-card-title {
+    width: 100%;
+    text-align: right !important;
+    letter-spacing: 0;
+    white-space: pre-line;
+    unicode-bidi: isolate;
+    direction: ltr;
+  }
+
+  .step-card-desc,
+  .step-card p {
+    width: 100%;
+    text-align: right !important;
+    max-width: none !important;
+    margin-top: 1rem !important;
+    unicode-bidi: plaintext;
+  }
+
+  .step-card--blue .step-card-desc,
+  .step-card--blue p {
+    max-width: none !important;
+  }
+
+  .step-card-badges {
+    justify-content: flex-start;
+    padding-inline: clamp(1.25rem, 2.5vw, 2rem) !important;
+    margin-top: 0.5rem !important;
+    gap: 0.55rem !important;
+  }
+
+  @media (min-width: 1000px) and (max-width: 1400px) {
+    .step-cards-grid--ar {
+      width: min(97%, 63rem);
+      max-width: 63rem;
+      margin-inline: auto;
+      gap: clamp(0.8rem, 1.5vw, 1.1rem);
+    }
+
+    .step-card > .space-y-4 {
+      padding: clamp(1.35rem, 2.2vw, 1.75rem) clamp(1.1rem, 1.65vw, 1.4rem) 0.65rem !important;
+      gap: 0.7rem;
+    }
+
+    .step-card-badges {
+      flex-wrap: nowrap !important;
+      flex-direction: row !important;
+      gap: 0.45rem !important;
+
+      .store-badge-img {
+        height: clamp(1.9rem, 2.85vw, 2.2rem) !important;
+        flex: 0 0 auto;
+      }
+    }
+  }
+
+  @media (min-width: 768px) and (max-width: 999px) {
+    .step-cards-grid--ar {
+      max-width: min(56rem, 96vw);
+      margin-inline: auto;
+    }
+
+    .step-card > .space-y-4 {
+      padding: 1.1rem 0.95rem 0.45rem !important;
+    }
+
+    .step-card-desc,
+    .step-card p {
+      margin-top: 0.75rem !important;
+    }
+
+    .step-card-badges {
+      flex-direction: row !important;
+      flex-wrap: nowrap !important;
+      align-items: center;
+      padding-inline: 0.95rem !important;
+      gap: 0.3rem !important;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .step-cards-grid--ar {
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .step-card > .space-y-4 {
+      padding: 1.5rem 1.35rem 0.75rem !important;
+      gap: 0.9rem;
+    }
+
+    .step-card-desc,
+    .step-card p {
+      margin-top: 0.85rem !important;
+    }
+
+    .step-card-badges {
+      padding-inline: 1.35rem !important;
+    }
+  }
+
+  @media (min-width: 1000px) and (max-width: 1400px) {
+    .how-it-works-copy--ar {
+      margin-left: 0 !important;
+      margin-inline-start: -3rem !important;
+      padding: 1.35rem 1.5rem 1.35rem 0.35rem !important;
+      padding-inline-start: 0.35rem !important;
+      padding-inline-end: 1.5rem !important;
+    }
+
+    .how-it-works-inner {
+      margin-left: 0 !important;
+      margin-right: 0 !important;
+      margin-inline-start: -1.15rem !important;
+    }
+
+    .how-it-works-gif {
+      right: 32% !important;
+      transform: translateX(50%) translateY(0.35rem) !important;
+    }
+
+    .step-card > .space-y-4 {
+      padding: clamp(1.35rem, 2.2vw, 1.75rem) clamp(1.1rem, 1.65vw, 1.4rem) 0.65rem !important;
+      gap: 0.7rem;
+    }
+
+    .step-card-desc,
+    .step-card p {
+      margin-top: 1.1rem !important;
+    }
+  }
+
+  @media (min-width: 1401px) {
+    .how-it-works-copy--ar {
+      margin-left: 0 !important;
+      margin-inline-start: -4.25rem !important;
+      padding-inline-start: 0.25rem !important;
+      padding-inline-end: 2.5rem !important;
+    }
+
+    .how-it-works-inner {
+      margin-left: 0 !important;
+      margin-right: 0 !important;
+      margin-inline-start: -1.25rem !important;
+      max-width: 32rem;
+    }
+
+    .how-it-works-title {
+      margin-bottom: 1.25rem !important;
+    }
+  }
+
+  @media (min-width: 768px) and (max-width: 999px) {
+    .how-it-works-copy--ar {
+      margin-left: 0 !important;
+      margin-inline-start: -2.25rem !important;
+      padding-inline-start: 0.35rem !important;
+      padding-inline-end: 1.35rem !important;
+    }
+
+    .how-it-works-gif {
+      right: 35% !important;
+      left: auto !important;
+    }
+
+    .step-card-desc,
+    .step-card p {
+      margin-top: 1rem !important;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .how-it-works-copy--ar {
+      margin-inline-start: 0 !important;
+      margin-inline-end: 0 !important;
+      padding-top: 2rem;
+      padding-bottom: 0.75rem;
+      padding-inline: 1.25rem !important;
+    }
+
+    .how-it-works-inner {
+      max-width: min(22rem, 92vw);
+      margin-inline: auto !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
+    }
+
+    .how-it-works-title {
+      margin-bottom: 1.1rem;
+      text-align: right !important;
+    }
+
+    .how-it-works-desc {
+      margin-top: 0.5rem;
+      text-align: right !important;
+    }
+
+    .how-it-works-visual {
+      direction: ltr;
+    }
+
+    .how-it-works-gif {
+      left: 45% !important;
+      right: auto !important;
+      transform: translateX(-50%) !important;
+      bottom: -28% !important;
+      width: min(150vw, 500px) !important;
+      object-position: bottom center;
+    }
+
+    .step-cards-grid {
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .step-card > .space-y-4 {
+      padding-bottom: 0.75rem !important;
+    }
+  }
+
+  /* Why Waseela — عربي: تحريك الـ GIFs يمين + توسيع حاوية الموبايل */
+  .why-waseela-section--ar {
+    .why-waseela-title {
+      text-align: right !important;
+    }
+
+    .feature-card,
+    .feature-card__title,
+    .feature-card__desc {
+      text-align: right !important;
+      unicode-bidi: plaintext;
+    }
+
+    .why-waseela-content {
+      direction: rtl;
+    }
+
+    @media (min-width: 1401px) {
+      .why-waseela-copy {
+        flex: 1 1 51%;
+      }
+    }
+
+    @media (min-width: 1000px) and (max-width: 1400px) {
+      .why-waseela-copy {
+        flex: 1 1 54%;
+      }
+    }
+
+    @media (min-width: 1000px) {
+      .why-waseela-phone-overlay[data-why-overlay-index='0'] {
+        transform: translateX(calc(-50% + 26%)) !important;
+        object-position: 57% center !important;
+      }
+
+      .why-waseela-phone-overlay[data-why-overlay-index='2'] {
+        transform: translateX(calc(-50% + 28%)) !important;
+        object-position: 59% center !important;
+      }
+    }
+
+    @media (min-width: 768px) and (max-width: 999px) {
+      .why-waseela-visual {
+        direction: ltr;
+      }
+
+      .why-waseela-phone-overlay[data-why-overlay-index='0'] {
+        transform: translateX(calc(-50% + 13%)) !important;
+        object-position: 56% center !important;
+      }
+
+      .why-waseela-phone-overlay[data-why-overlay-index='2'] {
+        transform: translateX(calc(-50% + 14%)) !important;
+        object-position: 57% center !important;
+      }
+    }
+
+    @media (max-width: 767px) {
+      .why-waseela-visual {
+        direction: ltr;
+      }
+    }
+  }
 }

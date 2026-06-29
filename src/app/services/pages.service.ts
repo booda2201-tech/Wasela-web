@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, Observable, combineLatest, shareReplay } from 'rxjs';
+import { map, Observable, combineLatest, shareReplay, timeout, catchError, throwError } from 'rxjs';
 
 import { environment } from '../../environments/environment';
 import { AppLanguage, LanguageService, pickLocalized } from './language.service';
@@ -328,12 +328,17 @@ export class PagesService {
       `/pages/by-slug/${encodeURIComponent(slug)}`
     );
     const raw$ = this.http.get<unknown>(url).pipe(
+      timeout(30_000),
       map((raw) => {
         const envelope = readApiEnvelope<unknown>(raw);
         if (!envelope.success || envelope.data === null || envelope.data === undefined) {
           throw new Error(envelope.message || 'Failed to load page');
         }
         return normalizeCmsPage(envelope.data);
+      }),
+      catchError((err) => {
+        this.rawPageCache.delete(slug);
+        return throwError(() => err);
       }),
       shareReplay({ bufferSize: 1, refCount: true })
     );

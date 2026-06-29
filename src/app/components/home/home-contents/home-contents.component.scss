@@ -1664,7 +1664,8 @@
 
     .download-copy {
       top: 40%;
-      transform: translateY(calc(-50% - 0.65rem)) translateX(15%);
+      left: 1%;
+      transform: translateY(calc(-50% - 0.65rem));
     }
 
     .download-mockup {
@@ -2189,6 +2190,27 @@
       z-index: 1;
       transform: rotate(4deg) translateX(17%) translateY(-4%);
       -webkit-user-drag: none;
+    }
+  }
+}
+
+/* Download — عربي موبايل: مساحة إضافية تحت الـ GIF */
+:host-context(html[dir='rtl']) {
+  @media (max-width: 767px) {
+    .download-section {
+      margin-bottom: clamp(2rem, 7vw, 3rem);
+      padding-bottom: clamp(0.75rem, 3vw, 1.25rem);
+
+      .download-layout {
+        padding-bottom: clamp(18.5rem, 74vw, 23.5rem);
+        min-height: clamp(29.5rem, 118vw, 38.5rem);
+        background-size: cover;
+        background-position: center center;
+      }
+
+      .download-mockup-wrap {
+        bottom: clamp(1.85rem, 7.5vw, 2.75rem) !important;
+      }
     }
   }
 }

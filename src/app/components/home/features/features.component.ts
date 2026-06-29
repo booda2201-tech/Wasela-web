@@ -11,6 +11,7 @@ import {
 
 
 import { CmsPage, CmsPageSection, CmsPageSectionItem, PagesService } from '../../../services/pages.service';
+import { LanguageService } from '../../../services/language.service';
 
 
 
@@ -138,11 +139,9 @@ export class FeaturesComponent implements OnInit, OnChanges, OnDestroy {
 
 
   constructor(
-
     private readonly host: ElementRef<HTMLElement>,
-
-    private readonly pagesService: PagesService
-
+    private readonly pagesService: PagesService,
+    readonly language: LanguageService
   ) {}
 
 
@@ -270,6 +269,14 @@ export class FeaturesComponent implements OnInit, OnChanges, OnDestroy {
   whyOverlayStyle(index: number): Record<string, string> {
 
     const layout = this.whyOverlayLayouts[index % this.whyOverlayLayouts.length];
+
+    if (index === 2) {
+      return {
+        '--why-overlay-shift': '14%',
+        '--why-overlay-object-x': layout.objectX,
+        '--why-overlay-width': layout.width,
+      };
+    }
 
     return {
 

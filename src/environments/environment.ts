@@ -14,8 +14,9 @@
 
 export const environment = {
   production: false,
-  apiBaseUrl: 'https://waseela.somee.com/api',
+  /** Local dev: requests go through proxy.conf.json → waseela.somee.com */
+  apiBaseUrl: '/api',
   apiOrigin: 'https://waseela.somee.com',
   appStoreUrl: '',
-  googlePlayUrl: ''
+  googlePlayUrl: '',
 };
