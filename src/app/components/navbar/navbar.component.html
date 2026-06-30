@@ -41,14 +41,14 @@
     </div>
 
     <div class="hidden lg:flex items-center navbar-actions">
-      <button
+      <!-- <button
         type="button"
         class="lang-toggle"
         (click)="language.toggleLanguage()"
         [attr.aria-label]="language.label('language')"
       >
         {{ language.label('language') }}
-      </button>
+      </button> -->
       <button class="download-btn" type="button" (click)="onDownloadClick()">
         <span class="download-btn__label">{{ language.label('downloadNow') }}</span>
         <span class="icon-circle">
@@ -58,14 +58,6 @@
     </div>
 
     <div class="flex items-center gap-2 lg:hidden navbar-mobile-actions">
-      <button
-        type="button"
-        class="lang-toggle lang-toggle--compact"
-        (click)="language.toggleLanguage()"
-        [attr.aria-label]="language.label('language')"
-      >
-        {{ language.label('language') }}
-      </button>
       <button
         type="button"
         class="mobile-menu-btn"

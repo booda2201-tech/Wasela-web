@@ -139,6 +139,30 @@ html[dir='rtl'] {
   .mobile-nav-menu a:active {
     transform: translateX(-2px);
   }
+
+  .download-btn .icon-circle i.bi-arrow-up-right {
+    transform: scaleX(-1);
+  }
+
+  /* Careers — وصف الوظيفة الموسّع */
+  .careers-page .job-card__desc-inner {
+    direction: rtl;
+    text-align: right;
+  }
+
+  .careers-page .job-card__desc-body {
+    direction: rtl;
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .careers-page .job-card__desc-title,
+  .careers-page .job-card__desc-text {
+    direction: rtl;
+    text-align: right;
+    width: 100%;
+    font-family: 'Diodrum Arabic', 'Diodrum Cyrillic', system-ui, sans-serif;
+  }
 }
 
 .text-waseela-blue { color: $waseela-blue; }

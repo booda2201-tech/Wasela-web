@@ -77,11 +77,17 @@
         [attr.aria-labelledby]="'job-toggle-' + job.id"
         [attr.aria-hidden]="!isExpanded(job.id)"
       >
-        <div class="job-card__desc-inner">
+        <div
+          class="job-card__desc-inner"
+          [attr.dir]="language.isArabic ? 'rtl' : null"
+        >
           <h3 class="job-card__desc-title" [attr.dir]="language.isArabic ? 'rtl' : null">
             {{ job.descriptionHeading }}
           </h3>
-          <div class="job-card__desc-body">
+          <div
+            class="job-card__desc-body"
+            [attr.dir]="language.isArabic ? 'rtl' : null"
+          >
             <p
               *ngFor="let paragraph of job.descriptionParagraphs"
               class="careers-preline job-card__desc-text"

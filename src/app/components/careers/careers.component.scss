@@ -272,81 +272,57 @@
   }
 }
 
-/* Careers — عربي: المحتوى في بداية الكرت + انعكاس */
+/* Careers — عربي: الكلام أول الكرت يمين، الأزرار شمال آخر الكرت */
 .careers-page--ar {
   .job-card__head {
+    direction: ltr;
+
     @media (min-width: 768px) {
       flex-direction: row-reverse;
-      align-items: center;
     }
   }
 
   .job-card__content--ar {
     direction: rtl;
-    align-items: flex-end;
-    align-self: flex-end;
-    text-align: right;
-    width: 100%;
-    order: 1;
-
-    @media (min-width: 768px) {
-      width: auto;
-      flex: 1 1 auto;
-      align-self: center;
-    }
+    align-items: flex-start;
+    text-align: start;
   }
 
   .job-card__badge,
-  .job-card__title {
-    align-self: flex-end;
+  .job-card__title,
+  .job-card__meta {
+    align-self: flex-start;
     font-family: 'Diodrum Arabic', 'Diodrum Cyrillic', system-ui, sans-serif;
     unicode-bidi: plaintext;
-    text-align: right;
-  }
-
-  .job-card__title {
-    margin-top: 0;
-    width: 100%;
+    text-align: start;
   }
 
   .careers-job-meta {
     direction: rtl;
-    justify-content: flex-end;
-    align-self: flex-end;
+    justify-content: flex-start;
+    align-self: flex-start;
     width: 100%;
+
+    @media (min-width: 768px) {
+      width: auto;
+    }
   }
 
   .job-card__actions {
     direction: ltr;
-    order: 2;
+    flex-direction: row-reverse;
+
+    @media (max-width: 767px) {
+      justify-content: space-between;
+    }
 
     @media (min-width: 768px) {
       justify-content: flex-start;
-      flex-shrink: 0;
-
-      .download-btn {
-        order: 1;
-      }
-
-      .job-card__toggle {
-        order: 2;
-      }
-    }
-
-    @media (max-width: 767px) {
-      order: 2;
-
-      .job-card__toggle {
-        order: 1;
-      }
-
-      .download-btn {
-        order: 2;
-      }
     }
   }
 
   .job-card__actions .download-btn {
+    direction: ltr;
     grid-template-columns: var(--dl-btn-h) minmax(0, 1fr);
     padding-inline-start: 0;
     padding-inline-end: 0.75rem;
@@ -354,33 +330,14 @@
     .download-btn__label {
       grid-column: 2;
       grid-row: 1;
+      align-self: stretch;
       padding: 0 0 0 0.5rem;
-      font-family: 'Diodrum Arabic', 'Diodrum Cyrillic', system-ui, sans-serif;
     }
 
     .icon-circle {
       grid-column: 1;
       grid-row: 1;
       justify-self: start;
-
-      i.bi-arrow-up-right {
-        transform: scaleX(-1);
-      }
     }
-
-    @media (min-width: 768px) {
-      min-width: 9.75rem;
-    }
-  }
-
-  .job-card__desc-inner {
-    direction: rtl;
-  }
-
-  .job-card__desc-title,
-  .job-card__desc-text {
-    font-family: 'Diodrum Arabic', 'Diodrum Cyrillic', system-ui, sans-serif;
-    text-align: right;
-    unicode-bidi: plaintext;
   }
 }

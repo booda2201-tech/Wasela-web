@@ -66,12 +66,7 @@ export class LanguageService {
   }
 
   private readStored(): AppLanguage {
-    try {
-      const stored = localStorage.getItem(STORAGE_KEY);
-      return stored === 'ar' ? 'ar' : 'en';
-    } catch {
-      return 'en';
-    }
+    return 'en';
   }
 
   private applyDocumentLang(lang: AppLanguage): void {
