@@ -158,11 +158,59 @@ export class BlogsComponent implements OnInit, AfterViewInit, OnDestroy {
     return {
       id: item.id,
       title: item.title || '',
-      excerpt: item.description || '',
+      excerpt: this.cardExcerpt(item.description, 110),
       tag: item.subTitle || '',
-      date: item.extraDataJson || '',
+      date: this.cardListDate(item),
       imageSrc: this.mediaUrl(item.imageMediaFileUrl || item.imageUrl) || ''
     };
+  }
+
+  /** List page only — never show full article / JSON here */
+  cardExcerpt(text: string | null | undefined, maxLen = 120): string {
+    let value = (text || '').trim();
+    if (!value) {
+      return '';
+    }
+    // Guard: description accidentally got article JSON
+    if (value.startsWith('{') || value.includes('"quoteEn"')) {
+      return '';
+    }
+    value = value.replace(/\s+/g, ' ');
+    if (value.length <= maxLen) {
+      return value;
+    }
+    const cut = value.slice(0, maxLen - 1).replace(/\s+\S*$/, '').trim();
+    return `${cut || value.slice(0, maxLen - 1)}…`;
+  }
+
+  /**
+   * Date label for list cards only.
+   * Full article JSON may live in extraDataJson for /blogs/{id} — never dump it here.
+   */
+  cardListDate(item: CmsPageSectionItem): string {
+    const raw = (item.extraDataJson || '').trim();
+    if (!raw) {
+      return '';
+    }
+
+    if (raw.startsWith('{') || raw.startsWith('[')) {
+      try {
+        const parsed = JSON.parse(raw) as Record<string, unknown>;
+        const d = String(parsed['date'] ?? parsed['Date'] ?? '').trim();
+        if (d && d.length <= 48 && !d.startsWith('{')) {
+          return d;
+        }
+      } catch {
+        /* ignore */
+      }
+      return '';
+    }
+
+    // Legacy: plain date string (pre-article JSON)
+    if (raw.length <= 48 && !raw.includes('{')) {
+      return raw;
+    }
+    return '';
   }
 
   gridTitle(): string {

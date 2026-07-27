@@ -45,13 +45,13 @@
         <div class="blogs-featured__panel">
           <div class="blogs-featured__panel-top">
             <span class="blogs-tag blogs-tag--panel"><span class="blogs-tag__text">{{ fi.subTitle }}</span></span>
-            <div class="blogs-featured__meta">
+            <div class="blogs-featured__meta" *ngIf="cardListDate(fi) as featuredDate">
               <i class="bi bi-calendar3 blogs-featured__cal" aria-hidden="true"></i>
-              <span class="blogs-featured__date">{{ fi.extraDataJson }}</span>
+              <span class="blogs-featured__date">{{ featuredDate }}</span>
             </div>
           </div>
           <h2 class="blogs-featured__kicker">{{ fi.title }}</h2>
-          <p class="blogs-featured__excerpt blogs-preline">{{ fi.description }}</p>
+          <p class="blogs-featured__excerpt">{{ cardExcerpt(fi.description, 140) }}</p>
           <span class="blogs-featured__more">Continue reading</span>
         </div>
       </a>

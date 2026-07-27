@@ -121,7 +121,7 @@ export class BlogsService {
       item.imageMediaFileUrl ||
       item.imageUrl;
 
-    return {
+    const raw: RawBlogDetail = {
       id: item.id,
       slug: detail.slug,
       titleEn: detail.titleEn || (isFeatured ? section.titleEn : null) || item.titleEn,
@@ -131,8 +131,8 @@ export class BlogsService {
       quoteAr: detail.quoteAr,
       quoteByEn: detail.quoteByEn,
       quoteByAr: detail.quoteByAr,
-      paragraphsEn: detail.paragraphsEn || item.descriptionEn,
-      paragraphsAr: detail.paragraphsAr || item.descriptionAr,
+      paragraphsEn: detail.paragraphsEn || null,
+      paragraphsAr: detail.paragraphsAr || null,
       section1HeadingEn: detail.section1HeadingEn,
       section1HeadingAr: detail.section1HeadingAr,
       section1TextEn: detail.section1TextEn,
@@ -143,6 +143,57 @@ export class BlogsService {
       section2LeadAr: detail.section2LeadAr,
       section2ListEn: detail.section2ListEn,
       section2ListAr: detail.section2ListAr
+    };
+
+    return this.withFilledArticleIfSparse(raw, item);
+  }
+
+  /**
+   * List cards keep a short description + date.
+   * Detail pages need the full article layout — fill when CMS only has a blurb.
+   */
+  private withFilledArticleIfSparse(
+    raw: RawBlogDetail,
+    item: CmsPageSectionItem
+  ): RawBlogDetail {
+    const hasArticle =
+      !!(raw.quoteEn || raw.quoteAr) ||
+      !!(raw.section1HeadingEn || raw.section1TextEn) ||
+      !!(raw.section2HeadingEn || raw.section2LeadEn || raw.section2ListEn) ||
+      splitParagraphs(raw.paragraphsEn).length > 1;
+
+    if (hasArticle) {
+      if (!raw.paragraphsEn && item.descriptionEn) {
+        return { ...raw, paragraphsEn: item.descriptionEn };
+      }
+      return raw;
+    }
+
+    const d = defaultBlogDetailBody();
+    const blurb = (item.descriptionEn || '').trim();
+    const paragraphsEn =
+      blurb && blurb.length <= 280
+        ? [blurb, ...d.introParagraphsEn.slice(1)].join('\n\n')
+        : d.introParagraphsEn.join('\n\n');
+
+    return {
+      ...raw,
+      quoteEn: d.quoteEn,
+      quoteAr: d.quoteAr,
+      quoteByEn: d.quoteByEn,
+      quoteByAr: d.quoteByAr,
+      paragraphsEn,
+      paragraphsAr: d.introParagraphsAr.join('\n\n'),
+      section1HeadingEn: d.section1.titleEn,
+      section1HeadingAr: d.section1.titleAr,
+      section1TextEn: d.section1.bodyEn,
+      section1TextAr: d.section1.bodyAr,
+      section2HeadingEn: d.section2.titleEn,
+      section2HeadingAr: d.section2.titleAr,
+      section2LeadEn: d.section2.leadEn,
+      section2LeadAr: d.section2.leadAr,
+      section2ListEn: d.section2.listItemsEn.join('\n'),
+      section2ListAr: d.section2.listItemsAr.join('\n')
     };
   }
 
@@ -461,4 +512,52 @@ function splitListItems(text: string | null | undefined): string[] {
     .split(/\r?\n/)
     .map((line) => line.replace(/^\s*[-*•\d]+[.)]\s*/, '').trim())
     .filter(Boolean);
+}
+
+/** Same layout as dashboard blog editor defaults — used when a card has no full article yet */
+function defaultBlogDetailBody() {
+  return {
+    quoteEn:
+      '“Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation labor”',
+    quoteAr:
+      '«هذا نص تجريبي يوضح الاقتباس الظاهر تحت صورة المقال، ويمكن استبداله بمحتوى عربي حقيقي.»',
+    quoteByEn: '— Waseela Editorial',
+    quoteByAr: '— فريق وسيلة',
+    introParagraphsEn: [
+      'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.',
+      'Elit nisi in eleifend sed nisi. Pulvinar at orci, proin imperdiet commodo consectetur convallis risus. Sed condimentum enim dignissim adipiscing faucibus consequat, urna. Viverra purus et erat auctor aliquam. Risus, volutpat vulputate posuere purus sit congue convallis aliquet.',
+      'Ipsum sit mattis nulla quam nulla. Gravida id gravida ac enim mauris id. Non pellentesque congue eget consectetur turpis. Sapien, dictum molestie sem tempor. Diam elit, orci, tincidunt aenean tempus. Quis velit eget ut tortor tellus. Sed vel, congue felis elit.'
+    ],
+    introParagraphsAr: [
+      'هذه فقرة تعريفية بالعربية تظهر بعد الاقتباس مباشرة على صفحة المقال.',
+      'فقرة ثانية تشرح الفكرة بمزيد من التفاصيل حتى تبدو الصفحة ممتلئة.',
+      'فقرة ثالثة يمكن استبدالها بنص المنتج أو التحديثات الفعلية لوسيلة.'
+    ],
+    section1: {
+      titleEn: 'Lorem ipsum',
+      titleAr: 'عنوان القسم الأول',
+      bodyEn:
+        'Pharetra morbi libero id aliquam elit massa integer tellus. Quis felis aliquam ullamcorper porttitor. Pulvinar ullamcorper sit dictumst ut eget a, elementum eu. Maecenas est morbi mattis id in ac pellentesque ac.',
+      bodyAr: 'نص القسم الأول بالعربية. اكتب هنا التفاصيل الأساسية للمقال.'
+    },
+    section2: {
+      titleEn: 'Lorem ipsum',
+      titleAr: 'عنوان القسم الثاني',
+      leadEn:
+        'Sagittis et eu at elementum, quis in. Proin praesent volutpat egestas sociis sit lorem nunc nunc sit. Eget diam curabitur mi ac.',
+      leadAr: 'مقدمة القسم الثاني بالعربية قبل القائمة المرقّمة.',
+      listItemsEn: [
+        'Lectus id duis vitae porttitor enim gravida morbi.',
+        'Eu turpis posuere semper feugiat volutpat elit, ultrices suspendisse.',
+        'Suspendisse maecenas ac donec scelerisque diam sed est duis purus.',
+        'Auctor vel in vitae placerat.'
+      ],
+      listItemsAr: [
+        'نقطة أولى بالعربية يمكن تعديلها من الداشبورد.',
+        'نقطة ثانية توضح فائدة أو خطوة عملية.',
+        'نقطة ثالثة لاستكمال الشكل النهائي للمقال.',
+        'نقطة رابعة اختيارية حسب طول المحتوى.'
+      ]
+    }
+  };
 }

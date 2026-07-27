@@ -288,6 +288,10 @@ $blogs-text: #737373;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.04em;
+  max-width: 14rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .blogs-featured__kicker {
@@ -299,8 +303,14 @@ $blogs-text: #737373;
 
 .blogs-featured__excerpt {
   margin: 0;
-  max-width: 61rem;
+  max-width: 36rem;
   color: #fff;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
+  word-break: break-word;
 }
 
 .blogs-featured__more {
@@ -421,6 +431,10 @@ $blogs-text: #737373;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   color: $blogs-blue;
+  max-width: 14rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .blogs-card__title {
