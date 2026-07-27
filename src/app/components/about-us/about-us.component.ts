@@ -182,36 +182,12 @@ export class AboutUsComponent implements OnInit, OnDestroy {
     return this.mediaUrl(item.imageMediaFileUrl || item.imageUrl);
   }
 
-  storyForegroundSrc(): string {
-    const s = this.pickSection('our_story');
-    return (
-      this.mediaUrl(s?.imageMediaFileUrl || s?.imageUrl) ??
-      'assets/images/leadership 1.png'
-    );
-  }
-
-  storyBackgroundSrc(): string {
-    const s = this.pickSection('our_story');
-    return (
-      this.mediaUrl(s?.backgroundImageMediaFileUrl || s?.backgroundImageUrl) ??
-      'assets/images/Group (7).png'
-    );
-  }
-
-  governanceForegroundSrc(): string {
-    const s = this.pickSection('leadership_governance');
-    return (
-      this.mediaUrl(s?.imageMediaFileUrl || s?.imageUrl) ??
-      'assets/images/leadership 2.png'
-    );
-  }
-
-  governanceBackgroundSrc(): string {
-    const s = this.pickSection('leadership_governance');
-    return (
-      this.mediaUrl(s?.backgroundImageMediaFileUrl || s?.backgroundImageUrl) ??
-      'assets/images/Group (7).png'
-    );
+  /** Illustration uploaded from the dashboard (section image field). */
+  sectionIllustrationSrc(section: CmsPageSection | null | undefined): string | null {
+    if (!section) {
+      return null;
+    }
+    return this.mediaUrl(section.imageMediaFileUrl || section.imageUrl);
   }
 
   private applySeo(page: CmsPage): void {

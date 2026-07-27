@@ -142,25 +142,14 @@
           <h2 class="about-split-title">{{ story.title }}</h2>
         </div>
         <p class="about-split-body">{{ story.description }}</p>
-        <div class="about-media-panel">
+        <div class="about-media-panel" *ngIf="sectionIllustrationSrc(story) as storyImg">
           <div class="about-media-wrapper">
-  
-            <!-- <img
-              [src]="storyBackgroundSrc()"
-              alt=""
-              class="about-media-panel__img about-media-panel__img--back"
+            <img
+              [src]="storyImg"
+              [alt]="story.title || ''"
+              class="about-media-panel__img about-media-panel__img--illustration"
               loading="lazy"
             />
-            <img
-              [src]="storyForegroundSrc()"
-              alt=""
-              class="about-media-panel__img about-media-panel__img--front"
-              loading="lazy"
-            /> -->
-
-            <img src="assets/images/Group 01.png" alt="" 
-            class="about-media-panel__img about-media-panel__img--back" loading="lazy">
-
           </div>
         </div>
       </div>
@@ -171,24 +160,14 @@
         </div>
         <p class="about-split-body">{{ gov.description }}</p>
 
-        <div class="about-media-panel">
+        <div class="about-media-panel" *ngIf="sectionIllustrationSrc(gov) as govImg">
           <div class="about-media-wrapper">
-          
-            <!-- <img
-              [src]="governanceBackgroundSrc()"
-              alt=""
-              class="about-media-panel__img about-media-panel__img--back"
+            <img
+              [src]="govImg"
+              [alt]="gov.title || ''"
+              class="about-media-panel__img about-media-panel__img--illustration"
               loading="lazy"
             />
-            <img
-              [src]="governanceForegroundSrc()"
-              alt=""
-              class="about-media-panel__img about-media-panel__img--front"
-              loading="lazy"
-            /> -->
-         
-             <img src="assets/images/Group 02.png" alt="" 
-             class="about-media-panel__img about-media-panel__img--back" loading="lazy">
           </div>
         </div>
       </div>

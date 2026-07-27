@@ -1,14 +1,9 @@
-<section class="blog-detail">
-  <!-- <div class="blog-detail__bg" aria-hidden="true">
-    <div class="blog-detail__bg-slide"></div>
-    <div class="blog-detail__bg-wash"></div>
-  </div> -->
-
+<section class="blog-detail" *ngIf="!loading && post as p">
   <div class="blog-detail__inner">
     <nav class="blog-detail__crumb" aria-label="Breadcrumb">
       <button type="button" class="blog-detail__back" (click)="goBack()">
         <i class="bi bi-arrow-left" aria-hidden="true"></i>
-        <span>Back to blogs</span>
+        <span>{{ language.label('blogs') }}</span>
       </button>
     </nav>
 
@@ -16,8 +11,9 @@
       <div class="blog-detail__hero-media">
         <div class="blog-detail__hero">
           <img
-            [src]="heroImage"
-            alt=""
+            *ngIf="p.heroImage"
+            [src]="p.heroImage"
+            [alt]="p.title || ''"
             class="blog-detail__hero-img"
             loading="lazy"
           />
@@ -36,33 +32,67 @@
 
     <article class="blog-detail__article">
       <div class="blog-detail__article-sheet">
-        <div class="blog-detail__quote-row">
+        <!-- 2. Quote -->
+        <div class="blog-detail__quote-row" *ngIf="p.quote">
           <div class="blog-detail__quote-bar" aria-hidden="true"></div>
           <div class="blog-detail__quote-copy">
-            <p class="blog-detail__quote-lead">{{ demo.quote }}</p>
-            <p class="blog-detail__quote-by">{{ demo.quoteBy }}</p>
+            <p class="blog-detail__quote-lead">{{ p.quote }}</p>
+            <p class="blog-detail__quote-by" *ngIf="p.quoteBy">{{ p.quoteBy }}</p>
           </div>
         </div>
 
-        <div class="blog-detail__prose-block">
-          <p *ngFor="let para of demo.introParagraphs" class="blog-detail__gradient-body">
+        <!-- 3. Intro paragraphs -->
+        <div class="blog-detail__prose-block" *ngIf="p.introParagraphs.length">
+          <p *ngFor="let para of p.introParagraphs" class="blog-detail__gradient-body">
             {{ para }}
           </p>
         </div>
 
-        <h2 class="blog-detail__h2">{{ demo.section1.title }}</h2>
-        <p class="blog-detail__gradient-body blog-detail__gradient-body--spaced">
-          {{ demo.section1.body }}
-        </p>
+        <!-- 4. Section 1 -->
+        <ng-container *ngIf="p.section1.title || p.section1.body">
+          <h2 class="blog-detail__h2" *ngIf="p.section1.title">{{ p.section1.title }}</h2>
+          <p
+            class="blog-detail__gradient-body blog-detail__gradient-body--spaced"
+            *ngIf="p.section1.body"
+          >
+            {{ p.section1.body }}
+          </p>
+        </ng-container>
 
-        <h2 class="blog-detail__h2 blog-detail__h2--tight">{{ demo.section2.title }}</h2>
-        <p class="blog-detail__gradient-body">{{ demo.section2.lead }}</p>
-        <ol class="blog-detail__ol">
-          <li *ngFor="let item of demo.section2.listItems" class="blog-detail__li">
-            {{ item }}
-          </li>
-        </ol>
+        <!-- 5. Section 2 -->
+        <ng-container *ngIf="p.section2.title || p.section2.lead || p.section2.listItems.length">
+          <h2
+            class="blog-detail__h2 blog-detail__h2--tight"
+            *ngIf="p.section2.title"
+          >
+            {{ p.section2.title }}
+          </h2>
+          <p class="blog-detail__gradient-body" *ngIf="p.section2.lead">
+            {{ p.section2.lead }}
+          </p>
+          <ol class="blog-detail__ol" *ngIf="p.section2.listItems.length">
+            <li *ngFor="let item of p.section2.listItems" class="blog-detail__li">
+              {{ item }}
+            </li>
+          </ol>
+        </ng-container>
       </div>
     </article>
   </div>
 </section>
+
+<app-page-loader *ngIf="loading"></app-page-loader>
+
+<div class="blog-detail__state py-20 text-center text-red-500" *ngIf="!loading && loadError">
+  Failed to load this article.
+</div>
+
+<div class="blog-detail__state py-20 text-center text-gray-500" *ngIf="!loading && notFound">
+  Article not found.
+  <div class="mt-4">
+    <button type="button" class="blog-detail__back" (click)="goBack()">
+      <i class="bi bi-arrow-left" aria-hidden="true"></i>
+      <span>{{ language.label('blogs') }}</span>
+    </button>
+  </div>
+</div>

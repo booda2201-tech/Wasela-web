@@ -1051,6 +1051,12 @@ $about-max: 80rem;
       margin-inline: auto;
       justify-content: center;
 
+      .about-media-panel__img--illustration {
+        width: 100%;
+        max-width: min(100%, 24rem);
+        margin-inline: auto;
+      }
+
       .about-media-panel__img--back {
         left: auto;
         margin-inline: auto;
@@ -1069,6 +1075,11 @@ $about-max: 80rem;
     margin-inline: 0;
     justify-content: flex-start;
 
+    .about-media-panel__img--illustration {
+      width: 100%;
+      max-width: min(100%, 26rem);
+    }
+
     .about-media-panel__img--back {
       width: 98%;
       max-width: min(100%, 26rem);
@@ -1086,6 +1097,11 @@ $about-max: 80rem;
       margin-inline: auto;
       justify-content: center;
 
+      .about-media-panel__img--illustration {
+        max-width: min(100%, 24rem);
+        margin-inline: auto;
+      }
+
       .about-media-panel__img--back {
         left: auto;
         margin-inline: auto;
@@ -1100,6 +1116,10 @@ $about-max: 80rem;
 
     @media (min-width: 1401px) {
       max-width: min(100%, 36rem);
+
+      .about-media-panel__img--illustration {
+        max-width: min(100%, 28rem);
+      }
 
       .about-media-panel__img--back {
         max-width: min(100%, 28rem);
@@ -1232,6 +1252,13 @@ $about-max: 80rem;
     object-fit: contain;
     transition: transform 0.5s cubic-bezier(0.2, 1, 0.3, 1);
 
+    &--illustration {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 100%;
+    }
+
     &--back {
       position: relative;
       z-index: 1;
@@ -1251,6 +1278,11 @@ $about-max: 80rem;
 
   @media (max-width: 767px) {
     max-width: 100%;
+
+    .about-media-panel__img--illustration {
+      max-width: min(22rem, 100%);
+      margin-inline: auto;
+    }
 
     .about-media-panel__img--back {
       left: 0;
