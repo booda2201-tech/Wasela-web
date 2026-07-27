@@ -25,8 +25,6 @@ export interface BlogPost {
   imageSrc: string;
 }
 
-export type BlogGridSlot = BlogPost | null;
-
 @Component({
   selector: 'app-blogs',
   templateUrl: './blogs.component.html',
@@ -46,12 +44,6 @@ export class BlogsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   /** صف واحد على الديسكتوب (3 أعمدة) */
   readonly pageSize = 3;
-
-  /** عدد صفحات الترقيم — زي Figma */
-  readonly totalPageCount = 10;
-
-  /** ستicker الخانة الفاضية — حطّ الملف هنا لما يوصل */
-  readonly emptySlotStickerSrc = 'assets/images/blogs-empty-sticker.png';
 
   currentPage = 1;
 
@@ -111,16 +103,16 @@ export class BlogsComponent implements OnInit, AfterViewInit, OnDestroy {
     return this.collectGridItemsFromCms();
   }
 
-  /** 3 خانات للصفحة الحالية — null = ستicker فاضي */
-  gridSlots(): BlogGridSlot[] {
+  /** مقالات الصفحة الحالية — بدون خانات وهمية */
+  gridPosts(): BlogPost[] {
     const all = this.allGridPosts();
     const start = (this.currentPage - 1) * this.pageSize;
-
-    return Array.from({ length: this.pageSize }, (_, i) => all[start + i] ?? null);
+    return all.slice(start, start + this.pageSize);
   }
 
   totalPages(): number {
-    return this.totalPageCount;
+    const total = this.allGridPosts().length;
+    return Math.max(1, Math.ceil(total / this.pageSize));
   }
 
   paginationPages(): (number | 'ellipsis')[] {

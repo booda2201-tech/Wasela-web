@@ -57,15 +57,14 @@
       </a>
     </div>
 
-    <!-- شبكة 3 خانات — فاضية = ستicker -->
-    <div class="blogs-grid">
+    <!-- شبكة الكروت — مقالات حقيقية فقط -->
+    <div class="blogs-grid" *ngIf="gridPosts().length">
       <article
-        *ngFor="let slot of gridSlots()"
+        *ngFor="let post of gridPosts()"
         data-blog-card
         class="blogs-card"
-        [class.blogs-card--empty]="!slot"
       >
-        <a *ngIf="slot as post" class="blogs-card__link" [routerLink]="['/blogs', post.id]">
+        <a class="blogs-card__link" [routerLink]="['/blogs', post.id]">
           <div class="blogs-card__thumb-wrap">
             <img
               *ngIf="post.imageSrc"
@@ -85,18 +84,6 @@
             <p class="blogs-card__excerpt">{{ post.excerpt }}</p>
           </div>
         </a>
-
-        <div *ngIf="!slot" class="blogs-card__placeholder" aria-hidden="true">
-          <div class="blogs-card__placeholder-art">
-            <img
-              [src]="emptySlotStickerSrc"
-              alt=""
-              class="blogs-card__sticker"
-              loading="lazy"
-              (error)="$any($event.target).hidden = true"
-            />
-          </div>
-        </div>
       </article>
     </div>
 
@@ -104,6 +91,7 @@
     <nav
       class="blogs-pagination mx-auto mt-10 flex max-w-full flex-wrap items-center justify-center gap-1 px-1 pb-2 sm:mt-14 md:mt-16"
       aria-label="Blog pagination"
+      *ngIf="totalPages() > 1"
     >
       <ng-container *ngFor="let p of paginationPages()">
         <span
