@@ -2,15 +2,110 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
-  OnInit,
-  OnDestroy
+  OnDestroy,
+  OnInit
 } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import gsap from 'gsap';
-import { combineLatest } from 'rxjs';
+import { catchError, of } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
-import { CmsPage, CmsPageSection, PagesService } from '../../services/pages.service';
+import {
+  CmsPage,
+  CmsPageSection,
+  PagesService
+} from '../../services/pages.service';
 import { SiteSettingsService } from '../../services/site-settings.service';
+
+interface ContactWaysView {
+  email: string;
+  phone: string;
+  address: string;
+  emailHref: string;
+  phoneHref: string;
+  addressHref: string;
+  showEmail: boolean;
+  showPhone: boolean;
+  showAddress: boolean;
+}
+
+function asRecord(v: unknown): Record<string, unknown> {
+  return v !== null && typeof v === 'object' ? (v as Record<string, unknown>) : {};
+}
+
+function str(v: unknown): string {
+  return v == null ? '' : String(v).trim();
+}
+
+function flag(v: unknown, fallback: boolean): boolean {
+  if (v === false || v === 'false' || v === 0 || v === '0') {
+    return false;
+  }
+  if (v === true || v === 'true' || v === 1 || v === '1') {
+    return true;
+  }
+  return fallback;
+}
+
+/** Dashboard `contact_ways` extraDataJson (+ aliases). */
+function parseWays(extraDataJson: string | null | undefined): {
+  email: string;
+  phone: string;
+  address: string;
+  emailLink: string;
+  phoneLink: string;
+  addressLink: string;
+  showEmail: boolean;
+  showPhone: boolean;
+  showAddress: boolean;
+} {
+  const empty = {
+    email: '',
+    phone: '',
+    address: '',
+    emailLink: '',
+    phoneLink: '',
+    addressLink: '',
+    showEmail: true,
+    showPhone: true,
+    showAddress: true
+  };
+
+  const raw = (extraDataJson ?? '').trim();
+  if (!raw || raw === '{}') {
+    return empty;
+  }
+
+  try {
+    const obj = asRecord(JSON.parse(raw));
+    return {
+      email: str(obj['email'] ?? obj['Email'] ?? obj['contactEmail']),
+      phone: str(obj['phone'] ?? obj['Phone'] ?? obj['contactPhone']),
+      address: str(obj['address'] ?? obj['Address'] ?? obj['contactAddress']),
+      emailLink: str(
+        obj['emailLink'] ?? obj['EmailLink'] ?? obj['mailto'] ?? obj['email_link']
+      ),
+      phoneLink: str(
+        obj['phoneLink'] ?? obj['PhoneLink'] ?? obj['tel'] ?? obj['phone_link']
+      ),
+      addressLink: str(
+        obj['addressLink'] ??
+          obj['AddressLink'] ??
+          obj['mapsUrl'] ??
+          obj['maps'] ??
+          obj['address_link']
+      ),
+      showEmail: flag(obj['showEmail'] ?? obj['ShowEmail'] ?? obj['show_email'], true),
+      showPhone: flag(obj['showPhone'] ?? obj['ShowPhone'] ?? obj['show_phone'], true),
+      showAddress: flag(
+        obj['showAddress'] ?? obj['ShowAddress'] ?? obj['show_address'],
+        true
+      )
+    };
+  } catch {
+    return empty;
+  }
+}
 
 @Component({
   selector: 'app-contact-us',
@@ -30,9 +125,17 @@ export class ContactUsComponent implements OnInit, AfterViewInit, OnDestroy {
   loadError = false;
   page: CmsPage | null = null;
 
-  contactEmail = '';
-  contactPhone = '';
-  contactAddress = '';
+  ways: ContactWaysView = {
+    email: '',
+    phone: '',
+    address: '',
+    emailHref: 'javascript:void(0)',
+    phoneHref: 'javascript:void(0)',
+    addressHref: 'javascript:void(0)',
+    showEmail: true,
+    showPhone: true,
+    showAddress: true
+  };
 
   form = {
     firstName: '',
@@ -46,29 +149,65 @@ export class ContactUsComponent implements OnInit, AfterViewInit, OnDestroy {
   private viewReady = false;
 
   ngOnInit(): void {
-    combineLatest({
-      page: this.pagesService.getPageBySlug('contact-us'),
-      contactSettings: this.siteSettingsService.getSettingsMapByGroup(3)
-    }).subscribe({
-      next: ({ page, contactSettings }) => {
-        this.page = page;
-        this.contactEmail = contactSettings['contact.email'] || '';
-        this.contactPhone = contactSettings['contact.phone'] || '';
-        this.contactAddress = contactSettings['contact.address'] || '';
-        this.applySeo(page);
-        this.loading = false;
-        this.trySetupAnimations();
-      },
-      error: () => {
-        this.loading = false;
-        this.loadError = true;
-      }
-    });
+    this.pagesService
+      .getPageBySlug('contact-us')
+      .pipe(
+        switchMap((page) =>
+          this.siteSettingsService.getPublicSettingsMap().pipe(
+            catchError(() => of({} as Record<string, string>)),
+            switchMap((settings) => of({ page, settings }))
+          )
+        )
+      )
+      .subscribe({
+        next: ({ page, settings }) => {
+          this.page = page;
+          this.applyContactWays(page, settings);
+          this.applySeo(page);
+          this.loading = false;
+          this.trySetupAnimations();
+        },
+        error: () => {
+          this.loading = false;
+          this.loadError = true;
+        }
+      });
   }
 
   ngAfterViewInit(): void {
     this.viewReady = true;
     this.trySetupAnimations();
+  }
+
+  ngOnDestroy(): void {
+    this.ctx?.revert();
+  }
+
+  onSubmit(event: Event): void {
+    event.preventDefault();
+  }
+
+  /** Dashboard section `contact_us` → title */
+  headline(): string {
+    return this.contactSection()?.title || this.page?.name || 'Contact Us';
+  }
+
+  /** Dashboard section `contact_us` → description */
+  subtitle(): string {
+    return this.contactSection()?.description || '';
+  }
+
+  /** Dashboard section `contact_us` → submit button text */
+  submitLabel(): string {
+    return this.contactSection()?.buttonText || 'Submit';
+  }
+
+  get showAnyContactWay(): boolean {
+    return (
+      (this.ways.showEmail && !!this.ways.email) ||
+      (this.ways.showAddress && !!this.ways.address) ||
+      (this.ways.showPhone && !!this.ways.phone)
+    );
   }
 
   private trySetupAnimations(): void {
@@ -101,37 +240,73 @@ export class ContactUsComponent implements OnInit, AfterViewInit, OnDestroy {
     }, root);
   }
 
-  ngOnDestroy(): void {
-    this.ctx?.revert();
+  private applyContactWays(
+    page: CmsPage,
+    contactSettings: Record<string, string>
+  ): void {
+    const fromSection = parseWays(this.contactWaysSection(page)?.extraDataJson);
+
+    const email =
+      fromSection.email ||
+      contactSettings['contact.email'] ||
+      '';
+    const phone =
+      fromSection.phone ||
+      contactSettings['contact.phone'] ||
+      '';
+    const address =
+      fromSection.address ||
+      contactSettings['contact.address'] ||
+      '';
+
+    this.ways = {
+      email,
+      phone,
+      address,
+      emailHref:
+        fromSection.emailLink ||
+        (email ? `mailto:${email}` : 'javascript:void(0)'),
+      phoneHref:
+        fromSection.phoneLink ||
+        (phone ? `tel:${phone.replace(/\s+/g, '')}` : 'javascript:void(0)'),
+      addressHref: fromSection.addressLink || 'javascript:void(0)',
+      showEmail: fromSection.showEmail,
+      showPhone: fromSection.showPhone,
+      showAddress: fromSection.showAddress
+    };
   }
 
-  onSubmit(event: Event): void {
-    event.preventDefault();
-  }
-
-  headline(): string {
-    return this.contactSection()?.title || this.page?.name || 'Contact Us';
-  }
-
-  subtitle(): string {
-    return this.contactSection()?.description || '';
-  }
-
-  submitLabel(): string {
-    return this.contactSection()?.buttonText || 'Submit';
-  }
-
-  emailHref(): string {
-    return this.contactEmail ? `mailto:${this.contactEmail}` : 'javascript:void(0)';
-  }
-
-  phoneHref(): string {
-    return this.contactPhone ? `tel:${this.contactPhone}` : 'javascript:void(0)';
-  }
-
+  /** Dashboard: Contact - Title (`contact_us`) */
   private contactSection(): CmsPageSection | null {
-    const section = this.page?.sections?.find((s) => s.sectionKey === 'contact_us');
-    return section?.isActive ? section : null;
+    return this.activeSection('contact_us', 'contact_title');
+  }
+
+  /** Dashboard: Contact - Contact Ways (`contact_ways`) */
+  private contactWaysSection(page: CmsPage | null = this.page): CmsPageSection | null {
+    const sections = page?.sections ?? [];
+    const ways = sections.find((s) => {
+      const key = (s.sectionKey || '').toLowerCase();
+      return (
+        key === 'contact_ways' ||
+        key.includes('contact_ways') ||
+        key.includes('ways_to_contact')
+      );
+    });
+    return ways?.isActive ? ways : null;
+  }
+
+  private activeSection(...keys: string[]): CmsPageSection | null {
+    const sections = this.page?.sections ?? [];
+    for (const want of keys) {
+      const found = sections.find((s) => {
+        const key = (s.sectionKey || '').toLowerCase();
+        return key === want || key.includes(want);
+      });
+      if (found?.isActive) {
+        return found;
+      }
+    }
+    return null;
   }
 
   private applySeo(page: CmsPage): void {

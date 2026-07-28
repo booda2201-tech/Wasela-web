@@ -11,10 +11,10 @@
     <div class="relative z-10 py-8 md:py-10 text-center">
       <div class="max-w-2xl mx-auto space-y-2 md:space-y-4">
         <h1 class="text-[2rem] md:text-[42px] font-[900] text-[#1D1DDB] leading-[1.1]">
-            Careers
+            {{ pageTitle() }}
           </h1>
           <p class="max-w-lg mx-auto">
-            Join a team of innovators, designers, and engineers working together to shape the future of digital financial experiences.
+            {{ pageSubtitle() }}
           </p>
       </div>
     </div>
@@ -60,12 +60,17 @@
              <i class="bi bi-chevron-down text-orange-500" [class.rotate-180]="isExpanded(job.id)" aria-hidden="true"></i>
           </button>
 
-          <button type="button" class="download-btn shrink-0">
+          <a
+            class="download-btn shrink-0"
+            [href]="applyHref(job)"
+            [attr.target]="job.applyButtonUrl ? '_blank' : null"
+            [attr.rel]="job.applyButtonUrl ? 'noopener noreferrer' : null"
+          >
             <span class="download-btn__label">{{ job.applyButtonText }}</span>
             <span class="icon-circle" aria-hidden="true">
               <i class="bi bi-arrow-up-right"></i>
             </span>
-          </button>
+          </a>
         </div>
       </div>
 
@@ -81,19 +86,25 @@
           class="job-card__desc-inner"
           [attr.dir]="language.isArabic ? 'rtl' : null"
         >
-          <h3 class="job-card__desc-title" [attr.dir]="language.isArabic ? 'rtl' : null">
-            {{ job.descriptionHeading }}
-          </h3>
-          <div
-            class="job-card__desc-body"
-            [attr.dir]="language.isArabic ? 'rtl' : null"
-          >
-            <p
-              *ngFor="let paragraph of job.descriptionParagraphs"
-              class="careers-preline job-card__desc-text"
+          <ng-container *ngFor="let block of job.descriptionBlocks">
+            <h3
+              class="job-card__desc-title"
+              *ngIf="block.heading"
               [attr.dir]="language.isArabic ? 'rtl' : null"
-            >{{ paragraph }}</p>
-          </div>
+            >
+              {{ block.heading }}
+            </h3>
+            <div
+              class="job-card__desc-body"
+              [attr.dir]="language.isArabic ? 'rtl' : null"
+            >
+              <p
+                *ngFor="let paragraph of block.paragraphs"
+                class="careers-preline job-card__desc-text"
+                [attr.dir]="language.isArabic ? 'rtl' : null"
+              >{{ paragraph }}</p>
+            </div>
+          </ng-container>
         </div>
       </div>
     </article>

@@ -10,18 +10,92 @@ import {
 import { Meta, Title } from '@angular/platform-browser';
 import gsap from 'gsap';
 import { Subscription } from 'rxjs';
-import { CmsPage, PagesService } from '../../services/pages.service';
+import {
+  CmsPage,
+  CmsPageSection,
+  CmsPageSectionItem,
+  PagesService
+} from '../../services/pages.service';
 import { LanguageService } from '../../services/language.service';
+
+export interface CareerJobBlock {
+  heading: string;
+  paragraphs: string[];
+}
 
 export interface CareerJob {
   id: number;
   roleLabel: string;
   title: string;
-  /** أجزاء سطر الميتا من الـ API؛ النقاط البرتقالية ثابتة في القالب بين العناصر */
+  /** أجزاء سطر الميتا؛ النقاط البرتقالية ثابتة في القالب بين العناصر */
   metaSegments: string[];
   applyButtonText: string;
-  descriptionHeading: string;
-  descriptionParagraphs: string[];
+  applyButtonUrl: string;
+  /** Expanded panels from dashboard section items (e.g. Job Description) */
+  descriptionBlocks: CareerJobBlock[];
+}
+
+function asRecord(v: unknown): Record<string, unknown> {
+  return v !== null && typeof v === 'object' ? (v as Record<string, unknown>) : {};
+}
+
+function str(v: unknown): string {
+  return v == null ? '' : String(v).trim();
+}
+
+/**
+ * Dashboard "Edit job" → Job details:
+ * - tag = orange meta line
+ * - contentHeader / contentHeading = title inside expanded job
+ */
+function parseCareerExtra(extraDataJson: string | null | undefined): {
+  tag: string;
+  contentHeaderEn: string;
+  contentHeaderAr: string;
+} {
+  const empty = { tag: '', contentHeaderEn: '', contentHeaderAr: '' };
+  const raw = (extraDataJson ?? '').trim();
+  if (!raw) {
+    return empty;
+  }
+  try {
+    const obj = asRecord(JSON.parse(raw));
+    let contentHeaderEn = str(
+      obj['contentHeaderEn'] ??
+        obj['ContentHeaderEn'] ??
+        obj['contentHeadingEn'] ??
+        obj['ContentHeadingEn']
+    );
+    let contentHeaderAr = str(
+      obj['contentHeaderAr'] ??
+        obj['ContentHeaderAr'] ??
+        obj['contentHeadingAr'] ??
+        obj['ContentHeadingAr']
+    );
+
+    const header =
+      obj['contentHeader'] ??
+      obj['ContentHeader'] ??
+      obj['contentHeading'] ??
+      obj['ContentHeading'];
+    if (!contentHeaderEn && !contentHeaderAr && header != null) {
+      if (typeof header === 'string') {
+        contentHeaderEn = header.trim();
+      } else if (typeof header === 'object') {
+        const h = asRecord(header);
+        contentHeaderEn = str(h['en'] ?? h['En']);
+        contentHeaderAr = str(h['ar'] ?? h['Ar']);
+      }
+    }
+
+    return {
+      tag: str(obj['tag'] ?? obj['Tag'] ?? obj['meta'] ?? obj['metaLine']),
+      contentHeaderEn,
+      contentHeaderAr
+    };
+  } catch {
+    return empty;
+  }
 }
 
 @Component({
@@ -41,6 +115,7 @@ export class CareersComponent implements OnInit, AfterViewInit, OnDestroy {
   private expandedJobIds = new Set<number>();
 
   private listSub?: Subscription;
+  private langSub?: Subscription;
   private cardsAnimated = false;
 
   constructor(
@@ -63,14 +138,25 @@ export class CareersComponent implements OnInit, AfterViewInit, OnDestroy {
         this.loadError = true;
       }
     });
+
+    this.langSub = this.language.lang$.subscribe(() => {
+      if (this.page) {
+        this.jobs = this.mapJobs(this.page);
+      }
+    });
   }
 
+  /** Dashboard page header → title */
   pageTitle(): string {
-    return this.page?.name || 'Careers';
+    return this.introSection()?.title || this.page?.name || 'Careers';
   }
 
+  /** Dashboard page header → description */
   pageSubtitle(): string {
-    return 'Join a team of innovators, designers, and engineers working together to shape the future of digital financial experiences.';
+    return (
+      this.introSection()?.description ||
+      'Join a team of innovators, designers, and engineers working together to shape the future of digital financial experiences.'
+    );
   }
 
   isExpanded(jobId: number): boolean {
@@ -82,6 +168,11 @@ export class CareersComponent implements OnInit, AfterViewInit, OnDestroy {
       return job.metaSegments;
     }
     return [...job.metaSegments].reverse();
+  }
+
+  applyHref(job: CareerJob): string {
+    const url = (job.applyButtonUrl || '').trim();
+    return url || 'javascript:void(0)';
   }
 
   toggle(jobId: number): void {
@@ -142,6 +233,7 @@ export class CareersComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.listSub?.unsubscribe();
+    this.langSub?.unsubscribe();
     this.jobDescPanels?.forEach((r) => gsap.killTweensOf(r.nativeElement));
   }
 
@@ -174,31 +266,114 @@ export class CareersComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
+  /** Dashboard: Careers page header block */
+  private introSection(): CmsPageSection | null {
+    const sections = this.page?.sections ?? [];
+    const intro = sections.find((s) => this.isIntroSection(s));
+    return intro?.isActive ? intro : null;
+  }
+
+  private isIntroSection(section: CmsPageSection): boolean {
+    const key = (section.sectionKey || '').toLowerCase();
+    return (
+      key === 'careers_section' ||
+      key === 'careers' ||
+      key.includes('careers_intro') ||
+      key.includes('careers_header') ||
+      key.includes('careers_title') ||
+      key.includes('page_header')
+    );
+  }
+
+  /**
+   * Each active non-header section = one job card from dashboard "+ Add job".
+   * Section items = expanded content blocks ("Job Description", etc.).
+   */
   private mapJobs(page: CmsPage): CareerJob[] {
     return [...page.sections]
-      .filter((section) => section.isActive)
+      .filter((section) => section.isActive && !this.isIntroSection(section))
       .sort((a, b) => a.sortOrder - b.sortOrder)
-      .map((section) => {
-        const firstDetail = [...(section.items ?? [])]
-          .filter((item) => item.isActive)
-          .sort((a, b) => a.sortOrder - b.sortOrder)[0];
+      .map((section) => this.mapJobSection(section));
+  }
 
-        const rawDesc = firstDetail?.description || '';
-        const descriptionParagraphs = rawDesc
-          .split(/\r?\n+/)
-          .map((x) => x.trim())
-          .filter(Boolean);
+  private mapJobSection(section: CmsPageSection): CareerJob {
+    const extra = parseCareerExtra(section.extraDataJson);
+    const detailItems = [...(section.items ?? [])]
+      .filter((item) => item.isActive)
+      .sort((a, b) => a.sortOrder - b.sortOrder);
 
-        return {
-          id: section.id,
-          roleLabel: section.subTitle || 'Open Roles',
-          title: section.title || '',
-          metaSegments: this.parseMetaSegments(section.description || ''),
-          applyButtonText: section.buttonText || 'Submit Application',
-          descriptionHeading: firstDetail?.title || 'Job Description',
-          descriptionParagraphs
-        };
-      });
+    // Tag (job meta line) → orange dots. Fallback: section.description when items hold body.
+    const metaRaw =
+      extra.tag ||
+      (detailItems.length ? section.description || '' : '');
+    const metaSegments = this.parseMetaSegments(metaRaw);
+
+    const sharedHeading = this.pickLocalized(
+      extra.contentHeaderEn,
+      extra.contentHeaderAr
+    );
+
+    const descriptionBlocks: CareerJobBlock[] =
+      detailItems.length > 0
+        ? detailItems
+            .map((item) => this.mapDetailItem(item, sharedHeading))
+            .filter((b) => b.heading || b.paragraphs.length)
+        : this.fallbackBlocksFromSection(section, sharedHeading, !!extra.tag);
+
+    return {
+      id: section.id,
+      roleLabel: section.subTitle || 'Open Roles',
+      title: section.title || '',
+      metaSegments,
+      applyButtonText: section.buttonText || 'Submit Application',
+      applyButtonUrl: (section.buttonUrl || '').trim(),
+      descriptionBlocks
+    };
+  }
+
+  private mapDetailItem(
+    item: CmsPageSectionItem,
+    sharedHeading: string
+  ): CareerJobBlock {
+    return {
+      heading: item.title || sharedHeading || 'Job Description',
+      paragraphs: this.splitParagraphs(item.description || '')
+    };
+  }
+
+  /** When a job has no items yet, use section.description as body (not as meta). */
+  private fallbackBlocksFromSection(
+    section: CmsPageSection,
+    sharedHeading: string,
+    hasTagMeta: boolean
+  ): CareerJobBlock[] {
+    if (!hasTagMeta) {
+      return [];
+    }
+    const paragraphs = this.splitParagraphs(section.description || '');
+    if (!paragraphs.length) {
+      return [];
+    }
+    return [
+      {
+        heading: sharedHeading || 'Job Description',
+        paragraphs
+      }
+    ];
+  }
+
+  private pickLocalized(en: string, ar: string): string {
+    if (this.language.isArabic) {
+      return ar || en;
+    }
+    return en || ar;
+  }
+
+  private splitParagraphs(raw: string): string[] {
+    return raw
+      .split(/\r?\n+/)
+      .map((x) => x.trim())
+      .filter(Boolean);
   }
 
   private applySeo(page: CmsPage): void {
@@ -210,13 +385,16 @@ export class CareersComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  /** يفصل وصف القسم (ميتا الوظيفة) إلى أجزاء؛ يدعم النقطة أو • أو | من الـ CMS */
+  /** يفصل وصف الميتا إلى أجزاء؛ يدعم . أو • أو | أو - من الـ CMS */
   private parseMetaSegments(raw: string): string[] {
     const t = raw.trim();
     if (!t) {
       return [];
     }
-    const normalized = t.replace(/\s*\.\s*/g, ' • ').replace(/\s*\|\s*/g, ' • ');
+    const normalized = t
+      .replace(/\s*\.\s*/g, ' • ')
+      .replace(/\s*\|\s*/g, ' • ')
+      .replace(/\s+-\s+/g, ' • ');
     return normalized
       .split(/\s*•\s*/)
       .map((s) => s.trim())
