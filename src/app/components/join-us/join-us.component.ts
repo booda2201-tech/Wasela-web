@@ -17,6 +17,7 @@ import {
 import { CmsPage, CmsPageSection, PagesService } from '../../services/pages.service';
 import {
   ContactWaysPublicConfig,
+  EMPTY_CONTACT_WAYS,
   SiteSettingsService
 } from '../../services/site-settings.service';
 
@@ -42,17 +43,8 @@ export class JoinUsComponent implements OnInit, AfterViewInit, OnDestroy {
   loadError = false;
   page: CmsPage | null = null;
 
-  ways: ContactWaysPublicConfig = {
-    email: '',
-    phone: '',
-    address: '',
-    emailHref: 'javascript:void(0)',
-    phoneHref: 'javascript:void(0)',
-    addressHref: 'javascript:void(0)',
-    showEmail: true,
-    showPhone: true,
-    showAddress: true,
-  };
+  /** Filled only from dashboard (join_contact_ways / contact_ways / Site Settings) */
+  ways: ContactWaysPublicConfig = { ...EMPTY_CONTACT_WAYS };
 
   readonly commercialRegisterOptions = [
     { value: '', label: 'Select an option' },
@@ -116,14 +108,18 @@ export class JoinUsComponent implements OnInit, AfterViewInit, OnDestroy {
   private subs = new Subscription();
 
   ngOnInit(): void {
-    // Don't block the page on contact-ways/settings — hung settings left Join Us on the loader forever.
+    // Fresh page = latest dashboard ExtraData for join_contact_ways
     this.subs.add(
       this.pagesService
-        .getPageBySlug('join-us')
+        .getPageBySlugFresh('join-us')
         .pipe(catchError(() => of(null as CmsPage | null)))
         .subscribe({
           next: (page) => {
             this.page = page;
+            const fromPage = this.siteSettingsService.extractWaysFromPage(page);
+            if (fromPage) {
+              this.ways = fromPage;
+            }
             if (page) {
               this.applySeo(page);
             } else {
@@ -140,6 +136,7 @@ export class JoinUsComponent implements OnInit, AfterViewInit, OnDestroy {
         })
     );
 
+    // Same Site Settings "02 Contact" block as Contact Us (dashboard)
     this.subs.add(
       this.siteSettingsService.getContactWaysConfig().subscribe({
         next: (ways) => {
@@ -388,7 +385,7 @@ export class JoinUsComponent implements OnInit, AfterViewInit, OnDestroy {
             stagger: 0.12,
             delay: 0.15,
             ease: 'power2.out',
-            clearProps: 'transform'
+            clearProps: 'opacity,transform'
           }
         );
       }

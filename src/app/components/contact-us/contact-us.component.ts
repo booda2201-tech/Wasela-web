@@ -20,6 +20,7 @@ import {
 } from '../../services/pages.service';
 import {
   ContactWaysPublicConfig,
+  EMPTY_CONTACT_WAYS,
   SiteSettingsService
 } from '../../services/site-settings.service';
 
@@ -48,17 +49,8 @@ export class ContactUsComponent implements OnInit, AfterViewInit, OnDestroy {
   submitError = '';
   formError = '';
 
-  ways: ContactWaysPublicConfig = {
-    email: '',
-    phone: '',
-    address: '',
-    emailHref: 'javascript:void(0)',
-    phoneHref: 'javascript:void(0)',
-    addressHref: 'javascript:void(0)',
-    showEmail: true,
-    showPhone: true,
-    showAddress: true
-  };
+  /** Filled only from dashboard (contact_ways / Site Settings) */
+  ways: ContactWaysPublicConfig = { ...EMPTY_CONTACT_WAYS };
 
   form = {
     firstName: '',
@@ -73,14 +65,18 @@ export class ContactUsComponent implements OnInit, AfterViewInit, OnDestroy {
   private subs = new Subscription();
 
   ngOnInit(): void {
-    // Page content must not wait on settings — otherwise a hung settings call keeps the loader forever.
+    // Fresh page = latest dashboard ExtraData for contact_ways / contact_us
     this.subs.add(
       this.pagesService
-        .getPageBySlug('contact-us')
+        .getPageBySlugFresh('contact-us')
         .pipe(catchError(() => of(null as CmsPage | null)))
         .subscribe({
           next: (page) => {
             this.page = page;
+            const fromPage = this.siteSettingsService.extractWaysFromPage(page);
+            if (fromPage) {
+              this.ways = fromPage;
+            }
             if (page) {
               this.applySeo(page);
             } else {
@@ -97,6 +93,7 @@ export class ContactUsComponent implements OnInit, AfterViewInit, OnDestroy {
         })
     );
 
+    // Merge public settings + Contact Us ExtraData (dashboard source of truth)
     this.subs.add(
       this.siteSettingsService.getContactWaysConfig().subscribe({
         next: (ways) => {
@@ -276,7 +273,7 @@ export class ContactUsComponent implements OnInit, AfterViewInit, OnDestroy {
             stagger: 0.12,
             delay: 0.15,
             ease: 'power2.out',
-            clearProps: 'transform'
+            clearProps: 'opacity,transform'
           }
         );
       }

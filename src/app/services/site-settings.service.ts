@@ -60,8 +60,33 @@ export const DEFAULT_FOOTER_PUBLIC: FooterPublicConfig = {
   playStoreUrl: environment.googlePlayUrl || '',
 };
 
+/** Empty shell — pills only appear when dashboard/CMS provides values. */
+export const EMPTY_CONTACT_WAYS: ContactWaysPublicConfig = {
+  email: '',
+  phone: '',
+  address: '',
+  emailHref: 'javascript:void(0)',
+  phoneHref: 'javascript:void(0)',
+  addressHref: 'javascript:void(0)',
+  showEmail: true,
+  showPhone: true,
+  showAddress: true,
+};
+
+/** @deprecated use EMPTY_CONTACT_WAYS — kept so older imports compile */
+export const DEFAULT_CONTACT_WAYS = EMPTY_CONTACT_WAYS;
+
 const SITE_FOOTER_SECTION_KEY = 'site_footer';
 const DOWNLOAD_CTA_SECTION_KEY = 'download_app_cta';
+
+/** Plain text for contact pills — do not treat phone/address like URLs */
+function cleanContactText(raw: string | null | undefined): string {
+  const v = (raw ?? '').trim();
+  if (!v || v === '...' || v === '—' || v === '#') {
+    return '';
+  }
+  return v;
+}
 
 function asRecord(v: unknown): Record<string, unknown> {
   return v !== null && typeof v === 'object' ? (v as Record<string, unknown>) : {};
@@ -187,7 +212,8 @@ function parseContactWaysExtra(raw: unknown): {
   showAddress: boolean;
 } {
   const o = parseJsonObject(raw);
-  const str = (v: unknown) => cleanUrlOrText(v == null ? '' : String(v));
+  const text = (v: unknown) => cleanContactText(v == null ? '' : String(v));
+  const link = (v: unknown) => cleanUrlOrText(v == null ? '' : String(v));
   const flag = (v: unknown, fallback: boolean) => {
     if (v === false || v === 'false' || v === 0 || v === '0') {
       return false;
@@ -198,16 +224,22 @@ function parseContactWaysExtra(raw: unknown): {
     return fallback;
   };
   return {
-    email: str(o['email'] ?? o['Email'] ?? o['contactEmail']),
-    phone: str(o['phone'] ?? o['Phone'] ?? o['contactPhone']),
-    address: str(o['address'] ?? o['Address'] ?? o['contactAddress']),
-    emailLink: str(
+    email: text(o['email'] ?? o['Email'] ?? o['contactEmail']),
+    phone: text(o['phone'] ?? o['Phone'] ?? o['contactPhone']),
+    address: text(
+      o['address'] ??
+        o['Address'] ??
+        o['addressEn'] ??
+        o['AddressEn'] ??
+        o['contactAddress']
+    ),
+    emailLink: link(
       o['emailLink'] ?? o['EmailLink'] ?? o['mailto'] ?? o['email_link']
     ),
-    phoneLink: str(
+    phoneLink: link(
       o['phoneLink'] ?? o['PhoneLink'] ?? o['tel'] ?? o['phone_link']
     ),
-    addressLink: str(
+    addressLink: link(
       o['addressLink'] ??
         o['AddressLink'] ??
         o['mapsUrl'] ??
@@ -221,6 +253,74 @@ function parseContactWaysExtra(raw: unknown): {
       true
     ),
   };
+}
+
+function toContactWaysConfig(
+  raw: ReturnType<typeof parseContactWaysExtra>
+): ContactWaysPublicConfig {
+  const email = raw.email;
+  const phone = raw.phone;
+  const address = raw.address;
+  return {
+    email,
+    phone,
+    address,
+    emailHref: raw.emailLink || (email ? `mailto:${email}` : 'javascript:void(0)'),
+    phoneHref:
+      raw.phoneLink ||
+      (phone ? `tel:${phone.replace(/\s+/g, '')}` : 'javascript:void(0)'),
+    addressHref: raw.addressLink || 'javascript:void(0)',
+    showEmail: raw.showEmail !== false,
+    showPhone: raw.showPhone !== false,
+    showAddress: raw.showAddress !== false,
+  };
+}
+
+function mergeWaysLayers(
+  ...layers: Array<Partial<ContactWaysPublicConfig> | null | undefined>
+): ContactWaysPublicConfig {
+  const out: ContactWaysPublicConfig = { ...EMPTY_CONTACT_WAYS };
+  for (const layer of layers) {
+    if (!layer) {
+      continue;
+    }
+    if (layer.email?.trim()) {
+      out.email = layer.email.trim();
+    }
+    if (layer.phone?.trim()) {
+      out.phone = layer.phone.trim();
+    }
+    if (layer.address?.trim()) {
+      out.address = layer.address.trim();
+    }
+    if (layer.emailHref && layer.emailHref !== 'javascript:void(0)') {
+      out.emailHref = layer.emailHref;
+    }
+    if (layer.phoneHref && layer.phoneHref !== 'javascript:void(0)') {
+      out.phoneHref = layer.phoneHref;
+    }
+    if (layer.addressHref && layer.addressHref !== 'javascript:void(0)') {
+      out.addressHref = layer.addressHref;
+    }
+    if (typeof layer.showEmail === 'boolean') {
+      out.showEmail = layer.showEmail;
+    }
+    if (typeof layer.showPhone === 'boolean') {
+      out.showPhone = layer.showPhone;
+    }
+    if (typeof layer.showAddress === 'boolean') {
+      out.showAddress = layer.showAddress;
+    }
+  }
+  if (!out.emailHref || out.emailHref === 'javascript:void(0)') {
+    out.emailHref = out.email ? `mailto:${out.email}` : 'javascript:void(0)';
+  }
+  if (!out.phoneHref || out.phoneHref === 'javascript:void(0)') {
+    out.phoneHref = out.phone
+      ? `tel:${out.phone.replace(/\s+/g, '')}`
+      : 'javascript:void(0)';
+  }
+  return out;
 }
 
 function firstNonEmpty(...values: Array<string | undefined | null>): string {
@@ -324,106 +424,106 @@ export class SiteSettingsService {
   }
 
   /**
-   * Contact Ways for Contact Us & Join Us.
-   * Always reads Site Settings + Contact Us page ExtraData (where the dashboard saves).
+   * Contact Ways pills — always from the dashboard:
+   * 1) Contact Us page `contact_ways` ExtraData (Site Settings → 02 Contact)
+   * 2) Join Us `join_contact_ways` ExtraData
+   * 3) Public settings `contact.email` / `contact.phone` / `contact.address`
+   * Visibility toggles (showEmail/Phone/Address) come from the same ExtraData.
    */
-  getContactWaysConfig(_pageSlug?: string): Observable<ContactWaysPublicConfig> {
-    const emptyWays: ContactWaysPublicConfig = {
-      email: '',
-      phone: '',
-      address: '',
-      emailHref: 'javascript:void(0)',
-      phoneHref: 'javascript:void(0)',
-      addressHref: 'javascript:void(0)',
-      showEmail: true,
-      showPhone: true,
-      showAddress: true,
-    };
-
+  getContactWaysConfig(): Observable<ContactWaysPublicConfig> {
     return forkJoin({
       settings: this.getPublicSettingsMap().pipe(
         catchError(() => of({} as Record<string, string>))
       ),
-      // Site Settings persists ways on the Contact Us page — never use join-us for this.
+      // Use cache-friendly fetch; components call Fresh on their own page load.
       contact: this.pagesService.getPageBySlug('contact-us').pipe(
+        catchError(() => of(null as CmsPage | null))
+      ),
+      join: this.pagesService.getPageBySlug('join-us').pipe(
         catchError(() => of(null as CmsPage | null))
       ),
     }).pipe(
       timeout(25_000),
-      map(({ settings, contact }) => this.mergeContactWaysConfig(settings, contact)),
-      catchError(() => of(emptyWays))
+      map(({ settings, contact, join }) =>
+        this.mergeContactWaysConfig(settings, contact, join)
+      ),
+      catchError(() => of({ ...EMPTY_CONTACT_WAYS }))
     );
+  }
+
+  /** Pull Contact Ways from a CMS page already loaded by the component. */
+  extractWaysFromPage(page: CmsPage | null | undefined): ContactWaysPublicConfig | null {
+    if (!page) {
+      return null;
+    }
+    const raw = this.readContactWaysExtra(page);
+    if (!raw.email && !raw.phone && !raw.address) {
+      return null;
+    }
+    return toContactWaysConfig(raw);
   }
 
   private mergeContactWaysConfig(
     settings: Record<string, string>,
-    contact: CmsPage | null
+    contact: CmsPage | null,
+    join: CmsPage | null = null
   ): ContactWaysPublicConfig {
-    const fromExtra = this.readContactWaysExtra(contact);
-    // ExtraData (CMS Site Settings) wins — then public settings keys
-    const email =
-      fromExtra.email || settingValue(settings, 'contact.email') || '';
-    const phone =
-      fromExtra.phone || settingValue(settings, 'contact.phone') || '';
-    const address =
-      fromExtra.address || settingValue(settings, 'contact.address') || '';
-    const emailLink = fromExtra.emailLink;
-    const phoneLink = fromExtra.phoneLink;
-    const addressLink = fromExtra.addressLink;
-
-    return {
-      email,
-      phone,
-      address,
-      emailHref: emailLink || (email ? `mailto:${email}` : 'javascript:void(0)'),
-      phoneHref:
-        phoneLink ||
-        (phone ? `tel:${phone.replace(/\s+/g, '')}` : 'javascript:void(0)'),
-      addressHref: addressLink || 'javascript:void(0)',
-      showEmail: fromExtra.showEmail !== false,
-      showPhone: fromExtra.showPhone !== false,
-      showAddress: fromExtra.showAddress !== false,
+    const fromContact = toContactWaysConfig(this.readContactWaysExtra(contact));
+    const fromJoin = toContactWaysConfig(this.readContactWaysExtra(join));
+    const fromSettings: Partial<ContactWaysPublicConfig> = {
+      email: cleanContactText(
+        settingValue(settings, 'contact.email') || settings['contact.email'] || ''
+      ),
+      phone: cleanContactText(
+        settingValue(settings, 'contact.phone') || settings['contact.phone'] || ''
+      ),
+      address: cleanContactText(
+        settingValue(settings, 'contact.address') || settings['contact.address'] || ''
+      ),
     };
+
+    // Public settings first, then join, then Contact Us page (dashboard 02 Contact wins)
+    return mergeWaysLayers(fromSettings, fromJoin, fromContact);
   }
 
   private readContactWaysExtra(page: CmsPage | null): ReturnType<
     typeof parseContactWaysExtra
   > {
-    const sections = page?.sections ?? [];
-    const byKey = (...matchers: ((key: string) => boolean)[]) => {
-      for (const match of matchers) {
+    const empty = parseContactWaysExtra(null);
+    if (!page) {
+      return empty;
+    }
+    const sections = page.sections ?? [];
+
+    const pick = (...predicates: Array<(key: string) => boolean>) => {
+      for (const pred of predicates) {
         const found = sections.find(
-          (s) => s.isActive !== false && match((s.sectionKey || '').toLowerCase())
+          (s) => s.isActive !== false && pred((s.sectionKey || '').toLowerCase())
         );
         if (found) {
           return parseContactWaysExtra(found.extraDataJson);
         }
       }
-      return null;
+      return empty;
     };
-    const fromUs = byKey(
-      (k) => k === 'contact_us' || k.includes('contact_us')
+
+    // Prefer dedicated "Contact Ways" / "02 Contact" sections over the form title section
+    const fromWays = pick(
+      (k) => k === 'contact_ways',
+      (k) => k === 'join_contact_ways',
+      (k) => k.includes('contact_ways') || k.includes('ways_to_contact')
     );
-    const fromWays = byKey(
-      (k) =>
-        k === 'contact_ways' ||
-        k === 'join_contact_ways' ||
-        k.includes('contact_ways') ||
-        k.includes('ways_to_contact')
+    const fromForm = pick(
+      (k) => k === 'contact_us',
+      (k) => k === 'join_us',
+      (k) => k.includes('contact_us')
     );
-    const empty = parseContactWaysExtra(null);
-    const a = fromUs ?? empty;
-    const b = fromWays ?? empty;
-    const primaryHasData = !!(
-      a.email ||
-      a.phone ||
-      a.address ||
-      a.emailLink ||
-      a.phoneLink ||
-      a.addressLink
-    );
-    const primary = primaryHasData ? a : b;
-    const secondary = primary === a ? b : a;
+
+    const waysHas =
+      !!(fromWays.email || fromWays.phone || fromWays.address || fromWays.emailLink);
+    const primary = waysHas ? fromWays : fromForm;
+    const secondary = waysHas ? fromForm : fromWays;
+
     return {
       email: primary.email || secondary.email,
       phone: primary.phone || secondary.phone,
