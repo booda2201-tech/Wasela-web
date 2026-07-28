@@ -11,6 +11,10 @@ import { catchError, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
 import {
+  ContactMessageRequest,
+  ContactMessagesService
+} from '../../services/contact-messages.service';
+import {
   CmsPage,
   CmsPageSection,
   PagesService
@@ -117,6 +121,7 @@ export class ContactUsComponent implements OnInit, AfterViewInit, OnDestroy {
     private readonly host: ElementRef<HTMLElement>,
     private readonly pagesService: PagesService,
     private readonly siteSettingsService: SiteSettingsService,
+    private readonly contactMessages: ContactMessagesService,
     private readonly title: Title,
     private readonly meta: Meta
   ) {}
@@ -124,6 +129,12 @@ export class ContactUsComponent implements OnInit, AfterViewInit, OnDestroy {
   loading = true;
   loadError = false;
   page: CmsPage | null = null;
+
+  /** Class-level flag used by the template while the form is sending */
+  submitting = false;
+  submitSuccess = '';
+  submitError = '';
+  formError = '';
 
   ways: ContactWaysView = {
     email: '',
@@ -185,6 +196,34 @@ export class ContactUsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   onSubmit(event: Event): void {
     event.preventDefault();
+    this.submitSuccess = '';
+    this.submitError = '';
+    this.formError = '';
+
+    const payload = this.buildPayload();
+    if (!payload) {
+      return;
+    }
+
+    this.submitting = true;
+    this.contactMessages.submit(payload).subscribe({
+      next: (result) => {
+        this.submitting = false;
+        this.submitSuccess =
+          result.message || 'Your message was sent successfully. We will get back to you soon.';
+        this.resetForm();
+      },
+      error: (err: unknown) => {
+        this.submitting = false;
+        if (this.isApiUnavailable(err) && this.openMailtoFallback(payload)) {
+          this.submitSuccess =
+            'Opening your email app to send the message. If nothing opens, email us directly.';
+          this.resetForm();
+          return;
+        }
+        this.submitError = this.resolveSubmitErrorMessage(err);
+      }
+    });
   }
 
   /** Dashboard section `contact_us` → title */
@@ -208,6 +247,82 @@ export class ContactUsComponent implements OnInit, AfterViewInit, OnDestroy {
       (this.ways.showAddress && !!this.ways.address) ||
       (this.ways.showPhone && !!this.ways.phone)
     );
+  }
+
+  private buildPayload(): ContactMessageRequest | null {
+    const firstName = this.form.firstName.trim();
+    const lastName = this.form.lastName.trim();
+    const phone = this.form.phone.trim();
+    const email = this.form.email.trim();
+    const message = this.form.message.trim();
+
+    if (!firstName) {
+      this.formError = 'Please enter your first name.';
+      return null;
+    }
+    if (!lastName) {
+      this.formError = 'Please enter your last name.';
+      return null;
+    }
+    if (!phone) {
+      this.formError = 'Please enter your phone number.';
+      return null;
+    }
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      this.formError = 'Please enter a valid email address.';
+      return null;
+    }
+    if (!message) {
+      this.formError = 'Please write your message.';
+      return null;
+    }
+
+    return { firstName, lastName, phone, email, message };
+  }
+
+  private resetForm(): void {
+    this.form = {
+      firstName: '',
+      lastName: '',
+      phone: '',
+      email: '',
+      message: ''
+    };
+  }
+
+  private isApiUnavailable(err: unknown): boolean {
+    return err instanceof Error && err.message === 'CONTACT_API_UNAVAILABLE';
+  }
+
+  /** Temporary fallback until POST /api/contact-messages is deployed. */
+  private openMailtoFallback(payload: ContactMessageRequest): boolean {
+    const to = (this.ways.email || '').trim();
+    if (!to || !to.includes('@')) {
+      return false;
+    }
+
+    const subject = encodeURIComponent(
+      `Contact form — ${payload.firstName} ${payload.lastName}`
+    );
+    const body = encodeURIComponent(
+      [
+        `Name: ${payload.firstName} ${payload.lastName}`,
+        `Phone: ${payload.phone}`,
+        `Email: ${payload.email}`,
+        '',
+        payload.message
+      ].join('\n')
+    );
+
+    window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
+    return true;
+  }
+
+  private resolveSubmitErrorMessage(err: unknown): string {
+    if (err instanceof Error && err.message && err.message !== 'CONTACT_API_UNAVAILABLE') {
+      return err.message;
+    }
+    return 'Could not send your message. Please try again or email us directly.';
   }
 
   private trySetupAnimations(): void {
