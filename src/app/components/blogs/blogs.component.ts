@@ -158,29 +158,23 @@ export class BlogsComponent implements OnInit, AfterViewInit, OnDestroy {
     return {
       id: item.id,
       title: item.title || '',
-      excerpt: this.cardExcerpt(item.description, 110),
+      excerpt: this.cardExcerpt(item.description),
       tag: item.subTitle || '',
       date: this.cardListDate(item),
       imageSrc: this.mediaUrl(item.imageMediaFileUrl || item.imageUrl) || ''
     };
   }
 
-  /** List page only — never show full article / JSON here */
-  cardExcerpt(text: string | null | undefined, maxLen = 120): string {
+  /** List page — show the card excerpt as saved (no hard character cut) */
+  cardExcerpt(text: string | null | undefined): string {
     let value = (text || '').trim();
     if (!value) {
       return '';
     }
-    // Guard: description accidentally got article JSON
     if (value.startsWith('{') || value.includes('"quoteEn"')) {
       return '';
     }
-    value = value.replace(/\s+/g, ' ');
-    if (value.length <= maxLen) {
-      return value;
-    }
-    const cut = value.slice(0, maxLen - 1).replace(/\s+\S*$/, '').trim();
-    return `${cut || value.slice(0, maxLen - 1)}…`;
+    return value;
   }
 
   /**
