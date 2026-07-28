@@ -424,31 +424,30 @@ export class SiteSettingsService {
   }
 
   /**
-   * Contact Ways pills — always from the dashboard:
-   * 1) Contact Us page `contact_ways` ExtraData (Site Settings → 02 Contact)
-   * 2) Join Us `join_contact_ways` ExtraData
-   * 3) Public settings `contact.email` / `contact.phone` / `contact.address`
-   * Visibility toggles (showEmail/Phone/Address) come from the same ExtraData.
+   * Contact Ways pills from the dashboard (Site Settings → 02 Contact).
+   * Priority: public `contact.*` settings, then Contact Us ExtraData (`contact_us` / `contact_ways`).
    */
   getContactWaysConfig(): Observable<ContactWaysPublicConfig> {
     return forkJoin({
       settings: this.getPublicSettingsMap().pipe(
         catchError(() => of({} as Record<string, string>))
       ),
-      // Always bypass page cache so dashboard phone/email edits show after Save + refresh
       contact: this.pagesService.getPageBySlugFresh('contact-us').pipe(
         catchError(() => of(null as CmsPage | null))
       ),
-      join: this.pagesService.getPageBySlugFresh('join-us').pipe(
-        catchError(() => of(null as CmsPage | null))
-      ),
     }).pipe(
-      timeout(25_000),
-      map(({ settings, contact, join }) =>
-        this.mergeContactWaysConfig(settings, contact, join)
-      ),
+      timeout(20_000),
+      map(({ settings, contact }) => this.mergeContactWaysConfig(settings, contact)),
       catchError(() => of({ ...EMPTY_CONTACT_WAYS }))
     );
+  }
+
+  /** Build pills from an already-loaded CMS page + optional public settings map. */
+  buildWaysFromPageAndSettings(
+    page: CmsPage | null | undefined,
+    settings: Record<string, string> = {}
+  ): ContactWaysPublicConfig {
+    return this.mergeContactWaysConfig(settings, page ?? null);
   }
 
   /** Pull Contact Ways from a CMS page already loaded by the component. */
@@ -466,10 +465,9 @@ export class SiteSettingsService {
   private mergeContactWaysConfig(
     settings: Record<string, string>,
     contact: CmsPage | null,
-    join: CmsPage | null = null
+    _join: CmsPage | null = null
   ): ContactWaysPublicConfig {
     const fromContact = toContactWaysConfig(this.readContactWaysExtra(contact));
-    const fromJoin = toContactWaysConfig(this.readContactWaysExtra(join));
     const fromSettings: Partial<ContactWaysPublicConfig> = {
       email: cleanContactText(
         settingValue(settings, 'contact.email') || settings['contact.email'] || ''
@@ -482,9 +480,8 @@ export class SiteSettingsService {
       ),
     };
 
-    // join → contact page ExtraData → public settings (Site Settings keys win last)
-    // Dashboard often updates contact.* + contact_us before contact_ways catches up.
-    return mergeWaysLayers(fromJoin, fromContact, fromSettings);
+    // Page ExtraData first, then public settings (Site Settings Save writes contact.* last)
+    return mergeWaysLayers(fromContact, fromSettings);
   }
 
   private readContactWaysExtra(page: CmsPage | null): ReturnType<

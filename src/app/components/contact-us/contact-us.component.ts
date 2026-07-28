@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   OnDestroy,
@@ -7,7 +8,7 @@ import {
 } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import gsap from 'gsap';
-import { Subscription, catchError, of } from 'rxjs';
+import { Subscription, catchError, map, of, switchMap } from 'rxjs';
 
 import {
   ContactMessageRequest,
@@ -36,20 +37,20 @@ export class ContactUsComponent implements OnInit, AfterViewInit, OnDestroy {
     private readonly siteSettingsService: SiteSettingsService,
     private readonly contactMessages: ContactMessagesService,
     private readonly title: Title,
-    private readonly meta: Meta
+    private readonly meta: Meta,
+    private readonly cdr: ChangeDetectorRef
   ) {}
 
   loading = true;
   loadError = false;
   page: CmsPage | null = null;
 
-  /** Class-level flag used by the template while the form is sending */
   submitting = false;
   submitSuccess = '';
   submitError = '';
   formError = '';
 
-  /** Filled only from dashboard (contact_ways / Site Settings) */
+  /** Dashboard Site Settings → Contact (email / address / phone pills) */
   ways: ContactWaysPublicConfig = { ...EMPTY_CONTACT_WAYS };
 
   form = {
@@ -65,37 +66,48 @@ export class ContactUsComponent implements OnInit, AfterViewInit, OnDestroy {
   private subs = new Subscription();
 
   ngOnInit(): void {
+    // Page ExtraData first (pills show as soon as CMS page loads), then overlay public settings
     this.subs.add(
       this.pagesService
         .getPageBySlugFresh('contact-us')
-        .pipe(catchError(() => of(null as CmsPage | null)))
-        .subscribe({
-          next: (page) => {
+        .pipe(
+          catchError(() => of(null as CmsPage | null)),
+          switchMap((page) => {
             this.page = page;
             if (page) {
               this.applySeo(page);
+              const fromPage = this.siteSettingsService.extractWaysFromPage(page);
+              if (fromPage) {
+                this.applyWays(fromPage);
+              }
             } else {
               this.title.setTitle('Contact Us');
             }
             this.loading = false;
             this.loadError = false;
+            this.cdr.detectChanges();
+            queueMicrotask(() => this.trySetupAnimations());
+
+            return this.siteSettingsService.getPublicSettingsMap().pipe(
+              catchError(() => of({} as Record<string, string>)),
+              map((settings) =>
+                this.siteSettingsService.buildWaysFromPageAndSettings(page, settings)
+              )
+            );
+          })
+        )
+        .subscribe({
+          next: (ways) => {
+            this.applyWays(ways);
+            this.cdr.detectChanges();
             queueMicrotask(() => this.trySetupAnimations());
           },
           error: () => {
             this.loading = false;
-            this.loadError = true;
+            this.loadError = !this.page;
+            this.cdr.detectChanges();
           }
         })
-    );
-
-    // Single source for pills — merges contact.* settings + page ExtraData (fresh)
-    this.subs.add(
-      this.siteSettingsService.getContactWaysConfig().subscribe({
-        next: (ways) => {
-          this.ways = ways;
-          queueMicrotask(() => this.trySetupAnimations());
-        }
-      })
     );
   }
 
@@ -107,6 +119,13 @@ export class ContactUsComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     this.subs.unsubscribe();
     this.ctx?.revert();
+  }
+
+  /** Never wipe pills with an empty payload. */
+  private applyWays(ways: ContactWaysPublicConfig): void {
+    if (ways.email || ways.phone || ways.address) {
+      this.ways = ways;
+    }
   }
 
   onSubmit(event: Event): void {

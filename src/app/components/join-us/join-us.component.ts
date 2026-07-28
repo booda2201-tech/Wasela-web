@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   HostListener,
@@ -36,14 +37,15 @@ export class JoinUsComponent implements OnInit, AfterViewInit, OnDestroy {
     private readonly siteSettingsService: SiteSettingsService,
     private readonly merchantApplicationsService: MerchantApplicationsService,
     private readonly title: Title,
-    private readonly meta: Meta
+    private readonly meta: Meta,
+    private readonly cdr: ChangeDetectorRef
   ) {}
 
   loading = true;
   loadError = false;
   page: CmsPage | null = null;
 
-  /** Filled only from dashboard (join_contact_ways / contact_ways / Site Settings) */
+  /** Same dashboard Contact block as Contact Us */
   ways: ContactWaysPublicConfig = { ...EMPTY_CONTACT_WAYS };
 
   readonly commercialRegisterOptions = [
@@ -115,6 +117,11 @@ export class JoinUsComponent implements OnInit, AfterViewInit, OnDestroy {
         .subscribe({
           next: (page) => {
             this.page = page;
+            // Prefer join_contact_ways ExtraData when present
+            const fromPage = this.siteSettingsService.extractWaysFromPage(page);
+            if (fromPage) {
+              this.applyWays(fromPage);
+            }
             if (page) {
               this.applySeo(page);
             } else {
@@ -122,19 +129,23 @@ export class JoinUsComponent implements OnInit, AfterViewInit, OnDestroy {
             }
             this.loading = false;
             this.loadError = false;
+            this.cdr.detectChanges();
             queueMicrotask(() => this.trySetupAnimations());
           },
           error: () => {
             this.loading = false;
             this.loadError = true;
+            this.cdr.detectChanges();
           }
         })
     );
 
+    // Overlay Site Settings / Contact Us page (dashboard source of truth for phone/email)
     this.subs.add(
       this.siteSettingsService.getContactWaysConfig().subscribe({
         next: (ways) => {
-          this.ways = ways;
+          this.applyWays(ways);
+          this.cdr.detectChanges();
           queueMicrotask(() => this.trySetupAnimations());
         }
       })
@@ -149,6 +160,12 @@ export class JoinUsComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     this.subs.unsubscribe();
     this.ctx?.revert();
+  }
+
+  private applyWays(ways: ContactWaysPublicConfig): void {
+    if (ways.email || ways.phone || ways.address) {
+      this.ways = ways;
+    }
   }
 
   onSubmit(event: Event): void {

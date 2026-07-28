@@ -1,18 +1,8 @@
-// export const environment = {
-//   production: true,
-//   /** Production API base URL. */
-//   apiBaseUrl: 'https://waseela.somee.com/api',
-//   /** Production API origin for `/media/...` assets. */
-//   apiOrigin: 'https://waseela.somee.com',
-//   /** روابط المتاجر — املأها عند الجاهزية */
-//   appStoreUrl: '',
-//   googlePlayUrl: '',
-// };
-
 export const environment = {
   production: true,
+  /** Proxied via vercel.json rewrite → https://waseela.somee.com/api */
   apiBaseUrl: '/api',
-  apiOrigin: 'https://waseela.somee.com', // رجّع اللينك هنا للصور
+  apiOrigin: 'https://waseela.somee.com',
   appStoreUrl: '',
   googlePlayUrl: ''
 };
