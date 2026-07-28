@@ -158,16 +158,50 @@ export class BlogsComponent implements OnInit, AfterViewInit, OnDestroy {
     return {
       id: item.id,
       title: item.title || '',
-      excerpt: this.cardExcerpt(item.description),
+      excerpt: this.cardBodyText(item),
       tag: item.subTitle || '',
       date: this.cardListDate(item),
       imageSrc: this.mediaUrl(item.imageMediaFileUrl || item.imageUrl) || ''
     };
   }
 
+  /**
+   * Prefer full excerpt from extraDataJson when description was saved truncated (… / ...).
+   */
+  cardBodyText(item: CmsPageSectionItem): string {
+    const desc = (item.description || '').trim();
+    const fromExtra = this.excerptFromExtraJson(item);
+    const truncated = /…\s*$|\.\.\.\s*$/.test(desc);
+    if (truncated && fromExtra) {
+      return this.cardExcerpt(fromExtra);
+    }
+    if (fromExtra && fromExtra.length > desc.length) {
+      return this.cardExcerpt(fromExtra);
+    }
+    return this.cardExcerpt(desc || fromExtra);
+  }
+
+  private excerptFromExtraJson(item: CmsPageSectionItem): string {
+    const raw = (item.extraDataJson || '').trim();
+    if (!raw.startsWith('{')) {
+      return '';
+    }
+    try {
+      const parsed = JSON.parse(raw) as Record<string, unknown>;
+      return String(
+        parsed['excerptEn'] ??
+          parsed['ExcerptEn'] ??
+          parsed['excerpt'] ??
+          ''
+      ).trim();
+    } catch {
+      return '';
+    }
+  }
+
   /** List page — show the card excerpt as saved (no hard character cut) */
   cardExcerpt(text: string | null | undefined): string {
-    let value = (text || '').trim();
+    const value = (text || '').trim();
     if (!value) {
       return '';
     }
