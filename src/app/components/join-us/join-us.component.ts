@@ -108,7 +108,6 @@ export class JoinUsComponent implements OnInit, AfterViewInit, OnDestroy {
   private subs = new Subscription();
 
   ngOnInit(): void {
-    // Fresh page = latest dashboard ExtraData for join_contact_ways
     this.subs.add(
       this.pagesService
         .getPageBySlugFresh('join-us')
@@ -116,10 +115,6 @@ export class JoinUsComponent implements OnInit, AfterViewInit, OnDestroy {
         .subscribe({
           next: (page) => {
             this.page = page;
-            const fromPage = this.siteSettingsService.extractWaysFromPage(page);
-            if (fromPage) {
-              this.ways = fromPage;
-            }
             if (page) {
               this.applySeo(page);
             } else {
@@ -136,7 +131,6 @@ export class JoinUsComponent implements OnInit, AfterViewInit, OnDestroy {
         })
     );
 
-    // Same Site Settings "02 Contact" block as Contact Us (dashboard)
     this.subs.add(
       this.siteSettingsService.getContactWaysConfig().subscribe({
         next: (ways) => {

@@ -65,7 +65,6 @@ export class ContactUsComponent implements OnInit, AfterViewInit, OnDestroy {
   private subs = new Subscription();
 
   ngOnInit(): void {
-    // Fresh page = latest dashboard ExtraData for contact_ways / contact_us
     this.subs.add(
       this.pagesService
         .getPageBySlugFresh('contact-us')
@@ -73,10 +72,6 @@ export class ContactUsComponent implements OnInit, AfterViewInit, OnDestroy {
         .subscribe({
           next: (page) => {
             this.page = page;
-            const fromPage = this.siteSettingsService.extractWaysFromPage(page);
-            if (fromPage) {
-              this.ways = fromPage;
-            }
             if (page) {
               this.applySeo(page);
             } else {
@@ -93,7 +88,7 @@ export class ContactUsComponent implements OnInit, AfterViewInit, OnDestroy {
         })
     );
 
-    // Merge public settings + Contact Us ExtraData (dashboard source of truth)
+    // Single source for pills — merges contact.* settings + page ExtraData (fresh)
     this.subs.add(
       this.siteSettingsService.getContactWaysConfig().subscribe({
         next: (ways) => {

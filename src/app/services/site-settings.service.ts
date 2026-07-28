@@ -435,11 +435,11 @@ export class SiteSettingsService {
       settings: this.getPublicSettingsMap().pipe(
         catchError(() => of({} as Record<string, string>))
       ),
-      // Use cache-friendly fetch; components call Fresh on their own page load.
-      contact: this.pagesService.getPageBySlug('contact-us').pipe(
+      // Always bypass page cache so dashboard phone/email edits show after Save + refresh
+      contact: this.pagesService.getPageBySlugFresh('contact-us').pipe(
         catchError(() => of(null as CmsPage | null))
       ),
-      join: this.pagesService.getPageBySlug('join-us').pipe(
+      join: this.pagesService.getPageBySlugFresh('join-us').pipe(
         catchError(() => of(null as CmsPage | null))
       ),
     }).pipe(
@@ -482,8 +482,9 @@ export class SiteSettingsService {
       ),
     };
 
-    // Public settings first, then join, then Contact Us page (dashboard 02 Contact wins)
-    return mergeWaysLayers(fromSettings, fromJoin, fromContact);
+    // join → contact page ExtraData → public settings (Site Settings keys win last)
+    // Dashboard often updates contact.* + contact_us before contact_ways catches up.
+    return mergeWaysLayers(fromJoin, fromContact, fromSettings);
   }
 
   private readContactWaysExtra(page: CmsPage | null): ReturnType<
@@ -507,7 +508,6 @@ export class SiteSettingsService {
       return empty;
     };
 
-    // Prefer dedicated "Contact Ways" / "02 Contact" sections over the form title section
     const fromWays = pick(
       (k) => k === 'contact_ways',
       (k) => k === 'join_contact_ways',
@@ -519,21 +519,18 @@ export class SiteSettingsService {
       (k) => k.includes('contact_us')
     );
 
-    const waysHas =
-      !!(fromWays.email || fromWays.phone || fromWays.address || fromWays.emailLink);
-    const primary = waysHas ? fromWays : fromForm;
-    const secondary = waysHas ? fromForm : fromWays;
-
+    // contact_us / join_us ExtraData is what Site Settings Save writes for phone/email/address.
+    // contact_ways can lag behind — prefer form section values when present.
     return {
-      email: primary.email || secondary.email,
-      phone: primary.phone || secondary.phone,
-      address: primary.address || secondary.address,
-      emailLink: primary.emailLink || secondary.emailLink,
-      phoneLink: primary.phoneLink || secondary.phoneLink,
-      addressLink: primary.addressLink || secondary.addressLink,
-      showEmail: primary.showEmail,
-      showPhone: primary.showPhone,
-      showAddress: primary.showAddress,
+      email: fromForm.email || fromWays.email,
+      phone: fromForm.phone || fromWays.phone,
+      address: fromForm.address || fromWays.address,
+      emailLink: fromForm.emailLink || fromWays.emailLink,
+      phoneLink: fromForm.phoneLink || fromWays.phoneLink,
+      addressLink: fromForm.addressLink || fromWays.addressLink,
+      showEmail: fromForm.email ? fromForm.showEmail : fromWays.showEmail,
+      showPhone: fromForm.phone ? fromForm.showPhone : fromWays.showPhone,
+      showAddress: fromForm.address ? fromForm.showAddress : fromWays.showAddress,
     };
   }
 
