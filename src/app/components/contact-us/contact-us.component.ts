@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import gsap from 'gsap';
-import { Subscription, catchError, map, of, switchMap } from 'rxjs';
+import { Subscription, catchError, of } from 'rxjs';
 
 import {
   ContactMessageRequest,
@@ -66,20 +66,16 @@ export class ContactUsComponent implements OnInit, AfterViewInit, OnDestroy {
   private subs = new Subscription();
 
   ngOnInit(): void {
-    // Page ExtraData first (pills show as soon as CMS page loads), then overlay public settings
+    // Page content (title / form labels) from contact-us CMS page
     this.subs.add(
       this.pagesService
         .getPageBySlugFresh('contact-us')
-        .pipe(
-          catchError(() => of(null as CmsPage | null)),
-          switchMap((page) => {
+        .pipe(catchError(() => of(null as CmsPage | null)))
+        .subscribe({
+          next: (page) => {
             this.page = page;
             if (page) {
               this.applySeo(page);
-              const fromPage = this.siteSettingsService.extractWaysFromPage(page);
-              if (fromPage) {
-                this.applyWays(fromPage);
-              }
             } else {
               this.title.setTitle('Contact Us');
             }
@@ -87,27 +83,24 @@ export class ContactUsComponent implements OnInit, AfterViewInit, OnDestroy {
             this.loadError = false;
             this.cdr.detectChanges();
             queueMicrotask(() => this.trySetupAnimations());
-
-            return this.siteSettingsService.getPublicSettingsMap().pipe(
-              catchError(() => of({} as Record<string, string>)),
-              map((settings) =>
-                this.siteSettingsService.buildWaysFromPageAndSettings(page, settings)
-              )
-            );
-          })
-        )
-        .subscribe({
-          next: (ways) => {
-            this.applyWays(ways);
-            this.cdr.detectChanges();
-            queueMicrotask(() => this.trySetupAnimations());
           },
           error: () => {
             this.loading = false;
-            this.loadError = !this.page;
+            this.loadError = true;
             this.cdr.detectChanges();
           }
         })
+    );
+
+    // Same shared Site Settings Contact block used on Join Us
+    this.subs.add(
+      this.siteSettingsService.getContactWaysConfig().subscribe({
+        next: (ways) => {
+          this.applyWays(ways);
+          this.cdr.detectChanges();
+          queueMicrotask(() => this.trySetupAnimations());
+        }
+      })
     );
   }
 

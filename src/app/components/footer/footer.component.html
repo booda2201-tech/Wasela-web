@@ -40,15 +40,15 @@
       </div>
 
       <div class="footer-col footer-legal">
-        <div class="footer-legal__item">
+        <div class="footer-legal__item" *ngIf="footer.fra">
           <h5 class="info-label">{{ language.label('licensedByFra') }}</h5>
           <p class="info-value">{{ footer.fra }}</p>
         </div>
-        <div class="footer-legal__item">
+        <div class="footer-legal__item" *ngIf="footer.trn">
           <h5 class="info-label">{{ language.label('trnNumber') }}</h5>
           <p class="info-value">{{ footer.trn }}</p>
         </div>
-        <div class="footer-legal__item">
+        <div class="footer-legal__item" *ngIf="footer.crn">
           <h5 class="info-label">{{ language.label('crn') }}</h5>
           <p class="info-value">{{ footer.crn }}</p>
         </div>

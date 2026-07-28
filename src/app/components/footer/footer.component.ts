@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
+import { Subscription, filter, skip } from 'rxjs';
 
 import { LanguageService } from '../../services/language.service';
 import {
-  DEFAULT_FOOTER_PUBLIC,
+  EMPTY_FOOTER_PUBLIC,
   FooterPublicConfig,
   SiteSettingsService,
 } from '../../services/site-settings.service';
@@ -12,21 +14,46 @@ import {
   templateUrl: './footer.component.html',
   styleUrls: ['./footer.component.scss'],
 })
-export class FooterComponent implements OnInit {
-  footer: FooterPublicConfig = { ...DEFAULT_FOOTER_PUBLIC };
+export class FooterComponent implements OnInit, OnDestroy {
+  footer: FooterPublicConfig = { ...EMPTY_FOOTER_PUBLIC };
+
+  private readonly subs = new Subscription();
+  private footerLoadSub?: Subscription;
 
   constructor(
     readonly language: LanguageService,
-    private readonly siteSettings: SiteSettingsService
+    private readonly siteSettings: SiteSettingsService,
+    private readonly router: Router,
+    private readonly cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
-    this.siteSettings.getFooterConfig().subscribe({
+    this.reloadFooter();
+    this.subs.add(
+      this.router.events
+        .pipe(
+          filter((e): e is NavigationEnd => e instanceof NavigationEnd),
+          skip(1)
+        )
+        .subscribe(() => this.reloadFooter())
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
+    this.footerLoadSub?.unsubscribe();
+  }
+
+  private reloadFooter(): void {
+    this.footerLoadSub?.unsubscribe();
+    this.footerLoadSub = this.siteSettings.getFooterConfig().subscribe({
       next: (cfg) => {
         this.footer = cfg;
+        this.cdr.detectChanges();
       },
       error: () => {
-        this.footer = { ...DEFAULT_FOOTER_PUBLIC };
+        this.footer = { ...EMPTY_FOOTER_PUBLIC };
+        this.cdr.detectChanges();
       },
     });
   }

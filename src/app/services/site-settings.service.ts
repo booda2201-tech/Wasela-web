@@ -49,16 +49,20 @@ export interface ContactWaysPublicConfig {
   showAddress: boolean;
 }
 
-export const DEFAULT_FOOTER_PUBLIC: FooterPublicConfig = {
-  facebookUrl: 'https://www.facebook.com/share/1EQbdqvhcb/',
-  instagramUrl: 'https://www.instagram.com/waseelaeg?igsh=bHdhZXU5cWtkeDV6',
-  linkedinUrl: 'https://eg.linkedin.com/company/waseela-egypt',
-  fra: '#500',
-  trn: '724-133-259',
-  crn: '2030',
+/** Empty until dashboard/CMS responds — never ship stale FRA/TRN/CRN defaults. */
+export const EMPTY_FOOTER_PUBLIC: FooterPublicConfig = {
+  facebookUrl: '',
+  instagramUrl: '',
+  linkedinUrl: '',
+  fra: '',
+  trn: '',
+  crn: '',
   appStoreUrl: environment.appStoreUrl || '',
   playStoreUrl: environment.googlePlayUrl || '',
 };
+
+/** @deprecated use EMPTY_FOOTER_PUBLIC */
+export const DEFAULT_FOOTER_PUBLIC = EMPTY_FOOTER_PUBLIC;
 
 /** Empty shell — pills only appear when dashboard/CMS provides values. */
 export const EMPTY_CONTACT_WAYS: ContactWaysPublicConfig = {
@@ -404,10 +408,10 @@ export class SiteSettingsService {
   }
 
   /**
-   * Footer from Site Settings (social + licensing/app keys) with fallbacks from
-   * Home sections `site_footer` and `download_app_cta`.
-   *
-   * Always refetches (no long-lived cache) so CMS edits show after refresh.
+   * Footer from Site Settings:
+   * - Social → public `social.*` keys
+   * - FRA / TRN / CRN / store URLs → Home `site_footer` ExtraData (dashboard 04 Footer)
+   * Always Fresh-fetches Home so Save + refresh shows new CRN etc.
    */
   getFooterConfig(): Observable<FooterPublicConfig> {
     return forkJoin({
@@ -418,14 +422,16 @@ export class SiteSettingsService {
         catchError(() => of(null as CmsPage | null))
       ),
     }).pipe(
+      timeout(20_000),
       map(({ settings, home }) => this.mergeFooterConfig(settings, home)),
-      catchError(() => of({ ...DEFAULT_FOOTER_PUBLIC }))
+      catchError(() => of({ ...EMPTY_FOOTER_PUBLIC }))
     );
   }
 
   /**
-   * Contact Ways pills from the dashboard (Site Settings → 02 Contact).
-   * Priority: public `contact.*` settings, then Contact Us ExtraData (`contact_us` / `contact_ways`).
+   * Contact Ways pills — ONE source for Contact Us & Join Us:
+   * Site Settings public `contact.*` + Contact Us page ExtraData (`contact_us`).
+   * Never reads Join Us `join_contact_ways` (often stale).
    */
   getContactWaysConfig(): Observable<ContactWaysPublicConfig> {
     return forkJoin({
@@ -535,6 +541,16 @@ export class SiteSettingsService {
     settings: Record<string, string>,
     home: CmsPage | null
   ): FooterPublicConfig {
+    const lic = (...keys: string[]) => {
+      for (const key of keys) {
+        const v = cleanLicensingValue(settings[key] ?? '');
+        if (v) {
+          return v;
+        }
+      }
+      return '';
+    };
+
     const fromSettings: Partial<FooterPublicConfig> = {
       facebookUrl: settingValue(
         settings,
@@ -554,19 +570,9 @@ export class SiteSettingsService {
         'footer.linkedin',
         'footer.linkedin_url'
       ),
-      fra: settingValue(
-        settings,
-        'footer.fra',
-        'footer.licensed_by_fra',
-        'general.fra'
-      ),
-      trn: settingValue(
-        settings,
-        'footer.trn',
-        'footer.trn_number',
-        'general.trn'
-      ),
-      crn: settingValue(settings, 'footer.crn', 'general.crn'),
+      fra: lic('footer.fra', 'footer.licensed_by_fra', 'general.fra'),
+      trn: lic('footer.trn', 'footer.trn_number', 'general.trn'),
+      crn: lic('footer.crn', 'general.crn'),
       appStoreUrl: settingValue(
         settings,
         'footer.app_store_url',
@@ -586,49 +592,23 @@ export class SiteSettingsService {
     const fromDownloadCta = this.sectionExtra(home, DOWNLOAD_CTA_SECTION_KEY);
 
     return {
-      // Social: Site Settings public keys, then optional site_footer JSON
-      facebookUrl: firstNonEmpty(
-        fromSettings.facebookUrl,
-        fromSiteFooter.facebookUrl,
-        DEFAULT_FOOTER_PUBLIC.facebookUrl
-      ),
-      instagramUrl: firstNonEmpty(
-        fromSettings.instagramUrl,
-        fromSiteFooter.instagramUrl,
-        DEFAULT_FOOTER_PUBLIC.instagramUrl
-      ),
-      linkedinUrl: firstNonEmpty(
-        fromSettings.linkedinUrl,
-        fromSiteFooter.linkedinUrl,
-        DEFAULT_FOOTER_PUBLIC.linkedinUrl
-      ),
-      // Licensing & apps: Home `site_footer` is source of truth (dashboard Save)
-      fra: firstNonEmpty(
-        fromSiteFooter.fra,
-        fromSettings.fra,
-        DEFAULT_FOOTER_PUBLIC.fra
-      ),
-      trn: firstNonEmpty(
-        fromSiteFooter.trn,
-        fromSettings.trn,
-        DEFAULT_FOOTER_PUBLIC.trn
-      ),
-      crn: firstNonEmpty(
-        fromSiteFooter.crn,
-        fromSettings.crn,
-        DEFAULT_FOOTER_PUBLIC.crn
-      ),
+      // Social: public settings (dashboard 03 Social)
+      facebookUrl: firstNonEmpty(fromSettings.facebookUrl, fromSiteFooter.facebookUrl),
+      instagramUrl: firstNonEmpty(fromSettings.instagramUrl, fromSiteFooter.instagramUrl),
+      linkedinUrl: firstNonEmpty(fromSettings.linkedinUrl, fromSiteFooter.linkedinUrl),
+      // Licensing: Home site_footer ExtraData (dashboard 04 Footer) wins
+      fra: firstNonEmpty(fromSiteFooter.fra, fromSettings.fra),
+      trn: firstNonEmpty(fromSiteFooter.trn, fromSettings.trn),
+      crn: firstNonEmpty(fromSiteFooter.crn, fromSettings.crn),
       appStoreUrl: firstNonEmpty(
         fromSiteFooter.appStoreUrl,
         fromSettings.appStoreUrl,
-        fromDownloadCta.appStoreUrl,
-        DEFAULT_FOOTER_PUBLIC.appStoreUrl
+        fromDownloadCta.appStoreUrl
       ),
       playStoreUrl: firstNonEmpty(
         fromSiteFooter.playStoreUrl,
         fromSettings.playStoreUrl,
-        fromDownloadCta.playStoreUrl,
-        DEFAULT_FOOTER_PUBLIC.playStoreUrl
+        fromDownloadCta.playStoreUrl
       ),
     };
   }

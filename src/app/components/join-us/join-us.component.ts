@@ -110,6 +110,7 @@ export class JoinUsComponent implements OnInit, AfterViewInit, OnDestroy {
   private subs = new Subscription();
 
   ngOnInit(): void {
+    // Form/SEO from join-us page only — contact pills come from the SAME source as Contact Us
     this.subs.add(
       this.pagesService
         .getPageBySlugFresh('join-us')
@@ -117,11 +118,6 @@ export class JoinUsComponent implements OnInit, AfterViewInit, OnDestroy {
         .subscribe({
           next: (page) => {
             this.page = page;
-            // Prefer join_contact_ways ExtraData when present
-            const fromPage = this.siteSettingsService.extractWaysFromPage(page);
-            if (fromPage) {
-              this.applyWays(fromPage);
-            }
             if (page) {
               this.applySeo(page);
             } else {
@@ -140,7 +136,7 @@ export class JoinUsComponent implements OnInit, AfterViewInit, OnDestroy {
         })
     );
 
-    // Overlay Site Settings / Contact Us page (dashboard source of truth for phone/email)
+    // Identical pills on Contact Us & Join Us (Site Settings → 02 Contact)
     this.subs.add(
       this.siteSettingsService.getContactWaysConfig().subscribe({
         next: (ways) => {
