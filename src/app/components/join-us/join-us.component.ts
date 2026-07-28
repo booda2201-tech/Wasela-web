@@ -141,7 +141,7 @@ export class JoinUsComponent implements OnInit, AfterViewInit, OnDestroy {
     );
 
     this.subs.add(
-      this.siteSettingsService.getContactWaysConfig('join-us').subscribe({
+      this.siteSettingsService.getContactWaysConfig().subscribe({
         next: (ways) => {
           this.ways = ways;
           queueMicrotask(() => this.trySetupAnimations());
@@ -378,14 +378,19 @@ export class JoinUsComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       const pills = root.querySelectorAll<HTMLElement>('[data-contact-pill]');
       if (pills.length) {
-        gsap.from(pills, {
-          y: 24,
-          opacity: 0,
-          duration: 0.55,
-          stagger: 0.12,
-          delay: 0.15,
-          ease: 'power2.out'
-        });
+        gsap.fromTo(
+          pills,
+          { y: 24, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.55,
+            stagger: 0.12,
+            delay: 0.15,
+            ease: 'power2.out',
+            clearProps: 'transform'
+          }
+        );
       }
     }, root);
   }

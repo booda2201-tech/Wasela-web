@@ -324,10 +324,10 @@ export class SiteSettingsService {
   }
 
   /**
-   * Contact Ways from Site Settings (contact.email/phone/address) plus
-   * links & visibility stored on Contact Us ExtraDataJson.
+   * Contact Ways for Contact Us & Join Us.
+   * Always reads Site Settings + Contact Us page ExtraData (where the dashboard saves).
    */
-  getContactWaysConfig(pageSlug: string = 'contact-us'): Observable<ContactWaysPublicConfig> {
+  getContactWaysConfig(_pageSlug?: string): Observable<ContactWaysPublicConfig> {
     const emptyWays: ContactWaysPublicConfig = {
       email: '',
       phone: '',
@@ -344,8 +344,8 @@ export class SiteSettingsService {
       settings: this.getPublicSettingsMap().pipe(
         catchError(() => of({} as Record<string, string>))
       ),
-      // Use cached page fetch (not Fresh) so Contact/Join don't race-delete the in-flight request.
-      contact: this.pagesService.getPageBySlug(pageSlug).pipe(
+      // Site Settings persists ways on the Contact Us page — never use join-us for this.
+      contact: this.pagesService.getPageBySlug('contact-us').pipe(
         catchError(() => of(null as CmsPage | null))
       ),
     }).pipe(
@@ -360,12 +360,13 @@ export class SiteSettingsService {
     contact: CmsPage | null
   ): ContactWaysPublicConfig {
     const fromExtra = this.readContactWaysExtra(contact);
+    // ExtraData (CMS Site Settings) wins — then public settings keys
     const email =
-      settingValue(settings, 'contact.email') || fromExtra.email;
+      fromExtra.email || settingValue(settings, 'contact.email') || '';
     const phone =
-      settingValue(settings, 'contact.phone') || fromExtra.phone;
+      fromExtra.phone || settingValue(settings, 'contact.phone') || '';
     const address =
-      settingValue(settings, 'contact.address') || fromExtra.address;
+      fromExtra.address || settingValue(settings, 'contact.address') || '';
     const emailLink = fromExtra.emailLink;
     const phoneLink = fromExtra.phoneLink;
     const addressLink = fromExtra.addressLink;
@@ -379,9 +380,9 @@ export class SiteSettingsService {
         phoneLink ||
         (phone ? `tel:${phone.replace(/\s+/g, '')}` : 'javascript:void(0)'),
       addressHref: addressLink || 'javascript:void(0)',
-      showEmail: fromExtra.showEmail,
-      showPhone: fromExtra.showPhone,
-      showAddress: fromExtra.showAddress,
+      showEmail: fromExtra.showEmail !== false,
+      showPhone: fromExtra.showPhone !== false,
+      showAddress: fromExtra.showAddress !== false,
     };
   }
 
