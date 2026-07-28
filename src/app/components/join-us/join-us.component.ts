@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import gsap from 'gsap';
-import { catchError, combineLatest, of } from 'rxjs';
+import { Subscription, catchError, of } from 'rxjs';
 
 import {
   MerchantApplicationRequest,
@@ -113,28 +113,41 @@ export class JoinUsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private ctx?: gsap.Context;
   private viewReady = false;
+  private subs = new Subscription();
 
   ngOnInit(): void {
-    combineLatest({
-      page: this.pagesService.getPageBySlug('join-us').pipe(catchError(() => of(null))),
-      ways: this.siteSettingsService.getContactWaysConfig()
-    }).subscribe({
-      next: ({ page, ways }) => {
-        this.page = page;
-        this.ways = ways;
-        if (page) {
-          this.applySeo(page);
-        } else {
-          this.title.setTitle('Join Us');
+    // Don't block the page on contact-ways/settings — hung settings left Join Us on the loader forever.
+    this.subs.add(
+      this.pagesService
+        .getPageBySlug('join-us')
+        .pipe(catchError(() => of(null as CmsPage | null)))
+        .subscribe({
+          next: (page) => {
+            this.page = page;
+            if (page) {
+              this.applySeo(page);
+            } else {
+              this.title.setTitle('Join Us');
+            }
+            this.loading = false;
+            this.loadError = false;
+            queueMicrotask(() => this.trySetupAnimations());
+          },
+          error: () => {
+            this.loading = false;
+            this.loadError = true;
+          }
+        })
+    );
+
+    this.subs.add(
+      this.siteSettingsService.getContactWaysConfig('join-us').subscribe({
+        next: (ways) => {
+          this.ways = ways;
+          queueMicrotask(() => this.trySetupAnimations());
         }
-        this.loading = false;
-        this.trySetupAnimations();
-      },
-      error: () => {
-        this.loading = false;
-        this.loadError = true;
-      }
-    });
+      })
+    );
   }
 
   ngAfterViewInit(): void {
@@ -143,6 +156,7 @@ export class JoinUsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.subs.unsubscribe();
     this.ctx?.revert();
   }
 
@@ -343,7 +357,7 @@ export class JoinUsComponent implements OnInit, AfterViewInit, OnDestroy {
         const key = (s.sectionKey || '').toLowerCase();
         return key.includes('join') && !key.includes('ways') && !key.includes('contact_ways');
       });
-    return section?.isActive ? section : null;
+    return section && section.isActive !== false ? section : null;
   }
 
   private trySetupAnimations(): void {

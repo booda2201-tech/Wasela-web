@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { forkJoin, map, Observable, of } from 'rxjs';
+import { forkJoin, map, Observable, of, timeout } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { environment } from '../../environments/environment';
@@ -282,6 +282,7 @@ export class SiteSettingsService {
   getPublicSettingsMap(): Observable<Record<string, string>> {
     const url = joinApiPath(environment.apiBaseUrl, '/settings/public');
     return this.http.get<unknown>(url).pipe(
+      timeout(20_000),
       map((raw) => {
         const envelope = readApiEnvelope<unknown>(raw);
         if (!envelope.success || envelope.data === null || envelope.data === undefined) {
@@ -326,29 +327,31 @@ export class SiteSettingsService {
    * Contact Ways from Site Settings (contact.email/phone/address) plus
    * links & visibility stored on Contact Us ExtraDataJson.
    */
-  getContactWaysConfig(): Observable<ContactWaysPublicConfig> {
+  getContactWaysConfig(pageSlug: string = 'contact-us'): Observable<ContactWaysPublicConfig> {
+    const emptyWays: ContactWaysPublicConfig = {
+      email: '',
+      phone: '',
+      address: '',
+      emailHref: 'javascript:void(0)',
+      phoneHref: 'javascript:void(0)',
+      addressHref: 'javascript:void(0)',
+      showEmail: true,
+      showPhone: true,
+      showAddress: true,
+    };
+
     return forkJoin({
       settings: this.getPublicSettingsMap().pipe(
         catchError(() => of({} as Record<string, string>))
       ),
-      contact: this.pagesService.getPageBySlugFresh('contact-us').pipe(
+      // Use cached page fetch (not Fresh) so Contact/Join don't race-delete the in-flight request.
+      contact: this.pagesService.getPageBySlug(pageSlug).pipe(
         catchError(() => of(null as CmsPage | null))
       ),
     }).pipe(
+      timeout(25_000),
       map(({ settings, contact }) => this.mergeContactWaysConfig(settings, contact)),
-      catchError(() =>
-        of({
-          email: '',
-          phone: '',
-          address: '',
-          emailHref: 'javascript:void(0)',
-          phoneHref: 'javascript:void(0)',
-          addressHref: 'javascript:void(0)',
-          showEmail: true,
-          showPhone: true,
-          showAddress: true,
-        } satisfies ContactWaysPublicConfig)
-      )
+      catchError(() => of(emptyWays))
     );
   }
 
@@ -403,6 +406,7 @@ export class SiteSettingsService {
     const fromWays = byKey(
       (k) =>
         k === 'contact_ways' ||
+        k === 'join_contact_ways' ||
         k.includes('contact_ways') ||
         k.includes('ways_to_contact')
     );

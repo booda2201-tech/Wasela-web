@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import gsap from 'gsap';
-import { catchError, combineLatest, of } from 'rxjs';
+import { Subscription, catchError, of } from 'rxjs';
 
 import {
   ContactMessageRequest,
@@ -70,30 +70,41 @@ export class ContactUsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private ctx?: gsap.Context;
   private viewReady = false;
+  private subs = new Subscription();
 
   ngOnInit(): void {
-    combineLatest({
-      page: this.pagesService.getPageBySlug('contact-us').pipe(
-        catchError(() => of(null as CmsPage | null))
-      ),
-      ways: this.siteSettingsService.getContactWaysConfig()
-    }).subscribe({
-      next: ({ page, ways }) => {
-        this.page = page;
-        this.ways = ways;
-        if (page) {
-          this.applySeo(page);
-        } else {
-          this.title.setTitle('Contact Us');
+    // Page content must not wait on settings — otherwise a hung settings call keeps the loader forever.
+    this.subs.add(
+      this.pagesService
+        .getPageBySlug('contact-us')
+        .pipe(catchError(() => of(null as CmsPage | null)))
+        .subscribe({
+          next: (page) => {
+            this.page = page;
+            if (page) {
+              this.applySeo(page);
+            } else {
+              this.title.setTitle('Contact Us');
+            }
+            this.loading = false;
+            this.loadError = false;
+            queueMicrotask(() => this.trySetupAnimations());
+          },
+          error: () => {
+            this.loading = false;
+            this.loadError = true;
+          }
+        })
+    );
+
+    this.subs.add(
+      this.siteSettingsService.getContactWaysConfig('contact-us').subscribe({
+        next: (ways) => {
+          this.ways = ways;
+          queueMicrotask(() => this.trySetupAnimations());
         }
-        this.loading = false;
-        this.trySetupAnimations();
-      },
-      error: () => {
-        this.loading = false;
-        this.loadError = true;
-      }
-    });
+      })
+    );
   }
 
   ngAfterViewInit(): void {
@@ -102,6 +113,7 @@ export class ContactUsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.subs.unsubscribe();
     this.ctx?.revert();
   }
 
@@ -287,7 +299,7 @@ export class ContactUsComponent implements OnInit, AfterViewInit, OnDestroy {
         const key = (s.sectionKey || '').toLowerCase();
         return key === want || key.includes(want);
       });
-      if (found?.isActive) {
+      if (found && found.isActive !== false) {
         return found;
       }
     }
