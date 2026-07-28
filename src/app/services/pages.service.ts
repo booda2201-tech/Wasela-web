@@ -217,7 +217,8 @@ function normalizeSection(raw: unknown): CmsPageSection {
       r['backgroundImageMediaFileUrl'] ?? r['BackgroundImageMediaFileUrl']
     ),
     sortOrder: Number(r['sortOrder'] ?? r['SortOrder'] ?? 0),
-    isActive: !!(r['isActive'] ?? r['IsActive']),
+    // Missing isActive must default to true — !!undefined was falsely deactivating sections (e.g. site_footer).
+    isActive: (r['isActive'] ?? r['IsActive'] ?? true) !== false,
     items: Array.isArray(itemsRaw) ? itemsRaw.map(normalizeItem) : [],
   };
 }
@@ -315,6 +316,12 @@ export class PagesService {
     return combineLatest([this.getRawPage(slug), this.languageService.lang$]).pipe(
       map(([page, lang]) => localizeCmsPage(page, lang))
     );
+  }
+
+  /** Bypass in-memory cache — used when footer/settings must reflect CMS edits immediately. */
+  getPageBySlugFresh(slug: string): Observable<CmsPage> {
+    this.rawPageCache.delete(slug);
+    return this.getPageBySlug(slug);
   }
 
   private getRawPage(slug: string): Observable<CmsPage> {

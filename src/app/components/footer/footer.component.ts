@@ -34,7 +34,10 @@ export class FooterComponent implements OnInit {
   /** Valid external URL for href; otherwise null (hide / disable link). */
   externalUrl(url: string | null | undefined): string | null {
     const t = (url ?? '').trim();
-    if (!t || t === '#' || t === '...') {
+    if (!t || t === '#' || t === '...' || t === '—') {
+      return null;
+    }
+    if (/yourhandle|yourchannel|example\.com/i.test(t)) {
       return null;
     }
     return t;

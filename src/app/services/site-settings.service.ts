@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { forkJoin, map, Observable, of, shareReplay } from 'rxjs';
+import { forkJoin, map, Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { environment } from '../../environments/environment';
@@ -36,13 +36,26 @@ export interface FooterPublicConfig {
   playStoreUrl: string;
 }
 
+/** Contact Ways shown on Contact Us & Join Us (from Site Settings) */
+export interface ContactWaysPublicConfig {
+  email: string;
+  phone: string;
+  address: string;
+  emailHref: string;
+  phoneHref: string;
+  addressHref: string;
+  showEmail: boolean;
+  showPhone: boolean;
+  showAddress: boolean;
+}
+
 export const DEFAULT_FOOTER_PUBLIC: FooterPublicConfig = {
-  facebookUrl: '',
-  instagramUrl: '',
-  linkedinUrl: '',
-  fra: '#40',
+  facebookUrl: 'https://www.facebook.com/share/1EQbdqvhcb/',
+  instagramUrl: 'https://www.instagram.com/waseelaeg?igsh=bHdhZXU5cWtkeDV6',
+  linkedinUrl: 'https://eg.linkedin.com/company/waseela-egypt',
+  fra: '#500',
   trn: '724-133-259',
-  crn: '90420',
+  crn: '2030',
   appStoreUrl: environment.appStoreUrl || '',
   playStoreUrl: environment.googlePlayUrl || '',
 };
@@ -58,7 +71,12 @@ function normalizeSettingItem(raw: unknown): SiteSettingItem {
   const r = asRecord(raw);
   const valueEn = (r['valueEn'] ?? r['ValueEn'] ?? null) as string | null;
   const valueAr = (r['valueAr'] ?? r['ValueAr'] ?? null) as string | null;
-  const value = (r['value'] ?? r['Value'] ?? valueEn ?? valueAr ?? null) as string | null;
+  // API often sends empty `value` while real data is in valueEn/valueAr — don't let "" win.
+  const valueLegacy = (r['value'] ?? r['Value'] ?? null) as string | null;
+  const value =
+    (typeof valueLegacy === 'string' && valueLegacy.trim() ? valueLegacy : null) ??
+    (typeof valueEn === 'string' && valueEn.trim() ? valueEn : null) ??
+    (typeof valueAr === 'string' && valueAr.trim() ? valueAr : null);
   return {
     id: Number(r['id'] ?? r['Id'] ?? 0),
     key: String(r['key'] ?? r['Key'] ?? ''),
@@ -84,10 +102,23 @@ function settingValue(map: Record<string, string>, ...keys: string[]): string {
   return '';
 }
 
-/** Reject empty / placeholder CMS values like "..." */
+/** Reject empty / placeholder CMS values like "..." — for URLs only */
 function cleanUrlOrText(raw: string | null | undefined): string {
   const v = (raw ?? '').trim();
   if (!v || v === '#' || v === '...' || v === '—') {
+    return '';
+  }
+  // CMS placeholder social profiles
+  if (/yourhandle|yourchannel|example\.com/i.test(v)) {
+    return '';
+  }
+  return v;
+}
+
+/** Licensing codes may look like "#500" — do not strip leading # */
+function cleanLicensingValue(raw: string | null | undefined): string {
+  const v = (raw ?? '').trim();
+  if (!v || v === '...' || v === '—') {
     return '';
   }
   return v;
@@ -116,15 +147,25 @@ function parseJsonObject(raw: unknown): Record<string, unknown> {
 
 function parseFooterExtra(raw: unknown): Partial<FooterPublicConfig> {
   const o = parseJsonObject(raw);
-  const str = (v: unknown) => cleanUrlOrText(v == null ? '' : String(v));
+  const url = (v: unknown) => cleanUrlOrText(v == null ? '' : String(v));
+  const code = (v: unknown) => cleanLicensingValue(v == null ? '' : String(v));
   return {
-    fra: str(o['fra'] ?? o['FRA'] ?? o['licensedByFra'] ?? o['licensed_by_fra']),
-    trn: str(o['trn'] ?? o['TRN'] ?? o['trnNumber'] ?? o['trn_number']),
-    crn: str(o['crn'] ?? o['CRN']),
-    appStoreUrl: str(
+    facebookUrl: url(
+      o['facebookUrl'] ?? o['facebook'] ?? o['facebook_url'] ?? o['socialFacebook']
+    ),
+    instagramUrl: url(
+      o['instagramUrl'] ?? o['instagram'] ?? o['instagram_url'] ?? o['socialInstagram']
+    ),
+    linkedinUrl: url(
+      o['linkedinUrl'] ?? o['linkedin'] ?? o['linkedin_url'] ?? o['socialLinkedin']
+    ),
+    fra: code(o['fra'] ?? o['FRA'] ?? o['licensedByFra'] ?? o['licensed_by_fra']),
+    trn: code(o['trn'] ?? o['TRN'] ?? o['trnNumber'] ?? o['trn_number']),
+    crn: code(o['crn'] ?? o['CRN']),
+    appStoreUrl: url(
       o['appStoreUrl'] ?? o['app_store_url'] ?? o['appStore'] ?? o['appleStoreUrl']
     ),
-    playStoreUrl: str(
+    playStoreUrl: url(
       o['playStoreUrl'] ??
         o['play_store_url'] ??
         o['googlePlayUrl'] ??
@@ -134,10 +175,62 @@ function parseFooterExtra(raw: unknown): Partial<FooterPublicConfig> {
   };
 }
 
+function parseContactWaysExtra(raw: unknown): {
+  email: string;
+  phone: string;
+  address: string;
+  emailLink: string;
+  phoneLink: string;
+  addressLink: string;
+  showEmail: boolean;
+  showPhone: boolean;
+  showAddress: boolean;
+} {
+  const o = parseJsonObject(raw);
+  const str = (v: unknown) => cleanUrlOrText(v == null ? '' : String(v));
+  const flag = (v: unknown, fallback: boolean) => {
+    if (v === false || v === 'false' || v === 0 || v === '0') {
+      return false;
+    }
+    if (v === true || v === 'true' || v === 1 || v === '1') {
+      return true;
+    }
+    return fallback;
+  };
+  return {
+    email: str(o['email'] ?? o['Email'] ?? o['contactEmail']),
+    phone: str(o['phone'] ?? o['Phone'] ?? o['contactPhone']),
+    address: str(o['address'] ?? o['Address'] ?? o['contactAddress']),
+    emailLink: str(
+      o['emailLink'] ?? o['EmailLink'] ?? o['mailto'] ?? o['email_link']
+    ),
+    phoneLink: str(
+      o['phoneLink'] ?? o['PhoneLink'] ?? o['tel'] ?? o['phone_link']
+    ),
+    addressLink: str(
+      o['addressLink'] ??
+        o['AddressLink'] ??
+        o['mapsUrl'] ??
+        o['maps'] ??
+        o['address_link']
+    ),
+    showEmail: flag(o['showEmail'] ?? o['ShowEmail'] ?? o['show_email'], true),
+    showPhone: flag(o['showPhone'] ?? o['ShowPhone'] ?? o['show_phone'], true),
+    showAddress: flag(
+      o['showAddress'] ?? o['ShowAddress'] ?? o['show_address'],
+      true
+    ),
+  };
+}
+
 function firstNonEmpty(...values: Array<string | undefined | null>): string {
   for (const value of values) {
-    const cleaned = cleanUrlOrText(value);
-    if (cleaned) {
+    const cleaned = (value ?? '').trim();
+    if (cleaned && cleaned !== '...' && cleaned !== '—') {
+      // bare "#" is not a real value; "#500" (FRA) is valid
+      if (cleaned === '#') {
+        continue;
+      }
       return cleaned;
     }
   }
@@ -146,8 +239,6 @@ function firstNonEmpty(...values: Array<string | undefined | null>): string {
 
 @Injectable({ providedIn: 'root' })
 export class SiteSettingsService {
-  private footerConfig$?: Observable<FooterPublicConfig>;
-
   constructor(
     private readonly http: HttpClient,
     private readonly pagesService: PagesService
@@ -199,7 +290,9 @@ export class SiteSettingsService {
         const listRaw = Array.isArray(envelope.data) ? envelope.data : [];
         return listRaw.reduce<Record<string, string>>((acc, item) => {
           const row = normalizeSettingItem(item);
-          const val = cleanUrlOrText(row.valueEn || row.value || row.valueAr || '');
+          const val = cleanUrlOrText(
+            [row.valueEn, row.value, row.valueAr].find((x) => (x ?? '').trim()) ?? ''
+          );
           if (row.isActive && row.key && val) {
             acc[row.key] = val;
           }
@@ -212,23 +305,131 @@ export class SiteSettingsService {
   /**
    * Footer from Site Settings (social + licensing/app keys) with fallbacks from
    * Home sections `site_footer` and `download_app_cta`.
+   *
+   * Always refetches (no long-lived cache) so CMS edits show after refresh.
    */
   getFooterConfig(): Observable<FooterPublicConfig> {
-    if (!this.footerConfig$) {
-      this.footerConfig$ = forkJoin({
-        settings: this.getPublicSettingsMap().pipe(
-          catchError(() => of({} as Record<string, string>))
-        ),
-        home: this.pagesService.getPageBySlug('home').pipe(
-          catchError(() => of(null as CmsPage | null))
-        ),
-      }).pipe(
-        map(({ settings, home }) => this.mergeFooterConfig(settings, home)),
-        catchError(() => of({ ...DEFAULT_FOOTER_PUBLIC })),
-        shareReplay({ bufferSize: 1, refCount: false })
-      );
-    }
-    return this.footerConfig$;
+    return forkJoin({
+      settings: this.getPublicSettingsMap().pipe(
+        catchError(() => of({} as Record<string, string>))
+      ),
+      home: this.pagesService.getPageBySlugFresh('home').pipe(
+        catchError(() => of(null as CmsPage | null))
+      ),
+    }).pipe(
+      map(({ settings, home }) => this.mergeFooterConfig(settings, home)),
+      catchError(() => of({ ...DEFAULT_FOOTER_PUBLIC }))
+    );
+  }
+
+  /**
+   * Contact Ways from Site Settings (contact.email/phone/address) plus
+   * links & visibility stored on Contact Us ExtraDataJson.
+   */
+  getContactWaysConfig(): Observable<ContactWaysPublicConfig> {
+    return forkJoin({
+      settings: this.getPublicSettingsMap().pipe(
+        catchError(() => of({} as Record<string, string>))
+      ),
+      contact: this.pagesService.getPageBySlugFresh('contact-us').pipe(
+        catchError(() => of(null as CmsPage | null))
+      ),
+    }).pipe(
+      map(({ settings, contact }) => this.mergeContactWaysConfig(settings, contact)),
+      catchError(() =>
+        of({
+          email: '',
+          phone: '',
+          address: '',
+          emailHref: 'javascript:void(0)',
+          phoneHref: 'javascript:void(0)',
+          addressHref: 'javascript:void(0)',
+          showEmail: true,
+          showPhone: true,
+          showAddress: true,
+        } satisfies ContactWaysPublicConfig)
+      )
+    );
+  }
+
+  private mergeContactWaysConfig(
+    settings: Record<string, string>,
+    contact: CmsPage | null
+  ): ContactWaysPublicConfig {
+    const fromExtra = this.readContactWaysExtra(contact);
+    const email =
+      settingValue(settings, 'contact.email') || fromExtra.email;
+    const phone =
+      settingValue(settings, 'contact.phone') || fromExtra.phone;
+    const address =
+      settingValue(settings, 'contact.address') || fromExtra.address;
+    const emailLink = fromExtra.emailLink;
+    const phoneLink = fromExtra.phoneLink;
+    const addressLink = fromExtra.addressLink;
+
+    return {
+      email,
+      phone,
+      address,
+      emailHref: emailLink || (email ? `mailto:${email}` : 'javascript:void(0)'),
+      phoneHref:
+        phoneLink ||
+        (phone ? `tel:${phone.replace(/\s+/g, '')}` : 'javascript:void(0)'),
+      addressHref: addressLink || 'javascript:void(0)',
+      showEmail: fromExtra.showEmail,
+      showPhone: fromExtra.showPhone,
+      showAddress: fromExtra.showAddress,
+    };
+  }
+
+  private readContactWaysExtra(page: CmsPage | null): ReturnType<
+    typeof parseContactWaysExtra
+  > {
+    const sections = page?.sections ?? [];
+    const byKey = (...matchers: ((key: string) => boolean)[]) => {
+      for (const match of matchers) {
+        const found = sections.find(
+          (s) => s.isActive !== false && match((s.sectionKey || '').toLowerCase())
+        );
+        if (found) {
+          return parseContactWaysExtra(found.extraDataJson);
+        }
+      }
+      return null;
+    };
+    const fromUs = byKey(
+      (k) => k === 'contact_us' || k.includes('contact_us')
+    );
+    const fromWays = byKey(
+      (k) =>
+        k === 'contact_ways' ||
+        k.includes('contact_ways') ||
+        k.includes('ways_to_contact')
+    );
+    const empty = parseContactWaysExtra(null);
+    const a = fromUs ?? empty;
+    const b = fromWays ?? empty;
+    const primaryHasData = !!(
+      a.email ||
+      a.phone ||
+      a.address ||
+      a.emailLink ||
+      a.phoneLink ||
+      a.addressLink
+    );
+    const primary = primaryHasData ? a : b;
+    const secondary = primary === a ? b : a;
+    return {
+      email: primary.email || secondary.email,
+      phone: primary.phone || secondary.phone,
+      address: primary.address || secondary.address,
+      emailLink: primary.emailLink || secondary.emailLink,
+      phoneLink: primary.phoneLink || secondary.phoneLink,
+      addressLink: primary.addressLink || secondary.addressLink,
+      showEmail: primary.showEmail,
+      showPhone: primary.showPhone,
+      showAddress: primary.showAddress,
+    };
   }
 
   private mergeFooterConfig(
@@ -286,42 +487,47 @@ export class SiteSettingsService {
     const fromDownloadCta = this.sectionExtra(home, DOWNLOAD_CTA_SECTION_KEY);
 
     return {
+      // Social: Site Settings public keys, then optional site_footer JSON
       facebookUrl: firstNonEmpty(
         fromSettings.facebookUrl,
+        fromSiteFooter.facebookUrl,
         DEFAULT_FOOTER_PUBLIC.facebookUrl
       ),
       instagramUrl: firstNonEmpty(
         fromSettings.instagramUrl,
+        fromSiteFooter.instagramUrl,
         DEFAULT_FOOTER_PUBLIC.instagramUrl
       ),
       linkedinUrl: firstNonEmpty(
         fromSettings.linkedinUrl,
+        fromSiteFooter.linkedinUrl,
         DEFAULT_FOOTER_PUBLIC.linkedinUrl
       ),
+      // Licensing & apps: Home `site_footer` is source of truth (dashboard Save)
       fra: firstNonEmpty(
-        fromSettings.fra,
         fromSiteFooter.fra,
+        fromSettings.fra,
         DEFAULT_FOOTER_PUBLIC.fra
       ),
       trn: firstNonEmpty(
-        fromSettings.trn,
         fromSiteFooter.trn,
+        fromSettings.trn,
         DEFAULT_FOOTER_PUBLIC.trn
       ),
       crn: firstNonEmpty(
-        fromSettings.crn,
         fromSiteFooter.crn,
+        fromSettings.crn,
         DEFAULT_FOOTER_PUBLIC.crn
       ),
       appStoreUrl: firstNonEmpty(
-        fromSettings.appStoreUrl,
         fromSiteFooter.appStoreUrl,
+        fromSettings.appStoreUrl,
         fromDownloadCta.appStoreUrl,
         DEFAULT_FOOTER_PUBLIC.appStoreUrl
       ),
       playStoreUrl: firstNonEmpty(
-        fromSettings.playStoreUrl,
         fromSiteFooter.playStoreUrl,
+        fromSettings.playStoreUrl,
         fromDownloadCta.playStoreUrl,
         DEFAULT_FOOTER_PUBLIC.playStoreUrl
       ),
@@ -332,9 +538,11 @@ export class SiteSettingsService {
     page: CmsPage | null,
     sectionKey: string
   ): Partial<FooterPublicConfig> {
-    const section = page?.sections?.find(
-      (s) => s.isActive && s.sectionKey?.toLowerCase() === sectionKey
-    );
+    const want = sectionKey.toLowerCase();
+    const matches =
+      page?.sections?.filter((s) => (s.sectionKey || '').toLowerCase() === want) ?? [];
+    const section =
+      matches.find((s) => s.isActive !== false) ?? matches[0] ?? null;
     return section ? parseFooterExtra(section.extraDataJson) : {};
   }
 }

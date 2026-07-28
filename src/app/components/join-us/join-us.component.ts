@@ -15,7 +15,10 @@ import {
   MerchantApplicationsService,
 } from '../../services/merchant-applications.service';
 import { CmsPage, CmsPageSection, PagesService } from '../../services/pages.service';
-import { SiteSettingsService } from '../../services/site-settings.service';
+import {
+  ContactWaysPublicConfig,
+  SiteSettingsService
+} from '../../services/site-settings.service';
 
 @Component({
   selector: 'app-join-us',
@@ -39,11 +42,7 @@ export class JoinUsComponent implements OnInit, AfterViewInit, OnDestroy {
   loadError = false;
   page: CmsPage | null = null;
 
-  contactEmail = '';
-  contactPhone = '';
-  contactAddress = '';
-
-  ways = {
+  ways: ContactWaysPublicConfig = {
     email: '',
     phone: '',
     address: '',
@@ -118,13 +117,11 @@ export class JoinUsComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit(): void {
     combineLatest({
       page: this.pagesService.getPageBySlug('join-us').pipe(catchError(() => of(null))),
-      contactSettings: this.siteSettingsService
-        .getSettingsMapByGroup(3)
-        .pipe(catchError(() => of<Record<string, string>>({})))
+      ways: this.siteSettingsService.getContactWaysConfig()
     }).subscribe({
-      next: ({ page, contactSettings }) => {
+      next: ({ page, ways }) => {
         this.page = page;
-        this.applyContactWays(page, contactSettings);
+        this.ways = ways;
         if (page) {
           this.applySeo(page);
         } else {
@@ -238,84 +235,6 @@ export class JoinUsComponent implements OnInit, AfterViewInit, OnDestroy {
     );
   }
 
-  private applyContactWays(
-    page: CmsPage | null,
-    contactSettings: Record<string, string>
-  ): void {
-    const fromSection = this.parseWays(this.joinWaysSection()?.extraDataJson);
-    const email =
-      (fromSection.email || '').trim() || contactSettings['contact.email'] || '';
-    const phone =
-      (fromSection.phone || '').trim() || contactSettings['contact.phone'] || '';
-    const address =
-      (fromSection.address || '').trim() ||
-      contactSettings['contact.address'] ||
-      '';
-    const emailLink = (fromSection.emailLink || '').trim();
-    const phoneLink = (fromSection.phoneLink || '').trim();
-    const addressLink = (fromSection.addressLink || '').trim();
-
-    this.contactEmail = email;
-    this.contactPhone = phone;
-    this.contactAddress = address;
-    this.ways = {
-      email,
-      phone,
-      address,
-      emailHref: emailLink || (email ? `mailto:${email}` : 'javascript:void(0)'),
-      phoneHref: phoneLink || (phone ? `tel:${phone}` : 'javascript:void(0)'),
-      addressHref: addressLink || 'javascript:void(0)',
-      showEmail: fromSection.showEmail !== false,
-      showPhone: fromSection.showPhone !== false,
-      showAddress: fromSection.showAddress !== false,
-    };
-  }
-
-  private parseWays(extraDataJson: string | null | undefined): {
-    email?: string;
-    phone?: string;
-    address?: string;
-    emailLink?: string;
-    phoneLink?: string;
-    addressLink?: string;
-    showEmail?: boolean;
-    showPhone?: boolean;
-    showAddress?: boolean;
-  } {
-    const raw = (extraDataJson ?? '').trim();
-    if (!raw) {
-      return {};
-    }
-    try {
-      const obj = JSON.parse(raw) as Record<string, unknown>;
-      const str = (v: unknown) => (v == null ? '' : String(v).trim());
-      const flag = (v: unknown, fallback: boolean) => {
-        if (v === false || v === 'false' || v === 0 || v === '0') {
-          return false;
-        }
-        if (v === true || v === 'true' || v === 1 || v === '1') {
-          return true;
-        }
-        return fallback;
-      };
-      return {
-        email: str(obj['email'] ?? obj['Email'] ?? obj['contactEmail']),
-        phone: str(obj['phone'] ?? obj['Phone'] ?? obj['contactPhone']),
-        address: str(obj['address'] ?? obj['Address'] ?? obj['contactAddress']),
-        emailLink: str(obj['emailLink'] ?? obj['EmailLink'] ?? obj['mailto']),
-        phoneLink: str(obj['phoneLink'] ?? obj['PhoneLink'] ?? obj['tel']),
-        addressLink: str(
-          obj['addressLink'] ?? obj['AddressLink'] ?? obj['mapsUrl']
-        ),
-        showEmail: flag(obj['showEmail'] ?? obj['ShowEmail'], true),
-        showPhone: flag(obj['showPhone'] ?? obj['ShowPhone'], true),
-        showAddress: flag(obj['showAddress'] ?? obj['ShowAddress'], true),
-      };
-    } catch {
-      return {};
-    }
-  }
-
   private buildPayload(): MerchantApplicationRequest | null {
     if (!this.form.hasCommercialRegister) {
       this.formError = 'Please select whether you have a Commercial Register and Tax Card ID.';
@@ -425,22 +344,6 @@ export class JoinUsComponent implements OnInit, AfterViewInit, OnDestroy {
         return key.includes('join') && !key.includes('ways') && !key.includes('contact_ways');
       });
     return section?.isActive ? section : null;
-  }
-
-  private joinWaysSection(): CmsPageSection | null {
-    const sections = this.page?.sections ?? [];
-    const ways = sections.find((s) => {
-      const key = (s.sectionKey || '').toLowerCase();
-      return (
-        key === 'join_contact_ways' ||
-        key.includes('join_contact_ways') ||
-        key.includes('contact_ways')
-      );
-    });
-    if (ways?.isActive) {
-      return ways;
-    }
-    return this.joinSection();
   }
 
   private trySetupAnimations(): void {
