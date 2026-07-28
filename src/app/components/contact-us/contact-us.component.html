@@ -39,6 +39,7 @@
               [(ngModel)]="form.firstName"
               placeholder="Enter your first name"
               autocomplete="given-name"
+              [disabled]="submitting"
             />
           </label>
 
@@ -51,6 +52,7 @@
               [(ngModel)]="form.lastName"
               placeholder="Enter your last name"
               autocomplete="family-name"
+              [disabled]="submitting"
             />
           </label>
 
@@ -63,6 +65,7 @@
               [(ngModel)]="form.phone"
               placeholder="+1 012 3456 789"
               autocomplete="tel"
+              [disabled]="submitting"
             />
           </label>
 
@@ -75,6 +78,7 @@
               [(ngModel)]="form.email"
               placeholder="name@example.com"
               autocomplete="email"
+              [disabled]="submitting"
             />
           </label>
         </div>
@@ -87,12 +91,23 @@
             rows="3"
             [(ngModel)]="form.message"
             placeholder="Write your message.."
+            [disabled]="submitting"
           ></textarea>
         </label>
 
+        <p *ngIf="formError" class="contact-form-feedback contact-form-feedback--error" role="alert">
+          {{ formError }}
+        </p>
+        <p *ngIf="submitError" class="contact-form-feedback contact-form-feedback--error" role="alert">
+          {{ submitError }}
+        </p>
+        <p *ngIf="submitSuccess" class="contact-form-feedback contact-form-feedback--success" role="status">
+          {{ submitSuccess }}
+        </p>
+
         <div class="contact-form-actions flex justify-end mt-8 md:mt-10">
-          <button type="submit" class="download-btn">
-            <span class="download-btn__label">{{ submitLabel() }}</span>
+          <button type="submit" class="download-btn" [disabled]="submitting">
+            <span class="download-btn__label">{{ submitting ? 'Submitting...' : submitLabel() }}</span>
             <span class="icon-circle">
               <i class="bi bi-arrow-up-right" aria-hidden="true"></i>
             </span>
