@@ -1,0 +1,327 @@
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnInit,
+  OnDestroy
+} from '@angular/core';
+import { Meta, Title } from '@angular/platform-browser';
+import gsap from 'gsap';
+import { environment } from '../../../environments/environment';
+import {
+  CmsPage,
+  CmsPageSection,
+  CmsPageSectionItem,
+  PagesService,
+  resolveCmsAssetUrl
+} from '../../services/pages.service';
+
+export interface BlogPost {
+  id: number;
+  title: string;
+  excerpt: string;
+  tag: string;
+  date: string;
+  imageSrc: string;
+}
+
+@Component({
+  selector: 'app-blogs',
+  templateUrl: './blogs.component.html',
+  styleUrls: ['./blogs.component.scss']
+})
+export class BlogsComponent implements OnInit, AfterViewInit, OnDestroy {
+  constructor(
+    private readonly host: ElementRef<HTMLElement>,
+    private readonly pagesService: PagesService,
+    private readonly title: Title,
+    private readonly meta: Meta
+  ) {}
+
+  loading = true;
+  loadError = false;
+  page: CmsPage | null = null;
+
+  /** صف واحد على الديسكتوب (3 أعمدة) */
+  readonly pageSize = 3;
+
+  currentPage = 1;
+
+  private ctx?: gsap.Context;
+  private viewReady = false;
+
+  ngOnInit(): void {
+    this.pagesService.getPageBySlug('blogs').subscribe({
+      next: (page) => {
+        this.page = page;
+        this.currentPage = 1;
+        this.applySeo(page);
+        this.loading = false;
+        this.trySetupAnimations();
+      },
+      error: () => {
+        this.loading = false;
+        this.loadError = true;
+      }
+    });
+  }
+
+  ngAfterViewInit(): void {
+    this.viewReady = true;
+    this.trySetupAnimations();
+  }
+
+  pageTitle(): string {
+    return this.pickSection('blogs_header')?.title || this.page?.name || 'Blogs';
+  }
+
+  pageSubtitle(): string {
+    return this.pickSection('blogs_header')?.description || '';
+  }
+
+  featuredImageSrc(): string | null {
+    const section = this.pickSection('featured_blog');
+    return this.mediaUrl(section?.imageMediaFileUrl || section?.imageUrl);
+  }
+
+  featuredHeadline(): string {
+    return this.pickSection('featured_blog')?.title || '';
+  }
+
+  featuredItem(): CmsPageSectionItem | null {
+    const section = this.pickSection('featured_blog');
+    if (!section?.items?.length) {
+      return null;
+    }
+    return [...section.items]
+      .filter((i) => i.isActive)
+      .sort((a, b) => a.sortOrder - b.sortOrder)[0] ?? null;
+  }
+
+  /** كل كروت الشبكة من عناصر الداشبورد */
+  allGridPosts(): BlogPost[] {
+    return this.collectGridItemsFromCms();
+  }
+
+  /** مقالات الصفحة الحالية — بدون خانات وهمية */
+  gridPosts(): BlogPost[] {
+    const all = this.allGridPosts();
+    const start = (this.currentPage - 1) * this.pageSize;
+    return all.slice(start, start + this.pageSize);
+  }
+
+  totalPages(): number {
+    const total = this.allGridPosts().length;
+    return Math.max(1, Math.ceil(total / this.pageSize));
+  }
+
+  paginationPages(): (number | 'ellipsis')[] {
+    return this.buildPaginationPages(this.currentPage, this.totalPages());
+  }
+
+  goToPage(page: number): void {
+    const total = this.totalPages();
+    if (page < 1 || page > total || page === this.currentPage) {
+      return;
+    }
+    this.currentPage = page;
+    this.scrollToGrid();
+  }
+
+  private collectGridItemsFromCms(): BlogPost[] {
+    const featuredId = this.featuredItem()?.id;
+    const keys = ['blogs_grid', 'blogs_header', 'featured_blog'] as const;
+    const seen = new Set<number>();
+    const out: BlogPost[] = [];
+
+    for (const key of keys) {
+      const section = this.pickSection(key);
+      if (!section?.items?.length) {
+        continue;
+      }
+
+      for (const item of [...section.items]
+        .filter((i) => i.isActive)
+        .sort((a, b) => a.sortOrder - b.sortOrder)) {
+        if (seen.has(item.id) || item.id === featuredId) {
+          continue;
+        }
+        seen.add(item.id);
+        out.push(this.mapSectionItemToPost(item));
+      }
+    }
+
+    return out;
+  }
+
+  private mapSectionItemToPost(item: CmsPageSectionItem): BlogPost {
+    return {
+      id: item.id,
+      title: item.title || '',
+      excerpt: this.cardBodyText(item),
+      tag: item.subTitle || '',
+      date: this.cardListDate(item),
+      imageSrc: this.mediaUrl(item.imageMediaFileUrl || item.imageUrl) || ''
+    };
+  }
+
+  /**
+   * Prefer full excerpt from extraDataJson when description was saved truncated (… / ...).
+   */
+  cardBodyText(item: CmsPageSectionItem): string {
+    const desc = (item.description || '').trim();
+    const fromExtra = this.excerptFromExtraJson(item);
+    const truncated = /…\s*$|\.\.\.\s*$/.test(desc);
+    if (truncated && fromExtra) {
+      return this.cardExcerpt(fromExtra);
+    }
+    if (fromExtra && fromExtra.length > desc.length) {
+      return this.cardExcerpt(fromExtra);
+    }
+    return this.cardExcerpt(desc || fromExtra);
+  }
+
+  private excerptFromExtraJson(item: CmsPageSectionItem): string {
+    const raw = (item.extraDataJson || '').trim();
+    if (!raw.startsWith('{')) {
+      return '';
+    }
+    try {
+      const parsed = JSON.parse(raw) as Record<string, unknown>;
+      return String(
+        parsed['excerptEn'] ??
+          parsed['ExcerptEn'] ??
+          parsed['excerpt'] ??
+          ''
+      ).trim();
+    } catch {
+      return '';
+    }
+  }
+
+  /** List page — show the card excerpt as saved (no hard character cut) */
+  cardExcerpt(text: string | null | undefined): string {
+    const value = (text || '').trim();
+    if (!value) {
+      return '';
+    }
+    if (value.startsWith('{') || value.includes('"quoteEn"')) {
+      return '';
+    }
+    return value;
+  }
+
+  /**
+   * Date label for list cards only.
+   * Full article JSON may live in extraDataJson for /blogs/{id} — never dump it here.
+   */
+  cardListDate(item: CmsPageSectionItem): string {
+    const raw = (item.extraDataJson || '').trim();
+    if (!raw) {
+      return '';
+    }
+
+    if (raw.startsWith('{') || raw.startsWith('[')) {
+      try {
+        const parsed = JSON.parse(raw) as Record<string, unknown>;
+        const d = String(parsed['date'] ?? parsed['Date'] ?? '').trim();
+        if (d && d.length <= 48 && !d.startsWith('{')) {
+          return d;
+        }
+      } catch {
+        /* ignore */
+      }
+      return '';
+    }
+
+    // Legacy: plain date string (pre-article JSON)
+    if (raw.length <= 48 && !raw.includes('{')) {
+      return raw;
+    }
+    return '';
+  }
+
+  gridTitle(): string {
+    return this.pickSection('blogs_grid')?.title || '';
+  }
+
+  private trySetupAnimations(): void {
+    if (!this.viewReady || !this.page || this.loadError) {
+      return;
+    }
+    const root = this.host.nativeElement;
+    this.ctx?.revert();
+    this.ctx = gsap.context(() => {
+      const featured = root.querySelector<HTMLElement>('[data-blogs-featured]');
+      if (featured) {
+        gsap.from(featured, {
+          y: 32,
+          opacity: 0,
+          duration: 0.85,
+          ease: 'power2.out'
+        });
+      }
+      const cards = root.querySelectorAll<HTMLElement>('[data-blog-card]');
+      if (cards.length) {
+        gsap.from(cards, {
+          y: 28,
+          opacity: 0,
+          duration: 0.65,
+          stagger: 0.12,
+          delay: 0.15,
+          ease: 'power2.out'
+        });
+      }
+    }, root);
+  }
+
+  private mediaUrl(path: string | null | undefined): string | null {
+    return resolveCmsAssetUrl(environment.apiOrigin, path);
+  }
+
+  private pickSection(key: string): CmsPageSection | null {
+    const section = this.page?.sections?.find((s) => s.sectionKey === key);
+    return section?.isActive ? section : null;
+  }
+
+  private buildPaginationPages(
+    current: number,
+    total: number
+  ): (number | 'ellipsis')[] {
+    if (total <= 1) {
+      return [1];
+    }
+
+    if (total <= 7) {
+      return Array.from({ length: total }, (_, i) => i + 1);
+    }
+
+    if (current <= 3) {
+      return [1, 2, 3, 'ellipsis', total - 2, total - 1, total];
+    }
+
+    if (current >= total - 2) {
+      return [1, 2, 3, 'ellipsis', total - 2, total - 1, total];
+    }
+
+    return [1, 'ellipsis', current - 1, current, current + 1, 'ellipsis', total];
+  }
+
+  private scrollToGrid(): void {
+    const grid = this.host.nativeElement.querySelector<HTMLElement>('.blogs-grid');
+    grid?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  private applySeo(page: CmsPage): void {
+    if (page.metaTitle) {
+      this.title.setTitle(page.metaTitle);
+    }
+    if (page.metaDescription) {
+      this.meta.updateTag({ name: 'description', content: page.metaDescription });
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.ctx?.revert();
+  }
+}

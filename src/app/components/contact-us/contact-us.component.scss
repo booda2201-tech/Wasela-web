@@ -1,0 +1,263 @@
+:host {
+  display: block;
+}
+
+.contact-page {
+  isolation: isolate;
+}
+
+.contact-hero {
+  position: relative;
+  z-index: 1;
+}
+
+.contact-hero__glow {
+  position: absolute;
+  left: 50%;
+  top: 3.25rem;
+  z-index: 0;
+  width: min(115vw, 68rem);
+  height: clamp(18rem, 52vw, 34rem);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.contact-hero__glow-img {
+  position: absolute;
+  inset: 0;
+  background-image: url('../../../assets/images/merchants-glow.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.15;
+  filter: blur(14px);
+  -webkit-mask-image: radial-gradient(
+    ellipse 84% 80% at 50% 48%,
+    #000 16%,
+    rgb(0 0 0 / 65%) 44%,
+    transparent 74%
+  );
+  mask-image: radial-gradient(
+    ellipse 84% 80% at 50% 48%,
+    #000 16%,
+    rgb(0 0 0 / 65%) 44%,
+    transparent 74%
+  );
+}
+
+@media (max-width: 999px) {
+  .contact-hero__glow {
+    top: 2.75rem;
+    width: min(130vw, 26rem);
+    height: clamp(15rem, 48vw, 24rem);
+  }
+}
+
+.contact-body-inner {
+  position: relative;
+}
+
+.contact-form-card {
+  padding: 1.25rem 1rem;
+
+  @media (min-width: 768px) {
+    padding: 2rem 2.25rem;
+  }
+
+  @media (min-width: 1024px) {
+    padding: 2.5rem 2.75rem;
+  }
+}
+
+
+.contact-decor {
+  position: absolute;
+  pointer-events: none;
+  z-index: 1;
+
+  top: -5rem;
+  right: -3rem;
+  width: min(55vw, 14rem);
+  height: min(55vw, 14rem);
+  transition: all 0.5s ease; // تنعيم الحركة بين أحجام الشاشات
+
+  &__img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    opacity: 0.8;
+  }
+
+  // --- تابلت: 769px → 999px ---
+  @media (min-width: 769px) and (max-width: 999px) {
+    top: -4rem;
+    right: -1.25rem;
+    width: 9.25rem;
+    height: 9.25rem;
+    opacity: 0.85;
+  }
+
+  // --- موبايل: حتى 768px ---
+  @media (max-width: 768px) {
+    top: -4.75rem;
+    right: -1rem;
+    width: 8rem;
+    height: 8rem;
+    opacity: 1;
+  }
+
+  // لشاشات الموبايل الصغيرة جداً
+  @media (max-width: 480px) {
+    top: -3.35rem;
+    right: -0.5rem;
+    width: 6rem;
+    opacity: 1;
+  }
+}
+
+
+.contact-field {
+  display: block;
+  text-align: left;
+}
+
+.contact-field__label {
+  display: block;
+  font-size: 1rem;
+  line-height: 1.25;
+  font-weight: 400;
+  color: #f56300;
+  margin-bottom: 0.55rem;
+}
+
+.contact-field__input,
+.contact-field__textarea {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid rgba(13, 17, 179, 0.35);
+  background: transparent;
+  padding: 0.35rem 0 0.65rem;
+  font-size: 14px;
+  font-weight: 500;
+  color: #1d1ddb;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.contact-field__input::placeholder,
+.contact-field__textarea::placeholder {
+  color: rgba(13, 17, 179, 0.45);
+  font-weight: 500;
+}
+
+.contact-field__input:focus,
+.contact-field__textarea:focus {
+  border-bottom-color: #0d11b3;
+}
+
+.contact-field__textarea {
+  resize: vertical;
+  min-height: 3.75rem;
+  line-height: 1.5;
+  font-family: inherit;
+}
+
+.contact-form-actions .download-btn {
+  min-width: 9.25rem;
+}
+
+.contact-pills-row {
+  max-width: 52rem;
+  margin-inline: auto;
+}
+
+.contact-pill {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  min-height: 48px;
+  padding: 0 0.85rem 0 0;
+  border: 0.8px solid #0d11b3;
+  border-radius: 9999px;
+  background: #fff;
+  text-decoration: none;
+  color: inherit;
+  transition:
+    box-shadow 0.25s ease,
+    transform 0.2s ease;
+  flex: 1 1 auto;
+  min-width: 0;
+
+  @media (min-width: 1024px) {
+    flex: 0 1 auto;
+    max-width: 100%;
+  }
+}
+
+.contact-pill:hover:not(.contact-pill--static) {
+  box-shadow: 0 8px 24px rgba(13, 17, 179, 0.12);
+  transform: translateY(-1px);
+}
+
+.contact-pill--static {
+  cursor: default;
+}
+
+.contact-pill__icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  margin: -0.8px 0 -0.8px -0.8px;
+  border-radius: 50%;
+  background: #1d1ddb;
+  color: #fff;
+
+  i {
+    font-size: 1.15rem;
+  }
+}
+
+.contact-pill__text {
+  display: flex;
+  align-items: center;
+  min-height: 48px;
+  padding: 0.35rem 0.65rem 0.35rem 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #f56300;
+  line-height: 1.35;
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+
+.contact-preline {
+  white-space: pre-line;
+}
+
+.contact-form-feedback {
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.45;
+}
+
+.contact-form-feedback--error {
+  color: #b42318;
+  background: #fef3f2;
+}
+
+.contact-form-feedback--success {
+  color: #027a48;
+  background: #ecfdf3;
+}
+
+.contact-form-actions .download-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  pointer-events: none;
+}

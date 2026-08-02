@@ -1,0 +1,371 @@
+/* ─── Diodrum (Figma: Cyrillic Medium للنص، Arabic Bold للعناوين) ───
+ * Medium: src/assets/fonts/DiodrumCyrillic-Medium.ttf
+ * Bold:   src/assets/fonts/alfont_com_AlFont_com_DiodrumArabic-Bold-1.ttf
+ */
+@mixin diodrum-regular-src {
+  src:
+    url('/assets/fonts/DiodrumCyrillic-Medium.ttf') format('truetype'),
+    local('Diodrum Cyrillic Medium'),
+    local('Diodrum Cyrillic'),
+    local('Diodrum Arabic'),
+    local('DiodrumArabic-Regular'),
+    local('DiodrumArabic');
+}
+
+@mixin diodrum-medium-src {
+  src:
+    url('/assets/fonts/DiodrumCyrillic-Medium.ttf') format('truetype'),
+    local('Diodrum Cyrillic Medium'),
+    local('DiodrumCyrillic-Medium'),
+    local('Diodrum Cyrillic'),
+    local('Diodrum Arabic Medium'),
+    local('DiodrumArabic-Medium');
+}
+
+@mixin diodrum-bold-src {
+  src:
+    local('Diodrum Arabic Bold'),
+    local('DiodrumArabic-Bold'),
+    local('DiodrumArabicBold'),
+    url('/assets/fonts/alfont_com_AlFont_com_DiodrumArabic-Bold-1.ttf') format('truetype');
+}
+
+/* Figma أحياناً يعرض Weight 400 مع نمط Bold — نعرّف 400 و700 لنفس الملف */
+@font-face {
+  font-family: 'Diodrum Cyrillic';
+  @include diodrum-medium-src;
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Diodrum Cyrillic';
+  @include diodrum-medium-src;
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Diodrum Arabic';
+  @include diodrum-regular-src;
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Diodrum Arabic';
+  @include diodrum-medium-src;
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Diodrum Arabic';
+  @include diodrum-bold-src;
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'DiodrumArabicBold';
+  @include diodrum-bold-src;
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'DiodrumArabicBold';
+  @include diodrum-bold-src;
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+$font-family-sans-serif:
+  'Diodrum Arabic',
+  system-ui,
+  -apple-system,
+  'Segoe UI',
+  Roboto,
+  'Helvetica Neue',
+  'Noto Sans',
+  Arial,
+  sans-serif;
+$headings-font-family: 'Diodrum Arabic', system-ui, sans-serif;
+
+// Breakpoints: src/styles/_breakpoints.scss
+// ديسكتوب صغير 1000–1400px | ديسكتوب كبير 1401px+ | تابلت ≤999px
+
+@import 'bootstrap/scss/bootstrap';
+@import 'bootstrap-icons/font/bootstrap-icons.css';
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+// Variables
+$waseela-blue: #1D1DDB;
+$waseela-orange: #ff6b00;
+
+html,
+body {
+  font-family: 'Diodrum Cyrillic', 'Diodrum Arabic', system-ui, sans-serif;
+  font-weight: 400;
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+html[dir='rtl'] body {
+  font-family: 'Diodrum Arabic', 'Diodrum Cyrillic', system-ui, sans-serif;
+}
+
+html[dir='rtl'] {
+  .navbar-brand {
+    margin-left: 0;
+    margin-right: -0.25rem;
+  }
+
+  .navbar-logo {
+    object-position: right center;
+  }
+
+  .mobile-nav-menu a:active {
+    transform: translateX(-2px);
+  }
+
+  .download-btn .icon-circle i.bi-arrow-up-right {
+    transform: scaleX(-1);
+  }
+
+  /* Careers — وصف الوظيفة الموسّع */
+  .careers-page .job-card__desc-inner {
+    direction: rtl;
+    text-align: right;
+  }
+
+  .careers-page .job-card__desc-body {
+    direction: rtl;
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .careers-page .job-card__desc-title,
+  .careers-page .job-card__desc-text {
+    direction: rtl;
+    text-align: right;
+    width: 100%;
+    font-family: 'Diodrum Arabic', 'Diodrum Cyrillic', system-ui, sans-serif;
+  }
+}
+
+.text-waseela-blue { color: $waseela-blue; }
+.bg-waseela-blue { background-color: $waseela-blue; }
+.text-waseela-orange { color: $waseela-orange; }
+.bg-waseela-orange { background-color: $waseela-orange; }
+
+.min-vh-75 { min-height: 75vh; }
+.z-index-2 { z-index: 2; }
+.z-index-3 { z-index: 3; }
+
+/* App Store / Google Play — SVG 135×40 */
+.store-badge-img {
+  display: block;
+  width: auto;
+  height: 40px;
+  max-width: 135px;
+  aspect-ratio: 135 / 40;
+  object-fit: contain;
+}
+
+.mt-n5 { margin-top: -5rem; } // عشان السكشن يدخل في الـ Hero
+
+// Custom Hover
+.group:hover .group-hover\:bg-white {
+  background-color: white !important;
+}
+.group:hover .group-hover\:text-waseela-blue {
+  color: $waseela-blue !important;
+}
+
+/* زر Download now — مشترك (Navbar, Categories, …) */
+.download-btn,
+.download-btn--full {
+  font-family: 'Inter', system-ui, sans-serif;
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+
+.download-btn {
+  --dl-btn-h: 46px;
+  display: inline-grid;
+  grid-template-columns: minmax(0, 1fr) var(--dl-btn-h);
+  grid-template-rows: var(--dl-btn-h);
+  align-items: stretch;
+  box-sizing: border-box;
+  min-width: 13.75rem;
+  padding: 0;
+  padding-inline-start: 1.05rem;
+  border: 1px solid #1d1ddb;
+  border-radius: 9999px;
+  background: #fff;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: background-color 0.25s ease;
+  flex: 0 0 auto;
+
+  .download-btn__label {
+    grid-column: 1;
+    grid-row: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: stretch;
+    margin: 0;
+    padding: 0 0.5rem 0 0;
+    box-sizing: border-box;
+    text-align: center;
+    color: #ff6b00;
+    font-weight: 700;
+    font-size: 0.9375rem;
+    line-height: 1;
+    letter-spacing: 0.01em;
+    min-width: 0;
+  }
+
+  .icon-circle {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: center;
+    justify-self: end;
+    width: var(--dl-btn-h);
+    height: var(--dl-btn-h);
+    flex-shrink: 0;
+    background-color: #1d1ddb;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background-color 0.25s ease, color 0.25s ease;
+
+    i {
+      font-size: 1.05rem;
+      line-height: 1;
+    }
+  }
+
+  &:hover {
+    background-color: #1d1ddb;
+
+    .download-btn__label {
+      color: #fff;
+    }
+
+    .icon-circle {
+      background-color: #fff;
+      color: #1d1ddb;
+    }
+  }
+
+  &:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+}
+
+/* عرض كامل — قائمة الموبايل في الـ navbar */
+.download-btn--full {
+  --dl-btn-h: 48px;
+  width: 100%;
+  max-width: 100%;
+  margin-top: 0.35rem;
+  transition: transform 0.18s ease, opacity 0.18s ease, background-color 0.25s ease;
+
+  .download-btn__label {
+    font-size: clamp(0.84rem, 3.4vw, 0.9375rem);
+  }
+
+  &:active {
+    transform: translateY(1px);
+    opacity: 0.92;
+  }
+}
+
+// .contact-pill {
+//   display: flex;
+//   align-items: center;
+//   gap: 0.75rem;
+//   min-height: 52px;
+//   padding: 0 1rem 0 0;
+//   border: 0.8px solid #0d11b3;
+//   border-radius: 9999px;
+//   background: #fff;
+//   text-decoration: none;
+//   color: inherit;
+//   transition:
+//     box-shadow 0.25s ease,
+//     transform 0.2s ease;
+//   flex: 1 1 auto;
+//   min-width: 0;
+
+//   @media (min-width: 1024px) {
+//     flex: 0 1 auto;
+//     max-width: 100%;
+//   }
+// }
+
+// .contact-pill:hover:not(.contact-pill--static) {
+//   box-shadow: 0 8px 24px rgba(13, 17, 179, 0.12);
+//   transform: translateY(-1px);
+// }
+
+// .contact-pill--static {
+//   cursor: default;
+// }
+
+// .contact-pill__icon {
+//   flex-shrink: 0;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   width: 52px;
+//   height: 52px;
+//   margin: -0.8px 0 -0.8px -0.8px;
+//   border-radius: 50%;
+//   background: #0d11b3;
+//   color: #fff;
+
+//   i {
+//     font-size: 1.15rem;
+//   }
+// }
+
+// .contact-pill__text {
+//   padding: 0.5rem 0.75rem 0.5rem 0;
+//   font-size: 14px;
+//   font-weight: 600;
+//   color: #f56300;
+//   line-height: 1.35;
+//   text-align: left;
+//   overflow-wrap: anywhere;
+// }
+
+@import './styles/typography';
+
+/* موبايل: إخفاء الفوتر أثناء تحميل الصفحة (كان بيظهر الشريط الأزرق تحت النافبار) */
+@media (max-width: 767px) {
+  .app-shell:has(app-page-loader) > app-footer {
+    display: none;
+  }
+}

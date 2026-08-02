@@ -1,0 +1,181 @@
+:host {
+
+  display: block;
+
+}
+
+
+
+.faq-section {
+
+  isolation: isolate;
+
+}
+
+
+
+.faq-header {
+
+  position: relative;
+
+  z-index: 1;
+
+}
+
+
+
+.faq-hero__glow {
+
+  position: absolute;
+
+  left: 50%;
+
+  top: 3.25rem;
+
+  z-index: 0;
+
+  width: min(115vw, 68rem);
+
+  height: clamp(18rem, 52vw, 34rem);
+
+  transform: translateX(-50%);
+
+  pointer-events: none;
+
+}
+
+
+
+.faq-hero__glow-img {
+
+  position: absolute;
+
+  inset: 0;
+
+  background-image: url('../../../assets/images/merchants-glow.png');
+
+  background-size: cover;
+
+  background-position: center;
+
+  background-repeat: no-repeat;
+
+  opacity: 0.25;
+
+  filter: blur(14px);
+
+  -webkit-mask-image: radial-gradient(
+
+    ellipse 84% 80% at 50% 48%,
+
+    #000 16%,
+
+    rgb(0 0 0 / 65%) 44%,
+
+    transparent 74%
+
+  );
+
+  mask-image: radial-gradient(
+
+    ellipse 84% 80% at 50% 48%,
+
+    #000 16%,
+
+    rgb(0 0 0 / 65%) 44%,
+
+    transparent 74%
+
+  );
+
+}
+
+
+
+@media (max-width: 999px) {
+
+  .faq-hero__glow {
+
+    top: 2.75rem;
+
+    width: min(130vw, 26rem);
+
+    height: clamp(15rem, 48vw, 24rem);
+
+  }
+
+}
+
+
+
+.faq-body {
+  position: relative;
+  padding-bottom: clamp(3rem, 8vh, 5rem);
+}
+
+.faq-list-shell {
+  position: relative;
+  width: 100%;
+  max-width: 52rem;
+  margin-inline: auto;
+}
+
+.faq-inner {
+
+  position: relative;
+
+  z-index: 10;
+
+}
+
+
+
+.faq-answer-panel {
+
+  will-change: height;
+
+}
+
+
+
+.faq-preline {
+
+  white-space: pre-line;
+
+}
+
+.faq-answer-inner p {
+  color: #767e94;
+}
+
+/* ديسكتوب صغير — 1000px → 1400px */
+@media (min-width: 1000px) and (max-width: 1400px) {
+  .faq-list-shell {
+    max-width: min(100%, 40rem);
+  }
+
+  .faq-header h1 {
+    font-size: 2.375rem !important;
+  }
+
+  .faq-header p {
+    font-size: 0.875rem;
+    line-height: 1.45;
+  }
+
+  .faq-trigger > span:first-of-type {
+    font-size: 0.9375rem !important;
+  }
+
+  .faq-icon-plus,
+  .faq-icon-close {
+    font-size: 1.25rem !important;
+  }
+
+  .faq-answer-inner p {
+    font-size: 0.8125rem;
+    line-height: 1.45;
+  }
+
+}
+

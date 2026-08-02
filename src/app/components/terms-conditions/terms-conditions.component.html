@@ -1,0 +1,57 @@
+<article class="terms-page terms-page--surface relative overflow-x-clip overflow-hidden pt-24 pb-12 md:pb-28">
+  <div class="terms-page__glow" aria-hidden="true">
+    <div class="terms-page__glow-img"></div>
+  </div>
+
+  <div class="terms-page__inner relative z-[1] mx-auto max-w-[1280px] px-3 sm:px-6 lg:px-8">
+    <header
+      data-terms-heading-block
+      class="terms-page__intro mx-auto max-w-[760px] pb-6 pt-2 text-center md:pb-12 md:pt-8"
+    >
+      <h1
+        class="terms-page__title font-black tracking-[0.2px] text-[#1d1ddb] text-[30px] leading-[1.1] sm:text-[38px] md:text-[42px] md:leading-[57px]"
+      >
+      {{ introSection()?.title || page?.name }}
+      </h1>
+      <p *ngIf="introSection()?.description as introDesc" class="terms-page__subtitle mx-auto text-center">
+        {{ introDesc }}
+      </p>
+    </header>
+
+    <div class="terms-card-shell relative mx-auto max-w-[1249px] px-0">
+      <div class="terms-card-float">
+        <div class="terms-card-shell__under-art" aria-hidden="true">
+          <img
+            src="assets/images/Group (7).png"
+            alt=""
+            class="terms-card-shell__under-img"
+            loading="lazy"
+          />
+        </div>
+
+        <div
+          data-terms-card
+          class="terms-card relative z-[2] rounded-[20px] md:rounded-[28px] border border-solid 
+          border-[#e8e8ed] bg-white px-5 py-10 shadow-[0_4px_32px_rgba(15,23,42,0.06)] 
+          sm:px-9 md:px-12 md:py-12 lg:px-16 lg:py-14"
+        >
+        <div class="terms-prose">
+          <p class="terms-p terms-preline" *ngIf="headerSection()?.description as headerDesc">
+            {{ headerDesc }}
+          </p>
+
+          <ng-container *ngFor="let item of contentItems()">
+            <h2 class="terms-h2">{{ item.title }}</h2>
+            <p class="terms-p terms-preline">{{ item.description }}</p>
+          </ng-container>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+
+<app-page-loader *ngIf="loading"></app-page-loader>
+<div class="terms-page terms-page--surface py-20 text-center text-red-500" *ngIf="loadError">
+  تعذر تحميل صفحة الشروط والأحكام.
+</div>

@@ -1,0 +1,343 @@
+:host {
+  display: block;
+}
+
+.job-desc-panel {
+  will-change: height;
+}
+
+.careers-page {
+  isolation: isolate;
+}
+
+.careers-hero {
+  position: relative;
+  z-index: 1;
+}
+
+.careers-hero__glow {
+  position: absolute;
+  left: 50%;
+  top: 3.25rem;
+  z-index: 0;
+  width: min(115vw, 68rem);
+  height: clamp(18rem, 52vw, 34rem);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.careers-hero__glow-img {
+  position: absolute;
+  inset: 0;
+  background-image: url('../../../assets/images/merchants-glow.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.15;
+  filter: blur(14px);
+  -webkit-mask-image: radial-gradient(
+    ellipse 84% 80% at 50% 48%,
+    #000 16%,
+    rgb(0 0 0 / 65%) 44%,
+    transparent 74%
+  );
+  mask-image: radial-gradient(
+    ellipse 84% 80% at 50% 48%,
+    #000 16%,
+    rgb(0 0 0 / 65%) 44%,
+    transparent 74%
+  );
+}
+
+@media (max-width: 999px) {
+  .careers-hero__glow {
+    top: 2.75rem;
+    width: min(130vw, 26rem);
+    height: clamp(15rem, 48vw, 24rem);
+  }
+}
+
+/* Decorative shapes behind accordion cards only */
+.faq-body {
+  position: relative;
+}
+
+.faq-decor {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.careers-jobs-list {
+  max-width: 52rem;
+  margin-inline: auto;
+}
+
+.job-card {
+  background: #fff;
+  border: 1px solid #f3f4f6;
+  border-radius: 1.25rem;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+  padding: 0.875rem 1rem;
+
+  @media (min-width: 768px) {
+    border-radius: 1.5rem;
+    padding: 1.25rem 1.5rem;
+  }
+}
+
+.job-card__head {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.75rem;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.25rem;
+  }
+}
+
+.job-card__content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.375rem;
+  min-width: 0;
+  text-align: start;
+}
+
+.job-card__actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  flex-shrink: 0;
+  width: 100%;
+
+  @media (min-width: 768px) {
+    justify-content: flex-end;
+    width: auto;
+  }
+}
+
+.job-card__badge {
+  display: inline-block;
+  background: #baeaff;
+  color: #1d1ddb;
+  border-radius: 9999px;
+  padding: 0.2rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+.job-card__title {
+  margin: 0.35rem 0 0;
+  color: #1d1ddb;
+  font-weight: 500;
+  font-size: 1rem;
+  line-height: 1.35;
+
+  @media (min-width: 768px) {
+    font-size: 1.125rem;
+  }
+}
+
+.job-card__meta {
+  margin-top: 0.5rem;
+  color: #737373;
+  font-size: 0.75rem;
+  font-weight: 500;
+
+  @media (min-width: 768px) {
+    font-size: 0.8125rem;
+  }
+}
+
+.job-card__toggle {
+  width: 2.25rem;
+  height: 2.25rem;
+
+  @media (min-width: 768px) {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  i {
+    font-size: 0.9rem;
+  }
+}
+
+.job-card__desc-inner {
+  padding-top: 0.875rem;
+  margin-top: 0.875rem;
+  border-top: 1px solid #f3f4f6;
+
+  @media (min-width: 768px) {
+    padding-top: 1rem;
+    margin-top: 1rem;
+  }
+}
+
+.job-card__desc-title {
+  margin: 0 0 0.5rem;
+  color: #1d1ddb;
+  font-weight: 500;
+  font-size: 0.9375rem;
+  text-align: start;
+
+  @media (min-width: 768px) {
+    font-size: 1rem;
+  }
+}
+
+.job-card__desc-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.job-card__desc-text {
+  margin: 0;
+  color: #737373;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  text-align: start;
+}
+
+.careers-preline {
+  white-space: pre-line;
+}
+
+.careers-job-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: 0.5rem;
+  row-gap: 0.25rem;
+}
+
+.careers-job-meta__text {
+  min-width: 0;
+}
+
+.careers-job-meta__dot {
+  display: inline-block;
+  width: 0.28rem;
+  height: 0.28rem;
+  border-radius: 50%;
+  background: #ff7a00;
+  flex-shrink: 0;
+  vertical-align: middle;
+}
+
+.job-card__actions .download-btn {
+  --dl-btn-h: 44px;
+  min-width: 8.75rem;
+  padding-inline-start: 0.875rem;
+
+  .download-btn__label {
+    font-size: 0.8125rem;
+    white-space: nowrap;
+  }
+
+  .icon-circle i {
+    font-size: 1rem;
+  }
+
+  @media (max-width: 767px) {
+    --dl-btn-h: 40px;
+    min-width: 8.25rem;
+    padding-inline-start: 0.75rem;
+
+    .download-btn__label {
+      font-size: 0.75rem;
+    }
+
+    .icon-circle i {
+      font-size: 0.9rem;
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .faq-header__img {
+    background-position: center 42%;
+    opacity: 0.34;
+  }
+}
+
+/* Careers — عربي: الكلام أول الكرت يمين، الأزرار شمال آخر الكرت */
+.careers-page--ar {
+  .job-card__head {
+    direction: ltr;
+
+    @media (min-width: 768px) {
+      flex-direction: row-reverse;
+    }
+  }
+
+  .job-card__content--ar {
+    direction: rtl;
+    align-items: flex-start;
+    text-align: start;
+  }
+
+  .job-card__badge,
+  .job-card__title,
+  .job-card__meta {
+    align-self: flex-start;
+    font-family: 'Diodrum Arabic', 'Diodrum Cyrillic', system-ui, sans-serif;
+    unicode-bidi: plaintext;
+    text-align: start;
+  }
+
+  .careers-job-meta {
+    direction: rtl;
+    justify-content: flex-start;
+    align-self: flex-start;
+    width: 100%;
+
+    @media (min-width: 768px) {
+      width: auto;
+    }
+  }
+
+  .job-card__actions {
+    direction: ltr;
+    flex-direction: row-reverse;
+
+    @media (max-width: 767px) {
+      justify-content: space-between;
+    }
+
+    @media (min-width: 768px) {
+      justify-content: flex-start;
+    }
+  }
+
+  .job-card__actions .download-btn {
+    direction: ltr;
+    grid-template-columns: var(--dl-btn-h) minmax(0, 1fr);
+    padding-inline-start: 0;
+    padding-inline-end: 0.75rem;
+
+    .download-btn__label {
+      grid-column: 2;
+      grid-row: 1;
+      align-self: stretch;
+      padding: 0 0 0 0.5rem;
+    }
+
+    .icon-circle {
+      grid-column: 1;
+      grid-row: 1;
+      justify-self: start;
+    }
+  }
+}

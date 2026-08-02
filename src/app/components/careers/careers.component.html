@@ -1,0 +1,118 @@
+<section
+  class="careers-page relative bg-white overflow-hidden pt-20 pb-10 md:pb-20"
+  [class.careers-page--ar]="language.isArabic"
+>
+  <div class="careers-hero__glow" aria-hidden="true">
+    <div class="careers-hero__glow-img"></div>
+  </div>
+
+  <div class="container mx-auto px-4 md:px-6 relative z-10">
+  <header class="careers-hero relative overflow-hidden">
+    <div class="relative z-10 py-8 md:py-10 text-center">
+      <div class="max-w-2xl mx-auto space-y-2 md:space-y-4">
+        <h1 class="text-[2rem] md:text-[42px] font-[900] text-[#1D1DDB] leading-[1.1]">
+            {{ pageTitle() }}
+          </h1>
+          <p class="max-w-lg mx-auto">
+            {{ pageSubtitle() }}
+          </p>
+      </div>
+    </div>
+  </header>
+
+  <div class="careers-jobs-list space-y-3 md:space-y-4 mt-4 md:mt-2">
+    <article
+      #jobCard
+      *ngFor="let job of jobs"
+      class="job-card flex flex-col"
+    >
+      <div class="job-card__head">
+        <div
+          class="job-card__content min-w-0 flex-1"
+          [class.job-card__content--ar]="language.isArabic"
+          [attr.dir]="language.isArabic ? 'rtl' : 'ltr'"
+        >
+          <span class="job-card__badge" [attr.dir]="language.isArabic ? 'rtl' : null">
+            {{ job.roleLabel }}
+          </span>
+          <h2 class="job-card__title" [attr.dir]="language.isArabic ? 'rtl' : null">
+            {{ job.title }}
+          </h2>
+          <p *ngIf="job.metaSegments.length" class="careers-job-meta job-card__meta">
+            <ng-container *ngFor="let seg of metaSegmentsFor(job); let last = last">
+              <span class="careers-job-meta__text">{{ seg }}</span>
+              <span *ngIf="!last" class="careers-job-meta__dot" aria-hidden="true"></span>
+            </ng-container>
+          </p>
+        </div>
+
+        <div class="job-card__actions">
+          <button
+            type="button"
+            (click)="toggle(job.id)"
+            class="job-card__toggle flex-shrink-0 rounded-full bg-white border border-[#1D1DDB] flex items-center 
+            justify-center hover:bg-gray-50 transition-colors duration-300 focus:outline-none 
+            focus-visible:ring-2 focus-visible:ring-[#1D1DDB] focus-visible:ring-offset-2"
+            [attr.aria-expanded]="isExpanded(job.id)"
+            [attr.aria-controls]="'job-desc-' + job.id"
+            [attr.id]="'job-toggle-' + job.id"
+          >
+             <i class="bi bi-chevron-down text-orange-500" [class.rotate-180]="isExpanded(job.id)" aria-hidden="true"></i>
+          </button>
+
+          <a
+            class="download-btn shrink-0"
+            [href]="applyHref(job)"
+            [attr.target]="job.applyButtonUrl ? '_blank' : null"
+            [attr.rel]="job.applyButtonUrl ? 'noopener noreferrer' : null"
+          >
+            <span class="download-btn__label">{{ job.applyButtonText }}</span>
+            <span class="icon-circle" aria-hidden="true">
+              <i class="bi bi-arrow-up-right"></i>
+            </span>
+          </a>
+        </div>
+      </div>
+
+      <div
+        #jobDescPanel
+        class="job-desc-panel overflow-hidden h-0"
+        [attr.id]="'job-desc-' + job.id"
+        role="region"
+        [attr.aria-labelledby]="'job-toggle-' + job.id"
+        [attr.aria-hidden]="!isExpanded(job.id)"
+      >
+        <div
+          class="job-card__desc-inner"
+          [attr.dir]="language.isArabic ? 'rtl' : null"
+        >
+          <ng-container *ngFor="let block of job.descriptionBlocks">
+            <h3
+              class="job-card__desc-title"
+              *ngIf="block.heading"
+              [attr.dir]="language.isArabic ? 'rtl' : null"
+            >
+              {{ block.heading }}
+            </h3>
+            <div
+              class="job-card__desc-body"
+              [attr.dir]="language.isArabic ? 'rtl' : null"
+            >
+              <p
+                *ngFor="let paragraph of block.paragraphs"
+                class="careers-preline job-card__desc-text"
+                [attr.dir]="language.isArabic ? 'rtl' : null"
+              >{{ paragraph }}</p>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </article>
+  </div>
+  </div>
+</section>
+
+<app-page-loader *ngIf="loading"></app-page-loader>
+<div class="py-20 text-center text-red-500" *ngIf="loadError">
+  تعذر تحميل صفحة الوظائف.
+</div>

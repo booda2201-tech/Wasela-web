@@ -1,0 +1,164 @@
+<footer
+  class="text-white pb-4 relative overflow-hidden"
+  [class.footer--ar]="language.isArabic"
+>
+
+  <div class="footer-watermark left-0 w-full pointer-events-none select-none z-0">
+    <img src="assets/images/footer-watermark.svg" alt="" class="Waseela" aria-hidden="true" />
+  </div>
+
+  <div class="main-container footer-main mx-auto relative z-20">
+    <div class="footer-grid grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6">
+
+      <div class="footer-col">
+        <h5 class="footer-col__title">{{ language.label('mainPages') }}</h5>
+        <ul class="footer-links">
+          <li><a routerLink="/">{{ language.label('home') }}</a></li>
+          <li><a routerLink="/categories">{{ language.label('categories') }}</a></li>
+          <li><a routerLink="/merchants">{{ language.label('merchants') }}</a></li>
+          <li><a routerLink="/careers">{{ language.label('careers') }}</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5 class="footer-col__title">{{ language.label('quickLinks') }}</h5>
+        <ul class="footer-links">
+          <li><a routerLink="/blogs">{{ language.label('blogs') }}</a></li>
+          <li><a routerLink="/faq">{{ language.label('faq') }}</a></li>
+          <li><a routerLink="/privacy-policy">{{ language.label('privacyPolicy') }}</a></li>
+          <li><a routerLink="/terms-conditions">{{ language.label('termsConditions') }}</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5 class="footer-col__title">{{ language.label('learnMore') }}</h5>
+        <ul class="footer-links">
+          <li><a routerLink="/about-us">{{ language.label('aboutUs') }}</a></li>
+          <li><a routerLink="/contact-us">{{ language.label('contactUs') }}</a></li>
+          <li><a routerLink="/join-us" routerLinkActive="active">{{ language.label('joinUs') }}</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col footer-legal">
+        <div class="footer-legal__item" *ngIf="footer.fra">
+          <h5 class="info-label">{{ language.label('licensedByFra') }}</h5>
+          <p class="info-value">{{ footer.fra }}</p>
+        </div>
+        <div class="footer-legal__item" *ngIf="footer.trn">
+          <h5 class="info-label">{{ language.label('trnNumber') }}</h5>
+          <p class="info-value">{{ footer.trn }}</p>
+        </div>
+        <div class="footer-legal__item" *ngIf="footer.crn">
+          <h5 class="info-label">{{ language.label('crn') }}</h5>
+          <p class="info-value">{{ footer.crn }}</p>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h5 class="footer-col__title">{{ language.label('followUs') }}</h5>
+        <div class="footer-social">
+          <a
+            *ngIf="externalUrl(footer.instagramUrl) as ig"
+            [href]="ig"
+            class="social-icon"
+            target="_blank"
+            rel="noopener noreferrer"
+            [attr.aria-label]="language.label('followUs') + ' Instagram'"
+            ><i class="bi bi-instagram"></i
+          ></a>
+          <a
+            *ngIf="externalUrl(footer.facebookUrl) as fb"
+            [href]="fb"
+            class="social-icon"
+            target="_blank"
+            rel="noopener noreferrer"
+            [attr.aria-label]="language.label('followUs') + ' Facebook'"
+            ><i class="bi bi-facebook"></i
+          ></a>
+          <a
+            *ngIf="externalUrl(footer.linkedinUrl) as li"
+            [href]="li"
+            class="social-icon"
+            target="_blank"
+            rel="noopener noreferrer"
+            [attr.aria-label]="language.label('followUs') + ' LinkedIn'"
+            ><i class="bi bi-linkedin"></i
+          ></a>
+        </div>
+      </div>
+
+      <div class="footer-col footer-download">
+        <div class="footer-download__stores">
+          <h5 class="footer-col__title footer-col__title--center-lg">{{ language.label('downloadTheApp') }}</h5>
+          <div class="footer-store-badges">
+            <a
+              *ngIf="externalUrl(footer.playStoreUrl) as play"
+              [href]="play"
+              class="footer-store-badge"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+                src="assets/images/google-play.svg"
+                [alt]="language.label('googlePlay')"
+                class="store-badge-img"
+                width="135"
+                height="40"
+                loading="lazy"
+              />
+            </a>
+            <span *ngIf="!externalUrl(footer.playStoreUrl)" class="footer-store-badge footer-store-badge--static">
+              <img
+                src="assets/images/google-play.svg"
+                [alt]="language.label('googlePlay')"
+                class="store-badge-img"
+                width="135"
+                height="40"
+                loading="lazy"
+              />
+            </span>
+            <a
+              *ngIf="externalUrl(footer.appStoreUrl) as apple"
+              [href]="apple"
+              class="footer-store-badge"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+                src="assets/images/app-store.svg"
+                [alt]="language.label('appStore')"
+                class="store-badge-img"
+                width="135"
+                height="40"
+                loading="lazy"
+              />
+            </a>
+            <span *ngIf="!externalUrl(footer.appStoreUrl)" class="footer-store-badge footer-store-badge--static">
+              <img
+                src="assets/images/app-store.svg"
+                [alt]="language.label('appStore')"
+                class="store-badge-img"
+                width="135"
+                height="40"
+                loading="lazy"
+              />
+            </span>
+          </div>
+        </div>
+
+        <div class="footer-aur-logo">
+          <img
+            src="assets/images/aur-capital-logo.png"
+            [alt]="language.label('aurCapital')"
+            loading="lazy"
+          />
+        </div>
+      </div>
+
+    </div>
+
+    <div class="border-t border-white border-opacity-10 pt-3 flex flex-col md:flex-row justify-center items-center gap-4">
+      <p class="footer-copyright">{{ language.label('copyright') }}</p>
+    </div>
+  </div>
+</footer>

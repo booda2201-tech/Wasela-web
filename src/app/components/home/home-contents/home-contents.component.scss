@@ -1,0 +1,2216 @@
+.cms-preline {
+  white-space: pre-line;
+}
+
+/* Categories We Finance — عنوان، subtitle، شبكة، زر */
+.categories-section {
+  .categories-title {
+    margin: 0 0 1rem;
+    letter-spacing: -0.02em;
+  }
+
+  .categories-subtitle {
+    max-width: 36rem;
+    margin: 0 auto 1.25rem;
+  }
+
+  .category-grid {
+    gap: 0.5rem 0.35rem;
+    padding: 0.15rem 0;
+  }
+
+  .download-btn {
+    min-width: min(100%, 15rem);
+    margin-top: 0;
+    margin-bottom: 1.25rem;
+  }
+
+  .download-btn--desktop-only {
+    @media (min-width: 1000px) {
+      --dl-btn-h: 48px;
+      min-width: min(100%, 20.25rem);
+      width: min(100%, 18.25rem);
+      padding-inline-start: 1.15rem;
+
+      .download-btn__label {
+        font-size: 1rem;
+      }
+
+      .icon-circle i {
+        font-size: 1.08rem;
+      }
+    }
+  }
+}
+
+/* مربع موحّد لكل البطاقات (زي شبكة المرجع) — المحتوى كله من ملف الصورة */
+.shape-wrapper {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.08));
+}
+
+.category-card-frame {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  border-radius: 0;
+  background: transparent;
+}
+
+.category-card-img {
+  position: relative;
+  z-index: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+}
+
+/* تكبير يدوي لصور معيّنة (غيّر الـ # أو نسبة scale حسب اللي عندك بيبان أصغر) */
+
+#category-img-health-care,
+#category-img-sports-clubs {
+  transform: scale(1.20);
+  transform-origin: center center;
+}
+
+#category-img-education,
+#category-img-green-limits {
+  transform: scale(1.40);
+  transform-origin: center center;
+}
+
+
+.category-card-title {
+  position: absolute;
+  bottom: 20%;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  margin: 0;
+  padding: 0 0.65rem;
+  text-align: center;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: clamp(1.05rem, 2.9vw, 1.4rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: #fff;
+  text-transform: none;
+  font-style: normal;
+  text-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.55),
+    0 2px 14px rgba(0, 0, 0, 0.35);
+  pointer-events: none;
+}
+
+/* موبايل + تابلت — Swiper coverflow (نفس السلايدر) */
+@media (max-width: 999px) {
+  .categories-section {
+    .category-tablet-swiper-wrap {
+      --swiper-pagination-color: #1d1ddb;
+      --swiper-pagination-bullet-inactive-color: #c7c9e8;
+      --swiper-pagination-bullet-inactive-opacity: 1;
+      --swiper-pagination-bullet-size: 6px;
+      --swiper-pagination-bullet-horizontal-gap: 5px;
+      --swiper-pagination-bottom: 0.15rem;
+      width: 100%;
+      margin: 0 auto;
+      padding: 0.25rem 0 1.25rem;
+      overflow: hidden;
+    }
+
+    .categories-tablet-swiper {
+      width: 100%;
+      height: clamp(26rem, 64vw, 34rem);
+      padding: 0.5rem 0 2rem;
+      overflow: visible;
+    }
+
+    /* نقاط حديثة: دائرة صغيرة + النشطة pill */
+    .categories-tablet-swiper::part(bullet) {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #c7c9e8;
+      opacity: 1;
+      transition:
+        width 0.28s ease,
+        background-color 0.28s ease,
+        transform 0.28s ease;
+    }
+
+    .categories-tablet-swiper::part(bullet-active) {
+      width: 1.4rem;
+      height: 6px;
+      border-radius: 999px;
+      background: #1d1ddb;
+      transform: scale(1);
+    }
+
+    swiper-slide.categories-tablet-slide {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      width: 100%;
+      height: auto;
+      box-sizing: border-box;
+    }
+
+    .categories-tablet-slide .shape-wrapper {
+      aspect-ratio: auto;
+      height: clamp(20rem, 52vw, 26rem);
+      width: 100%;
+      max-width: 100%;
+    }
+
+    .categories-tablet-slide .category-card-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center center;
+    }
+
+    .categories-tablet-slide .category-card-title {
+      text-align: center;
+      bottom: 14%;
+      padding-inline: 0.4rem;
+      font-size: clamp(0.78rem, 2.8vw, 1rem);
+    }
+
+    #category-img-health-care,
+    #category-img-sports-clubs {
+      transform: scale(1.4) !important;
+      transform-origin: center center;
+    }
+
+    #category-img-education,
+    #category-img-green-limits {
+      transform: scale(1.54) !important;
+      transform-origin: center center;
+    }
+  }
+}
+
+/* موبايل — بطاقة واحدة في المنتصف */
+@media (max-width: 767px) {
+  .categories-section {
+    .categories-subtitle {
+      margin-bottom: 1rem;
+    }
+
+    .category-tablet-swiper-wrap {
+      margin-top: -0.35rem;
+      padding-top: 0;
+    }
+
+    .categories-tablet-swiper {
+      height: clamp(26.5rem, 74vw, 32rem);
+      padding-top: 0.25rem;
+    }
+
+    .categories-tablet-slide .shape-wrapper {
+      height: clamp(21.5rem, 70vw, 26.5rem);
+      max-width: min(96vw, 24.25rem);
+      margin-inline: auto;
+    }
+
+    .categories-tablet-slide .category-card-title {
+      font-size: clamp(1.05rem, 5vw, 1.3rem);
+      bottom: 13%;
+      padding-inline: 0.5rem;
+    }
+
+    #category-img-health-care,
+    #category-img-sports-clubs {
+      transform: scale(1.48) !important;
+    }
+
+    #category-img-education,
+    #category-img-green-limits {
+      transform: scale(1.62) !important;
+    }
+  }
+}
+
+/* تابلت — بطاقة واحدة في المنتصف + صورة أكبر */
+@media (min-width: 768px) and (max-width: 999px) {
+  .categories-section {
+    .categories-subtitle {
+      margin-bottom: 2rem;
+    }
+
+    .download-btn--desktop-only {
+      margin-bottom: 1.5rem !important;
+    }
+
+    .category-tablet-swiper-wrap {
+      margin-top: -0.85rem;
+      padding-top: 0;
+      overflow: hidden;
+    }
+
+    .categories-tablet-swiper {
+      height: clamp(29rem, 58vw, 35rem);
+      padding-top: 0.25rem;
+    }
+
+    swiper-slide.categories-tablet-slide {
+      width: 100% !important;
+      max-width: none;
+    }
+
+    .categories-tablet-slide .shape-wrapper {
+      height: clamp(25rem, 54vw, 31rem);
+      max-width: min(72vw, 29rem);
+      margin-inline: auto;
+      padding-inline: 0;
+    }
+
+    .categories-tablet-slide .category-card-title {
+      font-size: clamp(1.15rem, 3.2vw, 1.45rem);
+      bottom: 13%;
+      padding-inline: 0.55rem;
+    }
+
+    #category-img-health-care,
+    #category-img-sports-clubs {
+      transform: scale(1.52) !important;
+    }
+
+    #category-img-education,
+    #category-img-green-limits {
+      transform: scale(1.66) !important;
+    }
+  }
+}
+
+.shadow-layer {
+  z-index: 1;
+  // بنخلي الـ radius بتاع الطبقة اللي ورا أوسع شوية عشان تبان
+}
+
+.smooth-accordion {
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
+  will-change: flex, flex-grow, flex-basis, transform;
+}
+
+/* نفس شكل الزر: واحد فوق للديسكتوب فقط، واحد تحت الشبكة للموبايل فقط */
+.download-btn--desktop-only {
+  @media (max-width: 767px) {
+    display: none !important;
+  }
+}
+
+.download-btn--mobile-only {
+  @media (min-width: 768px) {
+    display: none !important;
+  }
+}
+
+/* قسم الشهادات — Customers & Merchants */
+.testimonials-section {
+  position: relative;
+  background:
+    radial-gradient(ellipse 75% 55% at 50% 42%, rgba(29, 29, 219, 0.07) 0%, transparent 58%),
+    #ffffff;
+  overflow: hidden;
+}
+
+.testimonials-swiper-wrap {
+  --swiper-navigation-color: #1d1ddb;
+  --swiper-pagination-color: #1d1ddb;
+  --swiper-pagination-bullet-inactive-color: #c7c9e8;
+  --swiper-pagination-bullet-inactive-opacity: 1;
+  max-width: min(100%, 93.75rem);
+  margin-inline: auto;
+  padding-bottom: 2.75rem;
+
+  @media (max-width: 1023px) {
+    --testimonial-mobile-card-w: 21rem;
+    --testimonial-mobile-bleed: 1rem;
+    width: calc(100% + (var(--testimonial-mobile-bleed) * 2));
+    max-width: calc(100% + (var(--testimonial-mobile-bleed) * 2));
+    margin-inline: calc(var(--testimonial-mobile-bleed) * -1);
+    padding-inline: 0;
+    padding-bottom: 3.5rem;
+    box-sizing: border-box;
+  }
+}
+
+@media (max-width: 1023px) {
+  .testimonials-section {
+    overflow: visible;
+  }
+
+  .testimonials-swiper {
+    width: 100%;
+    overflow: visible;
+  }
+
+  swiper-slide.testimonial-slide {
+    box-sizing: border-box;
+  }
+
+  .testimonial-slide {
+    overflow: visible;
+    padding: 6px 0 1.75rem;
+  }
+
+  .testimonial-wrapper {
+    width: var(--testimonial-mobile-card-w, 21rem);
+    max-width: var(--testimonial-mobile-card-w, 21rem);
+    flex-shrink: 0;
+    margin-inline: auto;
+  }
+
+  .testimonial-layered-card {
+    width: var(--testimonial-mobile-card-w, 21rem);
+    max-width: var(--testimonial-mobile-card-w, 21rem);
+    margin-inline: auto;
+    padding-bottom: 2.5rem;
+  }
+
+  .testimonial-layered-card__bg {
+    width: var(--testimonial-mobile-card-w, 21rem);
+    max-width: var(--testimonial-mobile-card-w, 21rem);
+  }
+
+  .testimonial-layered-card__panel {
+    width: 17.5rem;
+    max-width: 17.5rem;
+  }
+}
+
+/* ديسكتوب صغير — 1000–1400px (11"–14") */
+@media (min-width: 1000px) and (max-width: 1400px) {
+  .testimonials-section {
+    .testimonials-section__inner {
+      max-width: min(96vw, 76rem);
+      margin-inline: auto;
+      padding-inline: clamp(0.75rem, 2vw, 1.5rem);
+    }
+
+    .testimonials-swiper-wrap {
+      max-width: min(100%, 68rem);
+      padding-inline: 0.5rem;
+      padding-bottom: 2.25rem;
+    }
+
+    .testimonial-slide {
+      padding: 8px 4px;
+    }
+
+    .testimonial-wrapper {
+      max-width: min(100%, 20.5rem);
+    }
+
+    .testimonial-layered-card {
+      padding-bottom: 1.1rem;
+    }
+
+    .testimonial-layered-card__bg {
+      max-width: 24rem;
+      transform: translate(3%, 5%);
+
+      .testimonial-layered-card__bg-img {
+        width: 140%;
+      }
+    }
+
+    .testimonial-layered-card--first .testimonial-layered-card__bg,
+    .testimonial-layered-card--side .testimonial-layered-card__bg {
+      transform: translate(1.5%, 4.5%);
+    }
+
+    .testimonial-layered-card__panel {
+      width: min(100%, 16.5rem);
+      padding-top: clamp(3.2rem, 4.8%, 7rem);
+      padding-bottom: clamp(0.95rem, 4%, 1.15rem);
+    }
+
+    .testimonial-layered-card--side .testimonial-layered-card__panel,
+    .testimonial-layered-card--side.testimonial-layered-card--first .testimonial-layered-card__panel {
+      padding-top: clamp(2.85rem, 4%, 4.65rem);
+    }
+
+    .testimonial-layered-card__type {
+      font-size: clamp(0.8rem, 1.35vw, 0.94rem);
+    }
+
+    .testimonial-layered-card__name {
+      font-size: clamp(0.66rem, 1.05vw, 0.76rem);
+    }
+
+    .testimonial-layered-card__quote {
+      font-size: clamp(1.45rem, 2.8vw, 1.85rem);
+      margin: 0.28rem auto 0.08rem;
+    }
+
+    .testimonial-layered-card__text {
+      font-size: clamp(0.66rem, 1vw, 0.76rem);
+      line-height: 1.45;
+      max-height: none;
+      max-width: 13.25rem;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 4;
+      line-clamp: 4;
+    }
+
+    .testimonial-layered-card--side .testimonial-layered-card__text {
+      max-width: 12.75rem;
+    }
+
+    .testimonial-layered-card__avatar-ring {
+      width: clamp(3rem, 4.8vw, 3.85rem);
+      height: clamp(3rem, 4.8vw, 3.85rem);
+    }
+
+    .testimonial-layered-card--side .testimonial-layered-card__avatar-ring {
+      width: clamp(2.8rem, 4.4vw, 3.55rem);
+      height: clamp(2.8rem, 4.4vw, 3.55rem);
+    }
+
+    .testimonial-wrapper:not(.testimonial-wrapper--featured) {
+      transform: scale(0.97);
+    }
+
+    .testimonial-wrapper--featured {
+      transform: scale(1.03) translateY(-2%);
+
+      .testimonial-layered-card__avatar-ring {
+        width: clamp(3.25rem, 5vw, 4.15rem);
+        height: clamp(3.25rem, 5vw, 4.15rem);
+      }
+
+      .testimonial-layered-card__type {
+        font-size: clamp(0.86rem, 1.45vw, 1rem);
+      }
+
+      .testimonial-layered-card__name {
+        font-size: clamp(0.68rem, 1.1vw, 0.78rem);
+      }
+
+      .testimonial-layered-card__quote {
+        font-size: clamp(1.55rem, 3vw, 2rem);
+      }
+
+      .testimonial-layered-card__text {
+        font-size: clamp(0.68rem, 1.05vw, 0.78rem);
+        max-width: 13.5rem;
+        max-height: none;
+      }
+    }
+  }
+}
+
+.testimonials-swiper {
+  width: 100%;
+}
+
+.testimonial-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: auto;
+  box-sizing: border-box;
+  padding: 10px;
+
+  @media (max-width: 1023px) {
+    padding: 6px 0 1.75rem;
+  }
+
+  @media (min-width: 1200px) {
+    padding-top: 16px;
+    padding-bottom: 24px;
+  }
+}
+
+.testimonial-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: min(100%, 24rem);
+  margin-inline: auto;
+  transition: transform 0.35s ease;
+
+  @media (min-width: 640px) {
+    max-width: min(100%, 26rem);
+  }
+}
+
+/* طبقة خلفية من API + لوحة بيضاء + أفاتار من API (مرجع Figma) */
+.testimonial-layered-card {
+  --blue: #1d1ddb;
+  --peach: #ffc091;
+  position: relative;
+  width: 100%;
+  display: grid;
+  place-items: center;
+  padding: 0.75rem 0 1.25rem;
+  box-sizing: border-box;
+}
+
+.testimonial-layered-card__bg {
+  grid-area: 1 / 1;
+  z-index: 0;
+  width: 100%;
+  max-width: 28rem;
+  margin-inline: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+  transform: translate(4%, 6%);
+
+  @media (max-width: 1023px) {
+    transform: translate(2%, 4%);
+    width: var(--testimonial-mobile-card-w, 21rem);
+    max-width: var(--testimonial-mobile-card-w, 21rem);
+  }
+}
+
+.testimonial-layered-card__bg-img {
+  width: 150%;
+  height: auto !important;
+  display: block;
+  object-fit: contain;
+  filter: drop-shadow(0 12px 28px rgba(13, 17, 179, 0.14))
+    drop-shadow(0 5px 14px rgba(15, 23, 42, 0.1));
+}
+
+.testimonial-layered-card__panel {
+  grid-area: 1 / 1;
+  position: relative;
+  z-index: 2;
+  width: min(100%, 17.5rem);
+  margin: 0 auto;
+  background: transparent;
+  border-radius: 0;
+  padding:
+    clamp(3.65rem, 5%, 8.15rem)
+    clamp(0.85rem, 5.5%, 1.1rem)
+    clamp(1.1rem, 5%, 1.35rem);
+  box-sizing: border-box;
+}
+
+.testimonial-layered-card--first {
+  .testimonial-layered-card__bg {
+    transform: translate(0.5%, 5.5%);
+
+    @media (max-width: 1023px) {
+      transform: translate(0%, 4%);
+    }
+  }
+
+  .testimonial-layered-card__panel {
+    padding-top: clamp(3.65rem, 5%, 8.15rem);
+    padding-bottom: clamp(1.1rem, 5%, 1.35rem);
+    padding-left: clamp(0.85rem, 5.5%, 1.1rem);
+    padding-right: clamp(0.85rem, 5.5%, 1.1rem);
+  }
+
+  .testimonial-layered-card__body {
+    margin-inline: auto;
+    max-width: 100%;
+  }
+}
+
+/* الكارت الأول والتالت (جنب) — بدون تداخل أفاتار/نص، ٤ أسطر، متوسّط */
+.testimonial-layered-card--side {
+  .testimonial-layered-card__bg {
+    transform: translate(2%, 5.5%);
+
+    @media (max-width: 1023px) {
+      transform: translate(1%, 4%);
+    }
+  }
+
+  &.testimonial-layered-card--first .testimonial-layered-card__bg {
+    transform: translate(0.5%, 5.5%);
+
+    @media (max-width: 1023px) {
+      transform: translate(0%, 4%);
+    }
+  }
+
+  .testimonial-layered-card__avatar-ring {
+    transform: translate(-50%, -54%);
+    width: clamp(3.15rem, 17.5vw, 4.2rem);
+    height: clamp(3.15rem, 17.5vw, 4.2rem);
+  }
+
+  .testimonial-layered-card__panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    margin-inline: auto;
+    padding:
+      clamp(3.15rem, 4.1%, 5.15rem)
+      clamp(0.85rem, 5.5%, 1.1rem)
+      clamp(1rem, 4.5%, 1.25rem);
+  }
+
+  &.testimonial-layered-card--first .testimonial-layered-card__panel {
+    padding:
+      clamp(3.15rem, 4.1%, 5.15rem)
+      clamp(0.85rem, 5.5%, 1.1rem)
+      clamp(1rem, 4.5%, 1.25rem);
+  }
+
+  .testimonial-layered-card__body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-inline: auto;
+    width: 100%;
+    max-width: 100%;
+    margin-top: 0;
+    padding-inline: 0.35rem;
+  }
+
+  .testimonial-layered-card__type {
+    margin: 0 auto;
+    padding-inline: 0.35rem;
+    text-align: center;
+    width: 100%;
+  }
+
+  .testimonial-layered-card__name {
+    margin: 0.25rem auto 0;
+    padding-inline: 0.35rem;
+    text-align: center;
+    width: 100%;
+  }
+
+  .testimonial-layered-card__quote {
+    margin: 0.35rem auto 0.1rem;
+    text-align: center;
+  }
+
+  .testimonial-layered-card__text {
+    text-align: center;
+    margin-inline: auto;
+    width: 100%;
+    max-width: 13.5rem;
+    max-height: none;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
+    padding-inline: 0.25rem;
+  }
+}
+
+.testimonial-layered-card__avatar-ring {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -46%);
+  width: clamp(3.35rem, 19vw, 4.6rem);
+  height: clamp(3.35rem, 19vw, 4.6rem);
+  border-radius: 50%;
+  background: var(--peach);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  // box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+.testimonial-layered-card__avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  // box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+.testimonial-layered-card__avatar-icon {
+  color: var(--blue);
+  font-size: clamp(1.5rem, 6vw, 2.1rem);
+  line-height: 1;
+  transform: translateY(5%);
+}
+
+.testimonial-layered-card__body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  min-height: 0;
+}
+
+.testimonial-layered-card__type {
+  margin: 0;
+  padding: 0 0.2rem;
+  font-size: clamp(0.88rem, 2.5vw, 1.08rem);
+  font-weight: 900;
+  color: #2b2b2b;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  max-width: 100%;
+  overflow-wrap: break-word;
+}
+
+.testimonial-layered-card__name {
+  margin: 0.25rem 0 0;
+  padding: 0 0.2rem;
+  font-size: clamp(0.7rem, 1.85vw, 0.84rem);
+  font-weight: 500;
+  color: #8a8a8a;
+  line-height: 1.25;
+  max-width: 100%;
+  overflow-wrap: break-word;
+}
+
+.testimonial-layered-card__quote {
+  margin: 0.32rem 0 0.1rem;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(1.65rem, 3.8vw, 2.25rem);
+  line-height: 0.85;
+  color: var(--blue);
+  flex-shrink: 0;
+}
+
+.testimonial-layered-card__text {
+  margin: 0;
+  width: 100%;
+  max-width: 14rem;
+  max-height: 12rem;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 0 0.2rem;
+  text-align: center;
+  white-space: normal;
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: none;
+  text-wrap: pretty;
+
+  @media (max-width: 1023px) {
+    max-height: 9.5rem;
+    font-size: clamp(0.75rem, 2.35vw, 0.86rem);
+  }
+}
+
+/* شريحة نشطة (وسط السلايدر): خط أوضح + تكبير خفيف — بدون ظلال */
+.testimonial-wrapper--featured {
+  .testimonial-layered-card__avatar-ring {
+    width: clamp(3.65rem, 21vw, 5.1rem);
+    height: clamp(3.65rem, 21vw, 5.1rem);
+  }
+
+  .testimonial-layered-card__avatar-icon {
+    font-size: clamp(1.65rem, 6.5vw, 2.35rem);
+  }
+
+  .testimonial-layered-card__type {
+    font-size: clamp(1rem, 2.9vw, 1.28rem);
+  }
+
+  .testimonial-layered-card__name {
+    font-size: clamp(0.78rem, 2.15vw, 0.96rem);
+  }
+
+  .testimonial-layered-card__quote {
+    font-size: clamp(1.65rem, 4.5vw, 2.25rem);
+  }
+
+  .testimonial-layered-card__text {
+    max-height: 12.5rem;
+    font-size: clamp(0.74rem, 2vw, 0.86rem);
+    max-width: 14.25rem;
+
+    @media (max-width: 1023px) {
+      max-height: 10.5rem;
+    }
+  }
+
+  @media (min-width: 1401px) {
+    transform: scale(1.06) translateY(-5%);
+  }
+}
+
+/* Our Partners — عنوان، subtitle، شبكة الشعارات */
+.partners-section {
+  padding-bottom: clamp(2rem, 5vw, 3.5rem);
+
+  .partners-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto 1.5rem;
+    padding: 0 1rem;
+  }
+
+  .partners-title {
+    margin: 0 0 1rem;
+    letter-spacing: -0.02em;
+    text-align: center;
+  }
+
+  .partners-subtitle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.15rem;
+    max-width: min(52rem, 96vw);
+    margin: 0;
+    text-align: center;
+  }
+
+  .partners-subtitle__line {
+    display: block;
+    width: 100%;
+    text-wrap: balance;
+  }
+
+  .partners-grid {
+    gap: 0.65rem 0.85rem;
+    max-width: min(100%, 68rem);
+    margin-inline: auto;
+    padding: 0.15rem 0;
+  }
+
+  .partners-mobile-swiper-wrap {
+    --swiper-pagination-color: #1d1ddb;
+    --swiper-pagination-bullet-inactive-color: #c7c9e8;
+    --swiper-pagination-bullet-inactive-opacity: 1;
+    --swiper-pagination-bullet-size: 8px;
+    --swiper-pagination-bullet-horizontal-gap: 6px;
+    max-width: min(22rem, 100%);
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 0.25rem 2.25rem;
+
+    .partners-swiper-slide-inner,
+    .partner-column {
+      text-align: center;
+    }
+  }
+
+  .partners-swiper {
+    width: 100%;
+    overflow: visible;
+  }
+
+  .partners-swiper-slide {
+    height: auto;
+    box-sizing: border-box;
+  }
+
+  swiper-slide.partners-swiper-slide {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+  }
+
+  .partners-swiper-slide-inner {
+    width: 100%;
+    max-width: 20rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  // .partner-column {
+  //   // background: #f8f9ff;
+  //   // border: 1px solid #eceefc;
+  //   border-radius: 20px;
+  //   padding: 1.25rem 1rem 1.5rem;
+  // }
+
+  .partner-heading {
+    font-size: clamp(1.75rem, 4vw, 2.3rem);
+    line-height: 1.06;
+    font-weight: 900;
+    color: #1d1ddb;
+    margin-bottom: 2.5rem;
+    text-align: center;
+  }
+
+  .logo-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem;
+  }
+
+  .logo-cell {
+    --i: 0;
+    background: #fff;
+    // border: 1px solid #edf0ff;
+    border-radius: 14px;
+    min-height: 72px;
+    padding: 0.55rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: partnerCellFloat 3.2s ease-in-out infinite;
+    animation-delay: calc(var(--i) * 140ms);
+    transition: transform 0.28s ease, box-shadow 0.25s ease, opacity 0.28s ease, filter 0.28s ease;
+  }
+
+  .partner-logo {
+    max-height: 45px;
+    width: auto;
+    object-fit: contain;
+    opacity: 1.9;
+    animation: partnerLogoFade 3.2s ease-in-out infinite;
+    animation-delay: calc(var(--i) * 140ms);
+    transition: transform 0.28s ease, opacity 0.28s ease, filter 0.28s ease;
+  }
+
+  .logo-cell:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(29, 29, 219, 0.08);
+
+    .partner-logo {
+      opacity: 1;
+      transform: scale(1.04);
+    }
+  }
+
+  &.is-swapping {
+    .logo-cell {
+      opacity: 0.28;
+      transform: translateY(7px) scale(0.97);
+      filter: blur(0.8px);
+    }
+
+    .partner-logo {
+      opacity: 0;
+      transform: translateY(10px) scale(0.95);
+      filter: blur(1px);
+    }
+  }
+}
+
+/* Our Partners — ديسكتوب صغير: تصغير الشعارات */
+@media (min-width: 1000px) and (max-width: 1400px) {
+  .partners-section {
+    .partners-grid {
+      max-width: min(100%, 60rem);
+      gap: 0.5rem 0.65rem;
+    }
+
+    .partner-heading {
+      margin-bottom: 3rem;
+      font-size: clamp(1.45rem, 2.2vw, 1.85rem);
+    }
+
+    .logo-grid {
+      gap: 0.5rem;
+    }
+
+    .partner-logo {
+      max-height: 30px;
+      max-width: 88%;
+    }
+
+    .logo-cell {
+      min-height: 54px;
+      padding: 0.35rem;
+      border-radius: 12px;
+    }
+  }
+}
+
+@keyframes partnerCellFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+@keyframes partnerLogoFade {
+  0%, 100% { opacity: 0.75; }
+  50% { opacity: 1; }
+}
+
+/* Merchants — تحت lg: عمودان متدرّجان؛ زر تحت الشبكة صغير فقط، زر بعد النص كبير فقط (يتغلب على display بتاع الزر) */
+.merchants-showcase-section {
+  width: 100%;
+  max-width: 100%;
+  margin-left: 0;
+  margin-right: 0;
+  padding-top: clamp(1rem, 2.5vw, 1.75rem);
+  padding-bottom: clamp(1rem, 2vw, 1.5rem);
+  overflow: visible;
+
+  .merchants-title {
+    margin: 0 0 1rem;
+    letter-spacing: -0.02em;
+    text-align: center;
+  }
+
+  .merchants-showcase-desc {
+    margin: 0 0 1.35rem;
+
+    @media (min-width: 1000px) {
+      margin-bottom: 1rem;
+    }
+  }
+
+  .merchants-showcase-header {
+    margin-bottom: 0;
+  }
+
+  .container {
+    width: 100%;
+    max-width: min(72rem, 100%);
+    margin-inline: auto;
+    overflow: visible;
+  }
+
+  .merchants-cta--desktop {
+    margin-top: 0;
+  }
+
+  /* شبكة التجار */
+  .merchants-grid-stage {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: min(62rem, 100%);
+    margin: 0 auto;
+    height: auto;
+    min-height: 0;
+    overflow: visible;
+    padding-bottom: clamp(1.25rem, 2.5vw, 2rem);
+
+    @media (min-width: 1000px) {
+      max-width: min(62rem, 92%);
+      margin-top: 0.75rem;
+    }
+  }
+
+  .merchants-grid {
+    height: auto;
+    min-height: 0;
+    overflow: visible;
+  }
+
+  .merchants-col {
+    height: fit-content;
+    min-height: 0;
+    overflow: visible;
+  }
+
+  @media (max-width: 999px) {
+    .merchants-grid-stage {
+      max-width: min(36rem, 100%);
+      padding-inline: clamp(0.25rem, 2vw, 0.75rem);
+      padding-bottom: clamp(0.75rem, 2vw, 1.25rem);
+    }
+
+    .merchants-grid {
+      gap: 0.625rem;
+      align-items: start;
+    }
+
+    .merchants-col {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      height: calc(510px + 0.625rem);
+      max-height: calc(510px + 0.625rem);
+      overflow: hidden;
+      gap: 0.625rem;
+    }
+
+    .merchants-col:nth-child(even) {
+      transform: translateY(clamp(0.65rem, 3.5vw, 1.25rem));
+    }
+
+    .merchant-card {
+      flex: var(--card-flex, 1) 1 0;
+      min-height: 0;
+      height: auto;
+      z-index: 1;
+      outline: none;
+      box-shadow:
+        0 8px 20px -14px rgb(15 23 42 / 0.35),
+        0 0 0 1px rgb(255 255 255 / 0.35);
+      transition:
+        flex 0.85s cubic-bezier(0.33, 1, 0.68, 1),
+        box-shadow 0.55s ease,
+        z-index 0s linear 0.45s;
+    }
+
+    .merchants-col:has(.merchant-card:hover) .merchant-card:not(:hover),
+    .merchants-col:has(.merchant-card:active) .merchant-card:not(:active),
+    .merchants-col:has(.merchant-card:focus) .merchant-card:not(:focus) {
+      flex: 0.58 1 0;
+      transition:
+        flex 0.85s cubic-bezier(0.33, 1, 0.68, 1) 0.05s,
+        box-shadow 0.5s ease,
+        z-index 0s linear 0.2s;
+    }
+
+    .merchant-card--short:hover,
+    .merchant-card--tall:hover,
+    .merchant-card--short:active,
+    .merchant-card--tall:active,
+    .merchant-card--short:focus,
+    .merchant-card--tall:focus {
+      flex: var(--card-hover-flex, 1.85) 1 0;
+      min-height: 0;
+      z-index: 2;
+      box-shadow:
+        0 20px 44px -22px rgb(13 17 179 / 0.4),
+        0 8px 24px -12px rgb(0 0 0 / 0.12);
+      transition:
+        flex 0.9s cubic-bezier(0.33, 1, 0.68, 1) 0.08s,
+        box-shadow 0.55s ease 0.1s,
+        z-index 0s;
+
+      .merchant-card-overlay {
+        opacity: 1;
+        background: rgb(0 0 0 / 20%);
+      }
+
+      .merchant-card-logo {
+        transform: scale(1.05);
+      }
+    }
+
+    .merchant-card--short:hover,
+    .merchant-card--short:active,
+    .merchant-card--short:focus {
+      .merchant-card-bg {
+        transform: scale(1.1);
+      }
+    }
+
+    .merchant-card--tall:hover,
+    .merchant-card--tall:active,
+    .merchant-card--tall:focus {
+      .merchant-card-bg {
+        transform: scale(1.12);
+      }
+    }
+
+    .merchant-card:focus-visible {
+      outline: 2px solid #1d1ddb;
+      outline-offset: 2px;
+    }
+
+    .merchant-card-bg {
+      z-index: 0;
+      transform: scale(1);
+      transform-origin: center center;
+      transition: transform 0.9s cubic-bezier(0.33, 1, 0.68, 1) 0.08s;
+    }
+
+    .merchant-card-overlay {
+      z-index: 1;
+      opacity: 0;
+      background: transparent;
+      transition:
+        opacity 0.55s ease 0.1s,
+        background 0.55s ease 0.1s;
+    }
+
+    .merchant-card-logo-wrap {
+      z-index: 2;
+    }
+
+    .merchant-card-logo {
+      display: block;
+      flex-shrink: 0;
+      width: clamp(3rem, 22vw, 4.25rem);
+      height: clamp(3rem, 22vw, 4.25rem);
+      max-width: clamp(3rem, 22vw, 4.25rem);
+      max-height: clamp(3rem, 22vw, 4.25rem);
+      object-fit: contain;
+      transform: scale(1);
+      transform-origin: center center;
+      transition: transform 0.85s cubic-bezier(0.33, 1, 0.68, 1) 0.12s;
+    }
+  }
+
+  @media (min-width: 640px) and (max-width: 999px) {
+    .merchants-grid-stage {
+      max-width: min(40rem, 100%);
+    }
+
+    .merchants-grid,
+    .merchants-col {
+      gap: 0.75rem;
+    }
+
+    .merchants-col {
+      height: calc(541px + 0.75rem);
+      max-height: calc(541px + 0.75rem);
+    }
+
+    .merchants-col:nth-child(even) {
+      transform: translateY(clamp(0.85rem, 2.5vw, 1.5rem));
+    }
+
+    .merchant-card-logo {
+      width: clamp(3.5rem, 14vw, 5rem);
+      height: clamp(3.5rem, 14vw, 5rem);
+      max-width: clamp(3.5rem, 14vw, 5rem);
+      max-height: clamp(3.5rem, 14vw, 5rem);
+    }
+  }
+
+  @media (min-width: 1000px) {
+    .merchants-grid-stage {
+      max-width: min(58.5rem, 92%);
+    }
+
+    .merchants-col {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      height: min(1080px, calc(72vh - 1rem));
+      max-height: min(1080px, calc(72vh - 1rem));
+      overflow: hidden;
+      gap: 1.125rem;
+    }
+
+    .merchant-card {
+      flex: var(--card-flex, 1) 1 0;
+      min-height: 190px;
+      height: auto;
+      z-index: 1;
+      transition:
+        flex 1.45s cubic-bezier(0.4, 0, 0.2, 1),
+        min-height 1.45s cubic-bezier(0.4, 0, 0.2, 1),
+        box-shadow 0.8s ease,
+        z-index 0s linear 0.45s;
+    }
+
+    .merchants-col:has(.merchant-card:hover) .merchant-card:not(:hover) {
+      flex: 0.62 1 0;
+      min-height: clamp(8.75rem, 17vh, 11rem);
+      transition:
+        flex 0.85s cubic-bezier(0.33, 1, 0.68, 1) 0.05s,
+        min-height 0.85s cubic-bezier(0.33, 1, 0.68, 1) 0.05s,
+        box-shadow 0.5s ease,
+        z-index 0s linear 0.2s;
+    }
+
+    .merchant-card--short:hover,
+    .merchant-card--tall:hover {
+      flex: var(--card-hover-flex, 1.85) 1 0;
+      min-height: 0;
+      z-index: 2;
+      box-shadow:
+        0 20px 44px -22px rgba(13, 17, 179, 0.4),
+        0 8px 24px -12px rgba(0, 0, 0, 0.12);
+      transition:
+        flex 0.9s cubic-bezier(0.33, 1, 0.68, 1) 0.08s,
+        min-height 0.9s cubic-bezier(0.33, 1, 0.68, 1) 0.08s,
+        box-shadow 0.55s ease 0.1s,
+        z-index 0s;
+
+      .merchant-card-overlay {
+        opacity: 1;
+        background: rgb(0 0 0 / 20%);
+        transition:
+          opacity 0.55s ease 0.1s,
+          background 0.55s ease 0.1s;
+      }
+
+      .merchant-card-logo {
+        transform: scale(1.05);
+        transition: transform 0.85s cubic-bezier(0.33, 1, 0.68, 1) 0.12s;
+      }
+    }
+
+    .merchant-card--short:hover {
+      transition:
+        flex 0.85s cubic-bezier(0.33, 1, 0.68, 1) 0.06s,
+        min-height 0.85s cubic-bezier(0.33, 1, 0.68, 1) 0.06s,
+        box-shadow 0.55s ease 0.08s,
+        z-index 0s;
+
+      .merchant-card-bg {
+        transform: scale(1.1);
+        transition: transform 0.9s cubic-bezier(0.33, 1, 0.68, 1) 0.08s;
+      }
+    }
+
+    .merchant-card--tall:hover {
+      transition:
+        flex 1s cubic-bezier(0.33, 1, 0.68, 1) 0.1s,
+        min-height 1s cubic-bezier(0.33, 1, 0.68, 1) 0.1s,
+        box-shadow 0.55s ease 0.12s,
+        z-index 0s;
+
+      .merchant-card-bg {
+        transform: scale(1.12);
+        transition: transform 1s cubic-bezier(0.33, 1, 0.68, 1) 0.1s;
+      }
+    }
+
+    .merchant-card-bg {
+      z-index: 0;
+      transform: scale(1);
+      transform-origin: center center;
+      transition: transform 1.4s cubic-bezier(0.4, 0, 0.2, 1) 0.05s;
+    }
+
+    .merchant-card-overlay {
+      z-index: 1;
+      opacity: 0;
+      transition:
+        opacity 0.95s ease 0.06s,
+        background 0.95s ease 0.06s;
+    }
+
+    .merchant-card-logo-wrap {
+      z-index: 2;
+    }
+
+    .merchant-card-logo {
+      display: block;
+      flex-shrink: 0;
+      width: 5.5rem;
+      height: 5.5rem;
+      max-width: 5.5rem;
+      max-height: 5.5rem;
+      object-fit: contain;
+      transform: scale(1);
+      transform-origin: center center;
+      transition: transform 1.3s cubic-bezier(0.4, 0, 0.2, 1) 0.08s;
+    }
+  }
+
+  @media (min-width: 1401px) {
+    .merchants-grid-stage {
+      max-width: min(58.5rem, 92%);
+    }
+
+    .merchants-col {
+      height: min(1080px, calc(72vh - 1rem));
+      max-height: min(1080px, calc(72vh - 1rem));
+      gap: 1.125rem;
+    }
+
+    .merchant-card {
+      min-height: 190px;
+    }
+
+    .merchant-card-logo {
+      width: 6rem;
+      height: 6rem;
+      max-width: 6rem;
+      max-height: 6rem;
+    }
+  }
+
+  .merchant-card {
+    filter: none;
+  }
+
+
+  .merchants-cta--desktop {
+    display: none !important;
+    @media (min-width: 1000px) {
+      display: inline-grid !important;
+      --dl-btn-h: 48px;
+      min-width: min(100%, 16.5rem);
+      width: min(100%, 16.5rem);
+      padding-inline-start: 1.15rem;
+
+      .download-btn__label {
+        font-size: 1rem;
+      }
+
+      .icon-circle i {
+        font-size: 1.08rem;
+      }
+    }
+  }
+
+  .merchants-cta--mobile {
+    display: inline-grid !important;
+    @media (min-width: 1000px) {
+      display: none !important;
+    }
+  }
+
+  .merchants-cta-mobile-row {
+    display: none;
+    @media (max-width: 999px) {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      padding-inline: 0.5rem;
+      margin-top: calc(1.5rem + 10px);
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  // margin-bottom: 150px!important;
+}
+
+/* Full HD لابتوب — مسافات أخف فقط (الارتفاع من calc على العمود) */
+@media (min-width: 1000px) and (max-height: 1100px) {
+  .merchants-showcase-section {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+
+    .merchants-showcase-header {
+      margin-bottom: 0.85rem !important;
+    }
+
+    .merchants-grid-stage {
+      margin-top: 0.75rem;
+    }
+  }
+}
+
+.download-section {
+  overflow: visible;
+  margin-top: clamp(3.5rem, 7vw, 5.75rem);
+
+  .download-mockup-backdrop {
+    display: none;
+  }
+
+  .download-layout {
+    position: relative;
+    overflow: visible;
+    padding-bottom: clamp(0.85rem, 2.5vw, 1.5rem);
+  }
+
+  .download-shell {
+    position: relative;
+    z-index: 1;
+    border-radius: 30px;
+    overflow: hidden;
+    line-height: 0;
+    background: #fff;
+  }
+
+  .download-frame {
+    display: block;
+    width: 96%;
+    height: auto;
+    margin-inline: auto;
+    position: relative;
+    z-index: 0;
+    object-fit: contain;
+    object-position: center center;
+    border: none;
+    outline: none;
+    clip-path: inset(5px round 25px);
+    transform: scaleX(1.1);
+    transform-origin: center center;
+  }
+
+  .download-copy {
+    position: absolute;
+    z-index: 2;
+    /* Figma: النص ~258px من يسار إطار ~1140px ≈ 22.6% */
+    left: 10%;
+    top: 50%;
+    transform: translateY(-50%);
+    right: auto;
+    bottom: auto;
+    width: min(33.6875rem, calc(100% - 2.5rem));
+    max-width: 33.6875rem;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    pointer-events: none;
+    font-family:
+      'Diodrum Cyrillic',
+      'Diodrum Arabic',
+      system-ui,
+      -apple-system,
+      sans-serif;
+
+    .download-heading,
+    .download-subtitle,
+    .store-badges {
+      pointer-events: auto;
+    }
+
+    /* Figma: 55px Bold, #0d11b3 — الأحجام من SCSS فقط (بدون Tailwind على العنوان) */
+    .download-heading {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0;
+      margin: 0 0 1rem;
+      padding: 0;
+      color: #0d11b3;
+      font-size: clamp(1.875rem, 3.05vw, 3rem);
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+    }
+
+    .download-heading__line {
+      display: block;
+    }
+
+    @media (min-width: 1100px) {
+      .download-heading__line {
+        white-space: nowrap;
+      }
+    }
+
+    /* Figma body: 14px Medium, #737373 */
+    .download-subtitle {
+      margin: 0 0 1.25rem;
+      max-width: 33.6875rem;
+    }
+  }
+
+  .store-badge-slot {
+    display: contents;
+  }
+
+  .store-badges {
+    display: flex;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+    align-items: center;
+
+    .store-badge-img {
+      width: auto;
+      height: 40px;
+      max-width: none;
+      aspect-ratio: 135 / 40;
+      object-fit: contain;
+    }
+  }
+
+  /* ديسكتوب — هيكل الفون فوق الإطار */
+  @media (min-width: 1000px) {
+    .download-mockup-wrap {
+      display: contents;
+    }
+
+    .download-mockup-backdrop {
+      display: none !important;
+    }
+
+    .download-mockup-card {
+      display: contents;
+    }
+
+    .download-mockup-device {
+      display: contents;
+    }
+  }
+}
+
+/* Download — ديسكتوب صغير: Frame أصغر ومرفوع بدون قص + GIF أنزل لأسفل السيكشن */
+@media (min-width: 1000px) and (max-width: 1400px) {
+  .download-section {
+    margin-top: clamp(3.5rem, 7vw, 5.75rem);
+    margin-bottom: clamp(1.25rem, 2.5vw, 2rem);
+    padding-top: clamp(1rem, 2vw, 2rem) !important;
+    padding-bottom: clamp(1rem, 2vw, 1.5rem) !important;
+    background: #fff;
+
+    .download-layout {
+      padding-bottom: clamp(0.65rem, 1.5vw, 1rem);
+      background: #fff;
+    }
+
+    .download-shell {
+      overflow: visible;
+      background: #fff;
+      border-radius: 30px;
+      isolation: isolate;
+
+      &::before {
+        content: '';
+        position: absolute;
+        left: 50%;
+        top: 0;
+        z-index: 0;
+        width: 90%;
+        height: 100%;
+        transform: translateX(-50%) translateY(-1.25rem);
+        border-radius: 28px;
+        background: #fff;
+        pointer-events: none;
+      }
+    }
+
+    .download-frame {
+      position: relative;
+      z-index: 1;
+      width: 87%;
+      background-color: #fff;
+      border-radius: 26px;
+      object-fit: contain;
+      object-position: center top;
+      clip-path: none;
+      transform: scaleX(1) translateY(-2rem);
+      transform-origin: center top;
+    }
+
+    .download-copy {
+      top: 40%;
+      left: 1%;
+      transform: translateY(calc(-50% - 0.65rem));
+    }
+
+    .download-mockup {
+      position: absolute;
+      right: clamp(-2rem, -4vw, -0.15rem);
+      bottom: clamp(0.1rem, 0.35vw, 0.4rem);
+      width: min(89%, 60rem);
+      max-width: none;
+      height: auto;
+      max-height: 136%;
+      z-index: 5;
+      object-fit: contain;
+      object-position: right bottom;
+      pointer-events: none;
+      transform: translateY(0.35%);
+    }
+  }
+}
+
+/* Download — ديسكتوب كبير: نفس منطق الديسكتوب الصغير مع مقاسات أكبر */
+@media (min-width: 1401px) {
+  .download-section {
+    margin-top: clamp(4rem, 5vw, 5.5rem);
+    margin-bottom: clamp(1.5rem, 2vw, 2.5rem);
+    padding-top: clamp(1rem, 2vw, 2.5rem) !important;
+    padding-bottom: clamp(1rem, 1.5vw, 1.5rem) !important;
+    background: #fff;
+
+    .download-layout {
+      padding-bottom: clamp(0.85rem, 1.25vw, 1.25rem);
+      background: #fff;
+    }
+
+    .download-shell {
+      overflow: visible;
+      background: #fff;
+      border-radius: 30px;
+      isolation: isolate;
+
+      &::before {
+        content: '';
+        position: absolute;
+        left: 50%;
+        top: 0;
+        z-index: 0;
+        width: 97%;
+        height: 100%;
+        transform: translateX(-50%) translateY(-1.5rem);
+        border-radius: 28px;
+        background: #fff;
+        pointer-events: none;
+      }
+    }
+
+    .download-frame {
+      position: relative;
+      z-index: 1;
+      width: 94%;
+      background-color: #fff;
+      border-radius: 26px;
+      object-fit: contain;
+      object-position: center top;
+      clip-path: none;
+      transform: scaleX(1.06) translateY(-2.25rem);
+      transform-origin: center top;
+    }
+
+    .download-copy {
+      top: 42%;
+      transform: translateY(calc(-50% - 0.75rem));
+    }
+
+    .download-mockup {
+      position: absolute;
+      right: clamp(-6rem, -7.5vw, -2rem);
+      bottom: clamp(0.25rem, 0.5vw, 0.65rem);
+      width: min(94%, 66rem);
+      max-width: none;
+      height: auto;
+      max-height: 138%;
+      z-index: 5;
+      object-fit: contain;
+      object-position: right bottom;
+      pointer-events: none;
+      transform: translateY(0.25%) scaleX(1.06);
+      transform-origin: right bottom;
+    }
+  }
+}
+
+/* الكارت الزخرفي للموبايل فقط — من 768px فما فوق ما يغيّرش تخطيط التابلت/الديسكتوب */
+@media (min-width: 768px) {
+  .download-section .download-mockup-card {
+    display: contents;
+  }
+}
+
+/* تابلت + موبايل (تحت الديسكتوب الصغير — min-width: 1000px ما يتلمسش) */
+@media (max-width: 999px) {
+  .download-section {
+    background: #fff;
+
+    .download-layout {
+      display: block;
+      position: relative;
+      overflow: visible;
+      margin-inline: auto;
+      max-width: min(42rem, 100%);
+      padding-bottom: clamp(2rem, 8vw, 3.5rem);
+    }
+
+    .download-shell {
+      width: 100%;
+      max-width: none;
+      margin-inline: 0;
+      border-radius: 30px;
+      overflow: hidden;
+      background: #fff;
+      position: relative;
+      z-index: 1;
+    }
+
+    .download-frame {
+      display: block;
+      width: 96%;
+      height: auto;
+      margin-inline: auto;
+      max-height: none;
+      object-fit: contain;
+      object-position: center center;
+      border: none;
+      outline: none;
+      clip-path: inset(5px round 25px);
+      transform: scaleX(1.1);
+      transform-origin: center center;
+    }
+
+    .download-copy {
+      position: absolute;
+      z-index: 2;
+      left: clamp(0.75rem, 4vw, 1.5rem);
+      right: auto;
+      top: 50%;
+      bottom: auto;
+      transform: translateY(-50%);
+      width: min(42%, 14rem);
+      max-width: calc(100% - 10.5rem);
+      margin-inline: 0;
+      align-items: flex-start;
+      text-align: left;
+      padding: 0;
+      font-family:
+        'Diodrum Cyrillic',
+        'Diodrum Arabic',
+        system-ui,
+        -apple-system,
+        sans-serif;
+    }
+
+    .download-heading {
+      align-items: flex-start;
+      text-align: left;
+      margin: 0 0 clamp(0.5rem, 1.8vw, 0.75rem);
+      padding: 0;
+      color: #0d11b3;
+      font-size: clamp(1.1rem, 2.75vw, 1.45rem);
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+    }
+
+    .download-heading__line {
+      white-space: normal;
+      text-align: left;
+    }
+
+    .download-subtitle {
+      margin: 0 0 clamp(0.6rem, 2vw, 0.95rem);
+      padding: 0;
+      max-width: none;
+      text-align: left;
+    }
+
+    .store-badges {
+      justify-content: flex-start;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: clamp(0.5rem, 1.8vw, 1rem);
+      width: 100%;
+      max-width: none;
+      margin-inline: 0;
+    }
+
+    .store-badge-slot {
+      display: contents;
+    }
+
+    .store-badges .store-badge-img {
+      width: auto;
+      height: clamp(28px, 5vw, 40px);
+      max-width: none;
+      aspect-ratio: 135 / 40;
+      object-fit: contain;
+    }
+
+    .download-mockup-wrap {
+      display: block;
+      position: absolute;
+      right: clamp(-0.85rem, -2.5vw, 0rem);
+      bottom: clamp(0.4rem, 1.2vw, 0.85rem);
+      left: auto;
+      width: min(68%, 24rem);
+      max-width: none;
+      z-index: 5;
+      pointer-events: none;
+      line-height: 0;
+      overflow: visible;
+    }
+
+    .download-mockup-backdrop {
+      position: absolute;
+      left: 50%;
+      bottom: -8%;
+      transform: translateX(-50%);
+      width: min(138%, 36rem);
+      height: 112%;
+      min-height: 12rem;
+      z-index: 0;
+      pointer-events: none;
+      background: linear-gradient(168deg, #fcfcfe 0%, #f4f6fc 42%, #e9edf7 100%);
+      border-radius: 52% 52% 42% 42% / 38% 38% 48% 48%;
+    }
+
+    .download-mockup-backdrop::before {
+      content: 'W';
+      position: absolute;
+      left: 50%;
+      bottom: -4%;
+      transform: translateX(-50%);
+      font-family:
+        'Diodrum Cyrillic',
+        'Diodrum Arabic',
+        system-ui,
+        -apple-system,
+        sans-serif;
+      font-weight: 800;
+      font-size: clamp(7rem, 28vw, 16rem);
+      color: rgba(13, 17, 179, 0.08);
+      line-height: 0.82;
+      letter-spacing: -0.07em;
+      user-select: none;
+    }
+
+    .download-mockup-backdrop::after {
+      content: '';
+      position: absolute;
+      right: -6%;
+      bottom: -14%;
+      width: min(52%, 20rem);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: radial-gradient(
+        circle at 38% 38%,
+        rgba(235, 228, 215, 0.58) 0%,
+        rgba(248, 249, 253, 0) 70%
+      );
+      filter: blur(32px);
+    }
+
+    .download-mockup {
+      position: relative;
+      z-index: 5;
+      display: block;
+      width: 126%;
+      height: auto;
+      object-fit: contain;
+      object-position: right bottom;
+      pointer-events: none;
+      transform: translateY(-5%) !important;
+    }
+  }
+}
+
+/* تابلت فقط — بين موبايل والديسكتوب: إطار + نص يسار + موبايل يمين بدون قص أو فراغ كبير */
+@media (min-width: 768px) and (max-width: 999px) {
+  .download-section {
+    overflow: visible;
+
+    .download-layout {
+      max-width: 100%;
+      margin-inline: 0;
+      padding-bottom: clamp(1.5rem, 4vw, 2.5rem);
+    }
+
+    .download-shell {
+      overflow: hidden;
+      min-height: 0;
+      background: #fff;
+      border-radius: 30px;
+    }
+
+    .download-frame {
+      display: block;
+      width: 96%;
+      height: auto;
+      margin-inline: auto;
+      min-height: 0;
+      max-height: none;
+      object-fit: contain;
+      object-position: center center;
+      border: none;
+      outline: none;
+      clip-path: inset(5px round 25px);
+      transform: scaleX(1.1);
+      transform-origin: center center;
+    }
+
+    .download-copy {
+      left: clamp(1rem, 4.5vw, 2.25rem);
+      top: 50%;
+      transform: translateY(-50%);
+      width: min(52%, 20.5rem);
+      max-width: calc(100% - min(46%, 17rem) - 1.25rem);
+      padding-block: 0.5rem;
+    }
+
+    .download-heading {
+      font-size: clamp(1.35rem, 2.4vw, 1.75rem);
+      margin-bottom: clamp(0.5rem, 1.2vw, 0.85rem);
+      line-height: 1.22;
+    }
+
+    .download-subtitle {
+      margin-bottom: clamp(0.75rem, 1.5vw, 1.1rem);
+      max-width: 20.5rem;
+    }
+
+    .store-badges {
+      gap: clamp(0.65rem, 1.2vw, 1rem);
+
+      .store-badge-img {
+        height: clamp(32px, 4vw, 38px);
+      }
+    }
+
+    .download-mockup-wrap {
+      display: contents;
+    }
+
+    .download-mockup-card {
+      display: contents;
+    }
+
+    .download-mockup-device {
+      display: contents;
+    }
+
+    .download-mockup {
+      position: absolute;
+      right: clamp(-1.25rem, 0.25vw, 0.5rem);
+      bottom: clamp(0.4rem, 1vw, 0.85rem);
+      width: min(84%, 54rem);
+      max-width: none;
+      height: auto;
+      max-height: 132%;
+      z-index: 5;
+      object-fit: contain;
+      object-position: right bottom;
+      pointer-events: none;
+      transform: translateY(-5%) !important;
+    }
+  }
+}
+
+/* هاتف فقط — كارت واحد: Frame.png خلف النص والـ GIF معًا */
+@media (max-width: 767px) {
+  .download-section {
+    background: #fff;
+    overflow-x: clip;
+    margin-top: 0;
+
+    .download-layout {
+      position: relative;
+      display: block;
+      max-width: min(22.5rem, calc(100% - 0.5rem));
+      margin-inline: auto;
+      padding: clamp(1.15rem, 4.8vw, 1.5rem) clamp(1rem, 4vw, 1.25rem)
+        clamp(16rem, 67vw, 20rem);
+      min-height: clamp(27.25rem, 111vw, 35.5rem);
+      border-radius: clamp(1.35rem, 4.5vw, 1.75rem);
+      overflow: hidden;
+      background-color: #f4f6fc;
+      background-image: url('../../../../assets/images/Frame.png');
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: cover;
+      box-sizing: border-box;
+    }
+
+    .download-mockup-backdrop {
+      display: none !important;
+    }
+
+    .download-shell {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      margin: 0;
+      border-radius: 0;
+      overflow: visible;
+      background: transparent;
+      min-height: 0;
+    }
+
+    .download-frame {
+      display: none !important;
+    }
+
+    .download-copy {
+      position: relative;
+      z-index: 2;
+      left: auto;
+      right: auto;
+      top: auto;
+      bottom: auto;
+      transform: none;
+      width: 100%;
+      max-width: min(19rem, 88%);
+      margin-inline: 0;
+      align-items: flex-start;
+      text-align: left;
+      padding: 0;
+      font-family:
+        'Diodrum Cyrillic',
+        'Diodrum Arabic',
+        system-ui,
+        -apple-system,
+        sans-serif;
+    }
+
+    .download-heading {
+      align-items: flex-start;
+      text-align: left;
+      margin: 0 0 0.65rem;
+      padding: 0;
+      color: #1d1ddb;
+      font-size: clamp(1.15rem, 5.2vw, 1.5rem);
+      font-weight: 800;
+      line-height: 1.18;
+      letter-spacing: -0.03em;
+    }
+
+    .download-heading__line {
+      text-align: left;
+      white-space: normal;
+    }
+
+    .download-subtitle--mobile {
+      margin: 0 0 1rem;
+      padding: 0;
+      max-width: min(18rem, 100%);
+      text-align: left;
+    }
+
+    .store-badges {
+      justify-content: flex-start;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.65rem;
+      width: 100%;
+      max-width: min(19rem, 100%);
+      margin-inline: 0;
+    }
+
+    .store-badges .store-badge-img {
+      height: 36px;
+      width: auto;
+      max-width: none;
+      aspect-ratio: 135 / 40;
+      object-fit: contain;
+    }
+
+    .download-mockup-wrap {
+      position: absolute !important;
+      left: auto !important;
+      right: clamp(-2.35rem, -9.5vw, -0.85rem) !important;
+      bottom: clamp(1.15rem, 5vw, 1.9rem) !important;
+      width: min(124%, 28.75rem) !important;
+      max-width: none;
+      min-height: 0;
+      margin: 0;
+      padding: 0;
+      display: block !important;
+      z-index: 3;
+      pointer-events: none;
+      line-height: 0;
+    }
+
+    .download-mockup-card,
+    .download-mockup-device {
+      position: relative;
+      width: 100%;
+      margin: 0;
+      right: auto;
+      background: transparent;
+      box-shadow: none;
+      overflow: visible;
+    }
+
+    .download-mockup {
+      position: relative !important;
+      left: auto !important;
+      right: auto !important;
+      top: auto !important;
+      bottom: auto !important;
+      display: block;
+      width: 182%;
+      height: auto;
+      margin: 0;
+      object-fit: contain;
+      object-position: right bottom;
+      z-index: 1;
+      transform: rotate(4deg) translateX(17%) translateY(-4%);
+      -webkit-user-drag: none;
+    }
+  }
+}
+
+/* Download — عربي موبايل: مساحة إضافية تحت الـ GIF */
+:host-context(html[dir='rtl']) {
+  @media (max-width: 767px) {
+    .download-section {
+      margin-bottom: clamp(2rem, 7vw, 3rem);
+      padding-bottom: clamp(0.75rem, 3vw, 1.25rem);
+
+      .download-layout {
+        padding-bottom: clamp(18.5rem, 74vw, 23.5rem);
+        min-height: clamp(29.5rem, 118vw, 38.5rem);
+        background-size: cover;
+        background-position: center center;
+      }
+
+      .download-mockup-wrap {
+        bottom: clamp(1.85rem, 7.5vw, 2.75rem) !important;
+      }
+    }
+  }
+}

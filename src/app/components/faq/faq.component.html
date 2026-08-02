@@ -1,0 +1,78 @@
+<section class="faq-section relative bg-white overflow-hidden pt-20" *ngIf="!loading && !loadError">
+  <div class="faq-hero__glow" aria-hidden="true">
+    <div class="faq-hero__glow-img"></div>
+  </div>
+
+  <header class="faq-header relative overflow-hidden">
+    <div class="relative z-10 container mx-auto px-4 md:px-6 py-8 md:py-10 text-center">
+      <div class="max-w-2xl mx-auto space-y-2 md:space-y-4">
+        <h1 class="text-[2rem] md:text-[42px] font-[900] text-[#1D1DDB] leading-[1.1]">
+          {{ heroTitle() }}
+        </h1>
+        <p class="max-w-lg mx-auto faq-preline">
+          {{ heroDescription() }}
+        </p>
+      </div>
+    </div>
+  </header>
+
+  <div class="faq-body relative px-4 md:px-6 pt-0">
+    <div class="faq-inner container mx-auto relative z-10">
+      <div class="faq-list-shell relative mx-auto space-y-3 md:space-y-4">
+        <article
+          #faqCard
+          *ngFor="let item of faqs"
+          class="faq-card relative z-10 bg-white rounded-[16px] md:rounded-[20px] border border-gray-100 shadow-sm"
+        >
+          <button
+            type="button"
+            class="faq-trigger w-full flex justify-between items-center gap-3 md:gap-4 text-left p-4 md:p-6 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1D1DDB]/30 focus-visible:ring-offset-2 rounded-[16px] md:rounded-[20px]"
+            (click)="toggle(item.id)"
+            [attr.aria-expanded]="isExpanded(item.id)"
+            [attr.aria-controls]="'faq-answer-' + item.id"
+            [attr.id]="'faq-q-' + item.id"
+          >
+            <span class="text-[#1D1DDB] text-[15px] md:text-lg font-medium leading-snug pr-2">
+              {{ item.question }}
+            </span>
+
+            <span class="relative flex h-8 w-8 md:h-9 md:w-9 flex-shrink-0 items-center justify-center text-[#1D1DDB]">
+              <i
+                class="bi bi-plus-lg faq-icon-plus absolute inset-0 flex items-center justify-center text-xl md:text-2xl leading-none transition-opacity duration-300 ease-out"
+                [class.opacity-0]="isExpanded(item.id)"
+                [class.scale-75]="isExpanded(item.id)"
+                aria-hidden="true"
+              ></i>
+              <i
+                class="bi bi-x-lg faq-icon-close absolute inset-0 flex items-center justify-center text-xl md:text-2xl leading-none transition-opacity duration-300 ease-out"
+                [class.opacity-0]="!isExpanded(item.id)"
+                [class.scale-75]="!isExpanded(item.id)"
+                aria-hidden="true"
+              ></i>
+            </span>
+          </button>
+
+          <div
+            #faqPanel
+            class="faq-answer-panel overflow-hidden h-0"
+            [attr.id]="'faq-answer-' + item.id"
+            role="region"
+            [attr.aria-labelledby]="'faq-q-' + item.id"
+            [attr.aria-hidden]="!isExpanded(item.id)"
+          >
+            <div class="faq-answer-inner px-4 md:px-6 pb-4 md:pb-6 pt-0 border-t border-gray-100">
+              <p class="pt-3 md:pt-4">
+                {{ item.answer }}
+              </p>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<app-page-loader *ngIf="loading"></app-page-loader>
+<div class="py-20 text-center text-red-500" *ngIf="loadError">
+  تعذر تحميل صفحة الأسئلة الشائعة.
+</div>

@@ -1,0 +1,516 @@
+:host {
+    display: block;
+  }
+  
+  $terms-blue: #1d1ddb;
+  $terms-page-bg: #ffffff;
+  $terms-body: #737373;
+  
+  .terms-page {
+    position: relative;
+    isolation: isolate;
+  }
+  
+  .terms-page--surface {
+    background: $terms-page-bg;
+  }
+  
+  .terms-page__glow {
+    position: absolute;
+    left: 50%;
+    top: 3.25rem;
+    z-index: 0;
+    width: min(115vw, 68rem);
+    height: clamp(18rem, 52vw, 34rem);
+    transform: translateX(-50%);
+    pointer-events: none;
+  }
+  
+  .terms-page__glow-img {
+    position: absolute;
+    inset: 0;
+    background-image: url('../../../assets/images/merchants-glow.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.25;
+    filter: blur(14px);
+    -webkit-mask-image: radial-gradient(
+      ellipse 84% 80% at 50% 48%,
+      #000 16%,
+      rgb(0 0 0 / 65%) 44%,
+      transparent 74%
+    );
+    mask-image: radial-gradient(
+      ellipse 84% 80% at 50% 48%,
+      #000 16%,
+      rgb(0 0 0 / 65%) 44%,
+      transparent 74%
+    );
+  }
+  
+  @media (max-width: 999px) {
+    .terms-page__glow {
+      top: 2.75rem;
+      width: min(130vw, 26rem);
+      height: clamp(15rem, 48vw, 24rem);
+    }
+  }
+
+  .terms-page__intro {
+    padding-bottom: 2.5rem !important;
+    margin-inline: auto;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .terms-page__subtitle {
+    display: block;
+    width: 100%;
+    max-width: min(34rem, 100%);
+    margin-inline: auto;
+    margin-top: 1rem;
+    font-weight: 500;
+    color: #767e94;
+    line-height: 1.55;
+    text-align: center;
+    text-wrap: balance;
+    box-sizing: border-box;
+  }
+  
+  .terms-page__inner {
+    padding-bottom: 2rem;
+  }
+
+  @media (min-width: 1000px) and (max-width: 1400px) {
+    .terms-page__inner {
+      width: 100%;
+      max-width: min(71.25rem, 87.5vw) !important;
+      margin-inline: auto;
+      padding-left: clamp(1.5rem, 4vw, 2.5rem) !important;
+      padding-right: clamp(1.5rem, 4vw, 2.5rem) !important;
+      box-sizing: border-box;
+    }
+
+    .terms-card-shell {
+      width: 100%;
+      max-width: 100% !important;
+      padding-inline: clamp(0.75rem, 2.5vw, 1.5rem) !important;
+      box-sizing: border-box;
+    }
+  }
+
+  /* حاوية الكارت + الديكور */
+  .terms-card-shell {
+    position: relative;
+    padding-top: 0.25rem;
+    /* مساحة للجزء الظاهر من Group (7) أسفل الكارت */
+    // padding-bottom: clamp(3rem, 10vw, 8rem);
+  }
+  
+  /* كارت + صورة Group (7) تحته */
+  .terms-card-float {
+    position: relative;
+    isolation: isolate;
+  }
+  
+  /* محاذاة مع أسفل الكارت: top 100% ثم سحب للأعلى فيختفي الجزء تحت الكارت */
+  .terms-card-shell__under-art {
+    position: absolute;
+    right: -5%; 
+    top: -2%;
+    z-index: 0;
+    width: min(50vw, 15rem);
+    pointer-events: none;
+    line-height: 0;
+    transition: all 0.5s cubic-bezier(0.2, 1, 0.3, 1);
+  }
+  
+  .terms-card-shell__under-img {
+    display: block;
+    width: 100%; // خليها 100% من حجم الـ container اللي فوقها
+    height: auto;
+    opacity: 0.8;
+  
+    @media (max-width: 640px) {
+      opacity: 0.8;
+    }
+  }
+  
+  /* دائرتان متداخلتان خلف الزاوية اليمنى العلوية للكارت */
+  .terms-card-shell__decor {
+    position: absolute;
+    z-index: 1;
+    top: -0.25rem;
+    right: -0.25rem;
+    width: min(42vw, 13rem);
+    height: min(36vw, 11rem);
+    pointer-events: none;
+  
+    @media (max-width: 640px) {
+      width: 10rem;
+      height: 9rem;
+      right: 0;
+      top: 0;
+    }
+  }
+  
+  .terms-card-shell__blob {
+    position: absolute;
+    border-radius: 50%;
+  }
+  
+  /* أزرق: خلف البرتقالي، أقيم لليسار قليلاً */
+  .terms-card-shell__blob--blue {
+    width: clamp(6.5rem, 16vw, 9.25rem);
+    height: clamp(6.5rem, 16vw, 9.25rem);
+    right: 2.75rem;
+    top: 0.25rem;
+    background: rgba(13, 17, 179, 0.2);
+  
+    @media (max-width: 640px) {
+      right: 2rem;
+      width: 5.5rem;
+      height: 5.5rem;
+    }
+  }
+  
+  /* برتقالي: أكبر قليلاً وأكثر يميناً وأسفل */
+  .terms-card-shell__blob--orange {
+    width: clamp(7.5rem, 18vw, 10.75rem);
+    height: clamp(7.5rem, 18vw, 10.75rem);
+    right: -0.75rem;
+    top: -1.25rem;
+    background: rgba(255, 122, 0, 0.38);
+  
+    @media (max-width: 640px) {
+      width: 6.25rem;
+      height: 6.25rem;
+      right: -0.25rem;
+      top: -0.5rem;
+    }
+  }
+  
+  .terms-card {
+    max-width: 100%;
+  }
+  
+  .terms-prose {
+    font-weight: 500;
+    font-size: 0.9375rem;
+    line-height: calc(21 / 15);
+    letter-spacing: 0.2px;
+    color: $terms-body;
+  }
+  
+  .terms-p {
+    margin: 0 0 1.125rem;
+  
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .terms-preline {
+    white-space: pre-line;
+  }
+  
+  .terms-h2 {
+    margin: 2rem 0 0.875rem;
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.5;
+    letter-spacing: 0.02em;
+    color: $terms-blue;
+  
+    &:first-of-type {
+      margin-top: 1.75rem;
+    }
+  
+    @media (min-width: 768px) {
+      font-size: 1.0625rem;
+    }
+  }
+  
+  .terms-accent {
+    color: $terms-blue;
+  
+    &--semibold {
+      font-weight: 600;
+    }
+  }
+  
+  .terms-link {
+    color: #1d1ddb;
+    font-weight: 500;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  
+    &:hover {
+      opacity: 0.88;
+    }
+  }
+  
+  .terms-nb {
+    margin-top: 2.25rem;
+    padding-top: 0.25rem;
+    font-size: clamp(0.9375rem, 1.6vw, 1rem);
+    font-weight: 700;
+    line-height: 1.65;
+    letter-spacing: 0.02em;
+    color: $terms-blue;
+  }
+  
+  .terms-strong--inline {
+    font-weight: 500;
+  }
+
+  .terms-lead-name {
+    font-weight: 500;
+  }
+
+  .terms-accent-alt {
+    color:#1d1ddb;
+  }
+
+  /* عناوين الأقسام المرقّمة كما في فيجما */
+  .terms-section-heading {
+    margin: 2rem 0 1rem;
+    font-size: 1.0625rem;
+    font-weight: 600;
+    line-height: 1.5;
+    letter-spacing: 0.02em;
+    color: #1d1ddb;
+
+    &:first-of-type {
+      margin-top: 1.25rem;
+    }
+  }
+
+  .terms-subheading {
+    margin: 1.5rem 0 0.75rem;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.5;
+    letter-spacing: 0.02em;
+    color: #1d1ddb;
+  }
+
+  .terms-list {
+    margin: 0 0 1.25rem;
+    padding-left: 1.35rem;
+    list-style-type: disc;
+
+    li {
+      margin-bottom: 0.65rem;
+      padding-left: 0.25rem;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  .terms-note {
+    color: #1d1ddb;
+    font-weight: 400;
+  }
+
+  .terms-link--inline {
+    margin-left: 0.15em;
+  }
+
+  @media (max-width: 999px) {
+    .terms-page {
+      overflow-x: clip !important;
+      overflow-y: visible !important;
+    }
+
+    .terms-page__subtitle {
+      max-width: min(28rem, 100%);
+      font-size: 0.875rem;
+      line-height: 1.55;
+    }
+
+    .terms-card-shell {
+      overflow: visible;
+      padding-bottom: 2.25rem;
+      max-width: min(100%, 36rem);
+      margin-inline: auto;
+    }
+
+    .terms-card-float {
+      overflow: visible;
+    }
+
+    .terms-card-shell__under-art {
+      right: -7%;
+      top: -1.5%;
+      bottom: auto;
+      width: min(38vw, 9.25rem);
+      transform: none;
+      opacity: 0.8;
+    }
+  }
+
+  @media (min-width: 768px) and (max-width: 999px) {
+    .terms-page {
+      padding-top: 4.75rem !important;
+      padding-bottom: 3rem !important;
+    }
+
+    .terms-page__inner {
+      padding-left: clamp(1.5rem, 4vw, 2.25rem);
+      padding-right: clamp(1.5rem, 4vw, 2.25rem);
+      padding-bottom: 1rem;
+    }
+
+    .terms-page__intro {
+      max-width: min(100%, 34rem) !important;
+      padding-top: 0.5rem !important;
+      padding-bottom: 2rem !important;
+      padding-inline: 1rem !important;
+    }
+
+    .terms-page__title {
+      font-size: 2rem !important;
+      line-height: 1.12 !important;
+    }
+
+    .terms-page__subtitle {
+      margin-top: 1.125rem !important;
+      max-width: min(28rem, 100%) !important;
+      font-size: 0.875rem !important;
+      line-height: 1.55 !important;
+    }
+
+    .terms-card-shell {
+      max-width: min(100%, 38rem) !important;
+      margin-inline: auto;
+      padding-bottom: 1.75rem;
+    }
+
+    .terms-card {
+      border-radius: 20px !important;
+      padding: 1.25rem 1.15rem 1.4rem !important;
+      box-shadow: 0 4px 24px rgba(15, 23, 42, 0.05) !important;
+    }
+
+    .terms-prose {
+      font-size: 0.875rem;
+      line-height: 1.57;
+    }
+
+    .terms-section-heading {
+      margin: 1.35rem 0 0.6rem;
+      font-size: 0.9375rem;
+      line-height: 1.45;
+    }
+
+    .terms-subheading {
+      margin: 1rem 0 0.5rem;
+      font-size: 0.875rem;
+      line-height: 1.45;
+    }
+
+    .terms-p {
+      margin-bottom: 0.95rem;
+    }
+
+    .terms-list {
+      font-size: 0.875rem;
+      line-height: 1.57;
+    }
+
+    .terms-card-shell__under-art {
+      right: -7%;
+      top: -1.5%;
+      width: min(34vw, 10rem);
+    }
+  }
+
+  @media (max-width: 767px) {
+    .terms-page {
+      padding-top: 4.5rem;
+      padding-bottom: 3.5rem;
+    }
+
+    .terms-page__inner {
+      padding-left: 0.75rem;
+      padding-right: 0.75rem;
+      padding-bottom: 0.75rem;
+    }
+
+    .terms-page__intro {
+      padding-top: 0.25rem;
+      padding-bottom: 1.75rem !important;
+      padding-inline: 0.65rem !important;
+    }
+
+    .terms-page__title {
+      font-size: 1.875rem !important;
+      line-height: 1.1 !important;
+    }
+
+    .terms-page__subtitle {
+      margin-top: 1rem !important;
+      max-width: min(21.5rem, 100%) !important;
+      font-size: 0.8125rem !important;
+      line-height: 1.55 !important;
+      letter-spacing: 0.01em;
+    }
+
+    .terms-card {
+      border-radius: 16px !important;
+      padding: 0.9rem 0.85rem 1rem !important;
+    }
+
+    .terms-prose {
+      font-size: 0.8125rem;
+      line-height: 1.55;
+      letter-spacing: 0.01em;
+    }
+
+    .terms-p {
+      margin-bottom: 0.8rem;
+    }
+
+    .terms-section-heading {
+      margin: 1.1rem 0 0.55rem;
+      font-size: 0.8125rem;
+      line-height: 1.45;
+    }
+
+    .terms-subheading {
+      margin: 0.9rem 0 0.45rem;
+      font-size: 0.8125rem;
+      line-height: 1.45;
+    }
+
+    .terms-list {
+      margin-bottom: 0.85rem;
+      padding-left: 0.9rem;
+      font-size: 0.8125rem;
+      line-height: 1.55;
+
+      li {
+        margin-bottom: 0.4rem;
+        padding-left: 0.1rem;
+      }
+    }
+
+    .terms-card-shell {
+      max-width: min(100%, 20.5rem) !important;
+      padding-bottom: 1.75rem;
+    }
+
+    .terms-card-shell__under-art {
+      right: -6.5%;
+      top: -0.35%;
+      bottom: auto;
+      width: min(36vw, 6.75rem);
+      transform: none;
+      opacity: 0.8;
+    }
+  }
+  

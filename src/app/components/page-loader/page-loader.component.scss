@@ -1,0 +1,31 @@
+:host {
+  display: block;
+  flex: 1 1 auto;
+  width: 100%;
+}
+
+@media (max-width: 767px) {
+  :host {
+    min-height: calc(100svh - 4.25rem);
+  }
+}
+
+.page-loader {
+  position: fixed;
+  z-index: 40;
+  inset: clamp(4.25rem, 11vh, 5.75rem) 0 0 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  background: #fff;
+  box-sizing: border-box;
+  padding: 1.5rem;
+}
+
+.page-loader__gif {
+  display: block;
+  width: clamp(10rem, 28vw, 13rem);
+  height: auto;
+  object-fit: contain;
+}

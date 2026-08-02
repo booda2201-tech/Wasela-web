@@ -1,0 +1,178 @@
+<section class="contact-page relative bg-white overflow-hidden pt-20 pb-16 md:pb-24" *ngIf="!loading && !loadError">
+  <div class="contact-hero__glow" aria-hidden="true">
+    <div class="contact-hero__glow-img"></div>
+  </div>
+
+  <!-- Hero: عنوان + خلفية Slide (بدون navbar/footer) -->
+  <header class="contact-hero relative overflow-hidden">
+    <div class="relative z-10 container mx-auto px-6 text-center max-w-2xl py-8 md:py-10">
+      <h1 class="text-[2rem] md:text-[42px] font-black text-[#1d1ddb] leading-tight tracking-wide">
+        {{ headline() }}
+      </h1>
+      <p
+        class="mt-4 md:mt-3 max-w-lg mx-auto contact-preline"
+      >
+        {{ subtitle() }}
+      </p>
+    </div>
+  </header>
+
+  <!-- النموذج + الديكور -->
+  <div class="relative px-6">
+    <div class="contact-body-inner container mx-auto max-w-4xl relative">
+      <div class="contact-decor" aria-hidden="true">
+        <img src="assets/images/Group (7).png" alt="" class="contact-decor__img">
+      </div>
+
+      <form
+        data-contact-form-card
+        class="contact-form-card relative z-10 bg-white rounded-[22px] shadow-[0_0_60px_20px_rgba(0,0,0,0.03)]"
+        (ngSubmit)="onSubmit($event)"
+      >
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6 md:gap-y-7">
+          <label class="contact-field">
+            <span class="contact-field__label">First name</span>
+            <input
+              class="contact-field__input"
+              type="text"
+              name="firstName"
+              [(ngModel)]="form.firstName"
+              placeholder="Enter your first name"
+              autocomplete="given-name"
+              [disabled]="submitting"
+            />
+          </label>
+
+          <label class="contact-field">
+            <span class="contact-field__label">Last Name</span>
+            <input
+              class="contact-field__input"
+              type="text"
+              name="lastName"
+              [(ngModel)]="form.lastName"
+              placeholder="Enter your last name"
+              autocomplete="family-name"
+              [disabled]="submitting"
+            />
+          </label>
+
+          <label class="contact-field">
+            <span class="contact-field__label">Phone Number</span>
+            <input
+              class="contact-field__input"
+              type="tel"
+              name="phone"
+              [(ngModel)]="form.phone"
+              placeholder="+1 012 3456 789"
+              autocomplete="tel"
+              [disabled]="submitting"
+            />
+          </label>
+
+          <label class="contact-field">
+            <span class="contact-field__label">Email address</span>
+            <input
+              class="contact-field__input"
+              type="email"
+              name="email"
+              [(ngModel)]="form.email"
+              placeholder="name@example.com"
+              autocomplete="email"
+              [disabled]="submitting"
+            />
+          </label>
+        </div>
+
+        <label class="contact-field contact-field--full mt-6 md:mt-8 block">
+          <span class="contact-field__label">Message</span>
+          <textarea
+            class="contact-field__textarea"
+            name="message"
+            rows="3"
+            [(ngModel)]="form.message"
+            placeholder="Write your message.."
+            [disabled]="submitting"
+          ></textarea>
+        </label>
+
+        <p *ngIf="formError" class="contact-form-feedback contact-form-feedback--error" role="alert">
+          {{ formError }}
+        </p>
+        <p *ngIf="submitError" class="contact-form-feedback contact-form-feedback--error" role="alert">
+          {{ submitError }}
+        </p>
+        <p *ngIf="submitSuccess" class="contact-form-feedback contact-form-feedback--success" role="status">
+          {{ submitSuccess }}
+        </p>
+
+        <div class="contact-form-actions flex justify-end mt-8 md:mt-10">
+          <button type="submit" class="download-btn" [disabled]="submitting">
+            <span class="download-btn__label">{{ submitting ? 'Submitting...' : submitLabel() }}</span>
+            <span class="icon-circle">
+              <i class="bi bi-arrow-up-right" aria-hidden="true"></i>
+            </span>
+          </button>
+        </div>
+      </form>
+
+      <!-- صف معلومات التواصل -->
+      <div
+        *ngIf="showAnyContactWay"
+        class="contact-pills-row mt-8 md:mt-10 flex flex-col lg:flex-row flex-wrap justify-center gap-3 lg:gap-5 items-stretch lg:items-center"
+      >
+        <a
+          *ngIf="ways.showEmail && ways.email"
+          data-contact-pill
+          class="contact-pill"
+          [href]="ways.emailHref"
+        >
+          <span class="contact-pill__icon" aria-hidden="true">
+            <i class="bi bi-envelope"></i>
+          </span>
+          <span class="contact-pill__text">{{ ways.email }}</span>
+        </a>
+
+        <ng-container *ngIf="ways.showAddress && ways.address">
+          <a
+            *ngIf="ways.addressHref && ways.addressHref !== 'javascript:void(0)'; else addressStatic"
+            data-contact-pill
+            class="contact-pill"
+            [href]="ways.addressHref"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span class="contact-pill__icon" aria-hidden="true">
+              <i class="bi bi-geo-alt"></i>
+            </span>
+            <span class="contact-pill__text">{{ ways.address }}</span>
+          </a>
+          <ng-template #addressStatic>
+            <div data-contact-pill class="contact-pill contact-pill--static">
+              <span class="contact-pill__icon" aria-hidden="true">
+                <i class="bi bi-geo-alt"></i>
+              </span>
+              <span class="contact-pill__text">{{ ways.address }}</span>
+            </div>
+          </ng-template>
+        </ng-container>
+
+        <a
+          *ngIf="ways.showPhone && ways.phone"
+          data-contact-pill
+          class="contact-pill"
+          [href]="ways.phoneHref"
+        >
+          <span class="contact-pill__icon" aria-hidden="true">
+            <i class="bi bi-telephone"></i>
+          </span>
+          <span class="contact-pill__text">{{ ways.phone }}</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<app-page-loader *ngIf="loading"></app-page-loader>
+<div class="py-20 text-center text-red-500" *ngIf="loadError">
+  تعذر تحميل صفحة تواصل معنا.
+</div>

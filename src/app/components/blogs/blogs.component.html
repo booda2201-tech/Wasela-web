@@ -1,0 +1,121 @@
+<section
+  class="blogs-page relative overflow-x-clip bg-white pb-16 pt-24 sm:pb-20 md:pb-28"
+  *ngIf="!loading && !loadError"
+>
+  <div class="blogs-page__glow" aria-hidden="true">
+    <div class="blogs-page__glow-img"></div>
+  </div>
+
+  <div class="blogs-page__inner relative z-[1] mx-auto max-w-[1280px] px-3 sm:px-5 lg:px-8">
+    <header class="blogs-header text-center" data-blogs-heading>
+      <h1 class="blogs-header__title">{{ pageTitle() }}</h1>
+      <p class="blogs-header__subtitle blogs-preline">{{ pageSubtitle() }}</p>
+    </header>
+
+    <!-- بطاقة مميزة + Link.png خلف الزاوية (ديكور) -->
+    <div
+      class="blogs-featured-wrap relative mx-auto mt-6 max-w-[1251px] sm:mt-10 md:mt-12"
+      *ngIf="featuredItem() as fi"
+    >
+      <a
+        data-blogs-featured
+        class="blogs-featured"
+        [routerLink]="['/blogs', fi.id]"
+      >
+        <div class="blogs-featured__media">
+          <div class="blogs-featured__media-frame">
+            <img
+              *ngIf="featuredImageSrc() as featuredImg"
+              [src]="featuredImg"
+              alt=""
+              class="blogs-featured__img"
+              loading="lazy"
+            />
+          </div>
+          <div class="blogs-featured__decor" aria-hidden="true">
+            <img
+              src="assets/images/Group (7).png"
+              alt=""
+              class="blogs-featured__decor-img"
+              loading="lazy"
+            />
+          </div>
+        </div>
+
+        <div class="blogs-featured__panel">
+          <div class="blogs-featured__panel-top">
+            <span class="blogs-tag blogs-tag--panel"><span class="blogs-tag__text">{{ fi.subTitle }}</span></span>
+            <div class="blogs-featured__meta" *ngIf="cardListDate(fi) as featuredDate">
+              <i class="bi bi-calendar3 blogs-featured__cal" aria-hidden="true"></i>
+              <span class="blogs-featured__date">{{ featuredDate }}</span>
+            </div>
+          </div>
+          <h2 class="blogs-featured__kicker">{{ fi.title }}</h2>
+          <p class="blogs-featured__excerpt blogs-preline">{{ cardBodyText(fi) }}</p>
+          <span class="blogs-featured__more">Continue reading</span>
+        </div>
+      </a>
+    </div>
+
+    <!-- شبكة الكروت — مقالات حقيقية فقط -->
+    <div class="blogs-grid" *ngIf="gridPosts().length">
+      <article
+        *ngFor="let post of gridPosts()"
+        data-blog-card
+        class="blogs-card"
+      >
+        <a class="blogs-card__link" [routerLink]="['/blogs', post.id]">
+          <div class="blogs-card__thumb-wrap">
+            <img
+              *ngIf="post.imageSrc"
+              [src]="post.imageSrc"
+              alt=""
+              class="blogs-card__thumb"
+              loading="lazy"
+            />
+            <span class="blogs-tag blogs-tag--float" *ngIf="post.tag"><span class="blogs-tag__text">{{ post.tag }}</span></span>
+          </div>
+          <div class="blogs-card__body">
+            <div class="blogs-card__meta">
+              <i class="bi bi-calendar3 blogs-card__cal" aria-hidden="true"></i>
+              <span class="blogs-card__date">{{ post.date }}</span>
+            </div>
+            <h3 class="blogs-card__title">{{ post.title }}</h3>
+            <p class="blogs-card__excerpt">{{ post.excerpt }}</p>
+          </div>
+        </a>
+      </article>
+    </div>
+
+    <!-- ترقيم الصفحات -->
+    <nav
+      class="blogs-pagination mx-auto mt-10 flex max-w-full flex-wrap items-center justify-center gap-1 px-1 pb-2 sm:mt-14 md:mt-16"
+      aria-label="Blog pagination"
+      *ngIf="totalPages() > 1"
+    >
+      <ng-container *ngFor="let p of paginationPages()">
+        <span
+          *ngIf="p === 'ellipsis'"
+          class="blogs-pagination__item blogs-pagination__item--muted"
+          aria-hidden="true"
+          >…</span
+        >
+        <button
+          *ngIf="p !== 'ellipsis'"
+          type="button"
+          class="blogs-pagination__btn"
+          [class.blogs-pagination__btn--active]="p === currentPage"
+          [attr.aria-current]="p === currentPage ? 'page' : null"
+          (click)="goToPage(p)"
+        >
+          {{ p }}
+        </button>
+      </ng-container>
+    </nav>
+  </div>
+</section>
+
+<app-page-loader *ngIf="loading"></app-page-loader>
+<div class="py-20 text-center text-red-500" *ngIf="loadError">
+  تعذر تحميل صفحة المدونة.
+</div>
