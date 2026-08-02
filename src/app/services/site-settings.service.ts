@@ -8,10 +8,11 @@ import {
   Observable,
   of,
   shareReplay,
+  startWith,
   take,
   timeout
 } from 'rxjs';
-import { catchError, switchMap } from 'rxjs/operators';
+import { catchError, switchMap, tap } from 'rxjs/operators';
 
 import { environment } from '../../environments/environment';
 import { AppLanguage, LanguageService, pickLocalized } from './language.service';
@@ -370,19 +371,74 @@ function ensureHttpUrl(raw: string | null | undefined): string {
   return v;
 }
 
+const CONTACT_WAYS_CACHE_KEY = 'wasela.contactWays.v1';
+const FOOTER_CACHE_KEY = 'wasela.footer.v1';
+
+function hasContactWays(ways: ContactWaysPublicConfig | null | undefined): boolean {
+  return !!(ways && (ways.email || ways.phone || ways.address));
+}
+
+function hasFooterData(cfg: FooterPublicConfig | null | undefined): boolean {
+  return !!(
+    cfg &&
+    (cfg.fra ||
+      cfg.trn ||
+      cfg.crn ||
+      cfg.facebookUrl ||
+      cfg.instagramUrl ||
+      cfg.linkedinUrl ||
+      cfg.appStoreUrl ||
+      cfg.playStoreUrl)
+  );
+}
+
+function readSessionJson<T>(key: string): T | null {
+  try {
+    if (typeof sessionStorage === 'undefined') {
+      return null;
+    }
+    const raw = sessionStorage.getItem(key);
+    if (!raw) {
+      return null;
+    }
+    return JSON.parse(raw) as T;
+  } catch {
+    return null;
+  }
+}
+
+function writeSessionJson(key: string, value: unknown): void {
+  try {
+    if (typeof sessionStorage === 'undefined') {
+      return;
+    }
+    sessionStorage.setItem(key, JSON.stringify(value));
+  } catch {
+    /* private mode / quota */
+  }
+}
+
 @Injectable({ providedIn: 'root' })
 export class SiteSettingsService {
   /** Bump to force footer + contact pills to re-fetch after dashboard Save / tab focus. */
   private readonly refresh$ = new BehaviorSubject<number>(0);
 
+  private lastContactWays: ContactWaysPublicConfig | null =
+    readSessionJson<ContactWaysPublicConfig>(CONTACT_WAYS_CACHE_KEY);
+  private lastFooter: FooterPublicConfig | null =
+    readSessionJson<FooterPublicConfig>(FOOTER_CACHE_KEY);
+
   private readonly footerShared$ = this.refresh$.pipe(
     switchMap(() => this.fetchFooterConfig()),
-    shareReplay({ bufferSize: 1, refCount: true })
+    tap((cfg) => this.rememberFooter(cfg)),
+    // Keep last value across route changes so footer/pills don't blank out.
+    shareReplay({ bufferSize: 1, refCount: false })
   );
 
   private readonly contactWaysShared$ = this.refresh$.pipe(
     switchMap(() => this.fetchContactWaysConfig()),
-    shareReplay({ bufferSize: 1, refCount: true })
+    tap((ways) => this.rememberContactWays(ways)),
+    shareReplay({ bufferSize: 1, refCount: false })
   );
 
   constructor(
@@ -481,7 +537,10 @@ export class SiteSettingsService {
 
   /** Live footer stream — re-fetches on invalidate() (tab focus / route). */
   watchFooterConfig(): Observable<FooterPublicConfig> {
-    return this.footerShared$;
+    // Paint cached footer immediately while network catch-up runs.
+    return this.lastFooter && hasFooterData(this.lastFooter)
+      ? this.footerShared$.pipe(startWith(this.lastFooter))
+      : this.footerShared$;
   }
 
   /**
@@ -495,7 +554,10 @@ export class SiteSettingsService {
 
   /** Live contact pills — same data on Contact Us & Join Us; refreshes on lang + invalidate(). */
   watchContactWaysConfig(): Observable<ContactWaysPublicConfig> {
-    return this.contactWaysShared$;
+    // Paint cached pills immediately (same visit / soft reload) while API catches up.
+    return this.lastContactWays && hasContactWays(this.lastContactWays)
+      ? this.contactWaysShared$.pipe(startWith(this.lastContactWays))
+      : this.contactWaysShared$;
   }
 
   /** Build pills from an already-loaded CMS page + optional public settings map. */
@@ -522,8 +584,8 @@ export class SiteSettingsService {
   }
 
   private fetchFooterConfig(): Observable<FooterPublicConfig> {
-    // getPageBySlugFresh stays open for lang$ — take(1) so forkJoin can complete.
-    return forkJoin({
+    // Emit as soon as settings arrive (home starts as null), then refine with Home ExtraData.
+    return combineLatest({
       settings: this.getPublicSettingsMap(true).pipe(
         timeout(20_000),
         catchError(() => of({} as Record<string, string>))
@@ -531,16 +593,22 @@ export class SiteSettingsService {
       home: this.pagesService.getPageBySlugFresh('home').pipe(
         take(1),
         timeout(20_000),
-        catchError(() => of(null as CmsPage | null))
+        catchError(() => of(null as CmsPage | null)),
+        startWith(null as CmsPage | null)
       ),
     }).pipe(
       map(({ settings, home }) => this.mergeFooterConfig(settings, home)),
-      catchError(() => of({ ...EMPTY_FOOTER_PUBLIC }))
+      catchError(() =>
+        of(this.lastFooter && hasFooterData(this.lastFooter)
+          ? this.lastFooter
+          : { ...EMPTY_FOOTER_PUBLIC })
+      )
     );
   }
 
   private fetchContactWaysConfig(): Observable<ContactWaysPublicConfig> {
-    // Keep stream open for lang$; page fetch must complete (take 1) so timeout doesn't wipe pills.
+    // Keep stream open for lang$; emit pills from public settings immediately
+    // (contact page starts null) then merge ExtraData links when the page arrives.
     return combineLatest({
       settings: this.getPublicSettingsRaw(true).pipe(
         timeout(20_000),
@@ -549,15 +617,38 @@ export class SiteSettingsService {
       contact: this.pagesService.getPageBySlugFresh('contact-us').pipe(
         take(1),
         timeout(20_000),
-        catchError(() => of(null as CmsPage | null))
+        catchError(() => of(null as CmsPage | null)),
+        startWith(null as CmsPage | null)
       ),
       lang: this.language.lang$,
     }).pipe(
       map(({ settings, contact, lang }) =>
         this.mergeContactWaysConfig(settings, contact, lang)
       ),
-      catchError(() => of({ ...EMPTY_CONTACT_WAYS }))
+      catchError(() =>
+        of(
+          this.lastContactWays && hasContactWays(this.lastContactWays)
+            ? this.lastContactWays
+            : { ...EMPTY_CONTACT_WAYS }
+        )
+      )
     );
+  }
+
+  private rememberContactWays(ways: ContactWaysPublicConfig): void {
+    if (!hasContactWays(ways)) {
+      return;
+    }
+    this.lastContactWays = { ...ways };
+    writeSessionJson(CONTACT_WAYS_CACHE_KEY, this.lastContactWays);
+  }
+
+  private rememberFooter(cfg: FooterPublicConfig): void {
+    if (!hasFooterData(cfg)) {
+      return;
+    }
+    this.lastFooter = { ...cfg };
+    writeSessionJson(FOOTER_CACHE_KEY, this.lastFooter);
   }
 
   private getPublicSettingsRaw(cacheBust = false): Observable<SiteSettingItem[]> {

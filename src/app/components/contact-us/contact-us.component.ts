@@ -42,7 +42,8 @@ export class ContactUsComponent implements OnInit, AfterViewInit, OnDestroy {
     private readonly cdr: ChangeDetectorRef
   ) {}
 
-  loading = true;
+  /** Page chrome loads in background — don't block form/pills on slow CMS. */
+  loading = false;
   loadError = false;
   page: CmsPage | null = null;
 
@@ -67,7 +68,9 @@ export class ContactUsComponent implements OnInit, AfterViewInit, OnDestroy {
   private subs = new Subscription();
 
   ngOnInit(): void {
-    // Page content (title / form labels) from contact-us CMS page
+    this.title.setTitle('Contact Us');
+
+    // Page content (title / form labels) from contact-us CMS page — non-blocking
     this.subs.add(
       this.pagesService
         .getPageBySlugFresh('contact-us')
@@ -77,17 +80,13 @@ export class ContactUsComponent implements OnInit, AfterViewInit, OnDestroy {
             this.page = page;
             if (page) {
               this.applySeo(page);
-            } else {
-              this.title.setTitle('Contact Us');
             }
-            this.loading = false;
             this.loadError = false;
             this.cdr.detectChanges();
             queueMicrotask(() => this.trySetupAnimations());
           },
           error: () => {
-            this.loading = false;
-            this.loadError = true;
+            // Keep defaults + contact pills visible even if CMS page times out.
             this.cdr.detectChanges();
           }
         })

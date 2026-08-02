@@ -41,7 +41,8 @@ export class JoinUsComponent implements OnInit, AfterViewInit, OnDestroy {
     private readonly cdr: ChangeDetectorRef
   ) {}
 
-  loading = true;
+  /** Page chrome loads in background — don't block form/pills on slow CMS. */
+  loading = false;
   loadError = false;
   page: CmsPage | null = null;
 
@@ -110,6 +111,8 @@ export class JoinUsComponent implements OnInit, AfterViewInit, OnDestroy {
   private subs = new Subscription();
 
   ngOnInit(): void {
+    this.title.setTitle('Join Us');
+
     // Form/SEO from join-us page only — contact pills come from the SAME source as Contact Us
     this.subs.add(
       this.pagesService
@@ -120,17 +123,13 @@ export class JoinUsComponent implements OnInit, AfterViewInit, OnDestroy {
             this.page = page;
             if (page) {
               this.applySeo(page);
-            } else {
-              this.title.setTitle('Join Us');
             }
-            this.loading = false;
             this.loadError = false;
             this.cdr.detectChanges();
             queueMicrotask(() => this.trySetupAnimations());
           },
           error: () => {
-            this.loading = false;
-            this.loadError = true;
+            // Keep defaults + contact pills visible even if CMS page times out.
             this.cdr.detectChanges();
           }
         })
