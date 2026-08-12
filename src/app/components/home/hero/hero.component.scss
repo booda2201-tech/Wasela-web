@@ -183,6 +183,7 @@ $total: 3.5s;
   height: clamp(300px, 15vw, 250px);
   z-index: 2;
   isolation: isolate;
+  pointer-events: none; // decorative — must not block store badge clicks
   animation: toggleVisibility $total linear both;
 }
 
@@ -211,7 +212,8 @@ $total: 3.5s;
   border-radius: 50%;
   background: $orange;
   transform: translateY(-50%);
-  z-index: 9999;
+  z-index: 3;
+  pointer-events: none; // sits over CTA area at end of animation
   will-change: transform, opacity;
   animation: ballAlongTrack $total cubic-bezier(0.45, 0, 0.2, 1) both;
 }
@@ -300,7 +302,8 @@ $total: 3.5s;
   right: 12%;
   bottom: 17%;
   transform: translateY(-50%);
-  z-index: 4;
+  z-index: 10;
+  pointer-events: auto;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -376,14 +379,21 @@ $total: 3.5s;
   gap: 0.55rem;
 }
 
-.store-badge {
+.store-badge,
+.hero-mobile-store-badge {
   display: block;
   line-height: 0;
   text-decoration: none;
+  cursor: pointer;
+  pointer-events: auto;
   transition: transform 0.2s ease;
 
   &:hover {
     transform: translateY(-2px);
+  }
+
+  &:not([href]) {
+    cursor: default;
   }
 
   img,

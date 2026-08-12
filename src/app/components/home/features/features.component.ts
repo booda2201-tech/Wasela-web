@@ -10,8 +10,9 @@ import {
 
 
 
-import { CmsPage, CmsPageSection, CmsPageSectionItem, PagesService } from '../../../services/pages.service';
+import { AppStoreLinkService } from '../../../services/app-store-link.service';
 import { LanguageService } from '../../../services/language.service';
+import { CmsPage, CmsPageSection, CmsPageSectionItem, PagesService } from '../../../services/pages.service';
 
 
 
@@ -90,18 +91,15 @@ export class FeaturesComponent implements OnInit, OnChanges, OnDestroy {
 
 
   private readonly whyOverlayGifs = [
-
-    '../../../../assets/gif/why waseela-fully digital.gif',
-
-    '../../../../assets/gif/why waseela-flexible by design.gif',
-
-    '../../../../assets/gif/why waseela-clear and transparent.gif',
-
-    '../../../../assets/gif/why waseela-trusted.gif',
-
-    '../../../../assets/gif/human centered screen.gif',
-
+    'assets/gif/why waseela-fully digital.gif',
+    'assets/gif/why waseela-flexible by design.gif',
+    'assets/gif/why waseela-clear and transparent.gif',
+    'assets/gif/why waseela-trusted.gif',
+    'assets/gif/human centered screen.gif',
   ];
+
+  /** Only load Why-Waseela GIFs after the user (or autoplay) reaches that card. */
+  private readonly loadedWhyOverlayIndexes = new Set<number>([0]);
 
 
 
@@ -127,21 +125,20 @@ export class FeaturesComponent implements OnInit, OnChanges, OnDestroy {
 
 
   private readonly stepVisualGifs = [
-
-    '../../../../assets/gif/iphone in light blue container.gif',
-
-    '../../../../assets/gif/iphone in orange container.gif',
-
-    '../../../../assets/gif/Iphone in Blue container.gif',
-
+    'assets/gif/iphone in light blue container.gif',
+    'assets/gif/iphone in orange container.gif',
+    'assets/gif/Iphone in Blue container.gif',
   ];
+
+  readonly howItWorksGifSrc = 'assets/gif/how waseela works.gif';
 
 
 
   constructor(
     private readonly host: ElementRef<HTMLElement>,
     private readonly pagesService: PagesService,
-    readonly language: LanguageService
+    readonly language: LanguageService,
+    readonly stores: AppStoreLinkService
   ) {}
 
 
@@ -259,9 +256,11 @@ export class FeaturesComponent implements OnInit, OnChanges, OnDestroy {
 
 
   whyOverlaySrc(index: number): string {
-
     return this.whyOverlayGifs[index % this.whyOverlayGifs.length];
+  }
 
+  isWhyOverlayLoaded(index: number): boolean {
+    return this.loadedWhyOverlayIndexes.has(index);
   }
 
 
@@ -354,6 +353,7 @@ export class FeaturesComponent implements OnInit, OnChanges, OnDestroy {
 
   setActive(id: number, userInitiated = true): void {
     this.activeCard = id;
+    this.loadedWhyOverlayIndexes.add(this.activeIndex);
 
     if (userInitiated) {
       this.startWhyAutoSwitch();
@@ -405,11 +405,10 @@ export class FeaturesComponent implements OnInit, OnChanges, OnDestroy {
 
 
   private resetActiveWhyCard(): void {
-
     const first = this.whyItems()[0];
-
     this.activeCard = first?.id ?? 0;
-
+    this.loadedWhyOverlayIndexes.clear();
+    this.loadedWhyOverlayIndexes.add(0);
   }
 
 

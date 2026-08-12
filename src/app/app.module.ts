@@ -23,8 +23,7 @@ import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-poli
 import { BlogsComponent } from './components/blogs/blogs.component';
 import { BlogDetailComponent } from './components/blog-detail/blog-detail.component';
 import { PageLoaderComponent } from './components/page-loader/page-loader.component';
-
-
+import { DeferSrcDirective } from './directives/defer-src.directive';
 
 @NgModule({
   declarations: [
@@ -47,7 +46,7 @@ import { PageLoaderComponent } from './components/page-loader/page-loader.compon
     BlogsComponent,
     BlogDetailComponent,
     PageLoaderComponent,
-
+    DeferSrcDirective,
   ],
   imports: [
     BrowserModule,

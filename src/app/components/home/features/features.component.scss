@@ -3,6 +3,17 @@
   text-wrap: balance;
 }
 
+.step-card-badges {
+  position: relative;
+  z-index: 3;
+  pointer-events: auto;
+
+  a {
+    pointer-events: auto;
+    cursor: pointer;
+  }
+}
+
 @media (min-width: 1401px) {
   .how-it-works-copy {
     padding-left: 0.25rem !important;
@@ -358,6 +369,9 @@
   }
 
   .step-card-badges {
+    position: relative;
+    z-index: 3;
+    pointer-events: auto;
     flex-direction: row !important;
     flex-wrap: nowrap !important;
     align-items: center;
@@ -367,6 +381,11 @@
     padding-inline: 0.9rem !important;
     gap: 0.3rem !important;
     margin-top: 0.3rem !important;
+
+    a {
+      pointer-events: auto;
+      cursor: pointer;
+    }
 
     .store-badge-img {
       height: 1.65rem !important;

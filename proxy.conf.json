@@ -1,8 +1,0 @@
-{
-  "/api": {
-    "target": "https://waseela.somee.com",
-    "secure": true,
-    "changeOrigin": true,
-    "logLevel": "warn"
-  }
-}

@@ -1,32 +1,33 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
+
+import { AppStoreLinkService } from '../../../services/app-store-link.service';
 
 @Component({
   selector: 'app-hero',
   templateUrl: './hero.component.html',
   styleUrls: ['./hero.component.scss'],
 })
-export class HeroComponent implements AfterViewInit {
-  readonly heroGifSrc = 'assets/gif/header-screen-v2%202.gif';
+export class HeroComponent implements OnDestroy {
+  readonly heroGifSrc = 'assets/gif/header-screen-v2 2.gif';
 
-  @ViewChild('desktopHeroGif') private desktopHeroGif?: ElementRef<HTMLImageElement>;
-  @ViewChild('mobileHeroGif') private mobileHeroGif?: ElementRef<HTMLImageElement>;
+  /** ≤999px matches hero SCSS — only one GIF mounts so mobile doesn't download twice. */
+  isMobileHero = false;
 
-  ngAfterViewInit(): void {
-    this.restartGif(this.desktopHeroGif);
-    this.restartGif(this.mobileHeroGif);
+  private mql: MediaQueryList | null = null;
+  private readonly onMqlChange = (e: MediaQueryListEvent): void => {
+    this.isMobileHero = e.matches;
+  };
+
+  constructor(readonly stores: AppStoreLinkService) {
+    if (typeof window !== 'undefined' && typeof window.matchMedia === 'function') {
+      this.mql = window.matchMedia('(max-width: 999px)');
+      this.isMobileHero = this.mql.matches;
+      this.mql.addEventListener('change', this.onMqlChange);
+    }
   }
 
-  /** يعيد تشغيل الـ GIF عند كل زيارة للهيرو (مش بس أول refresh). */
-  private restartGif(ref?: ElementRef<HTMLImageElement>): void {
-    const img = ref?.nativeElement;
-    if (!img) {
-      return;
-    }
-
-    const src = this.heroGifSrc;
-    img.src = '';
-    requestAnimationFrame(() => {
-      img.src = src;
-    });
+  ngOnDestroy(): void {
+    this.mql?.removeEventListener('change', this.onMqlChange);
+    this.mql = null;
   }
 }

@@ -6,7 +6,7 @@
     >
       <div class="how-it-works-visual w-full lg:w-[60%] self-stretch relative min-h-[300px] lg:min-h-[370px]">
         <img
-          src="../../../../assets/gif/how waseela works.gif"
+          [appDeferSrc]="howItWorksGifSrc"
           alt="Waseela App"
           class="how-it-works-gif absolute -top-16 lg:-top-10 left-1/2 lg:left-[40%] -translate-x-1/2 w-[50%] lg:w-[140%] max-w-none h-auto object-contain"
         />
@@ -59,25 +59,40 @@
               {{ step.description }}
             </p>
           </div>
-          <div class="step-card-badges flex flex-wrap gap-3 px-4 lg:px-8 mt-2">
-            <img
-              src="assets/images/app-store.svg"
-              class="store-badge-img cursor-pointer hover:scale-105 transition"
-              width="135"
-              height="40"
-              alt="App Store"
-            />
-            <img
-              src="assets/images/google-play.svg"
-              class="store-badge-img cursor-pointer hover:scale-105 transition"
-              width="135"
-              height="40"
-              alt="Google Play"
-            />
+          <div
+            class="step-card-badges flex flex-wrap gap-3 px-4 lg:px-8 mt-2"
+            *ngIf="{ apple: stores.appStoreHref$ | async, play: stores.playStoreHref$ | async } as urls"
+          >
+            <a
+              [attr.href]="urls.apple || null"
+              [attr.target]="urls.apple ? '_blank' : null"
+              rel="noopener noreferrer"
+            >
+              <img
+                src="assets/images/app-store.svg"
+                class="store-badge-img cursor-pointer hover:scale-105 transition"
+                width="135"
+                height="40"
+                alt="App Store"
+              />
+            </a>
+            <a
+              [attr.href]="urls.play || null"
+              [attr.target]="urls.play ? '_blank' : null"
+              rel="noopener noreferrer"
+            >
+              <img
+                src="assets/images/google-play.svg"
+                class="store-badge-img cursor-pointer hover:scale-105 transition"
+                width="135"
+                height="40"
+                alt="Google Play"
+              />
+            </a>
           </div>
           <div class="step-card-visual relative flex-1 mt-2">
             <img
-              [src]="stepVisualSrc(idx)"
+              [appDeferSrc]="stepVisualSrc(idx)"
               class="step-card-img step-card-img--blue absolute -bottom-8 left-1/2 -translate-x-1/3 w-[135%] max-w-none h-auto object-contain"
               alt=""
             />
@@ -102,7 +117,7 @@
           </div>
           <div class="step-card-visual relative flex-1 mt-1">
             <img
-              [src]="stepVisualSrc(idx)"
+              [appDeferSrc]="stepVisualSrc(idx)"
               class="step-card-img step-card-img--orange absolute -bottom-10 left-1/2 -translate-x-1/2 w-[175%] max-w-none h-auto object-contain"
               alt=""
             />
@@ -128,7 +143,7 @@
           </div>
           <div class="step-card-visual relative flex-1 mt-1">
             <img
-              [src]="stepVisualSrc(idx)"
+              [appDeferSrc]="stepVisualSrc(idx)"
               class="step-card-img step-card-img--navy absolute -bottom-5 left-[35%] -translate-x-1/2 w-[135%] max-w-none h-auto object-contain"
               alt=""
             />
@@ -158,12 +173,14 @@
 
       <ng-container *ngFor="let feature of whyItems(); let i = index">
         <img
+          *ngIf="isWhyOverlayLoaded(i)"
           [src]="whyOverlaySrc(i)"
           [class.is-visible]="activeCard === feature.id"
           class="why-waseela-phone-overlay"
           [attr.data-why-overlay-index]="i"
           [ngStyle]="whyOverlayStyle(i)"
           alt=""
+          decoding="async"
         />
       </ng-container>
     </div>

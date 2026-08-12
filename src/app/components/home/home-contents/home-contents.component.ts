@@ -12,6 +12,7 @@ import {
 import { catchError, combineLatest, of } from 'rxjs';
 
 import { environment } from '../../../../environments/environment';
+import { AppStoreLinkService } from '../../../services/app-store-link.service';
 import {
   CmsPage,
   CmsPageSection,
@@ -67,8 +68,6 @@ export class HomeContentsComponent implements OnInit, OnDestroy, AfterViewInit, 
   downloadSubtitle = '';
   downloadSubtitleMobile = '';
   downloadBackgroundUrl: string | null = null;
-  appStoreUrl: string | null = null;
-  googlePlayUrl: string | null = null;
 
   private partnersRotationTimer?: ReturnType<typeof setInterval>;
   private partnersSwapTimeout?: ReturnType<typeof setTimeout>;
@@ -93,7 +92,10 @@ export class HomeContentsComponent implements OnInit, OnDestroy, AfterViewInit, 
     ['260px', '250px'],
   ];
 
-  constructor(private readonly pagesService: PagesService) {}
+  constructor(
+    private readonly pagesService: PagesService,
+    readonly stores: AppStoreLinkService
+  ) {}
 
   ngOnInit(): void {
     if (!this.homePage) {
@@ -336,8 +338,6 @@ export class HomeContentsComponent implements OnInit, OnDestroy, AfterViewInit, 
       this.downloadSubtitle = '';
       this.downloadSubtitleMobile = '';
       this.downloadBackgroundUrl = null;
-      this.appStoreUrl = null;
-      this.googlePlayUrl = null;
       return;
     }
     const title = section.title ?? '';
@@ -355,32 +355,6 @@ export class HomeContentsComponent implements OnInit, OnDestroy, AfterViewInit, 
     this.downloadBackgroundUrl = this.asset(
       section.backgroundImageMediaFileUrl || section.backgroundImageUrl
     );
-    const parsed = this.parseStoreUrls(section.extraDataJson);
-    const app = parsed.appStoreUrl?.trim();
-    const play = parsed.googlePlayUrl?.trim();
-    this.appStoreUrl =
-      app && !this.isPlaceholderUrl(app) ? app : null;
-    this.googlePlayUrl =
-      play && !this.isPlaceholderUrl(play) ? play : null;
-  }
-
-  private isPlaceholderUrl(url: string): boolean {
-    return url === '...' || url === '#' || url.length < 4;
-  }
-
-  private parseStoreUrls(json: string | null): { appStoreUrl?: string; googlePlayUrl?: string } {
-    if (!json) {
-      return {};
-    }
-    try {
-      const o = JSON.parse(json) as Record<string, unknown>;
-      return {
-        appStoreUrl: (o['appStoreUrl'] ?? o['app_store_url']) as string | undefined,
-        googlePlayUrl: (o['googlePlayUrl'] ?? o['google_play_url']) as string | undefined,
-      };
-    } catch {
-      return {};
-    }
   }
 
   private refreshSwipers(): void {

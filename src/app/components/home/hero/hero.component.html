@@ -14,13 +14,14 @@
     <span class="h-line line-matters">Matters</span>
   </div>
 
-  <div class="hero-gif-wrap" aria-hidden="true">
+  <div class="hero-gif-wrap" aria-hidden="true" *ngIf="!isMobileHero">
     <img
-      #desktopHeroGif
       [src]="heroGifSrc"
       alt=""
       class="hero-gif"
       loading="eager"
+      decoding="async"
+      fetchpriority="high"
     />
   </div>
 
@@ -31,8 +32,13 @@
         <i class="bi bi-arrow-up-right"></i>
       </span>
     </a>
-    <div class="store-buttons">
-      <a class="store-badge" href="#" rel="noopener noreferrer">
+    <div class="store-buttons" *ngIf="{ apple: stores.appStoreHref$ | async, play: stores.playStoreHref$ | async } as urls">
+      <a
+        class="store-badge"
+        [attr.href]="urls.apple || null"
+        [attr.target]="urls.apple ? '_blank' : null"
+        rel="noopener noreferrer"
+      >
         <img
           src="assets/images/app-store.svg"
           alt="Download on the App Store"
@@ -42,7 +48,12 @@
           loading="lazy"
         />
       </a>
-      <a class="store-badge" href="#" rel="noopener noreferrer">
+      <a
+        class="store-badge"
+        [attr.href]="urls.play || null"
+        [attr.target]="urls.play ? '_blank' : null"
+        rel="noopener noreferrer"
+      >
         <img
           src="assets/images/google-play.svg"
           alt="Get it on Google Play"
@@ -82,8 +93,16 @@
         </span>
       </a>
 
-      <div class="hero-mobile-stores">
-        <a class="hero-mobile-store-badge" href="#" rel="noopener noreferrer">
+      <div
+        class="hero-mobile-stores"
+        *ngIf="{ apple: stores.appStoreHref$ | async, play: stores.playStoreHref$ | async } as urls"
+      >
+        <a
+          class="hero-mobile-store-badge"
+          [attr.href]="urls.apple || null"
+          [attr.target]="urls.apple ? '_blank' : null"
+          rel="noopener noreferrer"
+        >
           <img
             src="assets/images/app-store.svg"
             alt="Download on the App Store"
@@ -93,7 +112,12 @@
             loading="lazy"
           />
         </a>
-        <a class="hero-mobile-store-badge" href="#" rel="noopener noreferrer">
+        <a
+          class="hero-mobile-store-badge"
+          [attr.href]="urls.play || null"
+          [attr.target]="urls.play ? '_blank' : null"
+          rel="noopener noreferrer"
+        >
           <img
             src="assets/images/google-play.svg"
             alt="Get it on Google Play"
@@ -111,11 +135,13 @@
     <div class="hero-mobile-blue-circle"></div>
     <div class="hero-mobile-orange-circle"></div>
     <img
-      #mobileHeroGif
+      *ngIf="isMobileHero"
       [src]="heroGifSrc"
       alt=""
       class="hero-mobile-gif"
       loading="eager"
+      decoding="async"
+      fetchpriority="high"
     />
   </div>
 </section>

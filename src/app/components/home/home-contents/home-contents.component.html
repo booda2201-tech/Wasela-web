@@ -276,9 +276,16 @@
             {{ downloadSubtitleMobile }}
           </p>
 
-          <div class="store-badges">
+          <div
+            class="store-badges"
+            *ngIf="{ apple: stores.appStoreHref$ | async, play: stores.playStoreHref$ | async } as urls"
+          >
             <div class="store-badge-slot">
-              <a *ngIf="appStoreUrl" [href]="appStoreUrl" rel="noopener noreferrer">
+              <a
+                [attr.href]="urls.apple || null"
+                [attr.target]="urls.apple ? '_blank' : null"
+                rel="noopener noreferrer"
+              >
                 <img
                   src="assets/images/app-store.svg"
                   alt="Download on the App Store"
@@ -287,17 +294,13 @@
                   height="40"
                 />
               </a>
-              <img
-                *ngIf="!appStoreUrl"
-                src="assets/images/app-store.svg"
-                alt="Download on the App Store"
-                class="store-badge-img"
-                width="135"
-                height="40"
-              />
             </div>
             <div class="store-badge-slot">
-              <a *ngIf="googlePlayUrl" [href]="googlePlayUrl" rel="noopener noreferrer">
+              <a
+                [attr.href]="urls.play || null"
+                [attr.target]="urls.play ? '_blank' : null"
+                rel="noopener noreferrer"
+              >
                 <img
                   src="assets/images/google-play.svg"
                   alt="Get it on Google Play"
@@ -306,14 +309,6 @@
                   height="40"
                 />
               </a>
-              <img
-                *ngIf="!googlePlayUrl"
-                src="assets/images/google-play.svg"
-                alt="Get it on Google Play"
-                class="store-badge-img"
-                width="135"
-                height="40"
-              />
             </div>
           </div>
         </div>
@@ -323,13 +318,11 @@
         <div class="download-mockup-card">
           <div class="download-mockup-device">
             <img
-              src="../../../../assets/gif/footer-mockup%201.gif"
+              appDeferSrc="assets/gif/footer-mockup 1.gif"
               class="download-mockup"
               alt="Waseela App"
               width="800"
               height="600"
-              loading="eager"
-              decoding="async"
             />
           </div>
         </div>
