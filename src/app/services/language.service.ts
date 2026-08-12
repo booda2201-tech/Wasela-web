@@ -127,7 +127,7 @@ const APP_LABELS: Record<AppLabelKey, Record<AppLanguage, string>> = {
   termsConditions: { en: 'Terms & Conditions', ar: 'الشروط والأحكام' },
   joinUs: { en: 'Join Us', ar: 'انضم إلينا' },
   licensedByFra: { en: 'Licensed by FRA', ar: 'مرخّص من الهيئة العامة للرقابة المالية' },
-  trnNumber: { en: 'TRN Number', ar: 'الرقم الضريبي' },
+  trnNumber: { en: 'TRN', ar: 'TRN' },
   crn: { en: 'CRN', ar: 'السجل التجاري' },
   followUs: { en: 'Follow Us', ar: 'تابعنا' },
   downloadTheApp: { en: 'Download the App', ar: 'حمّل التطبيق' },

@@ -372,7 +372,7 @@ function ensureHttpUrl(raw: string | null | undefined): string {
 }
 
 const CONTACT_WAYS_CACHE_KEY = 'wasela.contactWays.v1';
-const FOOTER_CACHE_KEY = 'wasela.footer.v1';
+const FOOTER_CACHE_KEY = 'wasela.footer.v4';
 
 function hasContactWays(ways: ContactWaysPublicConfig | null | undefined): boolean {
   return !!(ways && (ways.email || ways.phone || ways.address));
@@ -858,10 +858,10 @@ export class SiteSettingsService {
       facebookUrl: firstNonEmpty(fromSettings.facebookUrl, fromSiteFooter.facebookUrl),
       instagramUrl: firstNonEmpty(fromSettings.instagramUrl, fromSiteFooter.instagramUrl),
       linkedinUrl: firstNonEmpty(fromSettings.linkedinUrl, fromSiteFooter.linkedinUrl),
-      // Licensing: site_footer ExtraData, then public footer.* settings
-      fra: firstNonEmpty(fromSiteFooter.fra, fromSettings.fra),
-      trn: firstNonEmpty(fromSiteFooter.trn, fromSettings.trn),
-      crn: firstNonEmpty(fromSiteFooter.crn, fromSettings.crn),
+      // Licensing: public footer.* settings (dashboard Save), then ExtraData fallback
+      fra: firstNonEmpty(fromSettings.fra, fromSiteFooter.fra),
+      trn: firstNonEmpty(fromSettings.trn, fromSiteFooter.trn),
+      crn: firstNonEmpty(fromSettings.crn, fromSiteFooter.crn),
       // Store URLs: settings win over empty ExtraData / "..." CTA placeholders
       appStoreUrl: firstNonEmpty(
         fromSettings.appStoreUrl,
