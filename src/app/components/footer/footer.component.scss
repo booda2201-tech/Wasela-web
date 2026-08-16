@@ -449,6 +449,13 @@ footer.footer--ar {
     width: 100%;
   }
 
+  /* موبايل: شعار AUR في النص زي الإنجليزي */
+  @media (max-width: 767px) {
+    .footer-aur-logo {
+      justify-content: center;
+    }
+  }
+
   @media (min-width: 768px) and (max-width: 1023px) {
     .footer-grid {
       direction: rtl;
