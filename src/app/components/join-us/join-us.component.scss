@@ -37,7 +37,7 @@
 
 .contact-field__select-icon {
   position: absolute;
-  right: 0;
+  inset-inline-end: 0;
   bottom: 0.85rem;
   pointer-events: none;
   font-size: 0.85rem;
@@ -64,11 +64,12 @@
   &__trigger {
     width: 100%;
     display: block;
-    text-align: left;
+    text-align: start;
     background: transparent;
     border: none;
     border-bottom: 1px solid rgba(13, 17, 179, 0.35);
-    padding: 0.35rem 1.75rem 0.65rem 0;
+    padding-block: 0.35rem 0.65rem;
+    padding-inline: 0 1.75rem;
     font: inherit;
     font-size: 14px;
     font-weight: 500;

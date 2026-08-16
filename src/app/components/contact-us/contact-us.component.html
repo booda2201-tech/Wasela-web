@@ -31,52 +31,54 @@
       >
         <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6 md:gap-y-7">
           <label class="contact-field">
-            <span class="contact-field__label">First Name</span>
+            <span class="contact-field__label">{{ language.label('firstName') }}</span>
             <input
               class="contact-field__input"
               type="text"
               name="firstName"
               [(ngModel)]="form.firstName"
-              placeholder="Enter your first name"
+              [placeholder]="language.label('firstNamePlaceholder')"
               autocomplete="given-name"
               [disabled]="submitting"
             />
           </label>
 
           <label class="contact-field">
-            <span class="contact-field__label">Last Name</span>
+            <span class="contact-field__label">{{ language.label('lastName') }}</span>
             <input
               class="contact-field__input"
               type="text"
               name="lastName"
               [(ngModel)]="form.lastName"
-              placeholder="Enter your last name"
+              [placeholder]="language.label('lastNamePlaceholder')"
               autocomplete="family-name"
               [disabled]="submitting"
             />
           </label>
 
           <label class="contact-field">
-            <span class="contact-field__label">Phone Number</span>
+            <span class="contact-field__label">{{ language.label('phoneNumber') }}</span>
             <input
-              class="contact-field__input"
+              class="contact-field__input contact-field__input--ltr"
               type="tel"
               name="phone"
+              dir="ltr"
               [(ngModel)]="form.phone"
-              placeholder="+1 012 3456 789"
+              [placeholder]="language.label('phonePlaceholder')"
               autocomplete="tel"
               [disabled]="submitting"
             />
           </label>
 
           <label class="contact-field">
-            <span class="contact-field__label">Email Address</span>
+            <span class="contact-field__label">{{ language.label('emailAddress') }}</span>
             <input
-              class="contact-field__input"
+              class="contact-field__input contact-field__input--ltr"
               type="email"
               name="email"
+              dir="ltr"
               [(ngModel)]="form.email"
-              placeholder="name@example.com"
+              [placeholder]="language.label('emailPlaceholder')"
               autocomplete="email"
               [disabled]="submitting"
             />
@@ -84,13 +86,13 @@
         </div>
 
         <label class="contact-field contact-field--full mt-6 md:mt-8 block">
-          <span class="contact-field__label">Message</span>
+          <span class="contact-field__label">{{ language.label('message') }}</span>
           <textarea
             class="contact-field__textarea"
             name="message"
             rows="3"
             [(ngModel)]="form.message"
-            placeholder="Write your message.."
+            [placeholder]="language.label('messagePlaceholder')"
             [disabled]="submitting"
           ></textarea>
         </label>
@@ -107,7 +109,9 @@
 
         <div class="contact-form-actions flex justify-end mt-8 md:mt-10">
           <button type="submit" class="download-btn" [disabled]="submitting">
-            <span class="download-btn__label">{{ submitting ? 'Submitting...' : submitLabel() }}</span>
+            <span class="download-btn__label">{{
+              submitting ? language.label('submitting') : submitLabel()
+            }}</span>
             <span class="icon-circle">
               <i class="bi bi-arrow-up-right" aria-hidden="true"></i>
             </span>
@@ -129,7 +133,7 @@
           <span class="contact-pill__icon" aria-hidden="true">
             <i class="bi bi-envelope"></i>
           </span>
-          <span class="contact-pill__text">{{ ways.email }}</span>
+          <span class="contact-pill__text" dir="ltr">{{ ways.email }}</span>
         </a>
 
         <ng-container *ngIf="ways.showAddress && ways.address">
@@ -144,14 +148,14 @@
             <span class="contact-pill__icon" aria-hidden="true">
               <i class="bi bi-geo-alt"></i>
             </span>
-            <span class="contact-pill__text">{{ ways.address }}</span>
+            <span class="contact-pill__text" dir="auto">{{ ways.address }}</span>
           </a>
           <ng-template #addressStatic>
             <div data-contact-pill class="contact-pill contact-pill--static">
               <span class="contact-pill__icon" aria-hidden="true">
                 <i class="bi bi-geo-alt"></i>
               </span>
-              <span class="contact-pill__text">{{ ways.address }}</span>
+              <span class="contact-pill__text" dir="auto">{{ ways.address }}</span>
             </div>
           </ng-template>
         </ng-container>
@@ -165,7 +169,7 @@
           <span class="contact-pill__icon" aria-hidden="true">
             <i class="bi bi-telephone"></i>
           </span>
-          <span class="contact-pill__text">{{ ways.phone }}</span>
+          <span class="contact-pill__text" dir="ltr">{{ ways.phone }}</span>
         </a>
       </div>
     </div>
@@ -174,5 +178,5 @@
 
 <app-page-loader *ngIf="loading"></app-page-loader>
 <div class="py-20 text-center text-red-500" *ngIf="loadError">
-  تعذر تحميل صفحة تواصل معنا.
+  {{ language.label('pageLoadError') }}
 </div>

@@ -29,7 +29,9 @@
       >
         <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6 md:gap-y-7">
           <div class="contact-field">
-            <span class="contact-field__label">Do you have a Commercial Register and Tax Card ID?</span>
+            <span class="contact-field__label">{{
+              language.label('commercialRegisterQuestion')
+            }}</span>
             <div
               class="contact-field__select-wrap contact-custom-select"
               [class.is-open]="openDropdown === 'commercial'"
@@ -67,65 +69,67 @@
           </div>
 
           <label class="contact-field">
-            <span class="contact-field__label">Company / Organization Name</span>
+            <span class="contact-field__label">{{ language.label('companyName') }}</span>
             <input
               class="contact-field__input"
               type="text"
               name="companyName"
               [(ngModel)]="form.companyName"
-              placeholder="Enter company name"
+              [placeholder]="language.label('companyNamePlaceholder')"
               autocomplete="organization"
             />
           </label>
 
           <label class="contact-field">
-            <span class="contact-field__label">Contact Person Name</span>
+            <span class="contact-field__label">{{ language.label('contactPersonName') }}</span>
             <input
               class="contact-field__input"
               type="text"
               name="contactPersonName"
               [(ngModel)]="form.contactPersonName"
-              placeholder="Enter contact person name"
+              [placeholder]="language.label('contactPersonNamePlaceholder')"
               autocomplete="name"
             />
           </label>
 
           <label class="contact-field">
-            <span class="contact-field__label">Contact Person Phone Number</span>
+            <span class="contact-field__label">{{ language.label('contactPersonPhone') }}</span>
             <input
-              class="contact-field__input"
+              class="contact-field__input contact-field__input--ltr"
               type="tel"
               name="contactPersonPhone"
+              dir="ltr"
               [(ngModel)]="form.contactPersonPhone"
-              placeholder="+20 1XX XXX XXXX"
+              [placeholder]="language.label('contactPersonPhonePlaceholder')"
               autocomplete="tel"
             />
           </label>
 
           <label class="contact-field">
-            <span class="contact-field__label">Category</span>
+            <span class="contact-field__label">{{ language.label('category') }}</span>
             <input
               class="contact-field__input"
               type="text"
               name="category"
               [(ngModel)]="form.category"
-              placeholder="Enter Category"
+              [placeholder]="language.label('categoryPlaceholder')"
             />
           </label>
 
           <label class="contact-field">
-            <span class="contact-field__label">Website or Facebook Page Link</span>
+            <span class="contact-field__label">{{ language.label('websiteLink') }}</span>
             <input
-              class="contact-field__input"
+              class="contact-field__input contact-field__input--ltr"
               type="url"
               name="websiteLink"
+              dir="ltr"
               [(ngModel)]="form.websiteLink"
-              placeholder="Enter Link"
+              [placeholder]="language.label('websiteLinkPlaceholder')"
             />
           </label>
 
           <div class="contact-field">
-            <span class="contact-field__label">Governorate</span>
+            <span class="contact-field__label">{{ language.label('governorate') }}</span>
             <div
               class="contact-field__select-wrap contact-custom-select"
               [class.is-open]="openDropdown === 'governorate'"
@@ -163,24 +167,27 @@
           </div>
 
           <label class="contact-field">
-            <span class="contact-field__label">Number of Branches</span>
+            <span class="contact-field__label">{{ language.label('numberOfBranches') }}</span>
             <input
-              class="contact-field__input"
+              class="contact-field__input contact-field__input--ltr"
               type="text"
               name="numberOfBranches"
+              dir="ltr"
               [(ngModel)]="form.numberOfBranches"
-              placeholder="Enter Number of Branches"
+              [placeholder]="language.label('numberOfBranchesPlaceholder')"
               inputmode="numeric"
             />
           </label>
           <label class="contact-field contact-field--full">
-            <span class="contact-field__label">Average Monthly Sales</span>
+            <span class="contact-field__label">{{ language.label('averageMonthlySales') }}</span>
             <input
-              class="contact-field__input"
+              class="contact-field__input contact-field__input--ltr"
               type="text"
               name="averageMonthlySales"
+              dir="ltr"
               [(ngModel)]="form.averageMonthlySales"
-              placeholder="Enter Average Monthly Sales"
+              [placeholder]="language.label('averageMonthlySalesPlaceholder')"
+              inputmode="numeric"
             />
           </label>
         </div>
@@ -191,7 +198,9 @@
 
         <div class="contact-form-actions flex justify-end mt-8 md:mt-10">
           <button type="submit" class="download-btn" [disabled]="submitting">
-            <span class="download-btn__label">{{ submitting ? 'Submitting...' : submitLabel() }}</span>
+            <span class="download-btn__label">{{
+              submitting ? language.label('submitting') : submitLabel()
+            }}</span>
             <span class="icon-circle">
               <i class="bi bi-arrow-up-right" aria-hidden="true"></i>
             </span>
@@ -212,7 +221,7 @@
           <span class="contact-pill__icon" aria-hidden="true">
             <i class="bi bi-envelope"></i>
           </span>
-          <span class="contact-pill__text">{{ ways.email }}</span>
+          <span class="contact-pill__text" dir="ltr">{{ ways.email }}</span>
         </a>
 
         <ng-container *ngIf="ways.showAddress && ways.address">
@@ -227,14 +236,14 @@
             <span class="contact-pill__icon" aria-hidden="true">
               <i class="bi bi-geo-alt"></i>
             </span>
-            <span class="contact-pill__text">{{ ways.address }}</span>
+            <span class="contact-pill__text" dir="auto">{{ ways.address }}</span>
           </a>
           <ng-template #joinAddressStatic>
             <div class="contact-pill contact-pill--static" data-contact-pill>
               <span class="contact-pill__icon" aria-hidden="true">
                 <i class="bi bi-geo-alt"></i>
               </span>
-              <span class="contact-pill__text">{{ ways.address }}</span>
+              <span class="contact-pill__text" dir="auto">{{ ways.address }}</span>
             </div>
           </ng-template>
         </ng-container>
@@ -248,7 +257,7 @@
           <span class="contact-pill__icon" aria-hidden="true">
             <i class="bi bi-telephone"></i>
           </span>
-          <span class="contact-pill__text">{{ ways.phone }}</span>
+          <span class="contact-pill__text" dir="ltr">{{ ways.phone }}</span>
         </a>
       </div>
     </div>
@@ -256,4 +265,6 @@
 </section>
 
 <app-page-loader *ngIf="loading"></app-page-loader>
-<div class="py-20 text-center text-red-500" *ngIf="loadError">تعذر تحميل صفحة انضم إلينا.</div>
+<div class="py-20 text-center text-red-500" *ngIf="loadError">
+  {{ language.label('joinPageLoadError') }}
+</div>

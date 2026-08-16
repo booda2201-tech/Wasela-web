@@ -419,9 +419,11 @@ footer.footer--ar {
     font-family: 'Diodrum Arabic', 'Diodrum Cyrillic', system-ui, sans-serif;
   }
 
+  /* الأرقام تُقرأ LTR لكن تبدأ من اليمين تحت العنوان */
   .info-value {
     direction: ltr;
     unicode-bidi: plaintext;
+    text-align: right;
   }
 
   .footer-download {

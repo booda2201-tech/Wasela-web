@@ -15,6 +15,7 @@ import {
   ContactMessageRequest,
   ContactMessagesService
 } from '../../services/contact-messages.service';
+import { LanguageService } from '../../services/language.service';
 import {
   CmsPage,
   CmsPageSection,
@@ -39,7 +40,8 @@ export class ContactUsComponent implements OnInit, AfterViewInit, OnDestroy {
     private readonly contactMessages: ContactMessagesService,
     private readonly title: Title,
     private readonly meta: Meta,
-    private readonly cdr: ChangeDetectorRef
+    private readonly cdr: ChangeDetectorRef,
+    readonly language: LanguageService
   ) {}
 
   /** Page chrome loads in background — don't block form/pills on slow CMS. */
@@ -68,7 +70,7 @@ export class ContactUsComponent implements OnInit, AfterViewInit, OnDestroy {
   private subs = new Subscription();
 
   ngOnInit(): void {
-    this.title.setTitle('Contact Us');
+    this.title.setTitle(this.language.label('contactUs'));
 
     // Page content (title / form labels) from contact-us CMS page — non-blocking
     this.subs.add(
@@ -140,15 +142,13 @@ export class ContactUsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.contactMessages.submit(payload).subscribe({
       next: (result) => {
         this.submitting = false;
-        this.submitSuccess =
-          result.message || 'Your message was sent successfully. We will get back to you soon.';
+        this.submitSuccess = result.message || this.language.label('sendSuccess');
         this.resetForm();
       },
       error: (err: unknown) => {
         this.submitting = false;
         if (this.isApiUnavailable(err) && this.openMailtoFallback(payload)) {
-          this.submitSuccess =
-            'Opening your email app to send the message. If nothing opens, email us directly.';
+          this.submitSuccess = this.language.label('sendMailFallback');
           this.resetForm();
           return;
         }
@@ -159,7 +159,7 @@ export class ContactUsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   /** Dashboard section `contact_us` → title */
   headline(): string {
-    return this.contactSection()?.title || this.page?.name || 'Contact Us';
+    return this.contactSection()?.title || this.page?.name || this.language.label('contactUs');
   }
 
   /** Dashboard section `contact_us` → description */
@@ -169,7 +169,7 @@ export class ContactUsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   /** Dashboard section `contact_us` → submit button text */
   submitLabel(): string {
-    return this.contactSection()?.buttonText || 'Submit';
+    return this.contactSection()?.buttonText || this.language.label('submit');
   }
 
   get showAnyContactWay(): boolean {
@@ -188,23 +188,23 @@ export class ContactUsComponent implements OnInit, AfterViewInit, OnDestroy {
     const message = this.form.message.trim();
 
     if (!firstName) {
-      this.formError = 'Please enter your first name.';
+      this.formError = this.language.label('errFirstName');
       return null;
     }
     if (!lastName) {
-      this.formError = 'Please enter your last name.';
+      this.formError = this.language.label('errLastName');
       return null;
     }
     if (!phone) {
-      this.formError = 'Please enter your phone number.';
+      this.formError = this.language.label('errPhone');
       return null;
     }
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      this.formError = 'Please enter a valid email address.';
+      this.formError = this.language.label('errEmail');
       return null;
     }
     if (!message) {
-      this.formError = 'Please write your message.';
+      this.formError = this.language.label('errMessage');
       return null;
     }
 
@@ -253,7 +253,7 @@ export class ContactUsComponent implements OnInit, AfterViewInit, OnDestroy {
     if (err instanceof Error && err.message && err.message !== 'CONTACT_API_UNAVAILABLE') {
       return err.message;
     }
-    return 'Could not send your message. Please try again or email us directly.';
+    return this.language.label('sendError');
   }
 
   private trySetupAnimations(): void {

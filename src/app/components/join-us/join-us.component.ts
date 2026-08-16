@@ -12,6 +12,10 @@ import gsap from 'gsap';
 import { Subscription, catchError, of } from 'rxjs';
 
 import {
+  EGYPT_GOVERNORATES,
+  LanguageService
+} from '../../services/language.service';
+import {
   MerchantApplicationRequest,
   MerchantApplicationsService,
 } from '../../services/merchant-applications.service';
@@ -21,6 +25,11 @@ import {
   EMPTY_CONTACT_WAYS,
   SiteSettingsService
 } from '../../services/site-settings.service';
+
+interface SelectOption {
+  value: string;
+  label: string;
+}
 
 @Component({
   selector: 'app-join-us',
@@ -38,7 +47,8 @@ export class JoinUsComponent implements OnInit, AfterViewInit, OnDestroy {
     private readonly merchantApplicationsService: MerchantApplicationsService,
     private readonly title: Title,
     private readonly meta: Meta,
-    private readonly cdr: ChangeDetectorRef
+    private readonly cdr: ChangeDetectorRef,
+    readonly language: LanguageService
   ) {}
 
   /** Page chrome loads in background — don't block form/pills on slow CMS. */
@@ -49,43 +59,10 @@ export class JoinUsComponent implements OnInit, AfterViewInit, OnDestroy {
   /** Same dashboard Contact block as Contact Us */
   ways: ContactWaysPublicConfig = { ...EMPTY_CONTACT_WAYS };
 
-  readonly commercialRegisterOptions = [
-    { value: '', label: 'Select an option' },
-    { value: 'yes', label: 'Yes' },
-    { value: 'no', label: 'No' }
-  ];
+  commercialRegisterOptions: SelectOption[] = [];
 
-  /** المحافظات المصرية (27) — قيم ثابتة */
-  readonly governorateOptions = [
-    { value: '', label: 'Select governorate' },
-    { value: 'alexandria', label: 'Alexandria' },
-    { value: 'aswan', label: 'Aswan' },
-    { value: 'assiut', label: 'Assiut' },
-    { value: 'beheira', label: 'Beheira' },
-    { value: 'beni-suef', label: 'Beni Suef' },
-    { value: 'cairo', label: 'Cairo' },
-    { value: 'dakahlia', label: 'Dakahlia' },
-    { value: 'damietta', label: 'Damietta' },
-    { value: 'fayoum', label: 'Fayoum' },
-    { value: 'gharbia', label: 'Gharbia' },
-    { value: 'giza', label: 'Giza' },
-    { value: 'ismailia', label: 'Ismailia' },
-    { value: 'kafr-el-sheikh', label: 'Kafr El Sheikh' },
-    { value: 'luxor', label: 'Luxor' },
-    { value: 'matrouh', label: 'Matrouh' },
-    { value: 'menofia', label: 'Menofia' },
-    { value: 'minya', label: 'Minya' },
-    { value: 'new-valley', label: 'New Valley' },
-    { value: 'north-sinai', label: 'North Sinai' },
-    { value: 'port-said', label: 'Port Said' },
-    { value: 'qalyubia', label: 'Qalyubia' },
-    { value: 'qena', label: 'Qena' },
-    { value: 'red-sea', label: 'Red Sea' },
-    { value: 'sharqia', label: 'Sharqia' },
-    { value: 'sohag', label: 'Sohag' },
-    { value: 'south-sinai', label: 'South Sinai' },
-    { value: 'suez', label: 'Suez' }
-  ];
+  /** المحافظات المصرية (27) — قيم ثابتة والاسم المعروض فقط بيتترجم */
+  governorateOptions: SelectOption[] = [];
 
   openDropdown: 'commercial' | 'governorate' | null = null;
 
@@ -111,7 +88,14 @@ export class JoinUsComponent implements OnInit, AfterViewInit, OnDestroy {
   private subs = new Subscription();
 
   ngOnInit(): void {
-    this.title.setTitle('Join Us');
+    this.title.setTitle(this.language.label('joinUs'));
+
+    this.subs.add(
+      this.language.lang$.subscribe(() => {
+        this.rebuildOptions();
+        this.cdr.detectChanges();
+      })
+    );
 
     // Form/SEO from join-us page only — contact pills come from the SAME source as Contact Us
     this.subs.add(
@@ -183,8 +167,7 @@ export class JoinUsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.merchantApplicationsService.submit(payload).subscribe({
       next: (result) => {
         this.submitting = false;
-        this.submitSuccess =
-          result.message || 'Your application was submitted successfully. We will contact you soon.';
+        this.submitSuccess = result.message || this.language.label('joinSuccess');
         this.resetForm();
       },
       error: (err: unknown) => {
@@ -223,30 +206,44 @@ export class JoinUsComponent implements OnInit, AfterViewInit, OnDestroy {
   commercialRegisterLabel(): string {
     return (
       this.commercialRegisterOptions.find((o) => o.value === this.form.hasCommercialRegister)
-        ?.label ?? 'Select an option'
+        ?.label ?? this.language.label('selectAnOption')
     );
   }
 
   governorateLabel(): string {
     return (
       this.governorateOptions.find((o) => o.value === this.form.governorate)?.label ??
-        'Select governorate'
+        this.language.label('selectGovernorate')
     );
   }
 
   headline(): string {
-    return this.joinSection()?.title || this.page?.name || 'Join Us';
+    return this.joinSection()?.title || this.page?.name || this.language.label('joinUs');
   }
 
   subtitle(): string {
-    return (
-      this.joinSection()?.description ||
-      'Join us as a merchant partner with our consumer finance company, seamless communication, and helping your business grow with confidence.'
-    );
+    return this.joinSection()?.description || this.language.label('joinSubtitle');
   }
 
   submitLabel(): string {
-    return this.joinSection()?.buttonText || 'Submit';
+    return this.joinSection()?.buttonText || this.language.label('submit');
+  }
+
+  /** Rebuilt on language change so the open dropdown swaps labels in place. */
+  private rebuildOptions(): void {
+    this.commercialRegisterOptions = [
+      { value: '', label: this.language.label('selectAnOption') },
+      { value: 'yes', label: this.language.label('optionYes') },
+      { value: 'no', label: this.language.label('optionNo') }
+    ];
+
+    this.governorateOptions = [
+      { value: '', label: this.language.label('selectGovernorate') },
+      ...EGYPT_GOVERNORATES.map((g) => ({
+        value: g.value,
+        label: this.language.pick(g.en, g.ar) ?? g.en
+      }))
+    ];
   }
 
   get showAnyContactWay(): boolean {
@@ -259,44 +256,45 @@ export class JoinUsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private buildPayload(): MerchantApplicationRequest | null {
     if (!this.form.hasCommercialRegister) {
-      this.formError = 'Please select whether you have a Commercial Register and Tax Card ID.';
+      this.formError = this.language.label('errCommercialRegister');
       return null;
     }
     if (!this.form.companyName.trim()) {
-      this.formError = 'Please enter your company or organization name.';
+      this.formError = this.language.label('errCompanyName');
       return null;
     }
     if (!this.form.contactPersonName.trim()) {
-      this.formError = 'Please enter the contact person name.';
+      this.formError = this.language.label('errContactPersonName');
       return null;
     }
     if (!this.form.contactPersonPhone.trim()) {
-      this.formError = 'Please enter the contact person phone number.';
+      this.formError = this.language.label('errContactPersonPhone');
       return null;
     }
     if (!this.form.category.trim()) {
-      this.formError = 'Please enter a category.';
+      this.formError = this.language.label('errCategory');
       return null;
     }
     if (!this.form.governorate) {
-      this.formError = 'Please select a governorate.';
+      this.formError = this.language.label('errGovernorate');
       return null;
     }
 
     const branches = this.parsePositiveNumber(this.form.numberOfBranches);
     if (branches === null) {
-      this.formError = 'Please enter a valid number of branches.';
+      this.formError = this.language.label('errBranches');
       return null;
     }
 
     const sales = this.parsePositiveNumber(this.form.averageMonthlySales);
     if (sales === null) {
-      this.formError = 'Please enter a valid average monthly sales amount.';
+      this.formError = this.language.label('errSales');
       return null;
     }
 
+    // Dashboard stores one canonical name — send English regardless of UI language.
     const governorateLabel =
-      this.governorateOptions.find((o) => o.value === this.form.governorate)?.label ??
+      EGYPT_GOVERNORATES.find((g) => g.value === this.form.governorate)?.en ??
       this.form.governorate;
 
     return {
@@ -339,7 +337,7 @@ export class JoinUsComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       }
     }
-    return 'Could not submit your application. Please try again.';
+    return this.language.label('joinError');
   }
 
   private resetForm(): void {

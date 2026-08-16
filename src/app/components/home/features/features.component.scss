@@ -1069,6 +1069,15 @@
       --why-overlay-shift: 2.5% !important;
       --why-overlay-object-x: 54% !important;
     }
+
+    /* عربي فقط: إزاحة بسيطة لليمين للأربع GIFs — الأولى مظبوطة زي ما هي */
+    .why-waseela-phone-overlay:not([data-why-overlay-index='0']) {
+      --why-overlay-mobile-shift: 1.5% !important;
+    }
+
+    .why-waseela-phone-overlay[data-why-overlay-index='4']:not([data-why-overlay-index='0']) {
+      --why-overlay-mobile-shift: 0.5% !important;
+    }
   }
 }
 

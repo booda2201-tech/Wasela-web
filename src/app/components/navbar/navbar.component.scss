@@ -120,6 +120,27 @@ nav {
   gap: 2rem;
 }
 
+/* Brand and actions differ in width, so equal flex bases are what actually
+   centers the links — in both LTR and RTL. */
+@media (min-width: 1024px) {
+  .navbar-brand,
+  .navbar-actions {
+    flex: 1 1 0;
+  }
+
+  .navbar-brand {
+    min-width: 0;
+  }
+
+  .navbar-actions {
+    justify-content: flex-end;
+  }
+
+  .navbar-links {
+    flex: 0 0 auto;
+  }
+}
+
 .navbar-link {
   font-size: 1.0625rem;
   line-height: 1.2;
