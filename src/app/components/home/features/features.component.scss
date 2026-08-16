@@ -758,7 +758,9 @@
     width: var(--why-overlay-width, 185%);
     height: 100%;
     max-width: none;
-    transform: translateX(calc(-50% + var(--why-overlay-shift, 0%)));
+    transform: translateX(
+      calc(-50% + var(--why-overlay-shift, 0%) + var(--why-overlay-mobile-shift, 0%))
+    );
     object-fit: contain;
     object-position: var(--why-overlay-object-x, 50%) center;
     opacity: 0;
@@ -1011,6 +1013,15 @@
       margin-bottom: 1rem;
       text-align: center;
     }
+
+    /* أول GIF متمركزة صح — الباقي محتاج إزاحة بسيطة للشمال */
+    .why-waseela-phone-overlay:not([data-why-overlay-index='0']) {
+      --why-overlay-mobile-shift: -6%;
+    }
+
+    .why-waseela-phone-overlay[data-why-overlay-index='4'] {
+      --why-overlay-mobile-shift: -7%;
+    }
   }
 }
 
@@ -1028,7 +1039,9 @@
     .why-waseela-phone-overlay {
       left: 50% !important;
       right: auto !important;
-      transform: translateX(calc(-50% + var(--why-overlay-shift, 0%))) !important;
+      transform: translateX(
+        calc(-50% + var(--why-overlay-shift, 0%) + var(--why-overlay-mobile-shift, 0%))
+      ) !important;
       object-position: var(--why-overlay-object-x, 50%) center !important;
     }
 

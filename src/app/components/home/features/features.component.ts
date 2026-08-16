@@ -16,10 +16,6 @@ import { CmsPage, CmsPageSection, CmsPageSectionItem, PagesService } from '../..
 
 
 
-const WHY_ITEM_COUNT = 5;
-
-
-
 const WHY_STATIC_DEFAULTS: ReadonlyArray<{ title: string; description: string }> = [
 
   {
@@ -80,6 +76,11 @@ export class FeaturesComponent implements OnInit, OnChanges, OnDestroy {
   @Input() homePage: CmsPage | null = null;
 
   activeCard = 0;
+
+  private whyCards: CmsPageSectionItem[] = [];
+
+  /** GIF is bound to the card itself, so hiding or reordering cards keeps each text with its own visual. */
+  private readonly whyGifIndexByItemId = new Map<number, number>();
 
   private whyAutoSwitchTimer: ReturnType<typeof setInterval> | null = null;
   private readonly whyAutoSwitchMs = 10_000;
@@ -210,53 +211,51 @@ export class FeaturesComponent implements OnInit, OnChanges, OnDestroy {
 
 
   whyItems(): CmsPageSectionItem[] {
-
-    const section = this.whySection();
-
-    const cmsItems = section?.items?.length
-
-      ? [...section.items]
-
-          .filter((item) => item.isActive)
-
-          .sort((a, b) => a.sortOrder - b.sortOrder || a.id - b.id)
-
-      : [];
-
-
-
-    if (cmsItems.length >= WHY_ITEM_COUNT) {
-
-      return cmsItems.slice(0, WHY_ITEM_COUNT);
-
-    }
-
-
-
-    const merged = [...cmsItems];
-
-    const sectionId = section?.id ?? 0;
-
-
-
-    while (merged.length < WHY_ITEM_COUNT) {
-
-      const index = merged.length;
-
-      merged.push(this.makeFallbackWhyItem(index, sectionId));
-
-    }
-
-
-
-    return merged;
-
+    return this.whyCards;
   }
 
+  /**
+   * The CMS owns this section: as soon as it has items we show exactly the active
+   * ones, in their saved order. The static list is only a placeholder for an empty section.
+   */
+  private rebuildWhyCards(): void {
+    const section = this.whySection();
+    const allItems = section?.items ?? [];
 
+    this.whyGifIndexByItemId.clear();
+
+    if (!allItems.length) {
+      this.whyCards = WHY_STATIC_DEFAULTS.map((_, index) =>
+        this.makeFallbackWhyItem(index, section?.id ?? 0)
+      );
+      this.whyCards.forEach((item, index) => this.whyGifIndexByItemId.set(item.id, index));
+      return;
+    }
+
+    // Creation order is the one thing hiding and reordering cannot shift.
+    [...allItems]
+      .sort((a, b) => a.id - b.id)
+      .forEach((item, index) =>
+        this.whyGifIndexByItemId.set(item.id, index % this.whyOverlayGifs.length)
+      );
+
+    this.whyCards = allItems
+      .filter((item) => item.isActive)
+      .sort((a, b) => a.sortOrder - b.sortOrder || a.id - b.id);
+  }
+
+  private whyGifIndex(index: number): number {
+    const item = this.whyCards[index];
+    const mapped = item ? this.whyGifIndexByItemId.get(item.id) : undefined;
+    return (mapped ?? index) % this.whyOverlayGifs.length;
+  }
+
+  whyOverlayIndex(index: number): number {
+    return this.whyGifIndex(index);
+  }
 
   whyOverlaySrc(index: number): string {
-    return this.whyOverlayGifs[index % this.whyOverlayGifs.length];
+    return this.whyOverlayGifs[this.whyGifIndex(index)];
   }
 
   isWhyOverlayLoaded(index: number): boolean {
@@ -267,9 +266,11 @@ export class FeaturesComponent implements OnInit, OnChanges, OnDestroy {
 
   whyOverlayStyle(index: number): Record<string, string> {
 
-    const layout = this.whyOverlayLayouts[index % this.whyOverlayLayouts.length];
+    const gifIndex = this.whyGifIndex(index);
 
-    if (index === 2) {
+    const layout = this.whyOverlayLayouts[gifIndex % this.whyOverlayLayouts.length];
+
+    if (gifIndex === 2) {
       return {
         '--why-overlay-shift': '14%',
         '--why-overlay-object-x': layout.objectX,
@@ -405,8 +406,8 @@ export class FeaturesComponent implements OnInit, OnChanges, OnDestroy {
 
 
   private resetActiveWhyCard(): void {
-    const first = this.whyItems()[0];
-    this.activeCard = first?.id ?? 0;
+    this.rebuildWhyCards();
+    this.activeCard = this.whyCards[0]?.id ?? 0;
     this.loadedWhyOverlayIndexes.clear();
     this.loadedWhyOverlayIndexes.add(0);
   }

@@ -177,7 +177,7 @@
           [src]="whyOverlaySrc(i)"
           [class.is-visible]="activeCard === feature.id"
           class="why-waseela-phone-overlay"
-          [attr.data-why-overlay-index]="i"
+          [attr.data-why-overlay-index]="whyOverlayIndex(i)"
           [ngStyle]="whyOverlayStyle(i)"
           alt=""
           decoding="async"
