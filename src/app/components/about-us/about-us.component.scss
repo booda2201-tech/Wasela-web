@@ -112,11 +112,6 @@ $about-max: 80rem;
   text-align: center;
 }
 
-.about-compliance-head .about-subtitle.about-copy--clamp-1 {
-  @include about-line-clamp(1);
-  text-align: center;
-}
-
 .about-heading-content--tight .about-subtitle.about-copy--clamp-2 {
   @include about-line-clamp(2);
   text-align: center;
@@ -860,6 +855,8 @@ $about-max: 80rem;
     font-weight: 500;
     line-height: 1.65;
     color: $about-subtitle;
+    text-wrap: balance;
+    white-space: pre-line;
   }
 }
 

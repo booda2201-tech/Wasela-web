@@ -31,7 +31,7 @@
           max-lg:border max-lg:border-[#E2E8FF] max-lg:bg-gradient-to-r max-lg:from-[#F8FAFF] 
           max-lg:to-[#EEF2FF] max-lg:px-0 max-lg:py-6 max-lg:sm:px-0 
           max-lg:sm:py-0 max-lg:shadow-[inset_0_1px_0_rgba(255,255,255,0.9)]"
-          *ngIf="merchantsCountSection() as countSection"
+          *ngIf="merchantsCountView as countView"
         >
           <div
             class="merchants-count-inner"
@@ -42,7 +42,7 @@
               class="merchants-count-title font-black"
               [attr.dir]="language.isArabic ? 'rtl' : 'ltr'"
             >
-              {{ countSection.title }}
+              {{ countView.label }}
             </h1>
 
             <div class="brand-icon shrink-0">

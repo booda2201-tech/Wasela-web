@@ -84,6 +84,48 @@ export class MerchantsComponent implements OnInit, AfterViewInit {
     return this.pickSection('1000_Merchants');
   }
 
+  /**
+   * عنوان العدد من الـ CMS فقط.
+   * فاضي أو الرقم = 0 (مثل 0_Merchants) → null (إخفاء النص + التوجل).
+   * رقم > 0 → يظهر العنوان زي ما هو.
+   */
+  merchantsCountLabel(section: CmsPageSection | null): string | null {
+    if (!section) {
+      return null;
+    }
+
+    const cmsTitle = (section.title ?? section.subTitle ?? '').trim();
+    if (!cmsTitle) {
+      return null;
+    }
+
+    const match = cmsTitle.match(/\d+/);
+    if (!match) {
+      return null;
+    }
+
+    const count = Number(match[0]);
+    if (!Number.isFinite(count) || count <= 0) {
+      return null;
+    }
+
+    return cmsTitle;
+  }
+
+  get merchantsCountView(): { section: CmsPageSection; label: string } | null {
+    const section = this.merchantsCountSection();
+    if (!section) {
+      return null;
+    }
+
+    const label = this.merchantsCountLabel(section);
+    if (!label) {
+      return null;
+    }
+
+    return { section, label };
+  }
+
   private rebuildMerchantLayout(): void {
     const section = this.merchantsCountSection();
     if (!section?.items?.length) {
