@@ -46,10 +46,26 @@
           <div class="space-y-4 p-6 lg:p-10 pb-4">
             <h3
               class="step-card-title text-[22px] lg:text-[30px] leading-[1.08] font-black text-[#1D1DDB]"
-              [attr.dir]="language.isArabic ? 'auto' : null"
+              [class.step-card-title--ar]="language.isArabic"
+              [attr.dir]="language.isArabic ? 'rtl' : null"
             >
-              <span class="step-card-title__lg">{{ step.title }}</span>
-              <span class="step-card-title__sm cms-preline">{{ formatStepTitle(step.title) }}</span>
+              <ng-container *ngIf="language.isArabic; else step0En">
+                <ng-container *ngIf="parseArabicStepTitle(step.title) as t">
+                  <span class="step-card-title__lines">
+                    <span class="step-card-title__line">
+                      <span *ngIf="t.digit" class="step-card-title__mark"
+                        ><span class="step-card-title__digit">{{ t.digit }}</span
+                        ><span class="step-card-title__dot">.</span></span
+                      >{{ t.line1 }}
+                    </span>
+                    <span *ngIf="t.line2" class="step-card-title__line">{{ t.line2 }}</span>
+                  </span>
+                </ng-container>
+              </ng-container>
+              <ng-template #step0En>
+                <span class="step-card-title__lg">{{ step.title }}</span>
+                <span class="step-card-title__sm cms-preline">{{ formatStepTitle(step.title) }}</span>
+              </ng-template>
             </h3>
             <p
               *ngIf="step.description"
@@ -106,10 +122,26 @@
           <div class="space-y-4 p-6 lg:p-10 pb-4">
             <h3
               class="step-card-title text-[22px] lg:text-[30px] leading-[1.08] font-black"
-              [attr.dir]="language.isArabic ? 'auto' : null"
+              [class.step-card-title--ar]="language.isArabic"
+              [attr.dir]="language.isArabic ? 'rtl' : null"
             >
-              <span class="step-card-title__lg cms-preline">{{ step.title }}</span>
-              <span class="step-card-title__sm cms-preline">{{ formatStepTitle(step.title) }}</span>
+              <ng-container *ngIf="language.isArabic; else step1En">
+                <ng-container *ngIf="parseArabicStepTitle(step.title) as t">
+                  <span class="step-card-title__lines">
+                    <span class="step-card-title__line">
+                      <span *ngIf="t.digit" class="step-card-title__mark"
+                        ><span class="step-card-title__digit">{{ t.digit }}</span
+                        ><span class="step-card-title__dot">.</span></span
+                      >{{ t.line1 }}
+                    </span>
+                    <span *ngIf="t.line2" class="step-card-title__line">{{ t.line2 }}</span>
+                  </span>
+                </ng-container>
+              </ng-container>
+              <ng-template #step1En>
+                <span class="step-card-title__lg cms-preline">{{ step.title }}</span>
+                <span class="step-card-title__sm cms-preline">{{ formatStepTitle(step.title) }}</span>
+              </ng-template>
             </h3>
             <p *ngIf="step.description" class="mt-4 cms-preline" [attr.dir]="language.isArabic ? 'auto' : null">
               {{ step.description }}
@@ -132,10 +164,26 @@
           <div class="space-y-4 p-6 lg:p-10 pb-4">
             <h3
               class="step-card-title text-[22px] lg:text-[30px] leading-[1.08] font-black"
-              [attr.dir]="language.isArabic ? 'auto' : null"
+              [class.step-card-title--ar]="language.isArabic"
+              [attr.dir]="language.isArabic ? 'rtl' : null"
             >
-              <span class="step-card-title__lg cms-preline">{{ step.title }}</span>
-              <span class="step-card-title__sm cms-preline">{{ formatStepTitle(step.title) }}</span>
+              <ng-container *ngIf="language.isArabic; else step2En">
+                <ng-container *ngIf="parseArabicStepTitle(step.title) as t">
+                  <span class="step-card-title__lines">
+                    <span class="step-card-title__line">
+                      <span *ngIf="t.digit" class="step-card-title__mark"
+                        ><span class="step-card-title__digit">{{ t.digit }}</span
+                        ><span class="step-card-title__dot">.</span></span
+                      >{{ t.line1 }}
+                    </span>
+                    <span *ngIf="t.line2" class="step-card-title__line">{{ t.line2 }}</span>
+                  </span>
+                </ng-container>
+              </ng-container>
+              <ng-template #step2En>
+                <span class="step-card-title__lg cms-preline">{{ step.title }}</span>
+                <span class="step-card-title__sm cms-preline">{{ formatStepTitle(step.title) }}</span>
+              </ng-template>
             </h3>
             <p *ngIf="step.description" class="mt-4 cms-preline" [attr.dir]="language.isArabic ? 'auto' : null">
               {{ step.description }}

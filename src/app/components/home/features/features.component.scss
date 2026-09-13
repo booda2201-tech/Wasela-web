@@ -1144,8 +1144,37 @@
     text-align: right !important;
     letter-spacing: 0;
     white-space: pre-line;
+  }
+
+  .step-card-title--ar {
+    direction: rtl;
     unicode-bidi: isolate;
-    direction: ltr;
+    /* قريب من حجم الإنجليزي — مش مصغّر زيادة */
+    font-size: clamp(1.25rem, 1.85vw, 1.75rem) !important;
+    line-height: 1.28 !important;
+    white-space: normal;
+    overflow: visible;
+  }
+
+  .step-card-title--ar .step-card-title__lines {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.12em;
+    width: 100%;
+    overflow: visible;
+  }
+
+  .step-card-title--ar .step-card-title__line {
+    display: block;
+    width: 100%;
+    white-space: nowrap;
+    overflow: visible;
+  }
+
+  /* يمين السطر: الرقم ثم النقطة ثم الكلام */
+  .step-card-title__mark {
+    margin-inline-end: 0.25em;
   }
 
   .step-card-desc,
@@ -1155,11 +1184,20 @@
     max-width: none !important;
     margin-top: 1rem !important;
     unicode-bidi: plaintext;
+    overflow: visible;
+    font-size: clamp(0.9rem, 1.15vw, 1rem) !important;
+    line-height: 1.55 !important;
   }
 
   .step-card--blue .step-card-desc,
   .step-card--blue p {
     max-width: none !important;
+  }
+
+  /* مساحة كافية للعناوين والأوصاف عشان متتقطعش من overflow الكرت */
+  .step-card > .space-y-4 {
+    overflow: visible;
+    padding-block-end: 1rem !important;
   }
 
   .step-card-badges {
@@ -1177,9 +1215,15 @@
       gap: clamp(0.8rem, 1.5vw, 1.1rem);
     }
 
+    .step-card-title--ar {
+      font-size: clamp(1.2rem, 1.9vw, 1.55rem) !important;
+      line-height: 1.28 !important;
+    }
+
     .step-card > .space-y-4 {
-      padding: clamp(1.35rem, 2.2vw, 1.75rem) clamp(1.1rem, 1.65vw, 1.4rem) 0.65rem !important;
+      padding: clamp(1.35rem, 2.2vw, 1.75rem) clamp(1.1rem, 1.65vw, 1.4rem) 1rem !important;
       gap: 0.7rem;
+      overflow: visible;
     }
 
     .step-card-badges {

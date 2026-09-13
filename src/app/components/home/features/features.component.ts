@@ -330,6 +330,54 @@ export class FeaturesComponent implements OnInit, OnChanges, OnDestroy {
     return normalized;
   }
 
+  /**
+   * Arabic step title parts.
+   * Digit + "." are separate spans in RTL: رقم ثم نقطة ثم الكلام على اليمين.
+   * lines[0]/lines[1] = سطرين إجباريين (بدون soft-wrap لسطر تالت).
+   */
+  parseArabicStepTitle(
+    title: string | null | undefined
+  ): { digit: string; line1: string; line2: string } {
+    if (!title) {
+      return { digit: '', line1: '', line2: '' };
+    }
+
+    const normalized = title.trim();
+    const match = normalized.match(/^(\d+)\.\s*([\s\S]*)$/);
+    const digit = match?.[1] ?? '';
+    const rawBody = (match?.[2] ?? normalized).replace(/\s+/g, ' ').trim();
+    const [line1 = rawBody, line2 = ''] = this.breakArabicStepBody(rawBody)
+      .split('\n')
+      .map((part) => part.trim())
+      .filter(Boolean);
+
+    return { digit, line1, line2 };
+  }
+
+  private breakArabicStepBody(body: string): string {
+    if (!body) {
+      return '';
+    }
+
+    // 2. Instant, / AI-Driven Approval → سطرين
+    if (body.includes('موافقة فورية') && body.includes('بالذكاء')) {
+      const cut = body.indexOf('بالذكاء');
+      if (cut > 0) {
+        return `${body.slice(0, cut).trim()}\n${body.slice(cut).trim()}`;
+      }
+    }
+
+    // 3. Use Your Limit / Where It Matters → سطرين
+    if (body.includes('استخدم حدك') && body.includes('التمويلي')) {
+      const cut = body.indexOf('التمويلي');
+      if (cut > 0) {
+        return `${body.slice(0, cut).trim()}\n${body.slice(cut).trim()}`;
+      }
+    }
+
+    return body;
+  }
+
 
 
   get featureCount(): number {
