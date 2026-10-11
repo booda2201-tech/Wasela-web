@@ -122,6 +122,22 @@ body {
   overflow-x: clip;
 }
 
+/* لابتوبات صغيرة (عرض ≤1400 أو ارتفاع قصير زي 1080p على 125%): الموقع كان بيبان مكبّر */
+:root {
+  --site-zoom: 1;
+}
+
+@media (min-width: 1000px) and (max-width: 1400px),
+  (min-width: 1000px) and (max-height: 820px) {
+  :root {
+    --site-zoom: 0.9;
+  }
+
+  html {
+    zoom: var(--site-zoom);
+  }
+}
+
 html[dir='rtl'] body {
   font-family: 'Diodrum Arabic', 'Diodrum Cyrillic', system-ui, sans-serif;
 }
@@ -134,10 +150,6 @@ html[dir='rtl'] {
 
   .navbar-logo {
     object-position: right center;
-  }
-
-  .mobile-nav-menu a:active {
-    transform: translateX(-2px);
   }
 
   .download-btn .icon-circle i.bi-arrow-up-right {
@@ -300,6 +312,10 @@ html[dir='rtl'] {
     transform: translateY(1px);
     opacity: 0.92;
   }
+}
+
+body.mobile-nav-open {
+  overflow: hidden;
 }
 
 // .contact-pill {

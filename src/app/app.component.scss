@@ -5,7 +5,8 @@
 .app-shell {
   display: flex;
   flex-direction: column;
-  min-height: 100svh;
+  /* zoom بيصغّر الـ svh كمان — نعوّضه عشان الصفحة تملا الشاشة */
+  min-height: calc(100svh / var(--site-zoom, 1));
 }
 
 .app-shell__main {

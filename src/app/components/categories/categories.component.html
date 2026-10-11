@@ -40,6 +40,8 @@
                   [src]="sectionImg"
                   class="w-full h-full object-contain"
                   [alt]="cat.title || ''"
+                  loading="eager"
+                  (error)="hideBrokenImage($event)"
                 />
               </div>
             </div>
@@ -84,6 +86,8 @@
               [src]="subImg"
               class="h-8 w-8 object-contain sm:h-9 sm:w-9 md:h-10 md:w-10"
               [alt]="sub.title || ''"
+              loading="eager"
+              (error)="hideBrokenImage($event)"
             />
           </div>
           <span

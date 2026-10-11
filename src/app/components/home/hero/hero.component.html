@@ -16,7 +16,7 @@
 
   <div class="hero-gif-wrap" aria-hidden="true" *ngIf="!isMobileHero">
     <img
-      [src]="heroGifSrc"
+      [attr.src]="desktopGifStarted ? heroGifSrc : null"
       alt=""
       class="hero-gif"
       loading="eager"

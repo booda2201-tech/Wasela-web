@@ -41,7 +41,8 @@
                   [src]="cat.img"
                   class="category-card-img"
                   [alt]="cat.title"
-                  loading="lazy"
+                  loading="eager"
+                  (error)="hideBrokenImage($event)"
                 />
                 <h3 class="category-card-title">{{ cat.title }}</h3>
               </div>
@@ -58,7 +59,14 @@
       <div *ngFor="let cat of categories" class="category-card w-full flex justify-center">
         <div class="relative shape-wrapper w-full">
           <div class="category-card-frame">
-            <img [id]="cat.imgId" [src]="cat.img" class="category-card-img" [alt]="cat.title" loading="lazy" />
+            <img
+              [id]="cat.imgId"
+              [src]="cat.img"
+              class="category-card-img"
+              [alt]="cat.title"
+              loading="eager"
+              (error)="hideBrokenImage($event)"
+            />
             <h3 class="category-card-title">{{ cat.title }}</h3>
           </div>
         </div>
@@ -116,7 +124,7 @@
                 class="logo-cell"
                 [style.--i]="idx + col.styleBase"
               >
-                <img [src]="partner.logo" [alt]="partner.name" class="partner-logo" loading="lazy" />
+                <img [src]="partner.logo" [alt]="partner.name" class="partner-logo" loading="eager" />
               </div>
             </div>
           </div>
@@ -133,7 +141,7 @@
             class="logo-cell"
             [style.--i]="idx + col.styleBase"
           >
-            <img [src]="partner.logo" [alt]="partner.name" class="partner-logo" loading="lazy" />
+            <img [src]="partner.logo" [alt]="partner.name" class="partner-logo" loading="eager" />
           </div>
         </div>
       </div>
@@ -196,7 +204,7 @@
               [src]="merchant.bg"
               class="merchant-card-bg absolute inset-0 size-full object-cover"
               alt=""
-              loading="lazy"
+              loading="eager"
               decoding="async"
             />
 
@@ -209,7 +217,7 @@
                 [src]="merchant.logo"
                 class="merchant-card-logo object-contain"
                 alt=""
-                loading="lazy"
+                loading="eager"
                 decoding="async"
               />
             </div>
@@ -248,7 +256,7 @@
   <ng-container *ngTemplateOutlet="homeTestimonials"></ng-container>
 </ng-container>
 
-<!-- لو تم تعطيل سكشن التجار من الـ CMS، اعرض الشهادات لوحدها -->
+<!-- Ù„Ùˆ ØªÙ… ØªØ¹Ø·ÙŠÙ„ Ø³ÙƒØ´Ù† Ø§Ù„ØªØ¬Ø§Ø± Ù…Ù† Ø§Ù„Ù€ CMSØŒ Ø§Ø¹Ø±Ø¶ Ø§Ù„Ø´Ù‡Ø§Ø¯Ø§Øª Ù„ÙˆØ­Ø¯Ù‡Ø§ -->
 <ng-container  *ngIf="!homeMerchantsSection()">
   <ng-container *ngTemplateOutlet="homeTestimonials"></ng-container>
 </ng-container>
@@ -263,7 +271,7 @@
         [style.background-size]="downloadBackgroundUrl ? 'cover' : null"
         [style.background-position]="downloadBackgroundUrl ? 'center' : null"
       >
-        <img src="../../../../assets/images/Frame.png" alt="" class="download-frame" decoding="async" loading="lazy" />
+        <img src="../../../../assets/images/Frame.png" alt="" class="download-frame" decoding="async" loading="eager" />
         <div class="download-copy">
           <h2 class="download-heading" id="download-heading">
             <span *ngIf="downloadHeadingLine1" class="download-heading__line">{{ downloadHeadingLine1 }}</span>
@@ -318,7 +326,7 @@
         <div class="download-mockup-card">
           <div class="download-mockup-device">
             <img
-              appDeferSrc="assets/gif/footer-mockup 1.gif"
+              [appPlayWhenVisible]="footerMockupGifSrc"
               class="download-mockup"
               alt="Waseela App"
               width="800"
@@ -352,7 +360,7 @@
                       [src]="item.backgroundSrc"
                       alt=""
                       class="testimonial-layered-card__bg-img"
-                      loading="lazy"
+                      loading="eager"
                       decoding="async"
                     />
                   </div>
@@ -364,7 +372,7 @@
                         [src]="item.avatarSrc"
                         alt=""
                         class="testimonial-layered-card__avatar-img"
-                        loading="lazy"
+                        loading="eager"
                         decoding="async"
                       />
                       <i
@@ -377,7 +385,7 @@
                     <div class="testimonial-layered-card__body">
                       <h3 class="testimonial-layered-card__type">{{ item.type }}</h3>
                       <span class="testimonial-layered-card__name">{{ item.name }}</span>
-                      <div class="testimonial-layered-card__quote" aria-hidden="true">“</div>
+                      <div class="testimonial-layered-card__quote" aria-hidden="true">â€œ</div>
                       <p class="testimonial-layered-card__text">{{ item.content }}</p>
                     </div>
                   </div>

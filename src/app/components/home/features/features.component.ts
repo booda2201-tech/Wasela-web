@@ -10,6 +10,7 @@ import {
 
 
 
+import { GIFS } from '../../../gif-assets';
 import { AppStoreLinkService } from '../../../services/app-store-link.service';
 import { LanguageService } from '../../../services/language.service';
 import { CmsPage, CmsPageSection, CmsPageSectionItem, PagesService } from '../../../services/pages.service';
@@ -91,17 +92,10 @@ export class FeaturesComponent implements OnInit, OnChanges, OnDestroy {
 
 
 
-  private readonly whyOverlayGifs = [
-    'assets/gif/why waseela-fully digital.gif',
-    'assets/gif/why waseela-flexible by design.gif',
-    'assets/gif/why waseela-clear and transparent.gif',
-    'assets/gif/why waseela-trusted.gif',
-    'assets/gif/human centered screen.gif',
-  ];
+  private readonly whyOverlayGifs = GIFS.why;
 
-  /** Only load Why-Waseela GIFs after the user (or autoplay) reaches that card. */
-  private readonly loadedWhyOverlayIndexes = new Set<number>([0]);
-
+  /** Why-Waseela GIFs play once, so each one only mounts when its card is first shown. */
+  private readonly shownWhyOverlayIndexes = new Set<number>([0]);
 
 
   /** محاذاة منفصلة لكل GIF — shiftX يمين/شمال، objectX تركيز المحتوى، width حجم العرض */
@@ -125,13 +119,9 @@ export class FeaturesComponent implements OnInit, OnChanges, OnDestroy {
 
 
 
-  private readonly stepVisualGifs = [
-    'assets/gif/iphone in light blue container.gif',
-    'assets/gif/iphone in orange container.gif',
-    'assets/gif/Iphone in Blue container.gif',
-  ];
+  private readonly stepVisualGifs = GIFS.steps;
 
-  readonly howItWorksGifSrc = 'assets/gif/how waseela works.gif';
+  readonly howItWorksGifSrc = GIFS.howItWorks;
 
 
 
@@ -258,8 +248,8 @@ export class FeaturesComponent implements OnInit, OnChanges, OnDestroy {
     return this.whyOverlayGifs[this.whyGifIndex(index)];
   }
 
-  isWhyOverlayLoaded(index: number): boolean {
-    return this.loadedWhyOverlayIndexes.has(index);
+  isWhyOverlayShown(index: number): boolean {
+    return this.shownWhyOverlayIndexes.has(index);
   }
 
 
@@ -402,7 +392,7 @@ export class FeaturesComponent implements OnInit, OnChanges, OnDestroy {
 
   setActive(id: number, userInitiated = true): void {
     this.activeCard = id;
-    this.loadedWhyOverlayIndexes.add(this.activeIndex);
+    this.shownWhyOverlayIndexes.add(this.activeIndex);
 
     if (userInitiated) {
       this.startWhyAutoSwitch();
@@ -443,7 +433,7 @@ export class FeaturesComponent implements OnInit, OnChanges, OnDestroy {
 
   private advanceWhyCard(): void {
     const items = this.whyItems();
-    if (items.length < 2) {
+    if (items.length < 2 || !this.isWhySectionOnScreen()) {
       return;
     }
 
@@ -453,11 +443,19 @@ export class FeaturesComponent implements OnInit, OnChanges, OnDestroy {
 
 
 
+  /** Off-screen (or detached while another route is open) cards would play their one-shot GIFs unseen. */
+  private isWhySectionOnScreen(): boolean {
+    const section = this.host.nativeElement.querySelector('.why-waseela-section');
+    if (!section || typeof window === 'undefined') {
+      return false;
+    }
+    const rect = section.getBoundingClientRect();
+    return rect.height > 0 && rect.bottom > 0 && rect.top < window.innerHeight;
+  }
+
   private resetActiveWhyCard(): void {
     this.rebuildWhyCards();
     this.activeCard = this.whyCards[0]?.id ?? 0;
-    this.loadedWhyOverlayIndexes.clear();
-    this.loadedWhyOverlayIndexes.add(0);
   }
 
 

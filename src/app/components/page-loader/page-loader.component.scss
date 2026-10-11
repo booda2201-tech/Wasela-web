@@ -13,11 +13,14 @@
 .page-loader {
   position: fixed;
   z-index: 40;
-  inset: clamp(4.25rem, 11vh, 5.75rem) 0 0 0;
+  top: clamp(4.25rem, 11vh, 5.75rem);
+  left: 0;
+  /* fixed + html zoom: نكبّر المقاس عشان يغطي الشاشة كلها */
+  width: calc(100vw / var(--site-zoom, 1));
+  height: calc(100vh / var(--site-zoom, 1) - clamp(4.25rem, 11vh, 5.75rem));
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
   background: #fff;
   box-sizing: border-box;
   padding: 1.5rem;

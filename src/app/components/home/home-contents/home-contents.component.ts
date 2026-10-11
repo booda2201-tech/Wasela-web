@@ -12,6 +12,7 @@ import {
 import { catchError, combineLatest, of } from 'rxjs';
 
 import { environment } from '../../../../environments/environment';
+import { GIFS } from '../../../gif-assets';
 import { AppStoreLinkService } from '../../../services/app-store-link.service';
 import {
   CmsPage,
@@ -171,8 +172,15 @@ export class HomeContentsComponent implements OnInit, OnDestroy, AfterViewInit, 
     return this.sectionByKey('download_app_cta');
   }
 
+  readonly footerMockupGifSrc = GIFS.footerMockup;
+
   asset(path: string | null | undefined): string | null {
     return resolveCmsAssetUrl(environment.apiOrigin, path);
+  }
+
+  /** Media deleted on the server returns 404 — hide the broken icon / alt text, keep the card layout. */
+  hideBrokenImage(event: Event): void {
+    (event.target as HTMLImageElement).style.visibility = 'hidden';
   }
 
   isExternalUrl(url: string | null | undefined): boolean {

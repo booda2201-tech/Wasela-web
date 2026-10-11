@@ -248,6 +248,10 @@ $total: 3.5s;
   height: auto !important;
   display: block;
   object-fit: contain;
+  /* نفس نسبة الـ GIF لعرض الشاشة اللي على 1200px+ (1000px ÷ ~1222px) */
+  @media (min-width: 1000px) and (max-width: 1199px) {
+    width: min(82vw, 1000px);
+  }
   @media (min-width: 1200px) {
     width: min(100vw, 1000px);
   }
@@ -758,6 +762,20 @@ $total: 3.5s;
 
   .hero-mobile-gif {
     width: min(75vw, 50px);
+  }
+}
+
+/* رجوع للـ Home من غير refresh: الأنيميشن يقفز لآخر frame فوراً (الـ GIF يظهر على طول) */
+:host(.hero--settled) {
+  .hero-mega-pill,
+  .hero-toggle,
+  .orange-ball,
+  .hero-headline,
+  .hero-gif-wrap,
+  .hero-cta,
+  .powered-by {
+    animation-delay: 0s !important;
+    animation-duration: 0s !important;
   }
 }
 

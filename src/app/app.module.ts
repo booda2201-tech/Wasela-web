@@ -23,7 +23,7 @@ import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-poli
 import { BlogsComponent } from './components/blogs/blogs.component';
 import { BlogDetailComponent } from './components/blog-detail/blog-detail.component';
 import { PageLoaderComponent } from './components/page-loader/page-loader.component';
-import { DeferSrcDirective } from './directives/defer-src.directive';
+import { PlayWhenVisibleDirective } from './directives/play-when-visible.directive';
 
 @NgModule({
   declarations: [
@@ -46,7 +46,7 @@ import { DeferSrcDirective } from './directives/defer-src.directive';
     BlogsComponent,
     BlogDetailComponent,
     PageLoaderComponent,
-    DeferSrcDirective,
+    PlayWhenVisibleDirective,
   ],
   imports: [
     BrowserModule,

@@ -3,6 +3,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 
 import { environment } from '../environments/environment';
+import { GifPreloadService } from './services/gif-preload.service';
 import { SiteSettingsService } from './services/site-settings.service';
 
 @Component({
@@ -15,10 +16,13 @@ export class AppComponent implements OnInit {
     private readonly title: Title,
     private readonly meta: Meta,
     private readonly siteSettingsService: SiteSettingsService,
+    private readonly gifPreload: GifPreloadService,
     @Inject(DOCUMENT) private readonly document: Document
   ) {}
 
   ngOnInit(): void {
+    this.gifPreload.preloadAll();
+
     this.siteSettingsService.getMergedSettingsMapByGroups([1, 5]).subscribe({
       next: (settings) => this.applyGlobalSeo(settings),
       error: () => {

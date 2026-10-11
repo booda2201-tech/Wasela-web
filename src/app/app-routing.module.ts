@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouteReuseStrategy, RouterModule, Routes } from '@angular/router';
+
+import { KeepAliveRouteReuseStrategy } from './keep-alive-route-reuse.strategy';
 
 import { HomeComponent } from './components/home/home.component';
 import { HeroComponent } from './components/home/hero/hero.component';
@@ -20,7 +22,7 @@ import { BlogDetailComponent } from './components/blog-detail/blog-detail.compon
 
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
+  { path: '', component: HomeComponent, data: { keepAlive: true } },
   { path: 'hero', component: HeroComponent },
   { path: 'features', component: FeaturesComponent },
   { path: 'home-contents', component: HomeContentsComponent },
@@ -45,5 +47,6 @@ const routes: Routes = [
     }),
   ],
   exports: [RouterModule],
+  providers: [{ provide: RouteReuseStrategy, useClass: KeepAliveRouteReuseStrategy }],
 })
 export class AppRoutingModule { }

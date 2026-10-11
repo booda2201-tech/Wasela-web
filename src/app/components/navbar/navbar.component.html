@@ -83,13 +83,28 @@
     id="mobile-nav-menu"
     class="mobile-nav-menu lg:hidden"
     [class.open]="isMobileMenuOpen"
+    [attr.aria-hidden]="!isMobileMenuOpen"
   >
-    <a routerLink="/" routerLinkActive="navbar-link--active" [routerLinkActiveOptions]="{ exact: true }" (click)="closeMobileMenu()">{{ language.label('home') }}</a>
-    <a routerLink="/merchants" routerLinkActive="navbar-link--active" (click)="closeMobileMenu()">{{ language.label('merchants') }}</a>
-    <a routerLink="/categories" routerLinkActive="navbar-link--active" (click)="closeMobileMenu()">{{ language.label('categories') }}</a>
-    <a routerLink="/about-us" routerLinkActive="navbar-link--active" (click)="closeMobileMenu()">{{ language.label('aboutUs') }}</a>
-    <a routerLink="/contact-us" routerLinkActive="navbar-link--active" (click)="closeMobileMenu()">{{ language.label('contactUs') }}</a>
-    <button type="button" class="download-btn download-btn--full" (click)="onDownloadClick()">
+    <div class="mobile-nav-menu__links">
+      <a
+        *ngFor="let link of navLinks"
+        class="mobile-nav-link"
+        [routerLink]="link.path"
+        routerLinkActive="navbar-link--active"
+        [routerLinkActiveOptions]="{ exact: link.path === '/' }"
+        [attr.tabindex]="isMobileMenuOpen ? null : -1"
+        (click)="closeMobileMenu()"
+      >
+        <span>{{ language.label(link.labelKey) }}</span>
+        <i class="bi bi-chevron-right mobile-nav-link__chevron" aria-hidden="true"></i>
+      </a>
+    </div>
+    <button
+      type="button"
+      class="download-btn download-btn--full"
+      [attr.tabindex]="isMobileMenuOpen ? null : -1"
+      (click)="onDownloadClick()"
+    >
       <span class="download-btn__label">{{ language.label('downloadNow') }}</span>
       <span class="icon-circle">
         <i class="bi bi-arrow-up-right"></i>
@@ -97,3 +112,10 @@
     </button>
   </div>
 </nav>
+
+<div
+  class="mobile-nav-backdrop lg:hidden"
+  [class.open]="isMobileMenuOpen"
+  (click)="closeMobileMenu()"
+  aria-hidden="true"
+></div>

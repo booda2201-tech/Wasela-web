@@ -248,6 +248,11 @@ export class CategoriesComponent implements OnInit {
     );
   }
 
+  /** Media deleted on the server returns 404 — hide the broken icon / alt text, keep the layout. */
+  hideBrokenImage(event: Event): void {
+    (event.target as HTMLImageElement).style.visibility = 'hidden';
+  }
+
   private applySeo(page: CmsPage): void {
     if (page.metaTitle) {
       this.title.setTitle(page.metaTitle);
