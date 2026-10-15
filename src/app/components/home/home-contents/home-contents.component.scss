@@ -28,12 +28,15 @@
   .download-btn--desktop-only {
     @media (min-width: 1000px) {
       --dl-btn-h: 48px;
-      min-width: min(100%, 20.25rem);
-      width: min(100%, 18.25rem);
-      padding-inline-start: 1.15rem;
+      min-width: 0;
+      width: auto;
+      max-width: 100%;
+      padding-inline-start: 1.6rem;
 
       .download-btn__label {
         font-size: 1rem;
+        padding: 0;
+        padding-inline-end: 1.6rem;
       }
 
       .icon-circle i {
@@ -1421,12 +1424,15 @@
     @media (min-width: 1000px) {
       display: inline-grid !important;
       --dl-btn-h: 48px;
-      min-width: min(100%, 16.5rem);
-      width: min(100%, 16.5rem);
-      padding-inline-start: 1.15rem;
+      min-width: 0;
+      width: auto;
+      max-width: 100%;
+      padding-inline-start: 1.6rem;
 
       .download-btn__label {
         font-size: 1rem;
+        padding: 0;
+        padding-inline-end: 1.6rem;
       }
 
       .icon-circle i {
@@ -1664,7 +1670,8 @@
 
     .download-copy {
       top: 40%;
-      left: 1%;
+      /* الإطار 87% (يبدأ عند 6.5%) — النص جوه الإطار زي الديسكتوب الكبير */
+      left: 13%;
       transform: translateY(calc(-50% - 0.65rem));
     }
 

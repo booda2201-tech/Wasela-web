@@ -148,9 +148,10 @@ $total: 3.5s;
 }
 
 .hero-section {
+  --hero-h: clamp(500px, 80vh, 620px);
   position: relative;
   width: 100%;
-  min-height: clamp(500px, 80vh, 620px);
+  min-height: var(--hero-h);
   background: $blue-bg;
   overflow: hidden;
 }
@@ -244,7 +245,8 @@ $total: 3.5s;
 
 .hero-gif {
   width: min(60vw, 800px);
-  max-width: none !important;
+  /* الشاشات القصيرة (لابتوب 1366×768 مع بارات المتصفح): الـ GIF يتحدد بارتفاع الهيرو مش العرض بس */
+  max-width: calc(var(--hero-h) * 1.61) !important;
   height: auto !important;
   display: block;
   object-fit: contain;
