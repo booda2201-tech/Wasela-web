@@ -43,10 +43,10 @@ export class MerchantsComponent implements OnInit, AfterViewInit {
    * كل عمود نمط مختلف + الصفوف مش متساوية عرضياً
    */
   readonly cardFlexByIndex = [
-    2.75, 1.05, 1.75,
-    1.85, 2.85, 1.1,
-    1.1, 1.95, 2.65,
-    2.55, 1.15, 1.65,
+    2.75, 1.6, 2.1,
+    2.15, 2.85, 1.7,
+    1.7, 2.15, 2.65,
+    2.55, 1.7, 2.05,
   ];
 
   constructor(
