@@ -416,15 +416,16 @@ $total: 3.5s;
 
 .powered-by {
   position: absolute;
-  right: clamp(1rem, 4vw, 3.5rem);
-  bottom: 1.15rem;
+  left: clamp(1rem, 4vw, 3.5rem);
+  right: auto;
+  bottom: 2.35rem;
   z-index: 4;
   display: block;
-  width: clamp(6.75rem, 8.25vw, 8.25rem);
-  max-width: 8.25rem;
+  width: clamp(7.75rem, 9.5vw, 9.6rem);
+  max-width: 9.6rem;
   height: auto;
   object-fit: contain;
-  object-position: right bottom;
+  object-position: left bottom;
   filter: brightness(0) invert(1);
   opacity: 1;
   animation: fadeIn 0.5s ease-out 2.85s both;
@@ -674,7 +675,8 @@ $total: 3.5s;
 
   .powered-by {
     bottom: 5.25rem;
-    right: 1rem;
+    left: 1rem;
+    right: auto;
   }
 
   /* تابلت فقط: نفس تخطيط الموبايل مع مقاسات أكبر (641–999px) */
@@ -843,7 +845,7 @@ $total: 3.5s;
   .hero-cta {
     left: calc(50% + 260.5 * var(--u));
     right: auto;
-    top: calc(var(--nav-h) + 490 * var(--u));
+    top: calc(var(--nav-h) + 445 * var(--u));
     bottom: auto;
     gap: calc(32 * var(--u));
   }
@@ -871,9 +873,10 @@ $total: 3.5s;
   }
 
   .powered-by {
-    right: calc(50% - 650 * var(--u));
-    bottom: calc(14 * var(--u));
-    width: calc(110 * var(--u));
+    left: calc(50% - 650 * var(--u));
+    right: auto;
+    bottom: calc(40 * var(--u));
+    width: calc(128 * var(--u));
     max-width: none;
   }
 }
