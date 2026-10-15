@@ -11,7 +11,7 @@
 
   .categories-subtitle {
     max-width: 36rem;
-    margin: 0 auto 1.25rem;
+    margin: 0 auto 1.7rem;
   }
 
   .category-grid {
@@ -21,8 +21,8 @@
 
   .download-btn {
     min-width: min(100%, 15rem);
-    margin-top: 0;
-    margin-bottom: 1.25rem;
+    margin-top: 0.15rem;
+    margin-bottom: 1.85rem;
   }
 
   .download-btn--desktop-only {
@@ -203,7 +203,7 @@
 @media (max-width: 767px) {
   .categories-section {
     .categories-subtitle {
-      margin-bottom: 1rem;
+      margin-bottom: 1.35rem;
     }
 
     .category-tablet-swiper-wrap {
@@ -244,15 +244,15 @@
 @media (min-width: 768px) and (max-width: 999px) {
   .categories-section {
     .categories-subtitle {
-      margin-bottom: 2rem;
+      margin-bottom: 2.35rem;
     }
 
     .download-btn--desktop-only {
-      margin-bottom: 1.5rem !important;
+      margin-bottom: 2.1rem !important;
     }
 
     .category-tablet-swiper-wrap {
-      margin-top: -0.85rem;
+      margin-top: -0.4rem;
       padding-top: 0;
       overflow: hidden;
     }
@@ -1055,10 +1055,10 @@
   }
 
   .merchants-showcase-desc {
-    margin: 0 0 1.35rem;
+    margin: 0 0 1.65rem;
 
     @media (min-width: 1000px) {
-      margin-bottom: 1rem;
+      margin-bottom: 1.6rem;
     }
   }
 
@@ -1074,7 +1074,8 @@
   }
 
   .merchants-cta--desktop {
-    margin-top: 0;
+    margin-top: 0.15rem;
+    margin-bottom: 0.35rem;
   }
 
   /* شبكة التجار */
@@ -1091,7 +1092,7 @@
 
     @media (min-width: 1000px) {
       max-width: min(62rem, 92%);
-      margin-top: 0.75rem;
+      margin-top: 1.15rem;
     }
   }
 
@@ -1276,8 +1277,10 @@
       display: flex;
       flex-direction: column;
       align-items: stretch;
-      height: min(1080px, calc(72vh - 1rem));
-      max-height: min(1080px, calc(72vh - 1rem));
+      /* ارتفاع ثابت بنسبة عرض العمود — نفس قصّ الصورة على كل الشاشات */
+      height: auto;
+      max-height: none;
+      aspect-ratio: 1 / 2.89;
       overflow: hidden;
       gap: 1.125rem;
     }
@@ -1397,8 +1400,9 @@
     }
 
     .merchants-col {
-      height: min(1080px, calc(72vh - 1rem));
-      max-height: min(1080px, calc(72vh - 1rem));
+      height: auto;
+      max-height: none;
+      aspect-ratio: 1 / 2.89;
       gap: 1.125rem;
     }
 
@@ -1475,11 +1479,11 @@
     padding-bottom: 0.75rem;
 
     .merchants-showcase-header {
-      margin-bottom: 0.85rem !important;
+      margin-bottom: 0.55rem !important;
     }
 
     .merchants-grid-stage {
-      margin-top: 0.75rem;
+      margin-top: 1.15rem;
     }
   }
 }
