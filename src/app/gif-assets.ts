@@ -3,8 +3,11 @@
  * served with a 1-year immutable cache, so returning visitors would otherwise keep the old file.
  * All animations except the loader are animated WebP encoded to play once and stop on their
  * last frame (same frames and timing as the original GIFs, at a fraction of the size).
+ * Encode with frequent keyframes (img2webp -kmin 3 -kmax 5): without them, Chrome has to decode
+ * every frame from the start to repaint the last one after scrolling back, and the image shows
+ * half-drawn for a second or two.
  */
-const ANIM_VERSION = 'webp-1';
+const ANIM_VERSION = 'webp-2';
 
 const gif = (file: string): string => `assets/gif/${file}?v=${ANIM_VERSION}`;
 

@@ -768,6 +768,116 @@ $total: 3.5s;
   }
 }
 
+/*
+ * لابتوب صغير (نفس شرط الـ zoom في styles.scss): الهيرو = فريم Figma (1489×624 تحت ناف 65px)
+ * متصغّر بالنسبة. --u = بكسل Figma واحد، والمواضع من مركز الفريم (744.5).
+ */
+@media (min-width: 1000px) and (max-width: 1400px), (min-width: 1000px) and (max-height: 820px) {
+  .hero-section {
+    --nav-h: 65px;
+    --u: min(
+      calc(100vw / var(--site-zoom, 1) / 1440),
+      calc((100vh / var(--site-zoom, 1) - var(--nav-h)) / 624)
+    );
+    --hero-h: calc(624 * var(--u));
+    height: calc(var(--nav-h) + var(--hero-h));
+    min-height: 0;
+  }
+
+  .hero-toggle {
+    left: calc(50% + 38.5 * var(--u));
+    top: calc(var(--nav-h) + 288 * var(--u));
+    width: calc(640 * var(--u));
+    height: calc(364 * var(--u));
+  }
+
+  .pill-track {
+    height: calc(250 * var(--u));
+  }
+
+  .orange-ball {
+    top: 50%;
+    width: calc(300 * var(--u));
+    height: calc(300 * var(--u));
+  }
+
+  .hero-headline {
+    left: calc(50% - 611.5 * var(--u));
+    top: calc(var(--nav-h) + 233 * var(--u));
+    max-width: none !important;
+    width: max-content;
+  }
+
+  .h-line {
+    font-size: calc(80 * var(--u));
+    line-height: 1.1;
+  }
+
+  .line-enabling,
+  .line-what,
+  .line-matters {
+    align-self: flex-start;
+    transform: none;
+    margin-top: 0;
+  }
+
+  .line-what {
+    margin-inline-start: calc(100 * var(--u));
+  }
+
+  .line-matters {
+    margin-inline-start: calc(160 * var(--u));
+  }
+
+  .hero-gif-wrap {
+    left: calc(50% + 32.5 * var(--u));
+    top: calc(var(--nav-h) + 338 * var(--u));
+  }
+
+  /* كروت الشركاء بتنتهي عند ~90% من ارتفاع الـ GIF — المقاس والمكان ده بيخليهم جوه الهيرو كاملين */
+  .hero-gif {
+    width: calc(1240 * var(--u)) !important;
+    max-width: none !important;
+  }
+
+  .hero-cta {
+    left: calc(50% + 260.5 * var(--u));
+    right: auto;
+    top: calc(var(--nav-h) + 490 * var(--u));
+    bottom: auto;
+    gap: calc(32 * var(--u));
+  }
+
+  .hero-cta .download-btn {
+    --dl-btn-h: calc(51 * var(--u));
+    min-width: calc(215 * var(--u));
+    padding-inline-start: calc(18 * var(--u));
+
+    .download-btn__label {
+      font-size: calc(16 * var(--u));
+    }
+
+    .icon-circle i {
+      font-size: calc(17 * var(--u));
+    }
+  }
+
+  .store-buttons {
+    gap: calc(22 * var(--u));
+  }
+
+  .store-badge .store-badge-img {
+    height: calc(41 * var(--u));
+  }
+
+  .powered-by {
+    right: calc(50% - 650 * var(--u));
+    bottom: calc(14 * var(--u));
+    width: calc(110 * var(--u));
+    max-width: none;
+  }
+}
+
 /* رجوع للـ Home من غير refresh: الأنيميشن يقفز لآخر frame فوراً (الـ GIF يظهر على طول) */
 :host(.hero--settled) {
   .hero-mega-pill,

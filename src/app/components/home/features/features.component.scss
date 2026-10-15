@@ -888,13 +888,12 @@
   }
 }
 
-/* ديسكتوب صغير — إبعاد السيكشن عن حافة الشاشة بدون قص الـ GIF */
+/* ديسكتوب صغير — في النص بدون توسيع العرض وبدون قص الـ GIF */
 @media (min-width: 1000px) and (max-width: 1400px) {
   .why-waseela-section {
     max-width: min(100%, 66rem);
     gap: 1.35rem;
-    margin-left: clamp(0.85rem, 2.4vw, 1.75rem);
-    margin-right: auto;
+    margin-inline: auto;
     overflow: visible;
 
     .why-waseela-visual {
@@ -903,7 +902,7 @@
       overflow: visible;
       padding-left: clamp(0.65rem, 1.8vw, 1.35rem);
       padding-right: 0.15rem;
-      box-sizing: content-box;
+      box-sizing: border-box;
 
       .why-waseela-phone-overlay {
         width: calc(var(--why-overlay-width, 185%) * 0.9);
