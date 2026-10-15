@@ -86,6 +86,7 @@
           [alt]="m.title || 'Merchant background'"
           loading="lazy"
           decoding="async"
+          (error)="hideBrokenCardImage($event)"
         />
 
         <div
@@ -100,6 +101,7 @@
             [alt]="m.title || 'Merchant logo'"
             loading="lazy"
             decoding="async"
+            (error)="hideBrokenImage($event)"
           />
         </div>
       </div>

@@ -318,6 +318,23 @@ body.mobile-nav-open {
   overflow: hidden;
 }
 
+/* إخفاء شريط الاسكرول الجانبي (الاسكرول نفسه شغال عادي) */
+html,
+body {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;
+}
+
+/* الصور اللي الـ src بتاعها بيتحط لما تظهر — من غير كده المتصفح بيرسم alt + أيقونة صورة مكسورة */
+img:not([src]) {
+  visibility: hidden;
+}
+
 // .contact-pill {
 //   display: flex;
 //   align-items: center;

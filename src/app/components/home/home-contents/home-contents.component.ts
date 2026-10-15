@@ -183,6 +183,12 @@ export class HomeContentsComponent implements OnInit, OnDestroy, AfterViewInit, 
     (event.target as HTMLImageElement).style.visibility = 'hidden';
   }
 
+  hideBrokenCardImage(event: Event): void {
+    const img = event.target as HTMLImageElement;
+    img.style.visibility = 'hidden';
+    img.closest('.merchant-card')?.classList.add('merchant-card--no-image');
+  }
+
   isExternalUrl(url: string | null | undefined): boolean {
     return !!url && /^https?:\/\//i.test(url);
   }

@@ -9,9 +9,11 @@ nav.navbar-shell {
 }
 
 nav {
-  /* fixed + html zoom: العرض بيتصغّر مع الـ zoom، فبنقسم عليه عشان يملا الشاشة */
-  width: calc(100% / var(--site-zoom, 1));
-  max-width: calc(100vw / var(--site-zoom, 1));
+  /* fixed + html zoom: left/right بدل width — 100vw بيحسب الـ scrollbar فالزرار بيتقص يمين */
+  left: 0;
+  right: 0;
+  width: auto;
+  max-width: none;
   overflow-x: clip;
   box-sizing: border-box;
 }

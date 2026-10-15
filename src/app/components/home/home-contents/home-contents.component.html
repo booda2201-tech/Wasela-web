@@ -206,6 +206,7 @@
               alt=""
               loading="eager"
               decoding="async"
+              (error)="hideBrokenCardImage($event)"
             />
 
             <div
@@ -219,6 +220,7 @@
                 alt=""
                 loading="eager"
                 decoding="async"
+                (error)="hideBrokenImage($event)"
               />
             </div>
           </div>

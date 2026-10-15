@@ -227,6 +227,16 @@ export class MerchantsComponent implements OnInit, AfterViewInit {
     );
   }
 
+  hideBrokenImage(event: Event): void {
+    (event.target as HTMLImageElement).style.visibility = 'hidden';
+  }
+
+  hideBrokenCardImage(event: Event): void {
+    const img = event.target as HTMLImageElement;
+    img.style.visibility = 'hidden';
+    img.closest('.merchant-col__card')?.classList.add('merchant-col__card--no-image');
+  }
+
   private applySeo(page: CmsPage): void {
     if (page.metaTitle) {
       this.title.setTitle(page.metaTitle);

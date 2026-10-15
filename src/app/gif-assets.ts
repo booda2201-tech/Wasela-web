@@ -1,32 +1,36 @@
 /**
- * Every site GIF in one place. Bump GIF_VERSION whenever a GIF file changes: /assets/gif is
+ * Every site animation in one place. Bump ANIM_VERSION whenever a file changes: /assets/gif is
  * served with a 1-year immutable cache, so returning visitors would otherwise keep the old file.
- * All GIFs except the loader are encoded to play once and stop on their last frame.
+ * All animations except the loader are animated WebP encoded to play once and stop on their
+ * last frame (same frames and timing as the original GIFs, at a fraction of the size).
  */
-const GIF_VERSION = 'play-once-1';
+const ANIM_VERSION = 'webp-1';
 
-const gif = (file: string): string => `assets/gif/${file}?v=${GIF_VERSION}`;
+const gif = (file: string): string => `assets/gif/${file}?v=${ANIM_VERSION}`;
 
 export const GIFS = {
   loader: gif('waseela loading gif v5 transparent.gif'),
-  hero: gif('header-screen-v2 2.gif'),
-  howItWorks: gif('how waseela works.gif'),
+  hero: gif('header-screen-v2 2.webp'),
+  howItWorks: gif('how waseela works.webp'),
   steps: [
-    gif('iphone in light blue container.gif'),
-    gif('iphone in orange container.gif'),
-    gif('Iphone in Blue container.gif'),
+    gif('iphone in light blue container.webp'),
+    gif('iphone in orange container.webp'),
+    gif('Iphone in Blue container.webp'),
   ],
   why: [
-    gif('why waseela-fully digital.gif'),
-    gif('why waseela-flexible by design.gif'),
-    gif('why waseela-clear and transparent.gif'),
-    gif('why waseela-trusted.gif'),
-    gif('human centered screen.gif'),
+    gif('why waseela-fully digital.webp'),
+    gif('why waseela-flexible by design.webp'),
+    gif('why waseela-clear and transparent.webp'),
+    gif('why waseela-trusted.webp'),
+    gif('human centered screen.webp'),
   ],
-  footerMockup: gif('footer-mockup 1.gif'),
+  footerMockup: gif('footer-mockup 1.webp'),
 } as const;
 
-/** Loader + hero first so the first screen is ready soonest. */
+/** Fetched immediately; everything else waits for the page `load` event. */
+export const FIRST_SCREEN_GIFS: readonly string[] = [GIFS.loader, GIFS.hero];
+
+/** Page order, so sections near the top are ready first. */
 export const ALL_GIFS: readonly string[] = [
   GIFS.loader,
   GIFS.hero,
