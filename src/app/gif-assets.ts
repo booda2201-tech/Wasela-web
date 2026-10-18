@@ -7,13 +7,13 @@
  * every frame from the start to repaint the last one after scrolling back, and the image shows
  * half-drawn for a second or two.
  */
-const ANIM_VERSION = 'webp-2';
+const ANIM_VERSION = 'webp-3';
 
 const gif = (file: string): string => `assets/gif/${file}?v=${ANIM_VERSION}`;
 
 export const GIFS = {
   loader: gif('waseela loading gif v5 transparent.gif'),
-  hero: gif('header-screen-v2 2.webp'),
+  hero: gif('header-screen-v4-fixed.webp'),
   howItWorks: gif('how waseela works.webp'),
   steps: [
     gif('iphone in light blue container.webp'),

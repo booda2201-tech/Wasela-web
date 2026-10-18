@@ -8,9 +8,11 @@ import {
   ViewChildren
 } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
+import { ActivatedRoute } from '@angular/router';
 import gsap from 'gsap';
 import { Subscription } from 'rxjs';
 import { CmsPage, PagesService } from '../../services/pages.service';
+import { LanguageService } from '../../services/language.service';
 
 export interface FaqItem {
   id: number;
@@ -40,15 +42,20 @@ export class FaqComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     private readonly pagesService: PagesService,
     private readonly title: Title,
-    private readonly meta: Meta
+    private readonly meta: Meta,
+    private readonly route: ActivatedRoute,
+    readonly language: LanguageService
   ) {}
+
+  /** ?empty=1 — يعرض الـ empty state حتى لو فيه أسئلة (للمعاينة مع العميل) */
+  private readonly forceEmpty = this.route.snapshot.queryParamMap.get('empty') === '1';
 
   ngOnInit(): void {
     this.pagesService.getPageBySlug('faqs').subscribe({
       next: (page) => {
         this.page = page;
         this.applySeo(page);
-        this.faqs = this.contentFaqs(page);
+        this.faqs = this.forceEmpty ? [] : this.contentFaqs(page);
         this.loading = false;
       },
       error: () => {

@@ -7,7 +7,7 @@
 
       <div class="categories-page-hero">
         <div class="categories-page-hero-main">
-          <h2 class="categories-page-hero-title max-lg:text-3xl max-lg:md:text-4xl max-lg:font-[900] max-lg:mb-3 max-lg:md:mb-4 max-lg:text-[#1D1DDB]">
+          <h2 class="categories-page-hero-title max-lg:text-3xl max-lg:md:text-4xl max-lg:font-[900] max-lg:mb-3 max-lg:md:mb-4 max-lg:text-[#0D11B3]">
             {{ hero.title }}
           </h2>
           <p class="categories-page-hero-desc max-lg:max-w-2xl max-lg:mx-auto max-lg:mb-10 max-lg:md:mb-16 max-lg:lg:mb-8">
@@ -47,7 +47,7 @@
             </div>
           </div>
 
-          <h3 class="category-section-title text-[#1D1DDB] font-black mb-4 md:mb-3">{{ cat.title }}</h3>
+          <h3 class="category-section-title text-[#0D11B3] font-black mb-4 md:mb-3">{{ cat.title }}</h3>
           <p class="category-section-desc mb-8 md:mb-12 mx-auto">
             <span class="category-section-desc__desktop">{{ cat.description }}</span>
             <span
@@ -70,8 +70,8 @@
               subcategoryItemGridClass(subs.length, i)
             ]"
             class="category-sub-card group relative flex w-40 flex-col items-center rounded-[16px]
-             border border-transparent px-3 pb-3.5 pt-10 shadow-[0_2px_12px_-4px_rgba(29,29,219,0.08)] 
-             transition-all duration-300 hover:-translate-y-2 hover:border-[#E2E8FF] hover:shadow-[0_20px_44px_-16px_rgba(29,29,219,0.16)] 
+             border border-transparent px-3 pb-3.5 pt-10 shadow-[0_2px_12px_-4px_rgba(13,17,179,0.08)] 
+             transition-all duration-300 hover:-translate-y-2 hover:border-[#E2E8FF] hover:shadow-[0_20px_44px_-16px_rgba(13,17,179,0.16)] 
              sm:w-50 sm:pb-4 sm:pt-6 md:w-55 md:rounded-[20px] md:pb-6 md:pt-[3.5rem] lg:w-full 
              lg:max-w-[15rem] lg:justify-self-center cursor-pointer"
           >
@@ -79,7 +79,7 @@
             *ngIf="itemImage(sub) as subImg"
             class="pointer-events-none absolute left-1/2 top-0 z-10 flex h-[3.5rem] w-[3.5rem] 
             -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white 
-            shadow-[0_10px_28px_-6px_rgba(29,29,219,0.2),0_2px_8px_-2px_rgba(15,23,42,0.06)] 
+            shadow-[0_10px_28px_-6px_rgba(13,17,179,0.2),0_2px_8px_-2px_rgba(15,23,42,0.06)] 
             ring-1 ring-[#EEF0FF] sm:h-15 sm:w-15 md:h-[5rem] md:w-[5rem]"
           >
             <img
@@ -91,7 +91,7 @@
             />
           </div>
           <span
-            class="mt-auto text-center text-xs font-bold leading-tight text-[#1D1DDB] 
+            class="mt-auto text-center text-xs font-bold leading-tight text-[#0D11B3] 
             md:text-sm md:leading-snug px-.5"
             >{{ sub.title }}</span>
           </div>

@@ -6,6 +6,7 @@ import {
   OnDestroy
 } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
+import { ActivatedRoute } from '@angular/router';
 import gsap from 'gsap';
 import { environment } from '../../../environments/environment';
 import {
@@ -15,6 +16,7 @@ import {
   PagesService,
   resolveCmsAssetUrl
 } from '../../services/pages.service';
+import { LanguageService } from '../../services/language.service';
 
 export interface BlogPost {
   id: number;
@@ -35,8 +37,13 @@ export class BlogsComponent implements OnInit, AfterViewInit, OnDestroy {
     private readonly host: ElementRef<HTMLElement>,
     private readonly pagesService: PagesService,
     private readonly title: Title,
-    private readonly meta: Meta
+    private readonly meta: Meta,
+    private readonly route: ActivatedRoute,
+    readonly language: LanguageService
   ) {}
+
+  /** ?empty=1 — يعرض الـ empty state حتى لو فيه مقالات (للمعاينة مع العميل) */
+  private readonly forceEmpty = this.route.snapshot.queryParamMap.get('empty') === '1';
 
   loading = true;
   loadError = false;
@@ -90,7 +97,7 @@ export class BlogsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   featuredItem(): CmsPageSectionItem | null {
     const section = this.pickSection('featured_blog');
-    if (!section?.items?.length) {
+    if (this.forceEmpty || !section?.items?.length) {
       return null;
     }
     return [...section.items]
@@ -98,9 +105,13 @@ export class BlogsComponent implements OnInit, AfterViewInit, OnDestroy {
       .sort((a, b) => a.sortOrder - b.sortOrder)[0] ?? null;
   }
 
+  hasPosts(): boolean {
+    return !!this.featuredItem() || this.allGridPosts().length > 0;
+  }
+
   /** كل كروت الشبكة من عناصر الداشبورد */
   allGridPosts(): BlogPost[] {
-    return this.collectGridItemsFromCms();
+    return this.forceEmpty ? [] : this.collectGridItemsFromCms();
   }
 
   /** مقالات الصفحة الحالية — بدون خانات وهمية */

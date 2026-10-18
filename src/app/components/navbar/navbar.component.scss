@@ -94,7 +94,7 @@ nav {
   border: 1px solid #dbe3ff;
   border-radius: 9999px;
   background: #fff;
-  color: #1d1ddb;
+  color: #0d11b3;
   font-size: 0.8125rem;
   font-weight: 600;
   line-height: 1;
@@ -152,12 +152,12 @@ nav {
   text-decoration: none;
 
   &:hover {
-    color: #1d1ddb;
+    color: #0d11b3;
   }
 
   &.navbar-link--active {
     font-weight: 600;
-    color: #1d1ddb;
+    color: #0d11b3;
   }
 }
 
@@ -198,7 +198,7 @@ nav {
   height: 35px;
   border: 0;
   background: transparent;
-  color: #1d1ddb;
+  color: #0d11b3;
   padding: 0;
   line-height: 1;
 
@@ -232,7 +232,7 @@ nav {
     width: 40px;
     height: 40px;
     border-radius: 12px;
-    color: #1d1ddb;
+    color: #0d11b3;
     transition: background-color 0.2s ease;
 
     i {
@@ -292,10 +292,10 @@ nav {
 
     &.navbar-link--active {
       background: #eef0ff;
-      color: #1d1ddb;
+      color: #0d11b3;
 
       .mobile-nav-link__chevron {
-        color: #1d1ddb;
+        color: #0d11b3;
       }
     }
   }

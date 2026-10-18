@@ -1,5 +1,6 @@
 <section
   class="blogs-page relative overflow-x-clip bg-white pb-16 pt-24 sm:pb-20 md:pb-28"
+  [class.blogs-page--empty]="!hasPosts()"
   *ngIf="!loading && !loadError"
 >
   <div class="blogs-page__glow" aria-hidden="true">
@@ -11,6 +12,11 @@
       <h1 class="blogs-header__title">{{ pageTitle() }}</h1>
       <p class="blogs-header__subtitle blogs-preline">{{ pageSubtitle() }}</p>
     </header>
+
+    <div class="page-empty-state" *ngIf="!hasPosts()">
+      <img src="assets/images/empty/blogs-empty.png" alt="" class="page-empty-state__img" width="143" height="148" />
+      <p class="page-empty-state__text">{{ language.label('noBlogsYet') }}</p>
+    </div>
 
     <!-- بطاقة مميزة + Link.png خلف الزاوية (ديكور) -->
     <div

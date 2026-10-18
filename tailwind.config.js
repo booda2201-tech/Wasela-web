@@ -17,7 +17,7 @@ module.exports = {
         ],
       },
       colors: {
-        'waseela-blue': '#1D1DDB',
+        'waseela-blue': '#0D11B3',
         'waseela-orange': '#FF6B00',
       }
     },

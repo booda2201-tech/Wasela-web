@@ -169,7 +169,7 @@
 
   .faq-icon-plus,
   .faq-icon-close {
-    font-size: 1.25rem !important;
+    font-size: 1.05rem !important;
   }
 
   .faq-answer-inner p {
@@ -179,3 +179,15 @@
 
 }
 
+
+/* صفحة فاضية: الإضاءة ورا العنوان والوصف بس (زي فيجما) مش فوق صورة الـ empty state */
+.faq-section--empty .faq-hero__glow {
+  top: 5.25rem;
+  width: min(90vw, 34rem);
+  height: 13rem;
+}
+
+/* الهيدر هنا ليه padding تحت أصلاً — نفس مسافة صفحة Blogs بين الوصف والصورة */
+.faq-section--empty .page-empty-state {
+  padding-top: 1.25rem;
+}

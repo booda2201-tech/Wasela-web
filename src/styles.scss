@@ -111,7 +111,7 @@ $headings-font-family: 'Diodrum Arabic', system-ui, sans-serif;
 @tailwind utilities;
 
 // Variables
-$waseela-blue: #1D1DDB;
+$waseela-blue: #0D11B3;
 $waseela-orange: #ff6b00;
 
 html,
@@ -225,7 +225,7 @@ html[dir='rtl'] {
   min-width: 13.75rem;
   padding: 0;
   padding-inline-start: 1.05rem;
-  border: 1px solid #1d1ddb;
+  border: 1px solid #0d11b3;
   border-radius: 9999px;
   background: #fff;
   overflow: hidden;
@@ -262,7 +262,7 @@ html[dir='rtl'] {
     width: var(--dl-btn-h);
     height: var(--dl-btn-h);
     flex-shrink: 0;
-    background-color: #1d1ddb;
+    background-color: #0d11b3;
     color: #fff;
     display: flex;
     align-items: center;
@@ -277,7 +277,7 @@ html[dir='rtl'] {
   }
 
   &:hover {
-    background-color: #1d1ddb;
+    background-color: #0d11b3;
 
     .download-btn__label {
       color: #fff;
@@ -285,7 +285,7 @@ html[dir='rtl'] {
 
     .icon-circle {
       background-color: #fff;
-      color: #1d1ddb;
+      color: #0d11b3;
     }
   }
 
@@ -316,6 +316,65 @@ html[dir='rtl'] {
 
 body.mobile-nav-open {
   overflow: hidden;
+}
+
+/*
+ * الصفحات الداخلية — ديسكتوب: المسافة من الناف للعنوان زي Careers (~61px)،
+ * ومسافة ثابتة (~150px) بين آخر محتوى والفوتر. القيم إضافية فوق padding كل صفحة.
+ */
+@media (min-width: 1000px) {
+  .merchants-page {
+    margin-top: 22px;
+  }
+
+  .blogs-page {
+    margin-top: 27px;
+    margin-bottom: 61px;
+  }
+
+  .terms-page {
+    margin-top: 18px;
+  }
+
+  .about-page {
+    margin-top: -9px;
+    margin-bottom: 59px;
+  }
+
+  .careers-page {
+    margin-bottom: 61px;
+  }
+
+  .faq-section {
+    margin-bottom: 81px;
+  }
+
+  .contact-page {
+    margin-bottom: 70px;
+  }
+}
+
+/* صفحات فاضية (Blogs / FAQs من غير محتوى) */
+.page-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 4.25rem 1rem 1.5rem;
+  text-align: center;
+}
+
+.page-empty-state__img {
+  display: block;
+  width: clamp(7.5rem, 11vw, 9.5rem);
+  height: auto;
+}
+
+.page-empty-state__text {
+  margin: 0;
+  color: #9aa3b2;
+  font-size: 0.875rem;
+  line-height: 1.5;
 }
 
 /* إخفاء شريط الاسكرول الجانبي (الاسكرول نفسه شغال عادي) */

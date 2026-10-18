@@ -1,4 +1,4 @@
-<div class="w-full pt-16 space-y-24">
+<div class="home-features w-full">
 
   <ng-container *ngIf="howSection() as how">
     <div
@@ -18,7 +18,7 @@
       >
         <div class="how-it-works-inner max-w-[650px]">
           <h2
-            class="how-it-works-title text-left text-[25px] lg:text-[40px] font-[900] text-[#1D1DDB] leading-[1.1]"
+            class="how-it-works-title text-left text-[25px] lg:text-[40px] font-[900] text-[#0D11B3] leading-[1.1]"
             [attr.dir]="language.isArabic ? 'auto' : null"
           >
             {{ how.title }}
@@ -35,7 +35,7 @@
     </div>
 
     <div
-      class="step-cards-grid grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-3 mt-5"
+      class="step-cards-grid grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-3"
       [class.step-cards-grid--ar]="language.isArabic"
     >
       <ng-container *ngFor="let step of howSteps(); let idx = index">
@@ -45,7 +45,7 @@
         >
           <div class="space-y-4 p-6 lg:p-10 pb-4">
             <h3
-              class="step-card-title text-[22px] lg:text-[30px] leading-[1.08] font-black text-[#1D1DDB]"
+              class="step-card-title text-[22px] lg:text-[30px] leading-[1.08] font-black text-[#0D11B3]"
               [class.step-card-title--ar]="language.isArabic"
               [attr.dir]="language.isArabic ? 'rtl' : null"
             >

@@ -2,7 +2,7 @@
   display: block;
 }
 
-$blogs-blue: #1d1ddb;
+$blogs-blue: #0d11b3;
 $blogs-orange: #f76400;
 $blogs-text: #737373;
 
@@ -757,4 +757,11 @@ $blogs-text: #737373;
   .blogs-pagination {
     margin-top: 2.5rem !important;
   }
+}
+
+/* صفحة فاضية: الإضاءة ورا العنوان والوصف بس (زي فيجما) مش فوق صورة الـ empty state */
+.blogs-page--empty .blogs-page__glow {
+  top: 3.5rem;
+  width: min(90vw, 34rem);
+  height: 13rem;
 }

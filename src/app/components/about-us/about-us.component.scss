@@ -1,9 +1,9 @@
 /* ==========================================================================
    Waseela About Us — premium layout (pixel-refined; pairs with image_179bc1)
-   Tokens: #1D1DDB / #FF7A00 / breathable whitespace
+   Tokens: #0D11B3 / #FF7A00 / breathable whitespace
    ========================================================================== */
 
-$waseela-blue: #1d1ddb;
+$waseela-blue: #0d11b3;
 $waseela-orange: #ff7a00;
 $about-text: #5b6472;
 $about-subtitle: #737373;
@@ -57,7 +57,7 @@ $about-max: 80rem;
     font-size: 0.9em;
     padding: 0.1em 0.35em;
     border-radius: 0.25rem;
-    background: rgba(29, 29, 219, 0.06);
+    background: rgba(13, 17, 179, 0.06);
     color: $waseela-blue;
   }
 }
@@ -1491,7 +1491,7 @@ $about-max: 80rem;
   height: auto;
   object-fit: cover; // استخدام cover أفضل لو الصور أحجامها مختلفة عشان توحد الشكل
   // الـ shadow بتاعك بريميوم جداً سيبه زي ما هو
-  filter: drop-shadow(0 20px 40px rgba(29, 29, 219, 0.1));
+  filter: drop-shadow(0 20px 40px rgba(13, 17, 179, 0.1));
   transition: transform 0.4s ease; // تاتش صغير للـ hover
   &:hover {
     transform: scale(1.02); // تكبير بسيط جداً عند الـ hover بيدي إحساس فخامة
@@ -1508,7 +1508,7 @@ $about-max: 80rem;
   margin: 0 auto;
   border-radius: 50%;
   background: linear-gradient(145deg, #e8eaf6, #f3f4ff);
-  filter: drop-shadow(0 12px 28px rgba(29, 29, 219, 0.08));
+  filter: drop-shadow(0 12px 28px rgba(13, 17, 179, 0.08));
 
   @media (min-width: 768px) {
     max-width: min(26rem, 70vw);

@@ -1,4 +1,4 @@
-$waseela-blue: #1D1DDB;
+$waseela-blue: #0D11B3;
 
 .categories-page {
   position: relative;
@@ -75,7 +75,7 @@ $waseela-blue: #1D1DDB;
     line-height: 1.25;
     font-weight: 900;
     letter-spacing: 0.025em;
-    color: #1d1ddb;
+    color: #0d11b3;
     text-align: center;
   }
 
@@ -214,7 +214,7 @@ $waseela-blue: #1D1DDB;
   width: 100%;
   max-width: 450px;
   position: relative;
-  filter: drop-shadow(0 25px 50px rgba(29, 29, 219, 0.12));
+  filter: drop-shadow(0 25px 50px rgba(13, 17, 179, 0.12));
 
   .blob-bg {
     position: absolute;
@@ -362,7 +362,7 @@ h2 {
 
   .category-blob-wrapper {
     max-width: 400px;
-    filter: drop-shadow(0 20px 40px rgba(29, 29, 219, 0.1));
+    filter: drop-shadow(0 20px 40px rgba(13, 17, 179, 0.1));
   }
 
   .category-blob-wrapper .image-content-container img {
@@ -451,5 +451,74 @@ h2 {
 
   .categories-page-stage + .category-section .category-blob-wrapper .image-content-container img {
     transform: translate(-10%, 6.5%);
+  }
+}
+
+/* صف الاتنين والصورة = عرض صف التلاتة */
+@media (min-width: 1000px) and (max-width: 1400px) {
+  .category-section {
+    --category-row-width: min(43rem, 100%);
+  }
+}
+
+@media (min-width: 1401px) {
+  .category-section {
+    --category-row-width: min(49rem, 100%);
+  }
+
+  .category-sub-grid.lg\:grid-cols-3 {
+    grid-template-columns: repeat(3, 15rem) !important;
+    column-gap: 2rem !important;
+  }
+}
+
+@media (min-width: 1000px) {
+  .category-section-hero__content > .relative.flex {
+    min-height: 0 !important;
+    height: auto;
+  }
+
+  .category-blob-wrapper {
+    width: min(26rem, 100%);
+    max-width: 26rem;
+    height: auto;
+    align-self: center;
+  }
+
+  .category-blob-wrapper .image-content-container {
+    height: auto;
+  }
+
+  .category-blob-wrapper .image-content-container img,
+  .categories-page-stage + .category-section .category-blob-wrapper .image-content-container img {
+    width: 100% !important;
+    height: auto !important;
+    max-height: none;
+    object-fit: contain;
+    transform: none !important;
+  }
+
+  .category-sub-grid.lg\:grid-cols-2,
+  .category-sub-grid.lg\:grid-cols-3 {
+    width: var(--category-row-width, min(43rem, 100%)) !important;
+    max-width: var(--category-row-width, min(43rem, 100%)) !important;
+  }
+
+  .category-sub-grid.lg\:grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .category-sub-grid.lg\:grid-cols-2 .category-sub-card {
+    width: 100% !important;
+    max-width: none !important;
+  }
+}
+
+/* مسافة أكبر بين كل كاتيجوري والتانية */
+.category-section:not(:last-child) {
+  margin-bottom: 4rem !important;
+
+  @media (min-width: 1000px) {
+    margin-bottom: 6rem !important;
   }
 }

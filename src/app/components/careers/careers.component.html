@@ -10,7 +10,7 @@
   <header class="careers-hero relative overflow-hidden">
     <div class="relative z-10 py-8 md:py-10 text-center">
       <div class="max-w-2xl mx-auto space-y-2 md:space-y-4">
-        <h1 class="text-[2rem] md:text-[42px] font-[900] text-[#1D1DDB] leading-[1.1]">
+        <h1 class="text-[2rem] md:text-[42px] font-[900] text-[#0D11B3] leading-[1.1]">
             {{ pageTitle() }}
           </h1>
           <p class="max-w-lg mx-auto">
@@ -50,9 +50,9 @@
           <button
             type="button"
             (click)="toggle(job.id)"
-            class="job-card__toggle flex-shrink-0 rounded-full bg-white border border-[#1D1DDB] flex items-center 
+            class="job-card__toggle flex-shrink-0 rounded-full bg-white border border-[#0D11B3] flex items-center 
             justify-center hover:bg-gray-50 transition-colors duration-300 focus:outline-none 
-            focus-visible:ring-2 focus-visible:ring-[#1D1DDB] focus-visible:ring-offset-2"
+            focus-visible:ring-2 focus-visible:ring-[#0D11B3] focus-visible:ring-offset-2"
             [attr.aria-expanded]="isExpanded(job.id)"
             [attr.aria-controls]="'job-desc-' + job.id"
             [attr.id]="'job-toggle-' + job.id"

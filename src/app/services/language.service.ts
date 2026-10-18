@@ -172,7 +172,14 @@ export type JoinLabelKey =
   | 'joinError'
   | 'joinPageLoadError';
 
-export type AppLabelKey = NavLabelKey | FooterLabelKey | ContactLabelKey | JoinLabelKey;
+export type EmptyStateLabelKey = 'noBlogsYet' | 'noFaqsYet';
+
+export type AppLabelKey =
+  | NavLabelKey
+  | FooterLabelKey
+  | ContactLabelKey
+  | JoinLabelKey
+  | EmptyStateLabelKey;
 
 /** Governorate values are stable API keys — only the display name is localized. */
 export const EGYPT_GOVERNORATES: ReadonlyArray<{
@@ -210,6 +217,8 @@ export const EGYPT_GOVERNORATES: ReadonlyArray<{
 ];
 
 const APP_LABELS: Record<AppLabelKey, Record<AppLanguage, string>> = {
+  noBlogsYet: { en: 'There is no Blogs yet!', ar: 'لا توجد مقالات حتى الآن!' },
+  noFaqsYet: { en: 'There is no FAQs yet!', ar: 'لا توجد أسئلة شائعة حتى الآن!' },
   home: { en: 'Home', ar: 'الرئيسية' },
   merchants: { en: 'Merchants', ar: 'التجار' },
   categories: { en: 'Categories', ar: 'الفئات' },
