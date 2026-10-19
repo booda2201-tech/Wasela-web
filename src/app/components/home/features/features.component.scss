@@ -1409,8 +1409,10 @@
     }
   }
 
-  /* Why Waseela — عربي: تحريك الـ GIFs يمين + توسيع حاوية الموبايل */
+  /* Why Waseela — عربي: نفس توزيعة الإنجليزي بالظبط (الموبايل والمؤشر شمال)، والكلام بس محاذي يمين */
   .why-waseela-section--ar {
+    direction: ltr;
+
     .why-waseela-title {
       text-align: right !important;
     }
@@ -1420,10 +1422,6 @@
     .feature-card__desc {
       text-align: right !important;
       unicode-bidi: plaintext;
-    }
-
-    .why-waseela-content {
-      direction: rtl;
     }
 
     @media (min-width: 1401px) {
@@ -1438,38 +1436,5 @@
       }
     }
 
-    @media (min-width: 1000px) {
-      .why-waseela-phone-overlay[data-why-overlay-index='0'] {
-        transform: translateX(calc(-50% + 26%)) !important;
-        object-position: 57% center !important;
-      }
-
-      .why-waseela-phone-overlay[data-why-overlay-index='2'] {
-        transform: translateX(calc(-50% + 28%)) !important;
-        object-position: 59% center !important;
-      }
-    }
-
-    @media (min-width: 768px) and (max-width: 999px) {
-      .why-waseela-visual {
-        direction: ltr;
-      }
-
-      .why-waseela-phone-overlay[data-why-overlay-index='0'] {
-        transform: translateX(calc(-50% + 13%)) !important;
-        object-position: 56% center !important;
-      }
-
-      .why-waseela-phone-overlay[data-why-overlay-index='2'] {
-        transform: translateX(calc(-50% + 14%)) !important;
-        object-position: 57% center !important;
-      }
-    }
-
-    @media (max-width: 767px) {
-      .why-waseela-visual {
-        direction: ltr;
-      }
-    }
   }
 }

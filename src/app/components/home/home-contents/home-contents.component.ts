@@ -6,10 +6,12 @@ import {
   OnChanges,
   OnDestroy,
   OnInit,
+  QueryList,
   SimpleChanges,
   ViewChild,
+  ViewChildren,
 } from '@angular/core';
-import { catchError, combineLatest, of } from 'rxjs';
+import { catchError, combineLatest, of, Subscription } from 'rxjs';
 
 import { environment } from '../../../../environments/environment';
 import { GIFS } from '../../../gif-assets';
@@ -22,6 +24,8 @@ import {
   resolveCmsAssetUrl,
 } from '../../../services/pages.service';
 
+type TestimonialRole = 'left' | 'featured' | 'right';
+
 @Component({
   selector: 'app-home-contents',
   templateUrl: './home-contents.component.html',
@@ -32,10 +36,15 @@ export class HomeContentsComponent implements OnInit, OnDestroy, AfterViewInit, 
   @Input() merchantsPage: CmsPage | null = null;
 
   @ViewChild('testimonialSwiper') testimonialSwiperRef?: ElementRef<HTMLElement & { initialize: () => void }>;
+  @ViewChildren('testimonialAvatar') private testimonialAvatars?: QueryList<ElementRef<HTMLImageElement>>;
   @ViewChild('partnersSwiperMobile') partnersSwiperMobileRef?: ElementRef<HTMLElement & { initialize: () => void }>;
   @ViewChild('categoriesTabletSwiper') categoriesTabletSwiperRef?: ElementRef<HTMLElement & { initialize: () => void }>;
 
   private testimonialSwiperInited = false;
+  private testimonialAvatarSyncSub?: Subscription;
+  /** Avatar files that 404 stay hidden across language switches. */
+  private readonly brokenAvatarUrls = new Set<string>();
+  private readonly readyAvatarUrls = new Set<string>();
   private partnersMobileSwiperInited = false;
   private categoriesTabletSwiperInited = false;
 
@@ -59,10 +68,21 @@ export class HomeContentsComponent implements OnInit, OnDestroy, AfterViewInit, 
     type: string;
     name: string;
     content: string;
-    featured?: boolean;
     avatarSrc: string | null;
-    backgroundSrc: string | null;
+    avatarReady?: boolean;
+    avatarBroken?: boolean;
   }> = [];
+
+  private testimonialFirstVisible = 0;
+  private testimonialActive = 0;
+  private testimonialCentered = true;
+
+  /** الخلفيات التلاتة متراكبة في كل كارت — بنعمل crossfade بينهم لما مكان الكارت يتغير */
+  readonly testimonialBgs: ReadonlyArray<{ role: TestimonialRole; src: string }> = [
+    { role: 'left', src: 'assets/images/testimonials/card-side-left.png' },
+    { role: 'featured', src: 'assets/images/testimonials/card-featured.png' },
+    { role: 'right', src: 'assets/images/testimonials/card-side-right.png' },
+  ];
 
   downloadHeadingLine1 = '';
   downloadHeadingLine2 = '';
@@ -131,6 +151,10 @@ export class HomeContentsComponent implements OnInit, OnDestroy, AfterViewInit, 
   }
 
   ngAfterViewInit(): void {
+    this.testimonialAvatarSyncSub = this.testimonialAvatars?.changes.subscribe(() => {
+      this.queueAvatarSync();
+    });
+    this.queueAvatarSync();
     queueMicrotask(() => {
       this.initTestimonialSwiper();
       this.initPartnersMobileSwiper();
@@ -139,6 +163,7 @@ export class HomeContentsComponent implements OnInit, OnDestroy, AfterViewInit, 
   }
 
   ngOnDestroy(): void {
+    this.testimonialAvatarSyncSub?.unsubscribe();
     if (this.partnersRotationTimer) {
       clearInterval(this.partnersRotationTimer);
     }
@@ -334,14 +359,83 @@ export class HomeContentsComponent implements OnInit, OnDestroy, AfterViewInit, 
     const items = [...section.items]
       .filter((i) => i.isActive)
       .sort((a, b) => a.sortOrder - b.sortOrder || a.id - b.id);
-    this.testimonials = items.map((item, index) => ({
-      type: item.title ?? '',
-      name: item.subTitle ?? '',
-      content: item.description ?? '',
-      featured: index === 1,
-      avatarSrc: this.asset(item.imageMediaFileUrl || item.imageUrl),
-      backgroundSrc: this.asset(item.backgroundImageMediaFileUrl || item.backgroundImageUrl),
-    }));
+    this.testimonials = items.map((item) => {
+      const avatarSrc = this.asset(item.imageMediaFileUrl || item.imageUrl);
+      return {
+        type: item.title ?? '',
+        name: item.subTitle ?? '',
+        content: item.description ?? '',
+        avatarSrc,
+        avatarReady: !!avatarSrc && this.readyAvatarUrls.has(avatarSrc),
+        avatarBroken: !!avatarSrc && this.brokenAvatarUrls.has(avatarSrc),
+      };
+    });
+  }
+
+  /** شكل الكارت حسب مكانه في الشاشة (شمال / نص / يمين) مش حسب ترتيبه — عشان أي عدد كروت يفضل نفس التوزيعة */
+  testimonialRole(index: number): TestimonialRole {
+    if (this.testimonialCentered) {
+      const offset = index - this.testimonialActive;
+      return offset === 0 ? 'featured' : offset < 0 ? 'left' : 'right';
+    }
+    const roles: TestimonialRole[] = ['left', 'featured', 'right'];
+    return roles[(((index - this.testimonialFirstVisible) % 3) + 3) % 3];
+  }
+
+  syncTestimonialRoles(): void {
+    const swiper = (
+      this.testimonialSwiperRef?.nativeElement as
+        | (HTMLElement & {
+            swiper?: {
+              activeIndex: number;
+              progress: number;
+              slides: unknown[];
+              params: { slidesPerView?: number | 'auto'; centeredSlides?: boolean };
+            };
+          })
+        | undefined
+    )?.swiper;
+    if (!swiper) {
+      return;
+    }
+    const perView = typeof swiper.params.slidesPerView === 'number' ? swiper.params.slidesPerView : 1;
+    this.testimonialCentered = !!swiper.params.centeredSlides || perView < 3;
+    this.testimonialActive = swiper.activeIndex;
+    const maxFirst = Math.max(0, swiper.slides.length - perView);
+    this.testimonialFirstVisible = Math.round(Math.min(1, Math.max(0, swiper.progress)) * maxFirst);
+  }
+
+  revealAvatar(item: (typeof this.testimonials)[number]): void {
+    if (item.avatarSrc) {
+      this.readyAvatarUrls.add(item.avatarSrc);
+    }
+    item.avatarReady = true;
+  }
+
+  markAvatarBroken(item: (typeof this.testimonials)[number]): void {
+    if (item.avatarSrc) {
+      this.brokenAvatarUrls.add(item.avatarSrc);
+    }
+    item.avatarBroken = true;
+  }
+
+  private queueAvatarSync(): void {
+    queueMicrotask(() => this.syncTestimonialAvatars());
+  }
+
+  private syncTestimonialAvatars(): void {
+    this.testimonialAvatars?.forEach((ref) => {
+      const img = ref.nativeElement;
+      const item = this.testimonials[Number(img.dataset['index'])];
+      if (!item || item.avatarReady || item.avatarBroken || !img.complete) {
+        return;
+      }
+      if (img.naturalWidth > 0) {
+        this.revealAvatar(item);
+      } else {
+        this.markAvatarBroken(item);
+      }
+    });
   }
 
   private buildDownloadSection(): void {
@@ -381,18 +475,39 @@ export class HomeContentsComponent implements OnInit, OnDestroy, AfterViewInit, 
   }
 
   private initTestimonialSwiper(): void {
-    if (this.testimonialSwiperInited) {
+    const el = this.testimonialSwiperRef?.nativeElement as
+      | (HTMLElement & {
+          initialize: () => void;
+          swiper?: {
+            initialized?: boolean;
+            rtl?: boolean;
+            changeLanguageDirection: (direction: 'ltr' | 'rtl') => void;
+            update: () => void;
+          };
+        })
+      | undefined;
+    if (!el) {
       return;
     }
-    const el = this.testimonialSwiperRef?.nativeElement;
-    if (!el) {
+    // Keep the track LTR so Arabic document direction does not collapse the row to one card.
+    el.setAttribute('dir', 'ltr');
+    if (el.swiper?.initialized) {
+      if (el.swiper.rtl) {
+        el.swiper.changeLanguageDirection('ltr');
+      }
+      el.swiper.update();
+      this.syncTestimonialRoles();
+      this.testimonialSwiperInited = true;
+      return;
+    }
+    if (this.testimonialSwiperInited) {
       return;
     }
     Object.assign(el, {
       slidesPerView: 1,
       slidesPerGroup: 1,
       spaceBetween: 0,
-      speed: 450,
+      speed: 700,
       centeredSlides: true,
       breakpoints: {
         1024: {
@@ -422,6 +537,7 @@ export class HomeContentsComponent implements OnInit, OnDestroy, AfterViewInit, 
       },
     });
     el.initialize();
+    this.syncTestimonialRoles();
     this.testimonialSwiperInited = true;
   }
 

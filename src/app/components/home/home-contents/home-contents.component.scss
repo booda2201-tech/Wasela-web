@@ -79,19 +79,21 @@
   height: 100%;
   object-fit: contain;
   object-position: center;
+  transform: scale(1.08);
+  transform-origin: center center;
 }
 
 /* تكبير يدوي لصور معيّنة (غيّر الـ # أو نسبة scale حسب اللي عندك بيبان أصغر) */
 
 #category-img-health-care,
 #category-img-sports-clubs {
-  transform: scale(1.20);
+  transform: scale(1.28);
   transform-origin: center center;
 }
 
 #category-img-education,
 #category-img-green-limits {
-  transform: scale(1.40);
+  transform: scale(1.48);
   transform-origin: center center;
 }
 
@@ -429,7 +431,7 @@
       transform: translate(3%, 5%);
 
       .testimonial-layered-card__bg-img {
-        width: 140%;
+        width: 100%;
       }
     }
 
@@ -522,7 +524,11 @@
 }
 
 .testimonials-swiper {
+  --testimonial-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --testimonial-dur: 0.7s;
+  --swiper-wrapper-transition-timing-function: var(--testimonial-ease);
   width: 100%;
+  direction: ltr;
 }
 
 .testimonial-slide {
@@ -548,7 +554,7 @@
   width: 100%;
   max-width: min(100%, 24rem);
   margin-inline: auto;
-  transition: transform 0.35s ease;
+  transition: transform var(--testimonial-dur) var(--testimonial-ease);
 
   @media (min-width: 640px) {
     max-width: min(100%, 26rem);
@@ -573,11 +579,12 @@
   width: 100%;
   max-width: 28rem;
   margin-inline: auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  place-items: center;
   pointer-events: none;
   transform: translate(4%, 6%);
+  transition: transform var(--testimonial-dur) var(--testimonial-ease);
 
   @media (max-width: 1023px) {
     transform: translate(2%, 4%);
@@ -587,12 +594,40 @@
 }
 
 .testimonial-layered-card__bg-img {
-  width: 150%;
+  grid-area: 1 / 1;
+  width: 100%;
   height: auto !important;
   display: block;
   object-fit: contain;
   filter: drop-shadow(0 12px 28px rgba(13, 17, 179, 0.14))
     drop-shadow(0 5px 14px rgba(15, 23, 42, 0.1));
+  opacity: 0;
+  transition: opacity 0.45s ease-in-out;
+
+  &.is-active {
+    opacity: 1;
+  }
+}
+
+/* لما الكارت يغيّر مكانه (شمال/نص/يمين) المقاسات تتحرك بنعومة مع النقلة */
+.testimonial-layered-card__panel {
+  transition: padding var(--testimonial-dur) var(--testimonial-ease);
+}
+
+.testimonial-layered-card__avatar-ring {
+  transition:
+    width var(--testimonial-dur) var(--testimonial-ease),
+    height var(--testimonial-dur) var(--testimonial-ease),
+    transform var(--testimonial-dur) var(--testimonial-ease);
+}
+
+.testimonial-layered-card__type,
+.testimonial-layered-card__name,
+.testimonial-layered-card__quote,
+.testimonial-layered-card__text {
+  transition:
+    font-size var(--testimonial-dur) var(--testimonial-ease),
+    max-width var(--testimonial-dur) var(--testimonial-ease);
 }
 
 .testimonial-layered-card__panel {
@@ -729,20 +764,20 @@
   transform: translate(-50%, -46%);
   width: clamp(3.35rem, 19vw, 4.6rem);
   height: clamp(3.35rem, 19vw, 4.6rem);
-  border-radius: 50%;
-  background: var(--peach);
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
   // box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+
+  &:not(.is-ready) {
+    visibility: hidden;
+  }
 }
 
 .testimonial-layered-card__avatar-img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  object-position: center top;
+  object-fit: contain;
   // box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
 }
 
@@ -2215,6 +2250,19 @@
       transform: rotate(4deg) translateX(17%) translateY(-4%);
       -webkit-user-drag: none;
     }
+  }
+}
+
+/* الشهادات تفضل 3 كروت في العربي؛ الاتجاه بيتغير على النص بس */
+:host-context(html[dir='rtl']) {
+  .testimonials-swiper,
+  .testimonials-swiper-wrap,
+  .testimonial-slide {
+    direction: ltr;
+  }
+
+  .testimonial-layered-card__body {
+    direction: rtl;
   }
 }
 

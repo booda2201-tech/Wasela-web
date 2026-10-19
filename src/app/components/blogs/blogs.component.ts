@@ -78,12 +78,22 @@ export class BlogsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.trySetupAnimations();
   }
 
+  /** Hiding blogs_header from the dashboard hides its cards only — the title and description stay. */
   pageTitle(): string {
-    return this.pickSection('blogs_header')?.title || this.page?.name || 'Blogs';
+    return this.headerSection()?.title || this.page?.name || 'Blogs';
   }
 
   pageSubtitle(): string {
-    return this.pickSection('blogs_header')?.description || '';
+    return this.headerSection()?.description || '';
+  }
+
+  /** Cards were hidden on purpose, so the "no blogs yet" placeholder would be misleading. */
+  showEmptyState(): boolean {
+    return !this.hasPosts() && this.headerSection()?.isActive !== false;
+  }
+
+  private headerSection(): CmsPageSection | null {
+    return this.page?.sections?.find((s) => s.sectionKey === 'blogs_header') ?? null;
   }
 
   featuredImageSrc(): string | null {

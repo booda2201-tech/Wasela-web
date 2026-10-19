@@ -154,6 +154,12 @@ $total: 3.5s;
   min-height: var(--hero-h);
   background: $blue-bg;
   overflow: hidden;
+  /* تركيب الديسكتوب ثابت مكانه حتى لو الصفحة عربي */
+  direction: ltr;
+}
+
+:host-context(html[dir='rtl']) .hero-cta .icon-circle i {
+  transform: none;
 }
 
 .hero-mega-pill {

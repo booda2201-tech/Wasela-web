@@ -348,46 +348,56 @@
         <h2 *ngIf="ts.title" class="text-3xl md:text-4xl font-black text-[#0D11B3] mb-4 text-center">{{ ts.title }}</h2>
 
         <div class="testimonials-swiper-wrap py-3 lg:px-3">
-          <swiper-container #testimonialSwiper init="false" class="testimonials-swiper">
+          <swiper-container
+            #testimonialSwiper
+            init="false"
+            class="testimonials-swiper"
+            (swiperslidechange)="syncTestimonialRoles()"
+            (swiperbreakpoint)="syncTestimonialRoles()"
+            (swiperresize)="syncTestimonialRoles()"
+          >
             <swiper-slide *ngFor="let item of testimonials; let i = index" class="testimonial-slide">
-              <div class="testimonial-wrapper" [class.testimonial-wrapper--featured]="item.featured">
+              <div class="testimonial-wrapper" [class.testimonial-wrapper--featured]="testimonialRole(i) === 'featured'">
                 <article
                   class="testimonial-layered-card"
-                  [class.testimonial-layered-card--first]="i === 0"
-                  [class.testimonial-layered-card--side]="!item.featured"
+                  [class.testimonial-layered-card--first]="testimonialRole(i) === 'left'"
+                  [class.testimonial-layered-card--side]="testimonialRole(i) !== 'featured'"
                 >
                   <div class="testimonial-layered-card__bg" aria-hidden="true">
                     <img
-                      *ngIf="item.backgroundSrc"
-                      [src]="item.backgroundSrc"
+                      *ngFor="let bg of testimonialBgs"
+                      [src]="bg.src"
                       alt=""
                       class="testimonial-layered-card__bg-img"
+                      [class.is-active]="testimonialRole(i) === bg.role"
                       loading="eager"
                       decoding="async"
                     />
                   </div>
 
                   <div class="testimonial-layered-card__panel">
-                    <div class="testimonial-layered-card__avatar-ring">
+                    <div
+                      *ngIf="item.avatarSrc && !item.avatarBroken"
+                      class="testimonial-layered-card__avatar-ring"
+                      [class.is-ready]="item.avatarReady"
+                    >
                       <img
-                        *ngIf="item.avatarSrc"
+                        #testimonialAvatar
+                        [attr.data-index]="i"
                         [src]="item.avatarSrc"
                         alt=""
                         class="testimonial-layered-card__avatar-img"
                         loading="eager"
                         decoding="async"
+                        (load)="revealAvatar(item)"
+                        (error)="markAvatarBroken(item)"
                       />
-                      <i
-                        *ngIf="!item.avatarSrc"
-                        class="bi bi-person-fill testimonial-layered-card__avatar-icon"
-                        aria-hidden="true"
-                      ></i>
                     </div>
 
                     <div class="testimonial-layered-card__body">
                       <h3 class="testimonial-layered-card__type">{{ item.type }}</h3>
                       <span class="testimonial-layered-card__name">{{ item.name }}</span>
-                      <div class="testimonial-layered-card__quote" aria-hidden="true">â€œ</div>
+                      <div class="testimonial-layered-card__quote" aria-hidden="true">&ldquo;</div>
                       <p class="testimonial-layered-card__text">{{ item.content }}</p>
                     </div>
                   </div>

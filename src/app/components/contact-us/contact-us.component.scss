@@ -241,8 +241,28 @@
   overflow-wrap: anywhere;
 }
 
+/* العربي: النص في نص المساحة البيضا، مش لازق في الأيقونة */
+:host-context(html[dir='rtl']) .contact-pill {
+  gap: 0;
+  padding-inline: 0;
+}
+
+:host-context(html[dir='rtl']) .contact-pill__text {
+  flex: 1;
+  justify-content: center;
+  text-align: center;
+  line-height: 1;
+  padding: 0 0.9rem;
+  /* صندوق الخط أطول من الحبر، فالحروف كانت نازلة عن نص الزرار */
+  transform: translateY(-4px);
+}
+
 .contact-preline {
   white-space: pre-line;
+}
+
+:host-context(html[dir='ltr']) .contact-hero .contact-preline {
+  text-wrap: balance;
 }
 
 .contact-form-feedback {

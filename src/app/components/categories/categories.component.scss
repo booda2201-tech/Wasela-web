@@ -357,7 +357,7 @@ h2 {
   .category-section-hero__content > .relative.flex {
     min-height: 340px !important;
     margin-top: -0.15rem;
-    margin-bottom: 0.5rem !important;
+    margin-bottom: 1.25rem !important;
   }
 
   .category-blob-wrapper {
@@ -384,7 +384,7 @@ h2 {
 
   .category-section-hero__content > .category-section-desc {
     max-width: min(100%, 36rem);
-    margin-bottom: 2.25rem !important;
+    margin-bottom: 3.75rem !important;
     font-size: 0.8125rem;
     line-height: 1.45;
   }
@@ -445,6 +445,14 @@ h2 {
 
 /* ديسكتوب كبير — 1401px+ : أول كاتيجوري */
 @media (min-width: 1401px) {
+  .category-section-hero__content > .relative.flex {
+    margin-bottom: 2.25rem !important;
+  }
+
+  .category-section-hero__content > .category-section-desc {
+    margin-bottom: 4.5rem !important;
+  }
+
   .categories-page-stage + .category-section .category-section-hero__content > .relative.flex {
     margin-top: 0.35rem;
   }

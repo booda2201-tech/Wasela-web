@@ -13,7 +13,7 @@
       <p class="blogs-header__subtitle blogs-preline">{{ pageSubtitle() }}</p>
     </header>
 
-    <div class="page-empty-state" *ngIf="!hasPosts()">
+    <div class="page-empty-state" *ngIf="showEmptyState()">
       <img src="assets/images/empty/blogs-empty.png" alt="" class="page-empty-state__img" width="143" height="148" />
       <p class="page-empty-state__text">{{ language.label('noBlogsYet') }}</p>
     </div>
