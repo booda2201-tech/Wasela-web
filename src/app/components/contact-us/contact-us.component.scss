@@ -241,6 +241,18 @@
   overflow-wrap: anywhere;
 }
 
+/* نفس مقاسات الخط على ويندوز وماك، عشان النص ميرتفعش عند حد وينزل عند التاني */
+@font-face {
+  font-family: 'Diodrum Pill';
+  src: url('/assets/fonts/alfont_com_AlFont_com_DiodrumArabic-Bold-1.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  ascent-override: 80%;
+  descent-override: 20%;
+  line-gap-override: 0%;
+}
+
 /* العربي: النص في نص المساحة البيضا، مش لازق في الأيقونة */
 :host-context(html[dir='rtl']) .contact-pill {
   gap: 0;
@@ -253,8 +265,7 @@
   text-align: center;
   line-height: 1;
   padding: 0 0.9rem;
-  /* صندوق الخط أطول من الحبر، فالحروف كانت نازلة عن نص الزرار */
-  transform: translateY(-4px);
+  font-family: 'Diodrum Pill', 'Diodrum Arabic', sans-serif;
 }
 
 .contact-preline {

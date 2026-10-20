@@ -93,6 +93,7 @@ export type NavLabelKey =
   | 'aboutUs'
   | 'contactUs'
   | 'downloadNow'
+  | 'exploreNow'
   | 'language';
 
 export type FooterLabelKey =
@@ -225,6 +226,7 @@ const APP_LABELS: Record<AppLabelKey, Record<AppLanguage, string>> = {
   aboutUs: { en: 'About Us', ar: 'من نحن' },
   contactUs: { en: 'Contact Us', ar: 'تواصل معنا' },
   downloadNow: { en: 'Download now', ar: 'حمّل التطبيق' },
+  exploreNow: { en: 'Explore Now', ar: 'اكتشف الآن' },
   language: { en: 'العربية', ar: 'English' },
   mainPages: { en: 'Main Pages', ar: 'الصفحات الرئيسية' },
   quickLinks: { en: 'Quick Links', ar: 'روابط سريعة' },

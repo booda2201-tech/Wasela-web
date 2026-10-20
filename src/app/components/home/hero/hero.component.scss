@@ -158,8 +158,13 @@ $total: 3.5s;
   direction: ltr;
 }
 
-:host-context(html[dir='rtl']) .hero-cta .icon-circle i {
-  transform: none;
+/* الزرار بس بيتعكس في العربي (الدايرة شمال والسهم مقلوب) — باقي الهيرو ثابت */
+:host-context(html[dir='rtl']) .hero-cta .download-btn {
+  direction: rtl;
+
+  .download-btn__label {
+    padding: 0 0 0 0.5rem;
+  }
 }
 
 .hero-mega-pill {
@@ -935,14 +940,17 @@ $total: 3.5s;
     transform: none !important;
   }
 
+
   .hero-headline {
     transform: translateY(-50%) !important;
   }
+
 
   .hero-gif-wrap {
     transform: translate(-50%, -50%) !important;
   }
 
+  
   @media (max-width: 640px) {
     .hero-headline {
       transform: none !important;

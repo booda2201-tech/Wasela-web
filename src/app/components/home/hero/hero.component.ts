@@ -2,6 +2,7 @@ import { Component, HostBinding, OnDestroy } from '@angular/core';
 
 import { GIFS } from '../../../gif-assets';
 import { AppStoreLinkService } from '../../../services/app-store-link.service';
+import { LanguageService } from '../../../services/language.service';
 
 /** Module state resets on refresh — intro plays once per page load, not on every return to Home. */
 let introPlayed = false;
@@ -31,7 +32,10 @@ export class HeroComponent implements OnDestroy {
     this.isMobileHero = e.matches;
   };
 
-  constructor(readonly stores: AppStoreLinkService) {
+  constructor(
+    readonly stores: AppStoreLinkService,
+    readonly language: LanguageService
+  ) {
     introPlayed = true;
     if (typeof window !== 'undefined' && typeof window.matchMedia === 'function') {
       this.mql = window.matchMedia('(max-width: 999px)');

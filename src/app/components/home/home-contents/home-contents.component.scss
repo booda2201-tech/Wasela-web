@@ -477,7 +477,13 @@
     }
 
     .testimonial-layered-card--side .testimonial-layered-card__text {
+      display: block;
+      text-align: center;
       max-width: 12.75rem;
+      margin-inline: auto;
+      -webkit-line-clamp: unset;
+      line-clamp: unset;
+      max-height: calc(1.45em * 4);
     }
 
     .testimonial-layered-card__avatar-ring {
@@ -721,6 +727,12 @@
     max-width: 100%;
     margin-top: 0;
     padding-inline: 0.35rem;
+    /* الشكل الأبيض مش في نص الصورة، فنزحزح النص لجوه المساحة البيضا */
+    transform: translateX(-5%);
+  }
+
+  &.testimonial-layered-card--first .testimonial-layered-card__body {
+    transform: translateX(9%);
   }
 
   .testimonial-layered-card__type {
@@ -743,16 +755,16 @@
   }
 
   .testimonial-layered-card__text {
+    display: block;
     text-align: center;
     margin-inline: auto;
     width: 100%;
     max-width: 13.5rem;
-    max-height: none;
+    line-height: 1.45;
+    max-height: calc(1.45em * 4);
     overflow: hidden;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 4;
-    line-clamp: 4;
+    -webkit-line-clamp: unset;
+    line-clamp: unset;
     padding-inline: 0.25rem;
   }
 }

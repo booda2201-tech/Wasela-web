@@ -165,9 +165,10 @@ $blogs-text: #737373;
     pointer-events: none;
   }
 
-  @media (min-width: 1024px) {
-    aspect-ratio: 1251 / 420;
-    min-height: clamp(11.5rem, 34vw, 21rem);
+  /* Figma: الصورة 1251×370 */
+  @media (min-width: 1000px) {
+    aspect-ratio: 1251 / 370;
+    min-height: 0;
   }
 }
 
@@ -209,11 +210,24 @@ $blogs-text: #737373;
   background: rgba(13, 17, 179, 0.82);
   color: #fff;
 
-  @media (min-width: 1024px) {
-    margin: -12rem auto 0;
-    max-width: calc(100% - 3rem);
-    padding: 1.35rem 2rem 1.65rem;
-    border-radius: clamp(14px, 2.5vw, 20px);
+  /* Figma: اللوحة 1053 عرض في نص الكارت، بتبدأ عند 188 من فوق الصورة (370) — النسب من عرض الكارت 1251 */
+  @media (min-width: 1000px) {
+    width: calc(1053 / 1251 * 100%);
+    max-width: none;
+    margin: calc(-182 / 1251 * 100%) auto 0;
+    padding: calc(26 / 1251 * 100%) calc(42 / 1251 * 100%) calc(36 / 1251 * 100%);
+    border-radius: clamp(14px, 1.3vw, 18px);
+
+    .blogs-featured__excerpt {
+      max-width: none;
+    }
+  }
+
+  @media (min-width: 1401px) {
+    .blogs-featured__excerpt {
+      font-size: 14px;
+      line-height: 22px;
+    }
   }
 }
 
@@ -686,8 +700,6 @@ $blogs-text: #737373;
   }
 
   .blogs-featured__media-frame {
-    aspect-ratio: 1251 / 420;
-    min-height: clamp(9.75rem, 28vw, 17.85rem);
     max-height: none;
     border-radius: 17px;
   }
@@ -699,10 +711,7 @@ $blogs-text: #737373;
   }
 
   .blogs-featured__panel {
-    margin: -9.25rem auto 0 !important;
-    max-width: calc(100% - 2.55rem);
-    padding: 1.15rem 1.7rem 1.4rem;
-    border-radius: 17px;
+    border-radius: 15px;
   }
 
   .blogs-featured__panel-top {
