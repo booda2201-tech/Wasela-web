@@ -245,7 +245,18 @@
 @font-face {
   font-family: 'Diodrum Pill';
   src: url('/assets/fonts/alfont_com_AlFont_com_DiodrumArabic-Bold-1.ttf') format('truetype');
-  font-weight: 100 900;
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+  ascent-override: 80%;
+  descent-override: 20%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: 'Diodrum Pill';
+  src: url('/assets/fonts/alfont_com_AlFont_com_DiodrumArabic-Bold-1.ttf') format('truetype');
+  font-weight: 700;
   font-style: normal;
   font-display: swap;
   ascent-override: 80%;
@@ -266,6 +277,9 @@
   line-height: 1;
   padding: 0 0.9rem;
   font-family: 'Diodrum Pill', 'Diodrum Arabic', sans-serif;
+  font-weight: 600;
+  /* عندهم الحروف كانت لسه أعلى من نص الزرار بدرجة بسيطة */
+  transform: translateY(1px);
 }
 
 .contact-preline {
