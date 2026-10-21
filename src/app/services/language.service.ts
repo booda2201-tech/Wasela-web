@@ -237,7 +237,7 @@ const APP_LABELS: Record<AppLabelKey, Record<AppLanguage, string>> = {
   faq: { en: "FAQ'S", ar: 'الأسئلة الشائعة' },
   privacyPolicy: { en: 'Privacy Policy', ar: 'سياسة الخصوصية' },
   termsConditions: { en: 'Terms & Conditions', ar: 'الشروط والأحكام' },
-  joinUs: { en: 'Join Us (Merchants)', ar: 'انضم إلينا (للتجار)' },
+  joinUs: { en: 'Join Us (Merchants)', ar: 'انضم إلينا (التجار)' },
   licensedByFra: { en: 'FRA License', ar: 'رخصة الهيئة العامة للرقابة المالية' },
   trnNumber: { en: 'TRN', ar: 'رقم التسجيل الضريبي' },
   crn: { en: 'CRN', ar: 'رقم السجل التجاري' },

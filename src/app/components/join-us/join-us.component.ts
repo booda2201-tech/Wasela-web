@@ -89,11 +89,14 @@ export class JoinUsComponent implements OnInit, AfterViewInit, OnDestroy {
   private subs = new Subscription();
 
   ngOnInit(): void {
-    this.title.setTitle(this.language.label('joinUs'));
+    this.title.setTitle(this.headlineFallback());
 
     this.subs.add(
       this.language.lang$.subscribe(() => {
         this.rebuildOptions();
+        if (this.language.isArabic) {
+          this.title.setTitle(this.headline());
+        }
         this.cdr.detectChanges();
       })
     );
@@ -108,6 +111,9 @@ export class JoinUsComponent implements OnInit, AfterViewInit, OnDestroy {
             this.page = page;
             if (page) {
               this.applySeo(page);
+              if (this.language.isArabic) {
+                this.title.setTitle(this.headline());
+              }
             }
             this.loadError = false;
             this.cdr.detectChanges();
@@ -219,7 +225,15 @@ export class JoinUsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   headline(): string {
-    return this.joinSection()?.title || this.page?.name || this.language.label('joinUs');
+    const cms = (this.joinSection()?.title || '').trim();
+    if (this.language.isArabic) {
+      return cms.includes('تجار') ? cms : this.language.label('joinUs');
+    }
+    return cms || this.page?.name || this.language.label('joinUs');
+  }
+
+  private headlineFallback(): string {
+    return this.language.label('joinUs');
   }
 
   subtitle(): string {
