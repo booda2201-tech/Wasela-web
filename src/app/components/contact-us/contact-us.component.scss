@@ -16,31 +16,19 @@
   left: 50%;
   top: 3.25rem;
   z-index: 0;
-  width: min(115vw, 68rem);
+  width: min(100%, 68rem);
   height: clamp(18rem, 52vw, 34rem);
-  transform: translateX(-50%);
+  transform: translate3d(-50%, 0, 0);
   pointer-events: none;
 }
 
 .contact-hero__glow-img {
   position: absolute;
   inset: 0;
-  background-image: url('../../../assets/images/merchants-glow.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  opacity: 0.15;
-  filter: blur(14px);
-  -webkit-mask-image: radial-gradient(
-    ellipse 84% 80% at 50% 48%,
-    #000 16%,
-    rgb(0 0 0 / 65%) 44%,
-    transparent 74%
-  );
-  mask-image: radial-gradient(
-    ellipse 84% 80% at 50% 48%,
-    #000 16%,
-    rgb(0 0 0 / 65%) 44%,
+  background-image: radial-gradient(
+    ellipse 72% 68% at 50% 46%,
+    rgba(186, 206, 255, 0.55) 0%,
+    rgba(206, 198, 255, 0.22) 42%,
     transparent 74%
   );
 }
@@ -48,7 +36,7 @@
 @media (max-width: 999px) {
   .contact-hero__glow {
     top: 2.75rem;
-    width: min(130vw, 26rem);
+    width: min(100%, 26rem);
     height: clamp(15rem, 48vw, 24rem);
   }
 }
@@ -58,6 +46,7 @@
 }
 
 .contact-form-card {
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.05);
   padding: 1.25rem 1rem;
 
   @media (min-width: 768px) {
@@ -79,7 +68,6 @@
   right: -3rem;
   width: min(55vw, 14rem);
   height: min(55vw, 14rem);
-  transition: all 0.5s ease; // تنعيم الحركة بين أحجام الشاشات
 
   &__img {
     width: 100%;

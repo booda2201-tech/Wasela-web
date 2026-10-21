@@ -23,16 +23,6 @@
   max-width: 39rem;
 }
 
-.contact-hero__glow-img{
-  position: absolute;
-  inset: 0;
-  background-image: url('../../../assets/images/merchants-glow.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  opacity: 0.15;
-}
-
 /* قائمة مخصصة بدل الـ select التقليدي */
 .contact-field__select-wrap {
   position: relative;

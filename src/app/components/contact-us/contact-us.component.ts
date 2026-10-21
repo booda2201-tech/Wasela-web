@@ -67,6 +67,7 @@ export class ContactUsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private ctx?: gsap.Context;
   private viewReady = false;
+  private entranceStarted = false;
   private subs = new Subscription();
 
   ngOnInit(): void {
@@ -164,7 +165,7 @@ export class ContactUsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   /** Dashboard section `contact_us` → description */
   subtitle(): string {
-    return this.contactSection()?.description || '';
+    return this.contactSection()?.description || this.language.label('contactSubtitle');
   }
 
   /** Dashboard section `contact_us` → submit button text */
@@ -257,32 +258,35 @@ export class ContactUsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private trySetupAnimations(): void {
-    if (!this.viewReady || this.loading || this.loadError) {
+    if (this.entranceStarted || !this.viewReady || this.loading || this.loadError) {
       return;
     }
     const root = this.host.nativeElement;
+    const card = root.querySelector<HTMLElement>('[data-contact-form-card]');
+    if (!card) {
+      return;
+    }
+    this.entranceStarted = true;
     this.ctx?.revert();
     this.ctx = gsap.context(() => {
-      const card = root.querySelector<HTMLElement>('[data-contact-form-card]');
-      if (card) {
-        gsap.from(card, {
-          y: 40,
-          opacity: 0,
-          duration: 0.9,
-          ease: 'power2.out'
-        });
-      }
+      gsap.from(card, {
+        y: 24,
+        opacity: 0,
+        duration: 0.45,
+        ease: 'power2.out',
+        clearProps: 'opacity,transform'
+      });
       const pills = root.querySelectorAll<HTMLElement>('[data-contact-pill]');
       if (pills.length) {
         gsap.fromTo(
           pills,
-          { y: 24, opacity: 0 },
+          { y: 16, opacity: 0 },
           {
             y: 0,
             opacity: 1,
-            duration: 0.55,
-            stagger: 0.12,
-            delay: 0.15,
+            duration: 0.4,
+            stagger: 0.08,
+            delay: 0.08,
             ease: 'power2.out',
             clearProps: 'opacity,transform'
           }

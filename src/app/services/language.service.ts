@@ -137,7 +137,8 @@ export type ContactLabelKey =
   | 'sendSuccess'
   | 'sendMailFallback'
   | 'sendError'
-  | 'pageLoadError';
+  | 'pageLoadError'
+  | 'contactSubtitle';
 
 export type JoinLabelKey =
   | 'joinSubtitle'
@@ -236,7 +237,7 @@ const APP_LABELS: Record<AppLabelKey, Record<AppLanguage, string>> = {
   faq: { en: "FAQ'S", ar: 'الأسئلة الشائعة' },
   privacyPolicy: { en: 'Privacy Policy', ar: 'سياسة الخصوصية' },
   termsConditions: { en: 'Terms & Conditions', ar: 'الشروط والأحكام' },
-  joinUs: { en: 'Join Us (For Merchants)', ar: 'انضم إلينا (للتجار)' },
+  joinUs: { en: 'Join Us (Merchants)', ar: 'انضم إلينا (للتجار)' },
   licensedByFra: { en: 'FRA License', ar: 'رخصة الهيئة العامة للرقابة المالية' },
   trnNumber: { en: 'TRN', ar: 'رقم التسجيل الضريبي' },
   crn: { en: 'CRN', ar: 'رقم السجل التجاري' },
@@ -296,6 +297,10 @@ const APP_LABELS: Record<AppLabelKey, Record<AppLanguage, string>> = {
   pageLoadError: {
     en: 'Could not load the Contact Us page.',
     ar: 'تعذر تحميل صفحة تواصل معنا.',
+  },
+  contactSubtitle: {
+    en: 'Our team is committed to delivering responsive support and clear communication to help you move forward with confidence.',
+    ar: 'يلتزم فريقنا بتقديم الدعم السريع والتواصل الواضح لمساعدتك على المضي قدمًا بثقة.',
   },
   joinSubtitle: {
     en: 'Join us as a merchant partner with our consumer finance company, seamless communication, and helping your business grow with confidence.',
