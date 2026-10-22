@@ -103,7 +103,9 @@ $headings-font-family: 'Diodrum Arabic', system-ui, sans-serif;
 // ديسكتوب صغير 1000–1400px | ديسكتوب كبير 1401px+ | تابلت ≤999px
 
 @import 'bootstrap/scss/bootstrap';
-@import 'bootstrap-icons/font/bootstrap-icons.css';
+// Must match the <link rel="preload"> URL in index.html exactly, or the font is downloaded twice.
+$bootstrap-icons-font-src: url('/assets/fonts/bootstrap-icons.woff2?v=1.13.1') format('woff2');
+@import 'bootstrap-icons/font/bootstrap-icons';
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap');
 
 @tailwind base;
