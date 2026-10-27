@@ -1028,7 +1028,7 @@
     }
 
     .why-waseela-title {
-      margin-bottom: 1rem;
+      margin-bottom: 1.55rem;
       text-align: center;
     }
 
@@ -1047,54 +1047,43 @@
   white-space: pre-line;
 }
 
-/* Why Waseela — عربي موبايل: نفس مواضع الإنجليزي (تجاوز تأثير RTL) */
+/* Why Waseela — عربي موبايل: الـ GIF في نص الشاشة */
 @media (max-width: 767px) {
   .why-waseela-section--ar {
     .why-waseela-visual {
       direction: ltr;
+      width: min(88vw, 22rem);
+      max-width: min(88vw, 22rem);
+      margin-inline: auto;
+      align-self: center;
+      padding-inline: 0;
     }
 
+    .why-waseela-phone-base,
     .why-waseela-phone-overlay {
       left: 50% !important;
       right: auto !important;
-      transform: translateX(
-        calc(-50% + var(--why-overlay-shift, 0%) + var(--why-overlay-mobile-shift, 0%))
-      ) !important;
-      object-position: var(--why-overlay-object-x, 50%) center !important;
+      transform: translateX(-50%) !important;
     }
 
+    .why-waseela-phone-overlay {
+      --why-overlay-shift: 0% !important;
+      --why-overlay-mobile-shift: 0% !important;
+      --why-overlay-object-x: 50% !important;
+      object-position: center center !important;
+    }
+
+    /* الرسمة جوّه الملف مش في النص — إزاحة لليمين عشان الموبايل يبان في النص */
     .why-waseela-phone-overlay[data-why-overlay-index='0'] {
-      --why-overlay-shift: 10% !important;
-      --why-overlay-object-x: 57% !important;
-    }
-
-    .why-waseela-phone-overlay[data-why-overlay-index='1'] {
-      --why-overlay-shift: 2% !important;
-      --why-overlay-object-x: 53% !important;
+      transform: translateX(calc(-50% + 13%)) !important;
     }
 
     .why-waseela-phone-overlay[data-why-overlay-index='2'] {
-      --why-overlay-shift: 17% !important;
-      --why-overlay-object-x: 59% !important;
+      transform: translateX(calc(-50% + 21%)) !important;
     }
 
-    .why-waseela-phone-overlay[data-why-overlay-index='3'] {
-      --why-overlay-shift: 1% !important;
-      --why-overlay-object-x: 51% !important;
-    }
-
-    .why-waseela-phone-overlay[data-why-overlay-index='4'] {
-      --why-overlay-shift: 2.5% !important;
-      --why-overlay-object-x: 54% !important;
-    }
-
-    /* عربي فقط: إزاحة بسيطة لليمين للأربع GIFs — الأولى مظبوطة زي ما هي */
-    .why-waseela-phone-overlay:not([data-why-overlay-index='0']) {
-      --why-overlay-mobile-shift: 1.5% !important;
-    }
-
-    .why-waseela-phone-overlay[data-why-overlay-index='4']:not([data-why-overlay-index='0']) {
-      --why-overlay-mobile-shift: 0.5% !important;
+    .why-waseela-content {
+      flex-direction: row-reverse;
     }
   }
 }
