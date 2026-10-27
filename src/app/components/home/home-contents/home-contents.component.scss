@@ -211,19 +211,36 @@
 
 /* موبايل — بطاقة واحدة في المنتصف */
 @media (max-width: 767px) {
+  .categories-section .download-btn--desktop-only,
+  .merchants-showcase-section .merchants-cta--desktop {
+    width: min(19rem, 100%);
+    min-width: min(19rem, 100%);
+    max-width: 100%;
+  }
+
+  .merchants-showcase-section .merchants-cta--desktop {
+    margin-bottom: 1.35rem;
+  }
+
   .categories-section {
     .categories-subtitle {
       margin-bottom: 1.35rem;
     }
 
+    .download-btn--desktop-only {
+      margin-bottom: 1.15rem;
+    }
+
     .category-tablet-swiper-wrap {
       margin-top: -0.35rem;
       padding-top: 0;
+      padding-bottom: 0.75rem;
     }
 
     .categories-tablet-swiper {
-      height: clamp(26.5rem, 74vw, 32rem);
+      height: clamp(25.25rem, 72vw, 30.75rem);
       padding-top: 0.25rem;
+      padding-bottom: 1.35rem;
     }
 
     .categories-tablet-slide .shape-wrapper {
@@ -234,7 +251,7 @@
 
     .categories-tablet-slide .category-card-title {
       font-size: clamp(1.05rem, 5vw, 1.3rem);
-      bottom: 13%;
+      bottom: 20%;
       padding-inline: 0.5rem;
     }
 
@@ -312,17 +329,9 @@
   will-change: flex, flex-grow, flex-basis, transform;
 }
 
-/* نفس شكل الزر: واحد فوق للديسكتوب فقط، واحد تحت الشبكة للموبايل فقط */
-.download-btn--desktop-only {
-  @media (max-width: 767px) {
-    display: none !important;
-  }
-}
-
+/* الموبايل: زر التصنيفات فوق الصور. الديسكتوب يفضل الزر اللي فوق، واللي تحت يختفي. */
 .download-btn--mobile-only {
-  @media (min-width: 768px) {
-    display: none !important;
-  }
+  display: none !important;
 }
 
 /* قسم الشهادات — Customers & Merchants */
@@ -360,6 +369,14 @@
     overflow: visible;
   }
 
+  .testimonials-section__inner > h2 {
+    margin-bottom: 0 !important;
+  }
+
+  .testimonials-swiper-wrap {
+    padding-top: 0 !important;
+  }
+
   .testimonials-swiper {
     width: 100%;
     overflow: visible;
@@ -371,7 +388,7 @@
 
   .testimonial-slide {
     overflow: visible;
-    padding: 6px 0 1.75rem;
+    padding: 0 0 1.75rem;
   }
 
   .testimonial-wrapper {
@@ -546,7 +563,7 @@
   padding: 10px;
 
   @media (max-width: 1023px) {
-    padding: 6px 0 1.75rem;
+    padding: 0 0 1.75rem;
   }
 
   @media (min-width: 1200px) {
@@ -577,6 +594,10 @@
   place-items: center;
   padding: 0.75rem 0 1.25rem;
   box-sizing: border-box;
+
+  @media (max-width: 1023px) {
+    padding-top: 0;
+  }
 }
 
 .testimonial-layered-card__bg {
@@ -901,6 +922,12 @@
 }
 
 /* Our Partners — عنوان، subtitle، شبكة الشعارات */
+@media (max-width: 767px) {
+  .partners-section {
+    margin-top: calc(var(--home-section-gap, 5rem) - 1rem);
+  }
+}
+
 .partners-section {
   padding-bottom: 0;
 
@@ -942,15 +969,10 @@
   }
 
   .partners-mobile-swiper-wrap {
-    --swiper-pagination-color: #0d11b3;
-    --swiper-pagination-bullet-inactive-color: #c7c9e8;
-    --swiper-pagination-bullet-inactive-opacity: 1;
-    --swiper-pagination-bullet-size: 8px;
-    --swiper-pagination-bullet-horizontal-gap: 6px;
     max-width: min(22rem, 100%);
     margin-left: auto;
     margin-right: auto;
-    padding: 0 0.25rem 2.25rem;
+    padding: 0 0.25rem 0.15rem;
 
     .partners-swiper-slide-inner,
     .partner-column {
@@ -1050,6 +1072,40 @@
       transform: translateY(10px) scale(0.95);
       filter: blur(1px);
     }
+  }
+}
+
+:host ::ng-deep .partners-pagination {
+  position: static !important;
+  inset: auto !important;
+  transform: none !important;
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  gap: 7px;
+  width: 100%;
+  height: auto !important;
+  margin: 1rem 0 0;
+  line-height: 0;
+  z-index: 2;
+
+  .swiper-pagination-bullet {
+    width: 7px !important;
+    height: 7px !important;
+    margin: 0 !important;
+    border-radius: 999px;
+    background: #c7c9e8 !important;
+    opacity: 1 !important;
+    display: inline-block;
+    cursor: pointer;
+    transition:
+      width 0.28s ease,
+      background-color 0.28s ease;
+  }
+
+  .swiper-pagination-bullet-active {
+    width: 1.5rem !important;
+    background: #0d11b3 !important;
   }
 }
 
@@ -1161,6 +1217,67 @@
     height: fit-content;
     min-height: 0;
     overflow: visible;
+  }
+
+  /* موبايل وتابلت: عمودان متدرّجان زي صفحة التجار. الديسكتوب مخفي بـ lg:hidden */
+  .merchants-home-mobile-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 0.625rem;
+    align-items: start;
+    width: 100%;
+    margin: 0 auto;
+    box-sizing: border-box;
+  }
+
+  .merchants-home-mobile-col {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.625rem;
+    height: calc((510px + 0.625rem) * var(--col-cards, 2) / 2);
+    max-height: calc((510px + 0.625rem) * var(--col-cards, 2) / 2);
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  .merchants-home-mobile-col--offset {
+    transform: translateY(clamp(0.65rem, 3.5vw, 1.25rem));
+    margin-bottom: clamp(0.65rem, 3.5vw, 1.25rem);
+  }
+
+  .merchants-home-mobile-grid .merchant-card {
+    flex: var(--card-flex, 1) 1 0;
+    height: auto;
+    min-height: 0;
+    border-radius: 1.35rem;
+  }
+
+  .merchants-home-mobile-grid .merchant-card-bg {
+    object-position: center center;
+  }
+
+  @media (min-width: 1024px) {
+    .merchants-home-mobile-grid {
+      display: none !important;
+    }
+  }
+
+  @media (min-width: 640px) and (max-width: 1023px) {
+    .merchants-home-mobile-grid {
+      gap: 0.75rem;
+    }
+
+    .merchants-home-mobile-col {
+      gap: 0.75rem;
+      height: calc((541px + 0.75rem) * var(--col-cards, 2) / 2);
+      max-height: calc((541px + 0.75rem) * var(--col-cards, 2) / 2);
+    }
+
+    .merchants-home-mobile-col--offset {
+      transform: translateY(clamp(0.85rem, 2.5vw, 1.5rem));
+      margin-bottom: clamp(0.85rem, 2.5vw, 1.5rem);
+    }
   }
 
   @media (max-width: 999px) {
@@ -1483,7 +1600,7 @@
 
 
   .merchants-cta--desktop {
-    display: none !important;
+    display: inline-grid !important;
     @media (min-width: 1000px) {
       display: inline-grid !important;
       --dl-btn-h: 48px;
@@ -1504,24 +1621,9 @@
     }
   }
 
-  .merchants-cta--mobile {
-    display: inline-grid !important;
-    @media (min-width: 1000px) {
-      display: none !important;
-    }
-  }
-
+  .merchants-cta--mobile,
   .merchants-cta-mobile-row {
-    display: none;
-    @media (max-width: 999px) {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-      padding-inline: 0.5rem;
-      margin-top: calc(1.5rem + 10px);
-      margin-bottom: 0.5rem;
-    }
+    display: none !important;
   }
 
   // margin-bottom: 150px!important;
@@ -2113,10 +2215,22 @@
 
 /* هاتف فقط — كارت واحد: Frame.png خلف النص والـ GIF معًا */
 @media (max-width: 767px) {
+  .testimonials-swiper-wrap {
+    padding-bottom: 2.75rem;
+  }
+
+  .testimonial-slide {
+    padding-bottom: 1.15rem;
+  }
+
+  .testimonial-layered-card {
+    padding-bottom: 1.75rem;
+  }
+
   .download-section {
     background: #fff;
     overflow-x: clip;
-    margin-top: var(--home-section-gap, 5rem);
+    margin-top: calc(var(--home-section-gap, 5rem) - 0.75rem);
 
     .download-layout {
       position: relative;

@@ -629,6 +629,10 @@
     // margin-top: 1.25rem;
   }
 
+  .step-card--blue .step-card-badges {
+    transform: translateY(-1.1rem);
+  }
+
   .step-card {
     min-height: unset !important;
     border-radius: 14px;

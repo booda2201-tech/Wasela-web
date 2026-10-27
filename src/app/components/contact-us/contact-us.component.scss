@@ -283,6 +283,113 @@
   font-weight: 600;
 }
 
+/* الديسكتوب: الغلاف يختفي عشان الترتيب يفضل إيميل ثم عنوان ثم موبايل */
+@media (min-width: 1024px) {
+  .contact-pills-pair {
+    display: contents;
+  }
+
+  .contact-pill--email {
+    order: 1;
+  }
+
+  .contact-pill--address {
+    order: 2;
+  }
+
+  .contact-pill--phone {
+    order: 3;
+  }
+}
+
+/* موبايل: الإيميل والموبايل جنب بعض، والعنوان متمركز تحتهم */
+@media (max-width: 1023px) {
+  .contact-pills-row {
+    display: flex !important;
+    flex-direction: column !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.6rem !important;
+    width: 100%;
+    max-width: 100%;
+    margin-inline: auto;
+    background: transparent;
+    box-shadow: none;
+    border-radius: 0;
+  }
+
+  .contact-pills-pair {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    max-width: 100%;
+  }
+
+  .contact-pill,
+  :host-context(html[dir='rtl']) .contact-pill {
+    flex: 0 0 auto;
+    width: auto;
+    min-width: 0;
+    max-width: 100%;
+    min-height: 2.5rem;
+    height: auto;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.4rem;
+    padding-block: 0;
+    padding-inline: 0 0.85rem;
+    border: 0;
+    border-radius: 9999px;
+    background: #fff;
+    box-shadow: none;
+  }
+
+  .contact-pill::after {
+    display: block;
+  }
+
+  .contact-pill:hover:not(.contact-pill--static) {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px rgba(13, 17, 179, 0.12);
+    background: #fff;
+  }
+
+  .contact-pill__icon {
+    flex: 0 0 2.5rem;
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  .contact-pill__icon i {
+    font-size: 1.05rem;
+  }
+
+  .contact-pill__text,
+  :host-context(html[dir='rtl']) .contact-pill__text {
+    display: block;
+    flex: 0 1 auto;
+    align-self: center;
+    min-width: 0;
+    min-height: 0;
+    padding: 0;
+    margin: 0;
+    line-height: 1.2;
+    font-size: 13.5px;
+    text-align: start;
+    white-space: nowrap;
+    overflow-wrap: normal;
+  }
+
+  .contact-pill--address .contact-pill__text,
+  :host-context(html[dir='rtl']) .contact-pill--address .contact-pill__text {
+    font-size: 11px;
+  }
+}
+
 .contact-preline {
   white-space: pre-line;
 }

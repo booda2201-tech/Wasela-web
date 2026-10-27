@@ -60,6 +60,14 @@ export class HomeContentsComponent implements OnInit, OnDestroy, AfterViewInit, 
     Array<{ bg: string; logo: string; mobileHeight: string; flexWeight: number }>
   > = [[], [], [], []];
 
+  /** موبايل: عمودان بنفس ترتيب صفحة التجار */
+  homeMerchantMobileColumns: Array<Array<{ bg: string; logo: string; flexWeight: number }>> = [[], []];
+
+  private readonly homeMerchantMobileFlexByColumn: number[][] = [
+    [2.55, 1.05],
+    [1.85, 2.65],
+  ];
+
   get hasMerchantCards(): boolean {
     return this.merchantColumns.some((col) => col.length > 0);
   }
@@ -325,6 +333,7 @@ export class HomeContentsComponent implements OnInit, OnDestroy, AfterViewInit, 
     const section = page?.sections?.find((s) => s.sectionKey === '1000_Merchants' && s.isActive);
     if (!section?.items?.length) {
       this.merchantColumns = [[], [], [], []];
+      this.homeMerchantMobileColumns = [[], []];
       return;
     }
     const source = [...section.items]
@@ -332,8 +341,10 @@ export class HomeContentsComponent implements OnInit, OnDestroy, AfterViewInit, 
       .sort((a, b) => a.sortOrder - b.sortOrder || a.id - b.id)
       .slice(0, this.homeMerchantMaxCount);
     const cols: CmsPageSectionItem[][] = [[], [], [], []];
+    const mobile: CmsPageSectionItem[][] = [[], []];
     source.forEach((item, index) => {
       cols[index % 4].push(item);
+      mobile[index % 2].push(item);
     });
     this.merchantColumns = cols.map((col, columnIndex) =>
       col.map((item, indexInColumn) => {
@@ -345,6 +356,16 @@ export class HomeContentsComponent implements OnInit, OnDestroy, AfterViewInit, 
           mobileHeight:
             this.homeMerchantMobileHeightsByColumn[columnIndex]?.[indexInColumn] ?? '260px',
           flexWeight: this.homeMerchantFlexByColumn[columnIndex]?.[indexInColumn] ?? 1,
+        };
+      })
+    );
+    this.homeMerchantMobileColumns = mobile.map((col, columnIndex) =>
+      col.map((item, rowIndex) => {
+        const pattern = this.homeMerchantMobileFlexByColumn[columnIndex];
+        return {
+          bg: this.merchantBgSrc(item) ?? '',
+          logo: this.merchantLogoSrc(item) ?? '',
+          flexWeight: pattern[rowIndex % pattern.length],
         };
       })
     );
@@ -549,11 +570,19 @@ export class HomeContentsComponent implements OnInit, OnDestroy, AfterViewInit, 
     if (!el) {
       return;
     }
+    const paginationEl = el.parentElement?.querySelector('.partners-pagination');
     Object.assign(el, {
       slidesPerView: 1,
       slidesPerGroup: 1,
       spaceBetween: 20,
       speed: 450,
+      pagination:
+        this.partnerColumns.length > 1 && paginationEl
+          ? {
+              clickable: true,
+              el: paginationEl,
+            }
+          : false,
     });
     el.initialize();
     this.partnersMobileSwiperInited = true;

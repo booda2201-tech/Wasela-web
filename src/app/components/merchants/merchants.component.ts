@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 
 import { environment } from '../../../environments/environment';
@@ -11,21 +11,15 @@ import {
 } from '../../services/pages.service';
 import { LanguageService } from '../../services/language.service';
 
-type SwiperContainerEl = HTMLElement & { initialize: () => void };
-
 @Component({
   selector: 'app-merchants',
   templateUrl: './merchants.component.html',
   styleUrls: ['./merchants.component.scss']
 })
-export class MerchantsComponent implements OnInit, AfterViewInit {
-  @ViewChild('merchantsSwiperMobile') merchantsSwiperRef?: ElementRef<SwiperContainerEl>;
-
+export class MerchantsComponent implements OnInit {
   loading = true;
   loadError = false;
   page: CmsPage | null = null;
-
-  private merchantsSwiperInited = false;
 
   /**
    * نفس بيانات التجار مُخزّنة هنا — استدعاء merchantItems()/columns() في القالب كان
@@ -33,6 +27,13 @@ export class MerchantsComponent implements OnInit, AfterViewInit {
    */
   merchantItemsList: CmsPageSectionItem[] = [];
   columnsLayout: CmsPageSectionItem[][] = [[], [], [], []];
+  /** موبايل: عمودان، نفس إيقاع الهوم */
+  mobileColumns: CmsPageSectionItem[][] = [[], []];
+
+  private readonly mobileFlexByColumn: number[][] = [
+    [2.55, 1.05],
+    [1.85, 2.65],
+  ];
 
   /** موبايل/تابلت: ارتفاع الكرت داخل السلايدر (~500px+ حسب الفيجما) */
   readonly cardMobileHeights =
@@ -56,10 +57,6 @@ export class MerchantsComponent implements OnInit, AfterViewInit {
     readonly language: LanguageService
   ) {}
 
-  ngAfterViewInit(): void {
-    queueMicrotask(() => setTimeout(() => this.tryInitMerchantsSwiper(), 0));
-  }
-
   ngOnInit(): void {
     this.pagesService.getPageBySlug('merchants').subscribe({
       next: (page) => {
@@ -67,7 +64,6 @@ export class MerchantsComponent implements OnInit, AfterViewInit {
         this.rebuildMerchantLayout();
         this.applySeo(page);
         this.loading = false;
-        queueMicrotask(() => setTimeout(() => this.tryInitMerchantsSwiper(), 0));
       },
       error: () => {
         this.loading = false;
@@ -131,6 +127,7 @@ export class MerchantsComponent implements OnInit, AfterViewInit {
     if (!section?.items?.length) {
       this.merchantItemsList = [];
       this.columnsLayout = [[], [], [], []];
+      this.mobileColumns = [[], []];
       return;
     }
     const items = [...section.items]
@@ -138,10 +135,13 @@ export class MerchantsComponent implements OnInit, AfterViewInit {
       .sort((a, b) => a.sortOrder - b.sortOrder || a.id - b.id);
     this.merchantItemsList = items;
     const cols: CmsPageSectionItem[][] = [[], [], [], []];
+    const mobile: CmsPageSectionItem[][] = [[], []];
     items.forEach((item, index) => {
       cols[index % 4].push(item);
+      mobile[index % 2].push(item);
     });
     this.columnsLayout = cols;
+    this.mobileColumns = mobile;
   }
 
   trackByMerchantId(_index: number, item: CmsPageSectionItem): number {
@@ -174,43 +174,20 @@ export class MerchantsComponent implements OnInit, AfterViewInit {
     return flex >= 2.2 ? flex + 0.95 : 1.85;
   }
 
-  cardClassForMerchantIndex(_flatIndex: number): string {
-    return this.cardMobileHeights;
+  mobileFlex(rowIndex: number, columnIndex: number): number {
+    const pattern = this.mobileFlexByColumn[columnIndex % 2];
+    return pattern[rowIndex % pattern.length];
   }
 
-  private tryInitMerchantsSwiper(): void {
-    if (this.merchantsSwiperInited) {
-      return;
-    }
-    const el = this.merchantsSwiperRef?.nativeElement;
-    if (!el || this.merchantItemsList.length === 0) {
-      return;
-    }
-    Object.assign(el, {
-      slidesPerView: 1.08,
-      spaceBetween: 16,
-      speed: 520,
-      centeredSlides: true,
-      grabCursor: true,
-      pagination:
-        this.merchantItemsList.length > 1
-          ? {
-              clickable: true,
-            }
-          : false,
-      breakpoints: {
-        480: {
-          slidesPerView: 1.18,
-          spaceBetween: 18
-        },
-        640: {
-          slidesPerView: 1.28,
-          spaceBetween: 20
-        }
-      }
-    });
-    el.initialize();
-    this.merchantsSwiperInited = true;
+  mobileHoverFlex(rowIndex: number, columnIndex: number): number {
+    const flex = this.mobileFlex(rowIndex, columnIndex);
+    return flex >= 2.2 ? flex + 0.85 : 1.85;
+  }
+
+  mobileCardClass(rowIndex: number, columnIndex: number): string {
+    return this.mobileFlex(rowIndex, columnIndex) >= 2.2
+      ? 'merchant-col__card--tall'
+      : 'merchant-col__card--short';
   }
 
   logoSrc(item: CmsPageSectionItem): string | null {

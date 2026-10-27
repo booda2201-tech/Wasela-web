@@ -11,6 +11,7 @@
 
 .merchants-hero-content,
 .merchants-page-swiper-wrap,
+.merchants-mobile-grid,
 .merchants-desktop-grid {
   position: relative;
   z-index: 1;
@@ -445,6 +446,151 @@
 
   .merchant-col__card--tall .merchant-col__card-bg {
     object-position: center 48%;
+  }
+}
+
+/* موبايل/تابلت: شبكة عمودين زي الهوم — الديسكتوب مش داخل الاستعلام ده */
+@media (max-width: 1023px) {
+  .merchants-mobile-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 0.625rem;
+    align-items: start;
+    width: 100%;
+    max-width: min(36rem, 100%);
+    margin: 0.35rem auto 0;
+    padding-inline: clamp(0.25rem, 2vw, 0.75rem);
+    padding-bottom: clamp(0.75rem, 2vw, 1.25rem);
+    box-sizing: border-box;
+  }
+
+  .merchants-mobile-col {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.625rem;
+    height: calc((510px + 0.625rem) * var(--col-cards, 2) / 2);
+    max-height: calc((510px + 0.625rem) * var(--col-cards, 2) / 2);
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  .merchants-mobile-col--offset {
+    transform: translateY(clamp(0.65rem, 3.5vw, 1.25rem));
+    margin-bottom: clamp(0.65rem, 3.5vw, 1.25rem);
+  }
+
+  .merchants-mobile-grid .merchant-col__card {
+    flex: var(--card-flex, 1) 1 0;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    border-radius: 1.35rem !important;
+    box-shadow:
+      0 8px 20px -14px rgb(15 23 42 / 0.35),
+      0 0 0 1px rgb(255 255 255 / 0.35) !important;
+    z-index: 1;
+    outline: none;
+    transition:
+      flex 0.85s cubic-bezier(0.33, 1, 0.68, 1),
+      box-shadow 0.55s ease,
+      z-index 0s linear 0.45s;
+  }
+
+  .merchants-mobile-grid .merchant-col__card:active {
+    transform: none !important;
+  }
+
+  .merchants-mobile-col:has(.merchant-col__card:hover) .merchant-col__card:not(:hover),
+  .merchants-mobile-col:has(.merchant-col__card:active) .merchant-col__card:not(:active),
+  .merchants-mobile-col:has(.merchant-col__card:focus) .merchant-col__card:not(:focus) {
+    flex: 0.58 1 0;
+  }
+
+  .merchants-mobile-grid .merchant-col__card--short:hover,
+  .merchants-mobile-grid .merchant-col__card--tall:hover,
+  .merchants-mobile-grid .merchant-col__card--short:active,
+  .merchants-mobile-grid .merchant-col__card--tall:active,
+  .merchants-mobile-grid .merchant-col__card--short:focus,
+  .merchants-mobile-grid .merchant-col__card--tall:focus {
+    flex: var(--card-hover-flex, 1.85) 1 0;
+    z-index: 2;
+    box-shadow:
+      0 20px 44px -22px rgb(13 17 179 / 0.4),
+      0 8px 24px -12px rgb(0 0 0 / 0.12) !important;
+
+    .merchant-col__card-overlay {
+      opacity: 1 !important;
+      background: rgb(0 0 0 / 20%) !important;
+    }
+
+    .merchant-col__card-logo {
+      transform: scale(1.05);
+    }
+  }
+
+  .merchants-mobile-grid .merchant-col__card--short:hover .merchant-col__card-bg,
+  .merchants-mobile-grid .merchant-col__card--short:active .merchant-col__card-bg,
+  .merchants-mobile-grid .merchant-col__card--short:focus .merchant-col__card-bg {
+    transform: scale(1.1);
+  }
+
+  .merchants-mobile-grid .merchant-col__card--tall:hover .merchant-col__card-bg,
+  .merchants-mobile-grid .merchant-col__card--tall:active .merchant-col__card-bg,
+  .merchants-mobile-grid .merchant-col__card--tall:focus .merchant-col__card-bg {
+    transform: scale(1.12);
+  }
+
+  .merchants-mobile-grid .merchant-col__card-bg {
+    z-index: 0;
+    object-position: center center;
+    transform: scale(1);
+    transform-origin: center center;
+    transition: transform 0.9s cubic-bezier(0.33, 1, 0.68, 1) 0.08s;
+  }
+
+  .merchants-mobile-grid .merchant-col__card-overlay {
+    z-index: 1;
+    opacity: 0 !important;
+    background: transparent !important;
+  }
+
+  .merchants-mobile-grid .merchant-col__card-logo-wrap {
+    z-index: 2;
+  }
+
+  .merchants-mobile-grid .merchant-col__card-logo {
+    width: clamp(3rem, 22vw, 4.25rem) !important;
+    height: clamp(3rem, 22vw, 4.25rem) !important;
+    max-width: clamp(3rem, 22vw, 4.25rem) !important;
+    max-height: clamp(3rem, 22vw, 4.25rem) !important;
+    transform: scale(1);
+    transform-origin: center center;
+  }
+}
+
+@media (min-width: 640px) and (max-width: 1023px) {
+  .merchants-mobile-grid {
+    max-width: min(40rem, 100%);
+    gap: 0.75rem;
+  }
+
+  .merchants-mobile-col {
+    gap: 0.75rem;
+    height: calc((541px + 0.75rem) * var(--col-cards, 2) / 2);
+    max-height: calc((541px + 0.75rem) * var(--col-cards, 2) / 2);
+  }
+
+  .merchants-mobile-col--offset {
+    transform: translateY(clamp(0.85rem, 2.5vw, 1.5rem));
+    margin-bottom: clamp(0.85rem, 2.5vw, 1.5rem);
+  }
+
+  .merchants-mobile-grid .merchant-col__card-logo {
+    width: clamp(3.5rem, 14vw, 5rem) !important;
+    height: clamp(3.5rem, 14vw, 5rem) !important;
+    max-width: clamp(3.5rem, 14vw, 5rem) !important;
+    max-height: clamp(3.5rem, 14vw, 5rem) !important;
   }
 }
 

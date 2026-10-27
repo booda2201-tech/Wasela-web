@@ -107,28 +107,28 @@
       </div>
     </ng-template>
 
-    <!-- موبايل وتابلت: سلايدر -->
-    <div
-      class="merchants-page-swiper-wrap -mx-4 px-1 sm:-mx-6 sm:px-2 lg:hidden"
-      *ngIf="merchantItemsList.length"
-    >
-      <swiper-container
-        #merchantsSwiperMobile
-        init="false"
-        class="merchants-page-swiper"
+    <!-- موبايل وتابلت: عمودان متدرّجان زي سكشن التجار في الهوم -->
+    <div class="merchants-mobile-grid lg:hidden" *ngIf="merchantItemsList.length">
+      <div
+        *ngFor="let col of mobileColumns; let colIndex = index; trackBy: trackByColumnIndex"
+        class="merchants-mobile-col"
+        [class.merchants-mobile-col--offset]="colIndex % 2 === 1"
+        [ngStyle]="{ '--col-cards': '' + col.length }"
       >
-        <swiper-slide
-          *ngFor="let merchant of merchantItemsList; let i = index; trackBy: trackByMerchantId"
-          class="merchants-page-swiper-slide"
-        >
+        <ng-container *ngFor="let merchant of col; let rowIndex = index; trackBy: trackByMerchantId">
           <ng-container
             *ngTemplateOutlet="
               merchantCard;
-              context: { merchant: merchant, cls: cardClassForMerchantIndex(i) }
+              context: {
+                merchant: merchant,
+                cls: mobileCardClass(rowIndex, colIndex),
+                lgFlex: mobileFlex(rowIndex, colIndex),
+                lgHoverFlex: mobileHoverFlex(rowIndex, colIndex)
+              }
             "
           ></ng-container>
-        </swiper-slide>
-      </swiper-container>
+        </ng-container>
+      </div>
     </div>
 
     <!-- ديسكتوب: 4 أعمدة — هوفر يكبّر الكرت ويصغّر اللي فوقه وتحته (نفس سلوك الفيجما) -->

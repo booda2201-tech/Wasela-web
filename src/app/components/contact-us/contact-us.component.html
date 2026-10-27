@@ -124,23 +124,36 @@
         *ngIf="showAnyContactWay"
         class="contact-pills-row mt-8 md:mt-10 flex flex-col lg:flex-row flex-wrap justify-center gap-3 lg:gap-5 items-stretch lg:items-center"
       >
-        <a
-          *ngIf="ways.showEmail && ways.email"
-          data-contact-pill
-          class="contact-pill"
-          [href]="ways.emailHref"
-        >
-          <span class="contact-pill__icon" aria-hidden="true">
-            <i class="bi bi-envelope"></i>
-          </span>
-          <span class="contact-pill__text" dir="ltr">{{ ways.email }}</span>
-        </a>
+        <div class="contact-pills-pair">
+          <a
+            *ngIf="ways.showEmail && ways.email"
+            data-contact-pill
+            class="contact-pill contact-pill--email"
+            [href]="ways.emailHref"
+          >
+            <span class="contact-pill__icon" aria-hidden="true">
+              <i class="bi bi-envelope"></i>
+            </span>
+            <span class="contact-pill__text" dir="ltr">{{ ways.email }}</span>
+          </a>
+          <a
+            *ngIf="ways.showPhone && ways.phone"
+            data-contact-pill
+            class="contact-pill contact-pill--phone"
+            [href]="ways.phoneHref"
+          >
+            <span class="contact-pill__icon" aria-hidden="true">
+              <i class="bi bi-telephone"></i>
+            </span>
+            <span class="contact-pill__text" dir="ltr">{{ ways.phone }}</span>
+          </a>
+        </div>
 
         <ng-container *ngIf="ways.showAddress && ways.address">
           <a
             *ngIf="ways.addressHref && ways.addressHref !== 'javascript:void(0)'; else addressStatic"
             data-contact-pill
-            class="contact-pill"
+            class="contact-pill contact-pill--address"
             [href]="ways.addressHref"
             target="_blank"
             rel="noopener noreferrer"
@@ -151,7 +164,7 @@
             <span class="contact-pill__text" dir="auto">{{ ways.address }}</span>
           </a>
           <ng-template #addressStatic>
-            <div data-contact-pill class="contact-pill contact-pill--static">
+            <div data-contact-pill class="contact-pill contact-pill--address contact-pill--static">
               <span class="contact-pill__icon" aria-hidden="true">
                 <i class="bi bi-geo-alt"></i>
               </span>
@@ -159,18 +172,6 @@
             </div>
           </ng-template>
         </ng-container>
-
-        <a
-          *ngIf="ways.showPhone && ways.phone"
-          data-contact-pill
-          class="contact-pill"
-          [href]="ways.phoneHref"
-        >
-          <span class="contact-pill__icon" aria-hidden="true">
-            <i class="bi bi-telephone"></i>
-          </span>
-          <span class="contact-pill__text" dir="ltr">{{ ways.phone }}</span>
-        </a>
       </div>
     </div>
   </div>
