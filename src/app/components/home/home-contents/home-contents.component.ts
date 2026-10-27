@@ -38,7 +38,19 @@ export class HomeContentsComponent implements OnInit, OnDestroy, AfterViewInit, 
   @ViewChild('testimonialSwiper') testimonialSwiperRef?: ElementRef<HTMLElement & { initialize: () => void }>;
   @ViewChildren('testimonialAvatar') private testimonialAvatars?: QueryList<ElementRef<HTMLImageElement>>;
   @ViewChild('partnersSwiperMobile') partnersSwiperMobileRef?: ElementRef<HTMLElement & { initialize: () => void }>;
-  @ViewChild('categoriesTabletSwiper') categoriesTabletSwiperRef?: ElementRef<HTMLElement & { initialize: () => void }>;
+  @ViewChild('categoriesTabletSwiper') categoriesTabletSwiperRef?: ElementRef<
+    HTMLElement & {
+      initialize: () => void;
+      swiper?: {
+        initialized?: boolean;
+        destroyed?: boolean;
+        rtl?: boolean;
+        realIndex?: number;
+        destroy: (deleteInstance?: boolean, cleanStyles?: boolean) => void;
+        slideToLoop: (index: number, speed?: number) => void;
+      };
+    }
+  >;
 
   private testimonialSwiperInited = false;
   private testimonialAvatarSyncSub?: Subscription;
@@ -566,8 +578,28 @@ export class HomeContentsComponent implements OnInit, OnDestroy, AfterViewInit, 
     if (this.partnersMobileSwiperInited) {
       return;
     }
-    const el = this.partnersSwiperMobileRef?.nativeElement;
+    const el = this.partnersSwiperMobileRef?.nativeElement as
+      | (HTMLElement & {
+          initialize: () => void;
+          swiper?: {
+            initialized?: boolean;
+            rtl?: boolean;
+            changeLanguageDirection: (direction: 'ltr' | 'rtl') => void;
+            update: () => void;
+          };
+        })
+      | undefined;
     if (!el) {
+      return;
+    }
+    // الاتجاه يفضل LTR عشان العربي ميرميش الشرائح بره الشاشة ويخبي باقي الشعارات.
+    el.setAttribute('dir', 'ltr');
+    if (el.swiper?.initialized) {
+      if (el.swiper.rtl) {
+        el.swiper.changeLanguageDirection('ltr');
+      }
+      el.swiper.update();
+      this.partnersMobileSwiperInited = true;
       return;
     }
     const paginationEl = el.parentElement?.querySelector('.partners-pagination');
@@ -589,11 +621,21 @@ export class HomeContentsComponent implements OnInit, OnDestroy, AfterViewInit, 
   }
 
   private initCategoriesTabletSwiper(): void {
-    if (this.categoriesTabletSwiperInited) {
-      return;
-    }
     const el = this.categoriesTabletSwiperRef?.nativeElement;
     if (!el || this.categories.length < 1) {
+      return;
+    }
+
+    // Coverflow positions slides off-screen when the page direction is RTL.
+    el.setAttribute('dir', 'ltr');
+    // Language switches recreate the slides. Rebuilding the swiper rebinds the dots
+    // to the new slide list; update() leaves every bullet inactive.
+    const previousIndex = el.swiper && !el.swiper.destroyed ? el.swiper.realIndex ?? 0 : 0;
+    if (el.swiper && !el.swiper.destroyed) {
+      el.swiper.destroy(true, true);
+      this.categoriesTabletSwiperInited = false;
+    }
+    if (this.categoriesTabletSwiperInited) {
       return;
     }
 
@@ -636,6 +678,9 @@ export class HomeContentsComponent implements OnInit, OnDestroy, AfterViewInit, 
       },
     });
     el.initialize();
+    if (previousIndex > 0 && el.swiper && !el.swiper.destroyed) {
+      el.swiper.slideToLoop(previousIndex, 0);
+    }
     this.categoriesTabletSwiperInited = true;
   }
 

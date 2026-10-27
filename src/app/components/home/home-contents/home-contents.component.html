@@ -31,7 +31,7 @@
       *ngIf="categories.length"
       class="category-tablet-swiper-wrap lg:hidden"
     >
-      <swiper-container #categoriesTabletSwiper init="false" class="categories-tablet-swiper">
+      <swiper-container #categoriesTabletSwiper init="false" dir="ltr" class="categories-tablet-swiper">
         <swiper-slide *ngFor="let cat of categories" class="categories-tablet-slide">
           <div class="category-card w-full flex justify-center">
             <div class="relative shape-wrapper w-full">
@@ -114,7 +114,7 @@
     </div>
 
     <div *ngIf="partnerColumns.length" class="partners-mobile-swiper-wrap md:hidden">
-      <swiper-container #partnersSwiperMobile init="false" class="partners-swiper">
+      <swiper-container #partnersSwiperMobile init="false" dir="ltr" class="partners-swiper">
         <swiper-slide *ngFor="let col of partnerColumns" class="partners-swiper-slide">
           <div class="partner-column partners-swiper-slide-inner">
             <h3 class="partner-heading">{{ col.title }}</h3>

@@ -138,10 +138,15 @@
     }
 
     .categories-tablet-swiper {
+      direction: ltr;
       width: 100%;
       height: clamp(26rem, 64vw, 34rem);
       padding: 0.5rem 0 2rem;
       overflow: visible;
+    }
+
+    .categories-tablet-swiper::part(pagination) {
+      direction: ltr;
     }
 
     /* نقاط حديثة: دائرة صغيرة + النشطة pill */
@@ -2387,7 +2392,23 @@
     direction: ltr;
   }
 
+  .partners-mobile-swiper-wrap,
+  .partners-swiper,
+  .partners-swiper-slide,
+  .partners-swiper-slide-inner,
+  .partners-mobile-swiper-wrap .logo-grid {
+    direction: ltr;
+  }
+
+  .partners-swiper .partner-heading {
+    direction: rtl;
+  }
+
   .testimonial-layered-card__body {
+    direction: rtl;
+  }
+
+  .categories-tablet-swiper .category-card-title {
     direction: rtl;
   }
 }
@@ -2408,6 +2429,11 @@
 
       .download-mockup-wrap {
         bottom: clamp(1.85rem, 7.5vw, 2.75rem) !important;
+      }
+
+      .download-heading,
+      .download-heading__line {
+        text-align: right;
       }
     }
   }
