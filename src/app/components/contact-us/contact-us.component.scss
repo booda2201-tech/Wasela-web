@@ -451,28 +451,13 @@
     width: 100%;
     min-width: 0;
     max-width: 100%;
-    height: 3.5rem;
+    height: 3rem;
     min-height: 3rem;
-    max-height: 3.5rem;
+    max-height: 3rem;
     padding: 0;
     padding-inline-end: 0.85rem;
     gap: 0.6rem;
-    align-items: stretch;
-  }
-
-  .contact-pill--address .contact-pill__icon,
-  :host-context(html[dir='rtl']) .contact-pill--address .contact-pill__icon {
-    align-self: stretch;
-    flex: 0 0 3.5rem;
-    width: 3.5rem;
-    height: 3.5rem;
-    aspect-ratio: 1;
-    margin: 0;
-    border-radius: 999px;
-  }
-
-  .contact-pill--address .contact-pill__icon i {
-    font-size: 1.4rem;
+    align-items: center;
   }
 
   .contact-pill__icon {
@@ -480,6 +465,20 @@
     width: 3rem;
     height: 3rem;
     align-self: center;
+  }
+
+  .contact-pill--address .contact-pill__icon,
+  :host-context(html[dir='rtl']) .contact-pill--address .contact-pill__icon {
+    align-self: center;
+    flex: 0 0 3rem;
+    width: 3rem;
+    height: 3rem;
+    margin: 0;
+    border-radius: 50%;
+  }
+
+  .contact-pill--address .contact-pill__icon i {
+    font-size: 1.25rem;
   }
 
   .contact-pill__text,
@@ -509,10 +508,10 @@
     height: 100%;
     align-self: stretch;
     white-space: normal;
-    line-height: 1.5;
-    font-size: 12.5px;
+    line-height: 1.2;
+    font-size: 12px;
     text-align: center;
-    padding-block: 0.3rem;
+    padding-block: 0.15rem;
     overflow: hidden;
   }
 }
