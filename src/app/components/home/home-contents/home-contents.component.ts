@@ -96,6 +96,7 @@ export class HomeContentsComponent implements OnInit, OnDestroy, AfterViewInit, 
   private testimonialFirstVisible = 0;
   private testimonialActive = 0;
   private testimonialCentered = true;
+  private testimonialMobileCycle = false;
 
   /** الخلفيات التلاتة متراكبة في كل كارت — بنعمل crossfade بينهم لما مكان الكارت يتغير */
   readonly testimonialBgs: ReadonlyArray<{ role: TestimonialRole; src: string }> = [
@@ -407,6 +408,11 @@ export class HomeContentsComponent implements OnInit, OnDestroy, AfterViewInit, 
 
   /** شكل الكارت حسب مكانه في الشاشة (شمال / نص / يمين) مش حسب ترتيبه — عشان أي عدد كروت يفضل نفس التوزيعة */
   testimonialRole(index: number): TestimonialRole {
+    if (this.testimonialMobileCycle) {
+      // موبايل: كارت واحد في الشاشة، فبنبدّل الأشكال التلاتة بالترتيب مع كل كارت
+      const cycle: TestimonialRole[] = ['featured', 'left', 'right'];
+      return cycle[index % cycle.length];
+    }
     if (this.testimonialCentered) {
       const offset = index - this.testimonialActive;
       return offset === 0 ? 'featured' : offset < 0 ? 'left' : 'right';
@@ -432,6 +438,7 @@ export class HomeContentsComponent implements OnInit, OnDestroy, AfterViewInit, 
       return;
     }
     const perView = typeof swiper.params.slidesPerView === 'number' ? swiper.params.slidesPerView : 1;
+    this.testimonialMobileCycle = typeof window !== 'undefined' && window.innerWidth < 768;
     this.testimonialCentered = !!swiper.params.centeredSlides || perView < 3;
     this.testimonialActive = swiper.activeIndex;
     const maxFirst = Math.max(0, swiper.slides.length - perView);
