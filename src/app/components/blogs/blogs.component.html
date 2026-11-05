@@ -14,7 +14,7 @@
     </header>
 
     <div class="page-empty-state" *ngIf="showEmptyState()">
-      <img [src]="emptyStateImageSrc()" alt="" class="page-empty-state__img" width="144" height="150" />
+      <img *ngIf="emptyStateImageSrc() as emptyImg" [src]="emptyImg" alt="" class="page-empty-state__img" />
       <p class="page-empty-state__text">{{ language.label('noBlogsYet') }}</p>
     </div>
 

@@ -74,13 +74,10 @@ export class FaqComponent implements OnInit, AfterViewInit, OnDestroy {
     return this.pickSection('FAQs')?.description || '';
   }
 
-  /** Uploaded from the dashboard on the FAQs title section; the bundled SVG is the fallback. */
-  emptyStateImageSrc(): string {
+  /** Uploaded from the dashboard on the FAQs title section; no upload → text only. */
+  emptyStateImageSrc(): string | null {
     const header = this.page?.sections?.find((s) => s.sectionKey === 'FAQs');
-    return (
-      resolveCmsAssetUrl(environment.apiOrigin, header?.imageMediaFileUrl || header?.imageUrl) ||
-      'assets/images/empty/faqs-empty.svg'
-    );
+    return resolveCmsAssetUrl(environment.apiOrigin, header?.imageMediaFileUrl || header?.imageUrl);
   }
 
   isExpanded(id: number): boolean {
