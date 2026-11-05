@@ -11,7 +11,8 @@ import { Meta, Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import gsap from 'gsap';
 import { Subscription } from 'rxjs';
-import { CmsPage, PagesService } from '../../services/pages.service';
+import { environment } from '../../../environments/environment';
+import { CmsPage, PagesService, resolveCmsAssetUrl } from '../../services/pages.service';
 import { LanguageService } from '../../services/language.service';
 
 export interface FaqItem {
@@ -71,6 +72,15 @@ export class FaqComponent implements OnInit, AfterViewInit, OnDestroy {
 
   heroDescription(): string {
     return this.pickSection('FAQs')?.description || '';
+  }
+
+  /** Uploaded from the dashboard on the FAQs title section; the bundled SVG is the fallback. */
+  emptyStateImageSrc(): string {
+    const header = this.page?.sections?.find((s) => s.sectionKey === 'FAQs');
+    return (
+      resolveCmsAssetUrl(environment.apiOrigin, header?.imageMediaFileUrl || header?.imageUrl) ||
+      'assets/images/empty/faqs-empty.svg'
+    );
   }
 
   isExpanded(id: number): boolean {

@@ -92,6 +92,14 @@ export class BlogsComponent implements OnInit, AfterViewInit, OnDestroy {
     return !this.hasPosts() && this.headerSection()?.isActive !== false;
   }
 
+  emptyStateImageSrc(): string {
+    const header = this.headerSection();
+    return (
+      this.mediaUrl(header?.imageMediaFileUrl || header?.imageUrl) ||
+      'assets/images/empty/blogs-empty.svg'
+    );
+  }
+
   private headerSection(): CmsPageSection | null {
     return this.page?.sections?.find((s) => s.sectionKey === 'blogs_header') ?? null;
   }
