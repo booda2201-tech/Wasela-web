@@ -92,10 +92,19 @@ export class BlogsComponent implements OnInit, AfterViewInit, OnDestroy {
     return !this.hasPosts() && this.headerSection()?.isActive !== false;
   }
 
-  /** Uploaded from the dashboard on the blogs_header section; no upload → text only. */
+  /**
+   * Uploaded from the dashboard on blogs_header; falls back to the Banner Blog image,
+   * which is unused while the page is empty. No upload on either → text only.
+   */
   emptyStateImageSrc(): string | null {
     const header = this.headerSection();
-    return this.mediaUrl(header?.imageMediaFileUrl || header?.imageUrl);
+    const banner = this.page?.sections?.find((s) => s.sectionKey === 'featured_blog');
+    return this.mediaUrl(
+      header?.imageMediaFileUrl ||
+        header?.imageUrl ||
+        banner?.imageMediaFileUrl ||
+        banner?.imageUrl
+    );
   }
 
   private headerSection(): CmsPageSection | null {
