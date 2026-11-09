@@ -18,8 +18,8 @@ import {
 export class FooterComponent implements OnInit, OnDestroy {
   footer: FooterPublicConfig = { ...EMPTY_FOOTER_PUBLIC };
 
-  /** v1.0.0 · 2026-11-09 12:05 — عشان نعرف النسخة المنشورة آخر واحدة ولا قديمة */
-  readonly versionLabel = [`v${APP_VERSION.version}`, APP_VERSION.buildDate].filter(Boolean).join(' · ');
+  /** عشان نعرف النسخة المنشورة آخر واحدة ولا قديمة */
+  readonly versionLabel = `v${APP_VERSION.version}`;
 
   private readonly subs = new Subscription();
 
