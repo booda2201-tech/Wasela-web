@@ -1794,7 +1794,7 @@
 /* Download — ديسكتوب صغير: Frame أصغر ومرفوع بدون قص + GIF أنزل لأسفل السيكشن */
 @media (min-width: 1000px) and (max-width: 1400px) {
   .download-section {
-    margin-top: calc(var(--home-section-gap, 5rem) + 2rem);
+    margin-top: calc(var(--home-section-gap, 5rem) + 4.5rem);
     margin-bottom: var(--home-section-gap, 5rem);
     padding-top: 0 !important;
     padding-bottom: 0 !important;
@@ -1866,7 +1866,7 @@
 /* Download — ديسكتوب كبير: نفس منطق الديسكتوب الصغير مع مقاسات أكبر */
 @media (min-width: 1401px) {
   .download-section {
-    margin-top: calc(var(--home-section-gap, 5rem) + 2.25rem);
+    margin-top: calc(var(--home-section-gap, 5rem) + 4.75rem);
     margin-bottom: var(--home-section-gap, 5rem);
     padding-top: 0 !important;
     padding-bottom: 0 !important;

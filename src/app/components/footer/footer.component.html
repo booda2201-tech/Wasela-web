@@ -157,8 +157,9 @@
 
     </div>
 
-    <div class="border-t border-white border-opacity-10 pt-3 flex flex-col md:flex-row justify-center items-center gap-4">
+    <div class="border-t border-white border-opacity-10 pt-3 flex flex-col justify-center items-center gap-1">
       <p class="footer-copyright">{{ language.label('copyright') }}</p>
+      <p class="footer-version" dir="ltr" [attr.data-version]="versionLabel">{{ versionLabel }}</p>
     </div>
   </div>
 </footer>

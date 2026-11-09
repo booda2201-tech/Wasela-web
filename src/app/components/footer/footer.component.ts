@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, HostListener, OnDestroy, OnInit } from '@
 import { NavigationEnd, Router } from '@angular/router';
 import { Subscription, filter, skip } from 'rxjs';
 
+import { APP_VERSION } from '../../../environments/version';
 import { LanguageService } from '../../services/language.service';
 import {
   EMPTY_FOOTER_PUBLIC,
@@ -16,6 +17,9 @@ import {
 })
 export class FooterComponent implements OnInit, OnDestroy {
   footer: FooterPublicConfig = { ...EMPTY_FOOTER_PUBLIC };
+
+  /** v1.0.0 · 2026-11-09 12:05 — عشان نعرف النسخة المنشورة آخر واحدة ولا قديمة */
+  readonly versionLabel = [`v${APP_VERSION.version}`, APP_VERSION.buildDate].filter(Boolean).join(' · ');
 
   private readonly subs = new Subscription();
 

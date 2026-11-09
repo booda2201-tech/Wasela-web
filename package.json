@@ -1,10 +1,14 @@
 {
   "name": "waseela-web",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "scripts": {
     "ng": "ng",
+    "version:generate": "node scripts/generate-version.js",
+    "prestart": "npm run version:generate",
     "start": "ng serve",
+    "prebuild": "node scripts/generate-version.js --bump",
     "build": "ng build",
+    "prewatch": "npm run version:generate",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
