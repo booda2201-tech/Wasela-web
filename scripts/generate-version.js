@@ -1,8 +1,10 @@
 /**
  * Writes src/environments/version.ts so the footer shows which build the user is looking at.
  *
- * Runs automatically from webpack.version.js. Every `ng build` increases the build number
- * in build-number.json (local file, ignored by git) → v1.0.1, v1.0.2, v1.0.3, ...
+ * Runs automatically from webpack.version.js. Every local `ng build` increases the build number
+ * in build-number.json → v1.0.1, v1.0.2, v1.0.3, ...
+ * build-number.json is committed so Vercel (which builds from GitHub) shows the same number;
+ * Vercel/CI builds never bump, they only read it.
  * `ng serve` keeps the version of the last build.
  */
 const fs = require('fs');
@@ -21,7 +23,8 @@ function generateVersion({ isBuild = false } = {}) {
   if (fs.existsSync(counterFile)) {
     build = Number(JSON.parse(fs.readFileSync(counterFile, 'utf8')).build) || 0;
   }
-  if (isBuild) {
+  const isCi = !!(process.env.VERCEL || process.env.CI);
+  if (isBuild && !isCi) {
     build += 1;
     fs.writeFileSync(counterFile, JSON.stringify({ build }, null, 2) + '\n');
   }
