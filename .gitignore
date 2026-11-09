@@ -40,3 +40,6 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+# Generated on every ng build (scripts/generate-version.js)
+/src/environments/version.ts
