@@ -82,12 +82,28 @@ $about-max: 80rem;
   hyphens: none;
 }
 
+@mixin about-body-aligned-mobile {
+  /* موبايل فقط: بادئ من الحافة؛ آخر سطر ناقص يتوسّط (الـ TS بيحوّله start لو شبه ممتلي) */
+  text-align: start;
+  text-align-last: center;
+  -moz-text-align-last: center;
+  text-wrap: wrap;
+  white-space: normal;
+  hyphens: none;
+  word-spacing: normal;
+  letter-spacing: normal;
+  line-height: 1.65;
+}
+
 .about-copy--narrative {
+  /* ديسكتوب: متوسطن زي الأصل */
   text-align: center;
   text-wrap: balance;
   white-space: normal;
   hyphens: none;
   margin-inline: auto;
+  width: 100%;
+  max-width: none;
 }
 
 @mixin about-line-clamp($lines) {
@@ -369,24 +385,22 @@ $about-max: 80rem;
     text-align: center;
   }
 
+  /* ديسكتوب: متوسطن زي الأصل */
+  .about-lede,
   .about-lede.about-copy--narrative {
     margin: 0 auto;
     max-width: 56rem;
+    width: 100%;
     text-align: center;
+    text-align-last: center;
     text-wrap: balance;
+    word-spacing: normal;
+    line-height: 1.65;
   }
 
   .about-foundation-lockup {
     align-items: center;
     margin-top: clamp(1.5rem, 3vw, 2rem);
-  }
-}
-
-@media (max-width: 767px) {
-  .about-narrative-cluster .about-heading-content--tight .about-lede.about-copy--narrative {
-    max-width: 100%;
-    line-height: 1.6;
-    text-wrap: pretty;
   }
 }
 
@@ -462,7 +476,7 @@ $about-max: 80rem;
   }
 }
 
-/* Narrative hero copy — matches reference: ~32px blue titles, 16px grey body, centered */
+/* ديسكتوب: عناوين + كلام متوسطنين زي الأصل */
 .about-heading-content--tight {
   text-align: center;
 
@@ -479,6 +493,7 @@ $about-max: 80rem;
     margin: 0 auto;
     max-width: 56rem;
     text-align: center;
+    text-wrap: balance;
   }
 
   .about-lede.about-copy--clamp-2 {
@@ -874,12 +889,14 @@ $about-max: 80rem;
     margin: 0 auto 1.5rem;
     max-width: 55rem;
     text-align: center;
+    text-align-last: center;
+    -moz-text-align-last: center;
     font-size: clamp(0.875rem, 2.5vw, 1rem);
     font-weight: 500;
     line-height: 1.65;
     color: $about-subtitle;
     text-wrap: balance;
-    white-space: pre-line;
+    white-space: normal;
   }
 }
 
@@ -1012,10 +1029,17 @@ $about-max: 80rem;
       max-width: min(100%, 26rem);
     }
 
+    /* موبايل زي الويب المظبوط: بادئ من الحافة من غير توسيط آخر سطر */
     @media (max-width: 767px) {
-      max-width: none;
-      text-align: center;
-      text-align-last: center;
+      max-width: min(22.5rem, 100%);
+      width: 100%;
+      margin-inline: auto;
+      text-align: start;
+      text-align-last: start;
+      text-wrap: pretty;
+      word-spacing: normal;
+      letter-spacing: normal;
+      line-height: 1.65;
     }
   }
 
@@ -1216,20 +1240,44 @@ $about-max: 80rem;
   line-height: 1.15;
   color: $waseela-blue;
   text-align: start;
-
-  @media (max-width: 767px) {
-    text-align: center;
-  }
 }
 
 .about-split-body {
   margin: 0 0 clamp(1.5rem, 4vw, 2rem);
   max-width: 24rem;
   text-align: start;
+  text-align-last: start;
 
   @media (max-width: 767px) {
-    max-width: none;
-    text-align: center;
+    max-width: min(22.5rem, 100%);
+    width: 100%;
+    margin-inline: auto;
+    text-align: start;
+    text-align-last: start;
+    text-wrap: pretty;
+    word-spacing: normal;
+    letter-spacing: normal;
+    line-height: 1.65;
+  }
+}
+
+@media (max-width: 767px) {
+  .about-section--split-story {
+    .about-split-col,
+    .about-split-col--offset {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .about-split-title-wrap,
+    .about-split-title,
+    .about-split-body {
+      width: 100%;
+      max-width: min(22.5rem, 100%);
+      margin-inline: auto;
+      text-align: start;
+    }
   }
 }
 
@@ -1554,5 +1602,49 @@ $about-max: 80rem;
   @media (min-width: 1024px) {
     max-width: 100%;
     padding-inline: 0.15rem;
+  }
+}
+
+/* ==========================================================================
+   موبايل فقط — Who We Are / Foundation / Purpose / Compliance
+   بادئ من الحافة + آخر سطر ناقص في النص
+   Story / Leadership مش هنا (فاضلوا زي الديسكتوب)
+   ========================================================================== */
+@media (max-width: 767px) {
+  .about-copy--narrative {
+    @include about-body-aligned-mobile;
+    margin-inline: 0;
+  }
+
+  .about-narrative-cluster .about-heading-content--tight {
+    .about-lede,
+    .about-lede.about-copy--narrative {
+      @include about-body-aligned-mobile;
+      margin: 0;
+      max-width: none;
+      width: 100%;
+    }
+  }
+
+  .about-heading-content--tight {
+    .about-lede,
+    .about-lede.about-copy--clamp-2 {
+      @include about-body-aligned-mobile;
+      margin: 0;
+      max-width: none;
+      width: 100%;
+      display: block !important;
+      overflow: visible;
+      -webkit-line-clamp: unset;
+      line-clamp: unset;
+      -webkit-box-orient: initial;
+    }
+  }
+
+  .about-compliance-head .about-subtitle {
+    @include about-body-aligned-mobile;
+    margin-inline: 0;
+    max-width: none;
+    width: 100%;
   }
 }

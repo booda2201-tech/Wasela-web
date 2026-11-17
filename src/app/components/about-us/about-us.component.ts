@@ -66,6 +66,7 @@ export class AboutUsComponent implements OnInit, OnDestroy {
         this.loading = false;
         queueMicrotask(() => {
           this.setupScrollAnimations();
+          this.scheduleLastLineSync();
           setTimeout(() => this.tryInitTeamLeadershipSwiper(), 0);
         });
       },
@@ -77,7 +78,64 @@ export class AboutUsComponent implements OnInit, OnDestroy {
     });
   }
 
+  private readonly onResizeSyncLastLine = (): void => this.syncLastLineAlignment();
+
+  /** موبايل: آخر سطر يتوسّط بس لو ناقص فعلاً؛ لو شبه ممتلي يفضل على الحافة. */
+  private scheduleLastLineSync(): void {
+    if (typeof window === 'undefined') {
+      return;
+    }
+    window.removeEventListener('resize', this.onResizeSyncLastLine);
+    window.addEventListener('resize', this.onResizeSyncLastLine);
+    setTimeout(() => this.syncLastLineAlignment(), 0);
+    setTimeout(() => this.syncLastLineAlignment(), 400);
+    (document as Document & { fonts?: { ready: Promise<unknown> } }).fonts?.ready.then(() =>
+      this.syncLastLineAlignment()
+    );
+  }
+
+  private syncLastLineAlignment(): void {
+    const root = this.host.nativeElement;
+    const isMobile = window.matchMedia('(max-width: 767px)').matches;
+    const targets = root.querySelectorAll<HTMLElement>(
+      '.about-lede, .about-compliance-head .about-subtitle'
+    );
+    const reset = (el: HTMLElement): void => {
+      el.style.removeProperty('text-align-last');
+      el.style.removeProperty('width');
+      el.style.removeProperty('margin-inline');
+    };
+    targets.forEach((el) => {
+      reset(el);
+      if (!isMobile) {
+        return;
+      }
+      const range = document.createRange();
+      range.selectNodeContents(el);
+      const rects = Array.from(range.getClientRects()).filter((r) => r.width > 0);
+      if (!rects.length) {
+        return;
+      }
+      const last = rects[rects.length - 1];
+      const widest = Math.max(...rects.map((r) => r.width));
+      /* اقص الفقرة على أطول سطر وتوسّطها: آخر سطر يتوسّط تحت الكتلة مش تحت العرض الكامل */
+      const cs = getComputedStyle(el);
+      const horizontalExtra =
+        cs.boxSizing === 'border-box'
+          ? parseFloat(cs.paddingLeft) +
+            parseFloat(cs.paddingRight) +
+            parseFloat(cs.borderLeftWidth) +
+            parseFloat(cs.borderRightWidth)
+          : 0;
+      el.style.setProperty('width', `${Math.ceil(widest + horizontalExtra) + 2}px`);
+      el.style.setProperty('margin-inline', 'auto');
+      const ratio = widest ? last.width / widest : 0;
+      el.style.setProperty('text-align-last', ratio >= 0.75 ? 'start' : 'center');
+    });
+  }
+
   ngOnDestroy(): void {
+    window.removeEventListener('resize', this.onResizeSyncLastLine);
     this.gsapCtx?.revert();
     const el = this.teamLeadershipSwiperRef?.nativeElement as unknown as {
       swiper?: { destroy: (deleteInstance?: boolean, cleanStyles?: boolean) => void };
