@@ -129,8 +129,9 @@ export class AboutUsComponent implements OnInit, OnDestroy {
           : 0;
       el.style.setProperty('width', `${Math.ceil(widest + horizontalExtra) + 2}px`);
       el.style.setProperty('margin-inline', 'auto');
-      const ratio = widest ? last.width / widest : 0;
-      el.style.setProperty('text-align-last', ratio >= 0.75 ? 'start' : 'center');
+      /* آخر سطر دايمًا في النص في كل الأقسام عشان الشكل يبقى موحّد */
+      void last;
+      el.style.setProperty('text-align-last', 'center');
     });
   }
 

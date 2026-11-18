@@ -83,13 +83,17 @@ $about-max: 80rem;
 }
 
 @mixin about-body-aligned-mobile {
-  /* موبايل فقط: بادئ من الحافة؛ آخر سطر ناقص يتوسّط (الـ TS بيحوّله start لو شبه ممتلي) */
-  text-align: start;
+  /* موبايل فقط: السطور بنفس العرض (justify)؛ آخر سطر ناقص يتوسّط (الـ TS بيحوّله start لو شبه ممتلي) */
+  text-align: justify;
+  text-justify: inter-word;
   text-align-last: center;
   -moz-text-align-last: center;
-  text-wrap: wrap;
+  text-wrap: pretty;
   white-space: normal;
-  hyphens: none;
+  /* تقسيم الكلمات الطويلة بشرطة عشان مسافات justify ما تتوسعش */
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphenate-limit-chars: 7 3 3;
   word-spacing: normal;
   letter-spacing: normal;
   line-height: 1.65;
