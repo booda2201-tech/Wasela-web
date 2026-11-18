@@ -92,9 +92,11 @@ $about-max: 80rem;
   /* تقسيم الكلمات الطويلة بشرطة عشان مسافات justify ما تتوسعش */
   hyphens: auto;
   -webkit-hyphens: auto;
-  hyphenate-limit-chars: 7 3 3;
+  hyphenate-limit-chars: 6 2 2;
   word-spacing: normal;
-  letter-spacing: normal;
+  /* mobile: slightly smaller font + tighter letters so justified gaps stay small */
+  font-size: 14px;
+  letter-spacing: -0.01em;
   line-height: 1.65;
 }
 
@@ -1644,8 +1646,9 @@ $about-max: 80rem;
 
   .about-compliance-head .about-subtitle {
     @include about-body-aligned-mobile;
-    margin-inline: 0;
-    max-width: none;
+    /* short text: 21rem lets each line fill naturally so justify barely stretches */
+    margin-inline: auto;
+    max-width: 21rem;
     width: 100%;
   }
 }
@@ -1710,5 +1713,28 @@ $about-max: 80rem;
     text-wrap: balance;
     hyphens: none;
     -webkit-hyphens: none;
+  }
+}
+
+/* ==========================================================================
+   Mobile only - Our Story / Leadership & Governance
+   Same as the other sections: justified lines, natural last line
+   ========================================================================== */
+@media (max-width: 767px) {
+  .about-section--split-story .about-split-col .about-split-body {
+    @include about-body-aligned-mobile;
+    max-width: 100%;
+    width: 100%;
+    margin-inline: 0;
+  }
+}
+
+/* ==========================================================================
+   Desktop - Our Story / Leadership & Governance
+   Same as the other sections: justified lines, natural last line
+   ========================================================================== */
+@media (min-width: 768px) {
+  .about-section--split-story .about-split-col .about-split-body {
+    @include about-body-aligned-desktop;
   }
 }

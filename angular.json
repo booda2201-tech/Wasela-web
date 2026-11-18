@@ -41,6 +41,7 @@
               "node_modules/swiper/swiper-bundle.css",
               "src/styles.scss"
             ],
+            "allowedCommonJsDependencies": ["hyphen", "hyphen/en-us"],
             "scripts": []
           },
           "configurations": {

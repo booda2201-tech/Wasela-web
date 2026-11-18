@@ -15,7 +15,7 @@
         </div>
         <div class="about-heading-content about-heading-content--tight" data-about-reveal>
           <h2 class="about-title">{{ who.title }}</h2>
-          <p class="about-lede about-copy--narrative">{{ who.description }}</p>
+          <p class="about-lede about-copy--narrative">{{ who.description | softHyphen }}</p>
         </div>
       </div>
     </section>
@@ -25,7 +25,7 @@
       <div class="about-shell about-shell--narrow about-shell--copy about-heading-stack">
         <div class="about-heading-content about-heading-content--tight" data-about-reveal>
           <h2 class="about-title">{{ foundation.title }}</h2>
-          <p class="about-lede about-copy--narrative">{{ foundation.description }}</p>
+          <p class="about-lede about-copy--narrative">{{ foundation.description | softHyphen }}</p>
           <div class="about-foundation-lockup">
             <!-- <p class="about-foundation-lockup__kicker">A subsidiary of</p> -->
             <img
@@ -45,7 +45,7 @@
     <div class="about-shell about-shell--narrow about-shell--copy about-heading-stack">
       <div class="about-heading-content about-heading-content--tight" data-about-reveal>
         <h2 class="about-title">{{ purpose.title }}</h2>
-        <p class="about-lede about-copy--clamp-2">{{ purpose.description }}</p>
+        <p class="about-lede about-copy--clamp-2">{{ purpose.description | softHyphen }}</p>
       </div>
     </div>
   </section>
@@ -105,7 +105,7 @@
       <div class="about-compliance-head" data-about-reveal>
         <h2 class="about-title">{{ compliance.title }}</h2>
         <p class="about-subtitle mt-4" *ngIf="compliance.description">
-          {{ compliance.description }}
+          {{ compliance.description | softHyphen }}
         </p>
       </div>
 
@@ -141,7 +141,7 @@
 
           <h2 class="about-split-title">{{ story.title }}</h2>
         </div>
-        <p class="about-split-body">{{ story.description }}</p>
+        <p class="about-split-body">{{ story.description | softHyphen }}</p>
         <div class="about-media-panel" *ngIf="sectionIllustrationSrc(story) as storyImg">
           <div class="about-media-wrapper">
             <img
@@ -158,7 +158,7 @@
         <div class="about-split-title-wrap">
           <h2 class="about-split-title">{{ gov.title }}</h2>
         </div>
-        <p class="about-split-body">{{ gov.description }}</p>
+        <p class="about-split-body">{{ gov.description | softHyphen }}</p>
 
         <div class="about-media-panel" *ngIf="sectionIllustrationSrc(gov) as govImg">
           <div class="about-media-wrapper">

@@ -24,6 +24,7 @@ import { BlogsComponent } from './components/blogs/blogs.component';
 import { BlogDetailComponent } from './components/blog-detail/blog-detail.component';
 import { PageLoaderComponent } from './components/page-loader/page-loader.component';
 import { PlayWhenVisibleDirective } from './directives/play-when-visible.directive';
+import { SoftHyphenPipe } from './pipes/soft-hyphen.pipe';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { PlayWhenVisibleDirective } from './directives/play-when-visible.directi
     BlogDetailComponent,
     PageLoaderComponent,
     PlayWhenVisibleDirective,
+    SoftHyphenPipe,
   ],
   imports: [
     BrowserModule,
