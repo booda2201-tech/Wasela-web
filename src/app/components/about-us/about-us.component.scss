@@ -83,11 +83,10 @@ $about-max: 80rem;
 }
 
 @mixin about-body-aligned-mobile {
-  /* موبايل فقط: السطور بنفس العرض (justify)؛ آخر سطر ناقص يتوسّط (الـ TS بيحوّله start لو شبه ممتلي) */
+  /* موبايل فقط: السطور بنفس العرض (justify) وآخر سطر طبيعي من الحافة */
   text-align: justify;
   text-justify: inter-word;
-  text-align-last: center;
-  -moz-text-align-last: center;
+  text-align-last: start;
   text-wrap: pretty;
   white-space: normal;
   /* تقسيم الكلمات الطويلة بشرطة عشان مسافات justify ما تتوسعش */
@@ -893,8 +892,6 @@ $about-max: 80rem;
     margin: 0 auto 1.5rem;
     max-width: 55rem;
     text-align: center;
-    text-align-last: center;
-    -moz-text-align-last: center;
     font-size: clamp(0.875rem, 2.5vw, 1rem);
     font-weight: 500;
     line-height: 1.65;
@@ -1650,5 +1647,68 @@ $about-max: 80rem;
     margin-inline: 0;
     max-width: none;
     width: 100%;
+  }
+}
+
+/* ==========================================================================
+   ديسكتوب (EN + AR) — Who We Are / Foundation / Purpose / Compliance
+   السطور بنفس العرض (justify) + آخر سطر في النص
+   Story / Leadership مش هنا
+   ========================================================================== */
+@mixin about-body-aligned-desktop {
+  text-align: justify;
+  text-justify: inter-word;
+  text-align-last: start;
+  text-wrap: pretty;
+  white-space: normal;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphenate-limit-chars: 7 3 3;
+  word-spacing: normal;
+  letter-spacing: normal;
+  line-height: 1.65;
+}
+
+@media (min-width: 768px) {
+  .about-copy--narrative {
+    @include about-body-aligned-desktop;
+  }
+
+  .about-narrative-cluster .about-heading-content--tight {
+    .about-lede,
+    .about-lede.about-copy--narrative {
+      @include about-body-aligned-desktop;
+      margin: 0 auto;
+      max-width: 56rem;
+      width: 100%;
+    }
+  }
+
+  .about-heading-content--tight {
+    .about-lede,
+    .about-lede.about-copy--clamp-2 {
+      @include about-body-aligned-desktop;
+      margin: 0 auto;
+      max-width: 56rem;
+      width: 100%;
+      display: block !important;
+      overflow: visible;
+      -webkit-line-clamp: unset;
+      line-clamp: unset;
+      -webkit-box-orient: initial;
+    }
+  }
+
+  .about-compliance-head .about-subtitle {
+    @include about-body-aligned-desktop;
+    margin: 0 auto 1.5rem;
+    /* ديسكتوب فقط: سطرين متقاربين بمسافات طبيعية من غير تمديد */
+    max-width: 44rem;
+    width: 100%;
+    text-align: center;
+    text-align-last: center;
+    text-wrap: balance;
+    hyphens: none;
+    -webkit-hyphens: none;
   }
 }
