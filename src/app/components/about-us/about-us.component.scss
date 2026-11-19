@@ -90,9 +90,8 @@ $about-max: 80rem;
   text-wrap: pretty;
   white-space: normal;
   /* تقسيم الكلمات الطويلة بشرطة عشان مسافات justify ما تتوسعش */
-  hyphens: auto;
-  -webkit-hyphens: auto;
-  hyphenate-limit-chars: 6 2 2;
+  hyphens: none;
+  -webkit-hyphens: none;
   word-spacing: normal;
   /* mobile: slightly smaller font + tighter letters so justified gaps stay small */
   font-size: 14px;
@@ -1664,9 +1663,8 @@ $about-max: 80rem;
   text-align-last: start;
   text-wrap: pretty;
   white-space: normal;
-  hyphens: auto;
-  -webkit-hyphens: auto;
-  hyphenate-limit-chars: 7 3 3;
+  hyphens: none;
+  -webkit-hyphens: none;
   word-spacing: normal;
   letter-spacing: normal;
   line-height: 1.65;
