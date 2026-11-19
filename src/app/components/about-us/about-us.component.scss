@@ -87,6 +87,8 @@ $about-max: 80rem;
   text-align: justify;
   text-justify: inter-word;
   text-align-last: start;
+  /* Safari ignores "pretty": declare "wrap" first so the base "balance" never leaks through */
+  text-wrap: wrap;
   text-wrap: pretty;
   white-space: normal;
   /* تقسيم الكلمات الطويلة بشرطة عشان مسافات justify ما تتوسعش */
@@ -1661,6 +1663,8 @@ $about-max: 80rem;
   text-align: justify;
   text-justify: inter-word;
   text-align-last: start;
+  /* Safari ignores "pretty": declare "wrap" first so the base "balance" never leaks through */
+  text-wrap: wrap;
   text-wrap: pretty;
   white-space: normal;
   hyphens: none;
